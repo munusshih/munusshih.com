@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MUNUS SHIH</title>
+    <style>
+        body {
+            padding: 0rem;
+        }
+
+        * {
+            color: black;
+            font-size: 16px;
+            font-family: monospace;
+            max-width: 80ch;
+            text-wrap: balance;
+        }
+
+        ul li {
+            list-style-type: none;
+        }
+
+        ul li>* {
+            font-size: 1rem;
+        }
+
+        ul {
+            padding: 0;
+        }
+
+        p {
+            transform: translateY(300%);
+            /* Position the paragraphs below */
+        }
+
+        div {
+            overflow: hidden;
+        }
+
+        p::after {
+            content: " ";
+            display: block;
+            margin-bottom: 8rem;
+            background: #000;
+            width: 5px;
+            height: 5px;
+            border-radius: 100%;
+            margin-top: 1rem;
+            margin-bottom: 2rem;
+        }
+    </style>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+</head>
+
+<body>
+
+    <main>
+        <h1>Munus Shih</h1>
+        <div>
+            <p>Munus (he/they) is a Taiwanese Hakka creative
+                technologist,
+                artist, teacher and organizer currently based in Brooklyn, NY.
+            </p>
+        </div>
+        <div>
+            <p>They've developed generative design and websites for clients such
+                as
+                <a href="newmuseu.org">New Museum</a>,
+                <a href="https://imageofthestudio.athleticsnyc.io/">AIGA</a>, <a
+                    href="https://athleticsnyc.com/work/xr">XR</a>, Amazon,
+                Okta and <a href="https://shop.nybooks.com/">New York Review of
+                    Books</a>.
+            </p>
+        </div>
+        <div>
+            <p>As an artist, their projects uses code to explore concepts such
+                as
+                identity politics, solidarity economy and decolonial teaching,
+                and
+                were
+                showcased at <a
+                    href="https://www.demofestival.org/presenters/duty-free">WSA
+                    (Demo
+                    Festival)</a>, <a
+                    href="https://medium.com/processing-foundation/begincontour-%E5%BE%9E%E7%AD%89%E9%AB%98%E7%B7%9A%E9%96%8B%E5%A7%8B-a-critical-anti-colonial-and-intersectional-pedagogy-to-taiwanese-creative-f44d67fd0ccb">Processing
+                    Foudation 2023 Fellowship</a>, <a
+                    href="https://www.werememberhakka.com/fc-finalists-workID-24.html">Taiwanese
+                    Hakka Affairs Council</a>.</p>
+        </div>
+        <div>
+            <p>As a firm believer to open source, they co-developed the beginner
+                friendly zine-coding javascript library <a
+                    href="https://github.com/munusshih/p5.genzine">p5.genzine</a>,
+                and
+                have contributed
+                to other open sourced projects like <a
+                    href="https://p5js.org/">p5.js</a> and <a
+                    href="https://mechanic.design/">mechanic.design</a>. </p>
+        </div>
+        <div>
+            <p>As a teacher, Munus have taught classes at Parsons and Cooper on
+                Critical
+                Computation, <a
+                    href="https://ci2-munus.dutyfree.school/">Interaction
+                    Design</a> and <a
+                    href="https://adpd.dutyfree.school/">Product
+                    Design</a>. They've also given
+                talks and workshops at SVA, <a
+                    href="https://ccfest.rocks/ccfestnycjan282024">Creative
+                    Coding
+                    Festival</a>, <a
+                    href="https://www.typeelectives.com/courses/techniculture-sp-24">Type
+                    Elective</a>,
+                Google Dev Festival, and Type@Cooper.</p>
+        </div>
+        <div>
+            <p>They've also co-organized the <a
+                    href="https://www.youtube.com/playlist?list=PLaQjHexP0AoYBnqQLZhqW9q-l-lFe2Sy7">2023
+                    Processing Community Day Taiwan</a>. </p>
+        </div>
+
+        <ul>
+            <li>email: munusshih@gmail.com</li>
+            <li>instagram: <a
+                    href="https://www.instagram.com/munusshih/">@munusshih</a>
+            </li>
+            <li>github: <a
+                    href="https://www.github.com/munusshih">@munusshih</a>
+            </li>
+        </ul>
+    </main>
+    <script>
+        gsap.to("p", {
+            opacity: 1,
+            y: 0,
+            stagger: 0.2,
+            duration: 1,
+        });
+    </script>
+</body>
+
+</html>
