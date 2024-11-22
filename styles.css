@@ -1,0 +1,38 @@
+.page {
+    padding: 0;
+}
+
+* {
+    color: black;
+    font-size: 16px;
+    font-family: monospace;
+    max-width: 80ch;
+    text-wrap: balance;
+}
+
+.contact-list {
+    padding: 0;
+    list-style-type: none;
+}
+
+.contact-list__item {
+    font-size: 1rem;
+}
+
+.page__paragraph {
+    transform: translateY(300%);
+}
+
+.container {
+    overflow: hidden;
+}
+
+.page__paragraph::after {
+    content: " ";
+    display: block;
+    margin: 1rem 0 2rem;
+    background: #000;
+    width: 5px;
+    height: 5px;
+    border-radius: 100%;
+}
