@@ -1,0 +1,16 @@
+{
+  "name": "celestial-chroma",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "server": "npx decap-server",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^5.1.7",
+    "decap-cms-app": "^3.5.0"
+  }
+}

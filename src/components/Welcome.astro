@@ -1,0 +1,13 @@
+---
+import astroLogo from '../assets/astro.svg';
+import background from '../assets/background.svg';
+const allPosts = Object.values(import.meta.glob('./blog/*.md', { eager: true }));
+---
+
+<div id="container">
+	<ul>
+		<li><a href="/blog/aaa">Post 1</a></li>
+		<li><a href="/posts/post-2/">Post 2</a></li>
+		<li><a href="/posts/post-3/">Post 3</a></li>
+	  </ul>
+</div>
