@@ -1,0 +1,11 @@
+{
+    "description": "Redirect to munus.is-a.dev",
+    "repo": "https://github.com/munusshih/munusshih.com",
+    "owner": {
+        "username": "munusshih",
+        "email": "[email protected]"
+    },
+    "record": {
+        "CNAME": "munusshih.github.io"
+    }
+}
