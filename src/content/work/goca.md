@@ -1,6 +1,8 @@
 ---
-title: "Second post"
+title: "Goca"
 description: "Lorem ipsum dolor sit amet"
+roles: ["Design", "Development"]
+tags: ["astro", "mdx"]
 pubDate: "Jul 15 2022"
 heroImage: "/blog-placeholder-4.jpg"
 ---

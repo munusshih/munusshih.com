@@ -39,8 +39,6 @@ body {
   text-align: left;
   word-wrap: break-word;
   margin: 0;
-  background: linear-gradient(var(--gray-gradient)) no-repeat;
-  background-size: 100% 600px;
   color: rgb(var(--gray-dark));
   font-size: 20px;
   line-height: 1.7;
@@ -50,8 +48,14 @@ body {
 main {
   margin: auto;
   padding: 3em 1em;
-  width: 720px;
-  max-width: calc(100% - 2em);
+  width: calc(100% - 2em);
+  max-width: 1440px;
+}
+
+header {
+  margin: auto;
+  width: calc(100% - 2em);
+  max-width: 1440px;
 }
 
 h1,
@@ -120,7 +124,6 @@ table {
 }
 
 img {
-  border-radius: 8px;
   max-width: 100%;
   height: auto;
 }

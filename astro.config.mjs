@@ -7,4 +7,11 @@ import sitemap from "@astrojs/sitemap";
 export default defineConfig({
   site: "https://example.com",
   integrations: [mdx(), sitemap()],
+  vite: {
+    resolve: {
+      alias: {
+        "@": new URL("./src", import.meta.url).pathname,
+      },
+    },
+  },
 });

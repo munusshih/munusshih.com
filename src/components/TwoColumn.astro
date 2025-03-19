@@ -1,0 +1,25 @@
+---
+// const content = Astro.slots.default ?? "";
+console.log("hello");
+console.log(Astro.slots.default);
+// const [leftContent, rightContent] = content
+//   .split("---")
+//   .map((item) => item.trim());
+---
+
+<div class="two-column">
+  <slot class="column" name="left" />
+  <slot class="column" name="right" />
+</div>
+
+<style>
+  .two-column {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .column {
+    padding: 1rem;
+  }
+</style>

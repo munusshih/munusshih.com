@@ -7,39 +7,34 @@ import FormattedDate from "../components/FormattedDate.astro";
 
 type Props = CollectionEntry<"blog">["data"];
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, description, pubDate, tags, updatedDate, heroImage, roles } =
+  Astro.props;
 ---
 
 <html lang="en">
   <head>
     <BaseHead title={title} description={description} />
     <style>
-      main {
-        margin: 0;
-        width: calc(100% - 2em);
-        max-width: 100%;
-      }
       .hero-image {
         width: 100%;
       }
       .hero-image img {
         display: block;
         margin: 0 auto;
-        box-shadow: var(--box-shadow);
-        border-radius: 12px;
+        width: 100%;
       }
       .prose {
         margin: auto;
-        padding: 1em;
-        width: 720px;
-        max-width: calc(100% - 2em);
+        max-width: 100%;
         color: rgb(var(--gray-dark));
       }
       .title {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
         margin-bottom: 1em;
         padding: 1em 0;
-        line-height: 1;
-        text-align: center;
+        line-height: 1.25;
+        text-align: left;
       }
       .title h1 {
         margin: 0 0 0.5em 0;
@@ -51,6 +46,26 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
       .last-updated-on {
         font-style: italic;
       }
+
+      ul {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+      }
+
+      .date-tags {
+        display: flex;
+        color: rgb(var(--gray));
+      }
+
+      .date-tags ul {
+        display: flex;
+        gap: 0.25em;
+        margin-right: 0.25em;
+      }
     </style>
   </head>
 
@@ -58,6 +73,18 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
     <Header />
     <main>
       <article>
+        <div class="title">
+          <h1>{title}</h1>
+          <div class="description">
+            {description}<br /><br />{roles.map((role) => <li>{role},</li>)}
+          </div>
+          <div class="date-tags">
+            <ul>
+              {tags.map((tag) => <li>{tag},</li>)}
+            </ul>
+            <FormattedDate date={pubDate} />
+          </div>
+        </div>
         <div class="hero-image">
           {
             heroImage && (
@@ -66,20 +93,6 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
           }
         </div>
         <div class="prose">
-          <div class="title">
-            <div class="date">
-              <FormattedDate date={pubDate} />
-              {
-                updatedDate && (
-                  <div class="last-updated-on">
-                    Last updated on <FormattedDate date={updatedDate} />
-                  </div>
-                )
-              }
-            </div>
-            <h1>{title}</h1>
-            <hr />
-          </div>
           <slot />
         </div>
       </article>
