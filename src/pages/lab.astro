@@ -6,7 +6,6 @@ import Footer from "@/components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
 import { getCollection } from "astro:content";
 import FormattedDate from "@/components/FormattedDate.astro";
-import { Image } from "astro:assets";
 
 const posts = (await getCollection("work")).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
@@ -16,26 +15,24 @@ const posts = (await getCollection("work")).sort(
 <!doctype html>
 <html lang="en">
   <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <BaseHead title={`Lab: ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
   </head>
   <body>
     <Header />
     <main>
       <section>
-        <Bio />
         <style>
-          #work-grid {
+          #lab-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            row-gap: 2rem;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
             margin: 0;
             padding: 0;
             list-style-type: none;
           }
 
           @media screen and (max-width: 768px) {
-            #work-grid {
+            #lab-grid {
               grid-template-columns: 1fr;
             }
           }
@@ -93,10 +90,6 @@ const posts = (await getCollection("work")).sort(
             text-wrap: pretty;
           }
 
-          .work-item-content {
-            display: flex;
-          }
-
           .work-item-title {
             width: 100%;
           }
@@ -129,20 +122,18 @@ const posts = (await getCollection("work")).sort(
             }
           }
         </style>
-        <ul id="work-grid">
+        <ul id="lab-grid">
           {
             posts.map((post) => (
-              <li class="work-item gsap-element">
+              <li class="work-item">
                 <a href={`/work/${post.id}/`}>
                   <div class="img-container">
-                    <Image
-                      width={720}
-                      height={360}
-                      src={post.data.heroImage}
-                      alt=""
-                    />
+                    <img src={post.data.heroImage} alt="" />
                   </div>
                   <div class="work-item-content">
+                    <div class="work-item-description">
+                      <p class="description">{post.data.description}</p>
+                    </div>
                     <div class="work-item-title">
                       <div class="work-title-box">
                         <h4 class="title">{post.data.title}</h4>
@@ -156,9 +147,6 @@ const posts = (await getCollection("work")).sort(
                         </div>
                       </div>
                     </div>
-                    <div class="work-item-description">
-                      <p class="description">{post.data.description}</p>
-                    </div>
                   </div>
                 </a>
               </li>
@@ -168,6 +156,5 @@ const posts = (await getCollection("work")).sort(
       </section>
     </main>
     <Footer />
-    <script src="../scripts/smoothTransition.js"></script>
   </body>
 </html>

@@ -12,7 +12,10 @@
     "@astrojs/mdx": "^4.2.0",
     "@astrojs/rss": "^4.0.11",
     "@astrojs/sitemap": "^3.2.1",
-    "astro": "^5.5.2"
+    "@barba/core": "^2.10.3",
+    "astro": "^5.5.2",
+    "gsap": "^3.12.7",
+    "lenis": "^1.2.3"
   },
   "devDependencies": {
     "eslint": "^9.22.0",

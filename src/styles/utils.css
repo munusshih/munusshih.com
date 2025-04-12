@@ -1,0 +1,19 @@
+.two-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.three-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+}
+
+.pretty {
+  text-wrap: pretty;
+}
+
+.max-text-width {
+  max-width: 65ch;
+}

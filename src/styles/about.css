@@ -1,0 +1,41 @@
+.about-bio {
+  line-height: 1.5;
+  letter-spacing: -0.05em;
+}
+
+.about-bio > p {
+  max-width: 50ch;
+  text-wrap: balance;
+}
+
+.about-bio a {
+  color: black;
+  font-style: italic;
+  text-decoration: none;
+}
+
+.about-bio a:hover {
+  color: black;
+}
+
+.about-bio button.email {
+  cursor: pointer;
+  margin-bottom: 2rem;
+  border: none;
+  background: none;
+  padding: 0;
+  color: var(--accent);
+  font-size: 3rem;
+  text-align: left;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+#copyMessage {
+  display: none;
+  margin-top: -2rem;
+  margin-bottom: 2rem;
+  color: rgb(var(--gray));
+}
