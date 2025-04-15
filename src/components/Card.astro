@@ -1,0 +1,111 @@
+---
+const { post } = Astro.props;
+import { marked } from "marked";
+const htmlExcerpt = post.excerpt && marked(post.excerpt);
+
+function stripOuterParagraph(html: string) {
+  return html.replace(/^<p>(.*?)<\/p>\s*$/s, "$1");
+}
+
+const htmlQuote = post.quote && stripOuterParagraph(marked(post.quote));
+
+import Swiper from "@/components/utils/Swiper.astro";
+import Media from "@/components/utils/Media.astro";
+import Iframe from "@/components/utils/Iframe.astro";
+---
+
+<article class="w-full border-b border-dotted py-4 pb-8 last-of-type:border-0">
+  <div class="mb-2 flex w-full flex-col items-start justify-between">
+    <div class="flex w-full flex-row items-start justify-between text-[blue]">
+      <h3 class="sans">{post.title}</h3>
+      <p>{post.year}</p>
+    </div>
+
+    {post.tag && <p class="code mb-2 text-sm"> {`> ${post.tag}`}</p>}
+  </div>
+
+  {
+    post.quote && post.quote.length > 0 && (
+      <blockquote
+        class="monospace text-gray-70 relative mb-4 max-w-[65ch] pt-4 pr-4 text-3xl leading-tight text-balance before:inline-block before:content-['“'] after:inline-block after:content-['”']"
+        set:html={htmlQuote}
+      />
+    )
+  }
+
+  {
+    post.images && post.images.length > 1 ? (
+      <Swiper images={post.images} />
+    ) : post.images && post.images.length === 1 ? (
+      <div class="flex aspect-[16/9] overflow-hidden">
+        <Media
+          src={
+            Array.isArray(post.images[0]) ? post.images[0][0] : post.images[0]
+          }
+          alt="Descriptive media related to the blog post"
+          isVideo={
+            Array.isArray(post.images[0])
+              ? post.images[0][0].match(/\.(mp4|webm|ogg)$/i)
+              : post.images[0].match(/\.(mp4|webm|ogg)$/i)
+          }
+          scaling={
+            Array.isArray(post.images[0]) ? post.images[0][1] : undefined
+          }
+        />
+      </div>
+    ) : null
+  }
+
+  {
+    post.iframe && (
+      <Iframe
+        src={post.iframe.src}
+        aspect_ratio={post.iframe.aspect_ratio}
+        title={post.iframe.title}
+      />
+    )
+  }
+
+  {
+    post.excerpt && post.excerpt.length > 0 && (
+      <div
+        class="code text-gray-70 mb-4 flex flex-col gap-4 pt-8 pr-4"
+        set:html={htmlExcerpt}
+      />
+    )
+  }
+
+  {
+    post.recognition && post.recognition.length > 0 && (
+      <ul class="monospace mb-4 flex w-full flex-col gap-2">
+        {post.recognition.map((item, index) => (
+          <li key={index} class="text-xl text-balance">
+            *
+            {item.split(/(\[.*?\]\(.*?\))/g).map((part, idx) =>
+              part.match(/\[.*?\]\(.*?\)/) ? (
+                <a key={idx} href={part.match(/\((.*?)\)/)[1]}>
+                  {part.match(/\[(.*?)\]/)[1]}
+                </a>
+              ) : (
+                part
+              ),
+            )}
+          </li>
+        ))}
+      </ul>
+    )
+  }
+
+  {
+    post.link && (
+      <div class="post-link-wrapper mt-8 flex h-max w-full">
+        <a
+          href={post.link.href}
+          class="sans bg-black p-1 text-sm text-white uppercase !no-underline hover:bg-[blue]"
+        >
+          {`⌦ ${post.link?.text || "Learn More"}`}
+        </a>
+      </div>
+    )
+  }
+</article>

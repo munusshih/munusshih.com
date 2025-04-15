@@ -1,0 +1,21 @@
+---
+import Card from "@/components/Card.astro";
+const { title, data } = Astro.props;
+const content = await import(`../docs/${data}.yml`);
+const posts = content.default;
+const number = posts.length;
+---
+
+<section
+  class="mt-12 border-gray-400 pr-4 pl-4 last-of-type:border-0 md:first-of-type:border-r lg:border-r"
+>
+  <h2
+    class="monospace mb-2 flex w-max flex-row border-b py-2 text-2xl font-bold"
+  >
+    {title}
+    <sup>{number || 2}</sup>
+  </h2>
+  <div class="flex flex-col gap-4">
+    {posts.map((post) => <Card post={post} />)}
+  </div>
+</section>

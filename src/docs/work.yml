@@ -1,0 +1,70 @@
+- title: "Image of the Studio"
+  year: 2023-2024
+  tag: "Data Visualization"
+  images:
+    - "/iots/square-1.mp4"
+    - "/iots/square-2.mp4"
+  quote: |
+    This data story has more than 300 entries submitted by participants, each offers their unique perspective on the breadth and depth of the NYC design world.
+  excerpt: |
+    The Data Designer is a mobile-first interactive survey developed I co-developed at [Athletics](https://athleticsnyc.com). It allows the user to create bespoke animated data visualizations about their view on design and share with friends.
+  recognition:
+    - "longlisted for [2024 Information Is Beautiful Awards](https://www.informationisbeautifulawards.com/showcase/7086-image-of-the-studio-data-designer-visualizer)"
+  link:
+    text: "View the project"
+    href: "https://imageofthestudio.athleticsnyc.io/"
+
+- title: "GOCA, Gallery of Contemporary Art"
+  year: 2025
+  tag: "Web Design, Generative Design"
+  images:
+    - "/goca/video.mp4"
+    - "/goca/img.jpg"
+    - "/goca/video2.mp4"
+    - "/goca/img2.jpg"
+  excerpt: "Co-designed and developed a custom generative patterns system and website for GOCA, a new gallery in Chelsea that highlights emerging Asian artists. The brand and site offer a dynamic introduction to these new voices, while creating a vibrant platform for the gallery to showcase fresh art, spark conversations, and host innovative ideas."
+  recognition:
+    - "Covered by [It's Nice That](https://www.itsnicethat.com/articles/athletics-goca-graphic-design-project-020425), [Abduzeedo](https://abduzeedo.com/gocas-branding-visual-identity-bridge-between-worlds), [Creative Boom](https://www.creativeboom.com/news/bringing-emerging-asian-art-to-the-forefront-athletics-identity-for-goca/), [The Brand Identity](https://the-brandidentity.com/project/athletics-modular-cross-cultural-identity-for-goca-is-about-putting-artists-in-the-spotlight)"
+  link:
+    text: "View the project"
+    href: "https://athleticsnyc.com/work/goca"
+
+- title: "Soulmate Matcher"
+  year: 2023
+  tag: "Data Visualization, Generative Design"
+  images:
+    - "/soulmate/video3.webm"
+    - ["/soulmate/video2.webm", 1.2]
+  excerpt: "DT Soulmate Matcher is an interactive data-driven matchmaking experience designed for the Parsons Design and Technology MFA community. By collecting data from 45 community members, a personalized data identity is developed for each participant and paired them with at least one “soulmate” using a custom-built matching algorithm."
+  link:
+    text: "View the project"
+    href: "https://munusshih.github.io/dt-soulmate/"
+
+- title: "New Museum"
+  year: 2024
+  tag: "Web Design, Web Development"
+  images:
+    - "/new-museum/video3.mp4"
+    - "/new-museum/video.mp4"
+    - "/new-museum/video2.mp4"
+  excerpt: "Collaborated with a group of designers and developers on designing and developing the new website for New Museum. I mainly contribute to the design and development of the membership and ticketing systems, while ensuring accessibility guidelines were met throughout the website."
+  recognition:
+    - "Nominated for Webby Awards 2025"
+    - "Covered by [Creative Review](https://www.creativereview.co.uk/athletics-new-museum-branding-design/), [Brand New](https://www.underconsideration.com/brandnew/archives/new_identity_for_new_museum_by_athletics.php)"
+  link:
+    text: "View the project"
+    href: "https://athleticsnyc.com/work/new-museum"
+
+- title: "(4066.62, 62)"
+  year: 2024-25
+  tag: "Data Visualization, Generative Design"
+  images:
+    - "/4066/history.png"
+    - "/4066/install.jpeg"
+    - "/4066/video.mp4"
+  excerpt: "Partnered with local Hakka artists and researchers to uncover the story of Hakka soldiers who were forced to join the military during WWII, we built a participatory migration database. People can input when, where, and why they moved, along with their emotions or the stories into the system. These data are later sent as morse code to a physical installation in Guanxi, presented in continuously flashing telegraphic signals."
+  recognition:
+    - "Exhibited at the Taiwanese Hakka Affairs Council"
+  link:
+    text: "View the project"
+    href: "https://www.behance.net/gallery/217552767/40666262Anti-monuments"

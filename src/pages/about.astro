@@ -1,33 +1,32 @@
 ---
-import BaseHead from "@/components/BaseHead.astro";
-import Header from "@/components/Header.astro";
-import Footer from "@/components/Footer.astro";
+import BasicLayout from "@/layouts/Basic.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
 import { Image } from "astro:assets";
 import profile from "@/assets/profile.jpg";
-import Content from "@/docs/about-munus.md";
+import Content from "@/docs/about/about-munus.md";
+import Clout from "@/docs/about/clout.md";
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <BaseHead title={`About: ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
-  </head>
-  <body>
-    <Header />
-    <main>
-      <section class="two-columns">
-        <div><Image src={profile} alt="A description of my image." /></div>
-        <div class="pretty max-text-width about-bio">
-          <button class="email monospace" id="emailButton"
-            >munusshih@gmail.com</button
-          >
-          <p id="copyMessage">Email copied to clipboard!</p>
+<BasicLayout>
+  <main>
+    <section
+      class="grid min-h-[calc(100dvh-280px)] auto-cols-min auto-rows-min grid-cols-1 gap-0 md:grid-cols-2 lg:grid-cols-3"
+    >
+      <div class="col-span-1 mx-4">
+        <Image src={profile} alt="A description of my image." />
+      </div>
+      <div class="col-span-2 mt-8 grid grid-cols-1 md:grid-cols-3 lg:mt-0">
+        <article
+          class="sans map-4 col-span-2 mx-4 flex flex-col gap-4 text-xl md:mt-0"
+        >
           <Content />
+        </article>
+        <div
+          class="sans prose-headings:monospace mx-4 mt-8 flex flex-col gap-8 md:mt-0 prose-headings:underline"
+        >
+          <Clout />
         </div>
-      </section>
-      <Footer />
-    </main>
-    <script src="../scripts/copyEmail.js"></script>
-  </body>
-</html>
+      </div>
+    </section>
+  </main>
+</BasicLayout>

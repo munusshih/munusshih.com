@@ -1,0 +1,33 @@
+- title: "p5.genzine: zine as coding connectivity"
+  year: 2023
+  tag: "Writing"
+  images:
+    - "/p5zine/thesis.webm"
+  excerpt: |
+    A collaborative zine designed by students as part of the Techniculture 6-week workshop. Taught by the Space Type and Duty Free collective studios, this zine is a culmination our discussions and explorations reflecting the intricate relationships between type, culture, and technology. Included in this zine is a pixel typeface collaboratively developed by the students in class, along with artifacts from each session as facilitated by individuals in each collective.
+  quote: |
+    By providing a collaborative and customizable approach to zine-coding, p5.genzine has transformed the traditional zine-making process, enabling artists, designers, creative coders and other creative professionals to create impactful and multi-player zines.
+
+  recognition:
+    - "longlisted for 2025 Information Is Beautiful Awards"
+  link:
+    text: "View the project"
+    href: "https://imageofthestudio.athleticsnyc.io/"
+
+- title: "Canvas Rebel"
+  year: 2023
+  tag: "Workshop"
+  excerpt: |
+    A collaborative zine designed by students as part of the Techniculture 6-week workshop. Taught by the Space Type and Duty Free collective studios, this zine is a culmination our discussions and explorations reflecting the intricate relationships between type, culture, and technology. Included in this zine is a pixel typeface collaboratively developed by the students in class, along with artifacts from each session as facilitated by individuals in each collective.
+
+- title: "Love p5 Type@Cooper"
+  year: 2023
+  tag: "Workshop"
+  excerpt: |
+    A collaborative zine designed by students as part of the Techniculture 6-week workshop. Taught by the Space Type and Duty Free collective studios, this zine is a culmination our discussions and explorations reflecting the intricate relationships between type, culture, and technology. Included in this zine is a pixel typeface collaboratively developed by the students in class, along with artifacts from each session as facilitated by individuals in each collective.
+
+#- p5.zine [press]
+#- canvas rebel [press]
+#- p5 zine [writing]
+#- london daily news [press]
+#- p5.zine - entropy [talk]

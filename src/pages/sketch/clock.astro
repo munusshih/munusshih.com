@@ -1,0 +1,67 @@
+---
+import P5Sketch from "@/layouts/P5Sketch.astro";
+---
+
+<P5Sketch>
+  <div id="sketch-container"></div>
+  <script is:inline>
+    function setup() {
+      const cnv = createCanvas(80, 80);
+      cnv.parent("sketch-container");
+      clockDiameter = width * 0.8;
+    }
+
+    function draw() {
+      clear();
+
+      // Calculate center of canvas
+      const centerX = width / 2;
+      const centerY = height / 2;
+
+      // Draw clock face
+      noFill();
+
+      strokeWeight(1.5);
+
+      // Get current time
+      let hr = hour();
+      let mn = minute();
+      let sc = second();
+
+      // Map the time values to angles
+      let secondAngle = map(sc, 0, 60, 0, TWO_PI) - HALF_PI;
+      let minuteAngle = map(mn, 0, 60, 0, TWO_PI) - HALF_PI;
+      let hourAngle = map(hr % 12, 0, 12, 0, TWO_PI) - HALF_PI;
+
+      // Draw second hand
+      stroke(255, 0, 0); // Red for second hand
+      line(
+        centerX,
+        centerY,
+        centerX + (cos(secondAngle) * clockDiameter) / 2,
+        centerY + (sin(secondAngle) * clockDiameter) / 2,
+      );
+
+      // Draw minute hand
+      stroke(0, 0, 255); // Blue for minute hand
+      line(
+        centerX,
+        centerY,
+        centerX + (cos(minuteAngle) * clockDiameter) / 2.5,
+        centerY + (sin(minuteAngle) * clockDiameter) / 2.5,
+      );
+
+      // Draw hour hand
+      stroke(0, 255, 0); // Green for hour hand
+      line(
+        centerX,
+        centerY,
+        centerX + (cos(hourAngle) * clockDiameter) / 4,
+        centerY + (sin(hourAngle) * clockDiameter) / 4,
+      );
+
+      stroke(0);
+      ellipse(centerX, centerY, clockDiameter, clockDiameter);
+    }
+  </script>
+</P5Sketch>

@@ -1,0 +1,27 @@
+---
+// Media.astro
+const { src, alt, isVideo = false, scaling = 1 } = Astro.props;
+---
+
+{
+  isVideo ? (
+    <video
+      src={src}
+      autoplay
+      loop
+      muted
+      class="h-auto w-full object-cover"
+      style={{ transform: `scale(${scaling})` }}
+      alt={alt}
+    >
+      Your browser does not support the video tag.
+    </video>
+  ) : (
+    <img
+      loading="lazy"
+      src={src}
+      alt={alt}
+      class="h-auto w-full object-cover"
+    />
+  )
+}

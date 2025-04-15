@@ -1,0 +1,19 @@
+<footer
+  client:load
+  class="monospace flex flex-row items-center justify-between p-4 text-2xl text-black"
+>
+  <div class="border-t border-t-[blue] pt-2 text-[blue]">
+    &copy; Munus Shih <span id="year"></span>
+  </div>
+  <div id="emailButton">
+    <a>munusshih@gmail.com</a>
+  </div>
+</footer>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const year = new Date().getFullYear();
+    document.getElementById("year").textContent = year;
+  });
+</script>
+<script src="../../scripts/copyEmail.js"></script>

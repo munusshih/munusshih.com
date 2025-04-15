@@ -1,0 +1,57 @@
+---
+// Swiper.astro
+const { images } = Astro.props;
+import Swiper from "swiper";
+import "swiper/css";
+import Media from "@/components/utils/Media.astro";
+---
+
+<div class="swiper">
+  <div class="swiper-wrapper">
+    {
+      images.map((src, idx) => {
+        // If src is an array, assign the values accordingly
+        const [mediaSrc, scaling] = Array.isArray(src) ? src : [src];
+
+        const isVideo = mediaSrc.match(/\.(mp4|webm|ogg)$/i); // Check if media is a video
+        return (
+          <div key={idx} class="swiper-slide h-auto">
+            <Media
+              src={mediaSrc}
+              alt={`Media ${idx + 1}`}
+              isVideo={isVideo}
+              scaling={scaling}
+            />
+          </div>
+        );
+      })
+    }
+  </div>
+</div>
+
+<script>
+  import Swiper from "swiper";
+  import { Autoplay } from "swiper/modules";
+  import "swiper/css";
+
+  const swiper = new Swiper(".swiper", {
+    modules: [Autoplay],
+    slidesPerView: "auto",
+    spaceBetween: 10,
+    grabCursor: true,
+    autoplay: {
+      delay: 10000,
+      disableOnInteraction: true,
+    },
+  });
+</script>
+
+<style>
+  .swiper-slide {
+    display: flex;
+    background: lightgray;
+    aspect-ratio: 4/3;
+    width: 75%;
+    overflow: hidden;
+  }
+</style>

@@ -1,0 +1,39 @@
+---
+import HeaderLink from "./HeaderLink.astro";
+import { SITE_DESCRIPTION, SITE_TITLE, NEWS } from "@/consts";
+import { marked } from "marked";
+---
+
+<nav class="monospace flex flex-row justify-between p-4 text-black">
+  <div>
+    <h1 class="pb-2 text-2xl">
+      <a href="/" class="!no-underline">{SITE_DESCRIPTION}</a>
+    </h1>
+    <div class="flex flex-wrap items-center gap-x-4">
+      {
+        NEWS.map((item) => (
+          <div
+            class="sans flex text-[blue] before:content-['*']"
+            set:html={marked(item)}
+          />
+        ))
+      }
+    </div>
+    <iframe
+      src="../sketch/clock"
+      frameborder="0"
+      scrolling="0"
+      width="80px"
+      class="mt-4"
+      height="80px"></iframe>
+  </div>
+  <div class="flex w-max flex-col items-end text-2xl">
+    <ul class="leading-tigh2 ml-4 w-max border-t pt-2">
+      <li><a href="/" class="!no-underline">Home</a></li>
+      <!-- <li><a href="/about">Encyclopedia</a></li>
+      <li><a href="/about">Chronology</a></li> -->
+      <li><a href="/about" class="!no-underline">Laboratory</a></li>
+      <li><a href="/about" class="!no-underline">About</a></li>
+    </ul>
+  </div>
+</nav>
