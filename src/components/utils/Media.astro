@@ -9,7 +9,7 @@ const cdnPrefix = import.meta.env.DEV
   : "https://cdn.jsdelivr.net/gh/munusshih/munusshih.com@main/public";
 
 const finalSrc = src.startsWith("/")
-  ? `${cdnPrefix}${src.replace("/", "")}`
+  ? `${cdnPrefix}${src}`
   : src;
 const posterSrc = "posters" + src.replace(/\.(mp4|webm|ogg)$/i, ".jpg");
 ---
@@ -34,7 +34,7 @@ const posterSrc = "posters" + src.replace(/\.(mp4|webm|ogg)$/i, ".jpg");
       width={1920}  // Placeholder value, use most common width
       height={1080}  // Placeholder value for aspect ratio
       src={finalSrc}
-      alt={alt}
+      alt={'hey'}
       class={`h-auto w-full object-cover ${cropped ? "[clip-path:inset(3px)]" : ""}`}
     />
   )
