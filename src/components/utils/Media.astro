@@ -17,7 +17,9 @@ const posterSrc = "posters" + src.replace(/\.(mp4|webm|ogg)$/i, ".jpg");
 {
   isVideo ? (
     <video
+      preload="none"
       src={finalSrc}
+      poster={posterSrc}
       autoplay
       loop
       muted

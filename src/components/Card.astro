@@ -75,7 +75,7 @@ import Iframe from "@/components/utils/Iframe.astro";
   {
     post.excerpt && post.excerpt.length > 0 && (
       <div
-        class="code text-gray-70 mb-4 flex flex-col gap-4 pt-4 pr-4 text-gray-500"
+        class="sans text-gray-70 mb-4 flex flex-col gap-4 pt-4 pr-4 text-sm text-black"
         set:html={htmlExcerpt}
       />
     )
@@ -83,10 +83,9 @@ import Iframe from "@/components/utils/Iframe.astro";
 
   {
     post.recognition && post.recognition.length > 0 && (
-      <ul class="monospace mb-4 flex w-full flex-col gap-2 text-gray-500">
+      <ul class="sans mt-4 mb-4 ml-4 flex w-full flex-col text-gray-500">
         {post.recognition.map((item, index) => (
-          <li key={index} class="text-xl text-balance">
-            *
+          <li key={index} class="list-disc text-sm">
             {item.split(/(\[.*?\]\(.*?\))/g).map((part, idx) =>
               part.match(/\[.*?\]\(.*?\)/) ? (
                 <a target="_blank" key={idx} href={part.match(/\((.*?)\)/)[1]}>

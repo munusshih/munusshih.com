@@ -56,8 +56,8 @@
   year: 2023
   tag: "Open Source Tool"
   images:
-    - ["/mechanic/instagram.webm", 1.05]
-    - ["/mechanic/tool.webm", 0.8]
+    - ["/mechanic/instagram.mp4", 1.05]
+    - ["/mechanic/tool.mp4", 0.8]
   excerpt: |
     Mechanic is an open source framework that makes it easy to create custom, web-based design tools that export design assets right in your browser. I worked on developing some examples when I was working at Design Systems International to show what a powerful Mechanic is in generative design.
   link:
