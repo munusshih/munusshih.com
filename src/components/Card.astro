@@ -33,7 +33,7 @@ import Iframe from "@/components/utils/Iframe.astro";
   {
     post.quote && post.quote.length > 0 && (
       <blockquote
-        class="monospace text-gray-70 relative max-w-[65ch] py-4 pr-4 text-2xl leading-tight text-balance before:inline-block before:content-['“'] after:inline-block after:content-['”'] md:text-3xl"
+        class="monospace text-gray-70 relative max-w-[65ch] py-4 pr-4 text-2xl leading-tight text-pretty before:inline-block before:content-['“'] after:inline-block after:content-['”'] md:text-3xl"
         set:html={htmlQuote}
       />
     )
@@ -82,8 +82,22 @@ import Iframe from "@/components/utils/Iframe.astro";
   }
 
   {
+    post.link && (
+      <div class="post-link-wrapper mt-2 mb-2 flex h-max w-full">
+        <a
+          target="_blank"
+          href={post.link.href}
+          class="sans bg-black p-1 text-sm text-white uppercase !no-underline hover:bg-[blue]"
+        >
+          {`⌦ ${post.link?.text || "Learn More"}`}
+        </a>
+      </div>
+    )
+  }
+
+  {
     post.recognition && post.recognition.length > 0 && (
-      <ul class="sans mt-4 mb-4 ml-4 flex w-full flex-col text-gray-500">
+      <ul class="sans mt-4 ml-4 flex w-full flex-col text-gray-500">
         {post.recognition.map((item, index) => (
           <li key={index} class="list-disc text-sm">
             {item.split(/(\[.*?\]\(.*?\))/g).map((part, idx) =>
@@ -98,20 +112,6 @@ import Iframe from "@/components/utils/Iframe.astro";
           </li>
         ))}
       </ul>
-    )
-  }
-
-  {
-    post.link && (
-      <div class="post-link-wrapper mt-8 flex h-max w-full">
-        <a
-          target="_blank"
-          href={post.link.href}
-          class="sans bg-black p-1 text-sm text-white uppercase !no-underline hover:bg-[blue]"
-        >
-          {`⌦ ${post.link?.text || "Learn More"}`}
-        </a>
-      </div>
     )
   }
 </article>
