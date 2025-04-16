@@ -8,7 +8,9 @@ import yaml from "@rollup/plugin-yaml";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://munusshih.com",
+  // site: "https://munusshih.com",
+  site: "https://munusshih.github.io",
+  base: "munusshih.com",
   devToolbar: {
     enabled: false,
   },
