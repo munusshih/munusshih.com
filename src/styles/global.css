@@ -18,6 +18,11 @@ body {
   min-height: 100dvh;
 }
 
+html,
+body {
+  overscroll-behavior: auto; /* or unset if you want to restore default behavior */
+}
+
 img.dithered {
   filter: contrast(120%) brightness(90%) grayscale(100%);
   image-rendering: pixelated;
@@ -25,6 +30,7 @@ img.dithered {
 
 .sans {
   font-family: "Inclusive Sans", sans-serif;
+  font-optical-sizing: auto;
 }
 
 .monospace {
@@ -32,12 +38,13 @@ img.dithered {
   font-weight: 400;
   font-family: "Instrument Serif", serif;
   @apply leading-tight tracking-wide;
+  font-optical-sizing: auto;
 }
 
 .code {
-  font-size: 16px;
   font-family: "Source Code Pro", monospace;
   @apply leading-snug tracking-tight;
+  font-optical-sizing: auto;
 }
 
 p {

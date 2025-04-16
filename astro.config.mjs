@@ -6,6 +6,8 @@ import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 import yaml from "@rollup/plugin-yaml";
 
+import vercel from "@astrojs/vercel";
+
 // https://astro.build/config
 export default defineConfig({
   // site: "https://munusshih.com",
@@ -14,6 +16,8 @@ export default defineConfig({
       ? "https://munusshih.github.io"
       : "http://localhost:3000",
   base: "munusshih.com/",
+  output: "static",
+  adapter: vercel(),
   devToolbar: {
     enabled: false,
   },
