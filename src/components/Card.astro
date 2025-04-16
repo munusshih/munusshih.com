@@ -48,7 +48,7 @@ import Iframe from "@/components/utils/Iframe.astro";
           src={
             Array.isArray(post.images[0]) ? post.images[0][0] : post.images[0]
           }
-          alt={post.description}
+          alt={post.description || post.title || post.quote}
           isVideo={
             Array.isArray(post.images[0])
               ? post.images[0][0].match(/\.(mp4|webm|ogg)$/i)

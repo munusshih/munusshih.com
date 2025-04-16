@@ -18,7 +18,7 @@ import Media from "@/components/utils/Media.astro";
           <div key={idx} class="swiper-slide h-auto">
             <Media
               src={mediaSrc}
-              alt={`Media ${idx + 1}`}
+              alt={images.src || ""}
               isVideo={isVideo}
               scaling={scaling}
             />
@@ -33,16 +33,25 @@ import Media from "@/components/utils/Media.astro";
   import Swiper from "swiper";
   import { Autoplay } from "swiper/modules";
   import "swiper/css";
+  import { init } from "astro/virtual-modules/prefetch.js";
 
-  const swiper = new Swiper(".swiper", {
-    modules: [Autoplay],
-    slidesPerView: "auto",
-    spaceBetween: 10,
-    grabCursor: true,
-    autoplay: {
-      delay: 10000,
-      disableOnInteraction: true,
-    },
+  function initSwiper() {
+    const swiper = new Swiper(".swiper", {
+      modules: [Autoplay],
+      slidesPerView: "auto",
+      spaceBetween: 10,
+      grabCursor: true,
+      autoplay: {
+        delay: 10000,
+        disableOnInteraction: true,
+      },
+    });
+  }
+
+  initSwiper();
+
+  document.addEventListener("astro:page-load", () => {
+    initSwiper();
   });
 </script>
 

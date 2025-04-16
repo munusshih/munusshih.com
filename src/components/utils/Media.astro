@@ -1,13 +1,16 @@
 ---
 // Media.astro
 const { src, alt, isVideo = false, scaling = 1, cropped = false } = Astro.props;
+import { Image } from "astro:assets";
 
 const base = import.meta.env.BASE_URL;
 const cdnPrefix = import.meta.env.DEV
   ? base
   : "https://cdn.jsdelivr.net/gh/munusshih/munusshih.com@main/public";
 
-const finalSrc = src.startsWith("/") ? `${cdnPrefix}${src}` : src;
+const finalSrc = src.startsWith("/")
+  ? `${cdnPrefix}${src.replace("/", "")}`
+  : src;
 const posterSrc = "posters" + src.replace(/\.(mp4|webm|ogg)$/i, ".jpg");
 ---
 
@@ -15,7 +18,6 @@ const posterSrc = "posters" + src.replace(/\.(mp4|webm|ogg)$/i, ".jpg");
   isVideo ? (
     <video
       src={finalSrc}
-      poster={posterSrc}
       autoplay
       loop
       muted
@@ -28,8 +30,9 @@ const posterSrc = "posters" + src.replace(/\.(mp4|webm|ogg)$/i, ".jpg");
       Your browser does not support the video tag.
     </video>
   ) : (
-    <img
-      loading="lazy"
+    <Image
+      width={1920}  // Placeholder value, use most common width
+      height={1080}  // Placeholder value for aspect ratio
       src={finalSrc}
       alt={alt}
       class={`h-auto w-full object-cover ${cropped ? "[clip-path:inset(3px)]" : ""}`}
