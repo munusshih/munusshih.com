@@ -11,13 +11,13 @@ import vercel from "@astrojs/vercel";
 // https://astro.build/config
 export default defineConfig({
   // site: "https://munusshih.com",
-  site:
-    process.env.NODE_ENV === "production"
-      ? "https://munusshih.github.io"
-      : "http://localhost:3000",
-  base: "munusshih.com/",
   output: "static",
-  adapter: vercel(),
+  adapter: vercel({
+    webAnalytics: {
+      enabled: true,
+    },
+    imageService: true,
+  }),
   devToolbar: {
     enabled: false,
   },
