@@ -9,8 +9,11 @@ import yaml from "@rollup/plugin-yaml";
 // https://astro.build/config
 export default defineConfig({
   // site: "https://munusshih.com",
-  site: "https://munusshih.github.io",
-  base: "munusshih.com",
+  site:
+    process.env.NODE_ENV === "production"
+      ? "https://munusshih.github.io"
+      : "http://localhost:3000",
+  base: process.env.NODE_ENV === "production" ? "/munusshih.com/" : "/",
   devToolbar: {
     enabled: false,
   },
