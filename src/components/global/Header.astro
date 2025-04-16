@@ -5,11 +5,12 @@ import { SITE_DESCRIPTION, SITE_TITLE, NEWS } from "@/consts";
 
 import { marked } from "marked";
 
+const base = import.meta.env.BASE_URL;
 const currentPage = Astro.url.pathname; // Get the current page's pathname
 const links = [
-  { href: "/", label: "Home" },
-  { href: "/lab", label: "Laboratory" },
-  { href: "/about", label: "About" },
+  { href: `${base}`, label: "Home" },
+  { href: `${base}lab`, label: "Laboratory" },
+  { href: `${base}about`, label: "About" },
 ];
 ---
 

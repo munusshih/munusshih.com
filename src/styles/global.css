@@ -3,7 +3,6 @@
 
 main {
   background: white;
-  min-height: 100dvh;
 }
 
 nav {
@@ -16,6 +15,7 @@ footer {
 
 body {
   background: white;
+  min-height: 100dvh;
 }
 
 img.dithered {

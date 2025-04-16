@@ -13,7 +13,7 @@ export default defineConfig({
     process.env.NODE_ENV === "production"
       ? "https://munusshih.github.io"
       : "http://localhost:3000",
-  base: process.env.NODE_ENV === "production" ? "/munusshih.com/" : "/",
+  base: "munusshih.com/",
   devToolbar: {
     enabled: false,
   },
