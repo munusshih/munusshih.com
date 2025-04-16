@@ -5,24 +5,25 @@ import { Image } from "astro:assets";
 import profile from "@/assets/profile.jpg";
 import Content from "@/docs/about/about-munus.md";
 import Clout from "@/docs/about/clout.md";
+import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
 ---
 
-<BasicLayout>
-  <main>
+<BasicLayout title={`About — ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
+  <main class="py-20">
     <section
-      class="grid min-h-[calc(100dvh-280px)] auto-cols-min auto-rows-min grid-cols-1 gap-0 md:grid-cols-2 lg:grid-cols-3"
+      class="grid min-h-[calc(100dvh-200px)] auto-cols-min auto-rows-min grid-cols-1 gap-0 md:grid-cols-2 lg:grid-cols-3"
     >
-      <div class="col-span-1 mx-4">
-        <Image src={profile} alt="A description of my image." />
+      <div class="col-span-1 ml-4">
+        <Image class="dithered" src={profile} alt="A protrait of Munus" />
       </div>
       <div class="col-span-2 mt-8 grid grid-cols-1 md:grid-cols-3 lg:mt-0">
         <article
-          class="sans map-4 col-span-2 mx-4 flex flex-col gap-4 text-xl md:mt-0"
+          class="sans map-4 col-span-2 mx-4 flex flex-col gap-4 border-gray-400 text-xl md:mt-0 lg:border-l lg:pl-4"
         >
           <Content />
         </article>
         <div
-          class="sans prose-headings:monospace mx-4 mt-8 flex flex-col gap-8 md:mt-0 prose-headings:underline"
+          class="sans prose-headings:monospace mx-4 mt-8 flex flex-col gap-8 border-gray-400 md:mt-0 lg:border-l lg:pl-4 prose-headings:underline"
         >
           <Clout />
         </div>

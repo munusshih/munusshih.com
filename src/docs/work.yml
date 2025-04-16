@@ -3,7 +3,7 @@
   tag: "Data Visualization"
   images:
     - "/iots/square-1.mp4"
-    - "/iots/square-2.mp4"
+    - ["/iots/walkthrough.mp4", 2]
   quote: |
     This data story has more than 300 entries submitted by participants, each offers their unique perspective on the breadth and depth of the NYC design world.
   excerpt: |
@@ -33,8 +33,8 @@
   year: 2023
   tag: "Data Visualization, Generative Design"
   images:
-    - "/soulmate/video3.webm"
-    - ["/soulmate/video2.webm", 1.2]
+    - "/soulmate/video3.mp4"
+    - ["/soulmate/video2.mp4", 1.2]
   excerpt: "DT Soulmate Matcher is an interactive data-driven matchmaking experience designed for the Parsons Design and Technology MFA community. By collecting data from 45 community members, a personalized data identity is developed for each participant and paired them with at least one “soulmate” using a custom-built matching algorithm."
   link:
     text: "View the project"
@@ -62,7 +62,9 @@
     - "/4066/history.png"
     - "/4066/install.jpeg"
     - "/4066/video.mp4"
-  excerpt: "Partnered with local Hakka artists and researchers to uncover the story of Hakka soldiers who were forced to join the military during WWII, we built a participatory migration database. People can input when, where, and why they moved, along with their emotions or the stories into the system. These data are later sent as morse code to a physical installation in Guanxi, presented in continuously flashing telegraphic signals."
+  quote: |
+    Does the shape of home gradually changes through each departure?
+  excerpt: "Partnered with local Hakka artists Yalan Wen and researcher I-hao Liao to uncover the story of Hakka soldiers who were forced to join the military during WWII, we built a participatory migration database. People can input when, where, and why they moved, along with their emotions or the stories into the system. These data are later sent as morse code to a physical installation in Guanxi, presented in continuously flashing telegraphic signals."
   recognition:
     - "Exhibited at the Taiwanese Hakka Affairs Council"
   link:

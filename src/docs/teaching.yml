@@ -9,7 +9,7 @@
     text: "View the Class"
     href: "https://ci2-munus.munusandniktari.com/"
 
-- title: "begin Contour"
+- title: "BeginContour 從等高線開始"
   year: 2024
   tag: "Teaching Practicum"
   images:
@@ -20,6 +20,9 @@
     In collaboration with Taiwanese artist Yangching Lu, begin Contour is a teaching practicum. We invited many Taiwanese middle school teachers, art educators, experimental educators, designers, and creative coders to collectively reimagine creative technology through a more beginner-friendly and approachable technology education.
 
     In a six-week process, we conducted lectures, discussions, workshops, and test runs to help them develop their own teaching tools and syllabus.
+  link:
+    text: "Read the project"
+    href: "https://medium.com/processing-foundation/begincontour-%E5%BE%9E%E7%AD%89%E9%AB%98%E7%B7%9A%E9%96%8B%E5%A7%8B-a-critical-anti-colonial-and-intersectional-pedagogy-to-taiwanese-creative-f44d67fd0ccb"
 
 - title: "Processing Community Day Taiwan"
   year: 2023
@@ -40,6 +43,8 @@
   tag: "Workshop"
   images:
     - ["/techniculture/zine.mp4", 1.5]
+  quote: |
+    Together, we’ll examine the complexities of our contemporary technological landscape, starting by grounding ourselves in a redefinition of what ‘technology’ means to us.
   excerpt: |
     A collaborative zine designed by students as part of the Techniculture 6-week workshop. Taught by the Space Type and Duty Free collective studios, this zine is a culmination our discussions and explorations reflecting the intricate relationships between type, culture, and technology. Included in this zine is a pixel typeface collaboratively developed by the students in class, along with artifacts from each session as facilitated by individuals in each collective.
   recognition:

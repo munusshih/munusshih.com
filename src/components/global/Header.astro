@@ -1,12 +1,21 @@
 ---
 import HeaderLink from "./HeaderLink.astro";
+import Clock from "@/components/global/Clock.astro";
 import { SITE_DESCRIPTION, SITE_TITLE, NEWS } from "@/consts";
+
 import { marked } from "marked";
+
+const currentPage = Astro.url.pathname; // Get the current page's pathname
+const links = [
+  { href: "/", label: "Home" },
+  { href: "/lab", label: "Laboratory" },
+  { href: "/about", label: "About" },
+];
 ---
 
 <nav class="monospace flex flex-row justify-between p-4 text-black">
   <div>
-    <h1 class="pb-2 text-2xl">
+    <h1 class="responsive-title max-w-[60ch] pb-8 text-balance">
       <a href="/" class="!no-underline">{SITE_DESCRIPTION}</a>
     </h1>
     <div class="flex flex-wrap items-center gap-x-4">
@@ -19,21 +28,25 @@ import { marked } from "marked";
         ))
       }
     </div>
-    <iframe
-      src="../sketch/clock"
-      frameborder="0"
-      scrolling="0"
-      width="80px"
-      class="mt-4"
-      height="80px"></iframe>
   </div>
-  <div class="flex w-max flex-col items-end text-2xl">
-    <ul class="leading-tigh2 ml-4 w-max border-t pt-2">
-      <li><a href="/" class="!no-underline">Home</a></li>
-      <!-- <li><a href="/about">Encyclopedia</a></li>
-      <li><a href="/about">Chronology</a></li> -->
-      <li><a href="/about" class="!no-underline">Laboratory</a></li>
-      <li><a href="/about" class="!no-underline">About</a></li>
+  <div class="responsive-title flex w-max flex-col items-end">
+    <ul class="w-max border-t pt-2 pl-4 leading-tight">
+      {
+        links.map((link) => (
+          <li key={link.href}>
+            <a
+              href={link.href}
+              class={`!no-underline ${
+                currentPage === link.href
+                  ? "pointer-events-none text-black"
+                  : "text-black"
+              }`}
+            >
+              {currentPage === link.href ? `(( ${link.label} ))` : link.label}
+            </a>
+          </li>
+        ))
+      }
     </ul>
   </div>
 </nav>

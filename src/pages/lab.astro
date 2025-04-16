@@ -1,0 +1,63 @@
+---
+import BasicLayout from "@/layouts/Basic.astro";
+import Column from "@/components/Column.astro";
+import LabCard from "@/components/LabCard.astro";
+import labCards from "@/docs/lab.yml";
+import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
+
+const allTags = [...new Set(labCards.flatMap((card) => card.tags))];
+---
+
+<BasicLayout title={`Lab — ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
+  <main class="w-full px-4 pt-20">
+    <!-- Tag Filter UI -->
+    <div id="tag-filters" class="sans mb-6 flex flex-wrap gap-4 text-xl">
+      <button class="tag-button active cursor-pointer" data-tag="all"
+        >All</button
+      >
+      {
+        allTags.map((tag) => (
+          <button class="tag-button cursor-pointer" data-tag={tag}>
+            {tag}
+          </button>
+        ))
+      }
+    </div>
+
+    <div class="grid grid-cols-5 items-end gap-x-4 gap-y-20">
+      {
+        labCards.map((card) => (
+          <LabCard
+            title={card.title}
+            description={card.description}
+            href={card.href}
+            image={card.image}
+            imageAlt={card.imageAlt}
+            tags={card.tags}
+          />
+        ))
+      }
+    </div>
+  </main>
+</BasicLayout>
+
+<script is:inline>
+  const buttons = document.querySelectorAll(".tag-button");
+  const cards = document.querySelectorAll("[data-tags]");
+
+  console.log(buttons, cards);
+
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const tag = btn.dataset.tag;
+      buttons.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      cards.forEach((card) => {
+        const cardTags = card.dataset.tags.split(",");
+        const show = tag === "all" || cardTags.includes(tag);
+        card.style.display = show ? "" : "none";
+      });
+    });
+  });
+</script>

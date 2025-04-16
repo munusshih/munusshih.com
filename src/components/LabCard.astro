@@ -1,0 +1,38 @@
+---
+import Media from "@/components/utils/Media.astro";
+import Iframe from "@/components/utils/Iframe.astro";
+const { title, description, tags, href, image, imageAlt } = Astro.props;
+---
+
+<div class="flex w-auto flex-col" data-tags={tags?.join(",")}>
+  <div class="w-full">
+    {
+      image &&
+        (href ? (
+          <a target="_blank" href={href} class="group no-before-after">
+            <Media
+              src={image}
+              alt={description}
+              isVideo={image.match(/\.(mp4|webm|ogg)$/i)}
+              cropped={true}
+            />
+          </a>
+        ) : (
+          <Media
+            src={image}
+            alt={description}
+            isVideo={image.match(/\.(mp4|webm|ogg)$/i)}
+            cropped={true}
+          />
+        ))
+    }
+
+    <p class="code mt-2 text-gray-600">{description}</p>
+  </div>
+</div>
+
+<!-- - title: "Lab"
+  description: "A collection of experiments and prototypes."
+  href: "/lab"
+  image: "/lab/lab.jpg"
+  imageAlt: "A collection of experiments and prototypes." -->

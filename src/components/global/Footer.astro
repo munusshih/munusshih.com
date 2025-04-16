@@ -1,19 +1,51 @@
-<footer
-  client:load
-  class="monospace flex flex-row items-center justify-between p-4 text-2xl text-black"
->
-  <div class="border-t border-t-[blue] pt-2 text-[blue]">
-    &copy; Munus Shih <span id="year"></span>
-  </div>
-  <div id="emailButton">
-    <a>munusshih@gmail.com</a>
-  </div>
-</footer>
+---
+import { marked } from "marked";
 
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const year = new Date().getFullYear();
-    document.getElementById("year").textContent = year;
-  });
-</script>
-<script src="../../scripts/copyEmail.js"></script>
+const markdown = `
+This website was intentionally hand-coded using HTML, CSS (Tailwind), and vanilla JavaScript in [Astro](https://astro.build/).
+All the texts are set in [Inclusive Sans by Olivia King](https://fonts.google.com/specimen/Inclusive+Sans), [Source Code Pro by Paul D. Hunt](https://fonts.google.com/specimen/Source+Code+Pro) and [Instrument Serif by Rodrigo Fuenzalida and Jordan Egstad](https://fonts.google.com/specimen/Instrument+Serif).
+`;
+
+const html = marked(markdown);
+---
+
+<footer client:load class="p-4 pt-20">
+  <div class="code prose-sm py-8 text-gray-600" set:html={html} />
+  <div
+    class="monospace responsive-title flex flex-row flex-wrap items-center justify-between text-2xl text-black"
+  >
+    <div class="border-t border-t-[blue] pt-8 text-[blue]">
+      &copy; Munus Shih <span id="year"></span>
+    </div>
+    <div id="emailButton">
+      <a>munusshih@gmail.com</a>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const year = new Date().getFullYear();
+      document.getElementById("year").textContent = year;
+
+      document
+        .getElementById("emailButton")
+        .addEventListener("click", function () {
+          const email = this.querySelector("a");
+
+          navigator.clipboard
+            .writeText(email.textContent)
+            .then(() => {
+              const originalText = email.textContent;
+              email.textContent = "Copied!";
+
+              setTimeout(() => {
+                email.textContent = originalText;
+              }, 2000);
+            })
+            .catch((err) => {
+              console.error("Failed to copy text: ", err);
+            });
+        });
+    });
+  </script>
+</footer>

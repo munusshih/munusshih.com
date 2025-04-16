@@ -1,6 +1,28 @@
 @import "tailwindcss";
 @plugin '@tailwindcss/typography';
 
+main {
+  background: white;
+  min-height: 100dvh;
+}
+
+nav {
+  background: white;
+}
+
+footer {
+  background: white;
+}
+
+body {
+  background: white;
+}
+
+img.dithered {
+  filter: contrast(120%) brightness(90%) grayscale(100%);
+  image-rendering: pixelated;
+}
+
 .sans {
   font-family: "Inclusive Sans", sans-serif;
 }
@@ -14,8 +36,8 @@
 
 .code {
   font-size: 16px;
-  font-family: "Anonymous Pro", monospace;
-  @apply leading-tight tracking-tight;
+  font-family: "Source Code Pro", monospace;
+  @apply leading-snug tracking-tight;
 }
 
 p {
@@ -23,7 +45,7 @@ p {
 }
 
 a {
-  @apply underline;
+  @apply underline underline-offset-3;
 }
 
 a:hover {
@@ -39,4 +61,21 @@ a:hover {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+}
+
+.responsive-title {
+  font-size: clamp(1.5rem, 2vw + 1rem, 3rem);
+}
+
+.no-before-after::before,
+.no-before-after::after {
+  content: none !important;
+}
+
+.tag-button {
+  opacity: 0.2;
+}
+
+.tag-button.active {
+  opacity: 1;
 }

@@ -13,9 +13,10 @@ const number = posts.length;
     class="monospace mb-2 flex w-max flex-row border-b py-2 text-2xl font-bold"
   >
     {title}
-    <sup>{number || 2}</sup>
   </h2>
-  <div class="flex flex-col gap-4">
+  <div
+    class="no-scrollbar flex flex-col gap-4 lg:h-[calc(100dvh_-_180px)] lg:overflow-y-auto"
+  >
     {posts.map((post) => <Card post={post} />)}
   </div>
 </section>

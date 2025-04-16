@@ -17,11 +17,15 @@ import Iframe from "@/components/utils/Iframe.astro";
 <article class="w-full border-b border-dotted py-4 pb-8 last-of-type:border-0">
   <div class="mb-2 flex w-full flex-col items-start justify-between">
     <div class="flex w-full flex-row items-start justify-between text-[blue]">
-      <h3 class="sans">{post.title}</h3>
-      <p>{post.year}</p>
+      <h3 class="sans *:tex">{post.title}</h3>
+      <p class="code text-gray-400">{post.year}</p>
     </div>
 
-    {post.tag && <p class="code mb-2 text-sm"> {`> ${post.tag}`}</p>}
+    {
+      post.tag && (
+        <p class="code mb-2 text-sm text-gray-500"> {`> ${post.tag}`}</p>
+      )
+    }
   </div>
 
   {
@@ -42,7 +46,7 @@ import Iframe from "@/components/utils/Iframe.astro";
           src={
             Array.isArray(post.images[0]) ? post.images[0][0] : post.images[0]
           }
-          alt="Descriptive media related to the blog post"
+          alt={post.description}
           isVideo={
             Array.isArray(post.images[0])
               ? post.images[0][0].match(/\.(mp4|webm|ogg)$/i)
@@ -69,7 +73,7 @@ import Iframe from "@/components/utils/Iframe.astro";
   {
     post.excerpt && post.excerpt.length > 0 && (
       <div
-        class="code text-gray-70 mb-4 flex flex-col gap-4 pt-8 pr-4"
+        class="code text-gray-70 mb-4 flex flex-col gap-4 pt-8 pr-4 text-gray-500"
         set:html={htmlExcerpt}
       />
     )
@@ -77,13 +81,13 @@ import Iframe from "@/components/utils/Iframe.astro";
 
   {
     post.recognition && post.recognition.length > 0 && (
-      <ul class="monospace mb-4 flex w-full flex-col gap-2">
+      <ul class="monospace mb-4 flex w-full flex-col gap-2 text-gray-500">
         {post.recognition.map((item, index) => (
           <li key={index} class="text-xl text-balance">
             *
             {item.split(/(\[.*?\]\(.*?\))/g).map((part, idx) =>
               part.match(/\[.*?\]\(.*?\)/) ? (
-                <a key={idx} href={part.match(/\((.*?)\)/)[1]}>
+                <a target="_blank" key={idx} href={part.match(/\((.*?)\)/)[1]}>
                   {part.match(/\[(.*?)\]/)[1]}
                 </a>
               ) : (
@@ -100,6 +104,7 @@ import Iframe from "@/components/utils/Iframe.astro";
     post.link && (
       <div class="post-link-wrapper mt-8 flex h-max w-full">
         <a
+          target="_blank"
           href={post.link.href}
           class="sans bg-black p-1 text-sm text-white uppercase !no-underline hover:bg-[blue]"
         >

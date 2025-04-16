@@ -1,8 +1,8 @@
-## Links
-
 - munusshih@gmail.com
-- Instagram
-- Linkedin
+- [Linkedin](https://linkedin.com/in/munusshih)
+- [Github](https://github.com/munusshih)
+
+cv available upon request
 
 <!-- ## Selected Clients
 

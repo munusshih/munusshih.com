@@ -7,24 +7,65 @@
     A collaborative zine designed by students as part of the Techniculture 6-week workshop. Taught by the Space Type and Duty Free collective studios, this zine is a culmination our discussions and explorations reflecting the intricate relationships between type, culture, and technology. Included in this zine is a pixel typeface collaboratively developed by the students in class, along with artifacts from each session as facilitated by individuals in each collective.
   quote: |
     By providing a collaborative and customizable approach to zine-coding, p5.genzine has transformed the traditional zine-making process, enabling artists, designers, creative coders and other creative professionals to create impactful and multi-player zines.
-
   recognition:
-    - "longlisted for 2025 Information Is Beautiful Awards"
+    - "Showcased at the [Open Source Arts Contributor Conference 2023](https://github.com/processing/OSACC-p5.js-Access-Report?tab=readme-ov-file)"
   link:
     text: "View the project"
-    href: "https://imageofthestudio.athleticsnyc.io/"
+    href: "https://munusshih.github.io/p5-genzine-thesis/"
+
+- title: "MSN.COM"
+  year: 2025
+  tag: "Interview"
+  quote: |
+    A creative technologist isn’t just someone who follows existing systems or uses tools in conventional ways; they’re capable of programming and developing unique systems and making their own changes. They’re about innovation and creating something new with technology, not just using what's already been given to them.
+  link:
+    text: "Read the Interview"
+    href: "https://www.msn.com/en-us/news/technology/nyc-based-creative-technologist-munus-bridges-design-and-technology-through-community-and-code/ar-AA1zsphR"
+
+- title: "1883 Magazine"
+  year: 2025
+  tag: "Interview"
+  quote: |
+    I think a lot about designing for cultural institutions in a way that respects their legacy while also keeping their visual language alive and dynamic,” they explain. “New York has such a distinct design vernacular—full of vibrancy and constant evolution—and I try to reflect that in my work.
+  link:
+    text: "Read the Interview"
+    href: "https://1883magazine.com/munus-shih-on-capturing-the-new-york-design-aesthetic-a-fusion-of-code-culture-and-creativity/"
 
 - title: "Canvas Rebel"
-  year: 2023
-  tag: "Workshop"
-  excerpt: |
-    A collaborative zine designed by students as part of the Techniculture 6-week workshop. Taught by the Space Type and Duty Free collective studios, this zine is a culmination our discussions and explorations reflecting the intricate relationships between type, culture, and technology. Included in this zine is a pixel typeface collaboratively developed by the students in class, along with artifacts from each session as facilitated by individuals in each collective.
+  year: 2024
+  tag: "Interview"
+  quote: |
+    We’re deeply interested in how code can be used to augment research, artistic expression, and design in new, meaningful ways. Equally important, we view code as a framework for collaboration and a method of working.
+  link:
+    text: "Read the Interview"
+    href: "https://canvasrebel.com/meet-munus-shih/"
 
-- title: "Love p5 Type@Cooper"
-  year: 2023
-  tag: "Workshop"
+- title: "Type@Cooper"
+  year: 2024
+  tag: "Guest Lecture"
+  iframe:
+    src: "https://www.youtube.com/embed/zmmN-X1YS2c?si=2cETYG9GLRpcmn0E&amp;start=91"
+    aspect_ratio: 16/9
   excerpt: |
-    A collaborative zine designed by students as part of the Techniculture 6-week workshop. Taught by the Space Type and Duty Free collective studios, this zine is a culmination our discussions and explorations reflecting the intricate relationships between type, culture, and technology. Included in this zine is a pixel typeface collaboratively developed by the students in class, along with artifacts from each session as facilitated by individuals in each collective.
+    Invited as a guest speaker for the class _p5.js for Visual Designers_ at _Type@Cooper_ by Romello Goodman. The class focuses on using p5.js to create generative design and interactive experiences. I shared my experience in using p5.js for generative design and how it can be applied in various design contexts.
+
+- title: "London Daily News"
+  year: 2025
+  tag: "Interview"
+  quote: |
+    Graphic design isn’t just a commercial tool—it can be a framework for world-building, social critique, and alternative economies,” Shih asserts. “By making abstract labour dynamics tangible, we encouraged people to question how they value their own work and contributions. In the end, design became not just a medium of communication but a tool for reimagining systems and fostering an informed, engaged society.
+  link:
+    text: "Read the Interview"
+    href: "https://www.londondaily.news/creative-technologist-munus-shih-on-fusing-together-art-design-and-code/"
+
+- title: "Creative Coding Taiwan"
+  year: 2023
+  tag: "Guest Lecture"
+  iframe:
+    src: "https://www.youtube.com/embed/rFhtoRXEE30?si=vPArjHVq-sxvM83M&amp;controls=0&amp;start=1238"
+    aspect_ratio: 16/9
+  excerpt: |
+    Delivered in Mandarin, this talk titled "Coding Diversity" was presented at the Creative Coding Taiwan community. I shared insights on my experience with critical tool-making, emphasizing how critical education and research contribute to fostering diversity in creative coding practices.
 
 #- p5.zine [press]
 #- canvas rebel [press]

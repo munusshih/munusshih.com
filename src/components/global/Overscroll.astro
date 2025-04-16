@@ -1,0 +1,93 @@
+---
+import Media from "@/components/utils/Media.astro";
+import Iframe from "@/components/utils/Iframe.astro";
+---
+
+<div
+  class="fixed -top-[6rem] right-0 -bottom-[6rem] left-0 -z-[100] flex flex-col justify-between overflow-hidden"
+>
+  <div class="overlay-background"></div>
+  <div class="overlay-background"></div>
+  <style>
+    .overlay-background:nth-of-type(1) {
+      animation: moveChecker 2s linear infinite;
+      background:
+        linear-gradient(45deg, #000 25%, transparent 25%) -50px 0,
+        linear-gradient(45deg, transparent 75%, #000 75%) -50px 0,
+        linear-gradient(45deg, transparent 75%, #000 75%),
+        linear-gradient(45deg, #000 25%, transparent 25%);
+      background-size: 100px 100px;
+      background-repeat: repeat;
+      width: 100vw;
+      height: 20vh;
+    }
+
+    @keyframes moveChecker {
+      0% {
+        background-position:
+          0 0,
+          0 0,
+          0 0,
+          0 0;
+      }
+      100% {
+        background-position:
+          100px 100px,
+          100px 100px,
+          100px 100px,
+          100px 100px;
+      }
+    }
+
+    .overlay-background:nth-of-type(2) {
+      animation: wavePattern 4s ease-in-out infinite;
+      background:
+        linear-gradient(45deg, #00f 25%, transparent 25%) -50px 0,
+        linear-gradient(-45deg, #00f 25%, transparent 25%) -50px 0,
+        linear-gradient(45deg, #000 25%, transparent 25%) 0px 0,
+        linear-gradient(-45deg, #000 25%, transparent 25%) 0px 0;
+      background-size: 100px 100px;
+      background-repeat: repeat;
+      width: 100vw;
+      height: 20vh;
+    }
+
+    @keyframes wavePattern {
+      0% {
+        background-position:
+          0 0,
+          50px 50px,
+          0 0,
+          50px 50px;
+      }
+      25% {
+        background-position:
+          0 50px,
+          50px 0,
+          0 50px,
+          50px 0;
+      }
+      50% {
+        background-position:
+          0 0,
+          50px 50px,
+          0 0,
+          50px 50px;
+      }
+      75% {
+        background-position:
+          0 -50px,
+          50px 0,
+          0 -50px,
+          50px 0;
+      }
+      100% {
+        background-position:
+          0 0,
+          50px 50px,
+          0 0,
+          50px 50px;
+      }
+    }
+  </style>
+</div>

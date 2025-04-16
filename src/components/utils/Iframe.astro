@@ -11,7 +11,8 @@ const { src, aspect_ratio, title } = Astro.props;
   <iframe
     src={src}
     class="absolute top-0 left-0 h-full w-full border-0"
-    title={title}
+    title={title || "Embedded content"}
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
     frameborder="0"
     scrolling="0"
     allowFullScreen></iframe>

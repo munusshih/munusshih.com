@@ -1,6 +1,6 @@
 ---
 // Media.astro
-const { src, alt, isVideo = false, scaling = 1 } = Astro.props;
+const { src, alt, isVideo = false, scaling = 1, cropped = false } = Astro.props;
 ---
 
 {
@@ -10,7 +10,7 @@ const { src, alt, isVideo = false, scaling = 1 } = Astro.props;
       autoplay
       loop
       muted
-      class="h-auto w-full object-cover"
+      class={`h-auto w-full object-cover ${cropped ? "[clip-path:inset(3px)]" : ""}`}
       style={{ transform: `scale(${scaling})` }}
       alt={alt}
     >
@@ -21,7 +21,7 @@ const { src, alt, isVideo = false, scaling = 1 } = Astro.props;
       loading="lazy"
       src={src}
       alt={alt}
-      class="h-auto w-full object-cover"
+      class={`h-auto w-full object-cover ${cropped ? "[clip-path:inset(3px)]" : ""}`}
     />
   )
 }

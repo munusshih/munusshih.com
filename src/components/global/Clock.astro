@@ -1,0 +1,90 @@
+<div id="sketch-container" class="mt-8"></div>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/p5.js"
+  client:load></script>
+<script is:inline>
+  const sketch = (p) => {
+    let clockDiameter;
+
+    p.setup = () => {
+      const cnv = p.createCanvas(80, 80);
+      cnv.parent("sketch-container");
+      clockDiameter = p.width * 0.8;
+      p.pixelDensity(2);
+      p.frameRate(10);
+    };
+
+    p.draw = () => {
+      p.clear();
+
+      const centerX = p.width / 2;
+      const centerY = p.height / 2;
+
+      p.noFill();
+      p.strokeWeight(2);
+
+      let hr = p.hour();
+      let mn = p.minute();
+      let sc = p.second();
+
+      let secondAngle = p.map(sc, 0, 60, 0, p.TWO_PI) - p.HALF_PI;
+      let minuteAngle = p.map(mn, 0, 60, 0, p.TWO_PI) - p.HALF_PI;
+      let hourAngle = p.map(hr % 12, 0, 12, 0, p.TWO_PI) - p.HALF_PI;
+
+      // Draw second hand
+      p.stroke(0, 0, 255); // Red for second hand
+      p.line(
+        centerX,
+        centerY,
+        centerX + (p.cos(secondAngle) * clockDiameter) / 2,
+        centerY + (p.sin(secondAngle) * clockDiameter) / 2,
+      );
+
+      // Draw minute hand
+      p.stroke(0); // Blue for minute hand
+      p.line(
+        centerX,
+        centerY,
+        centerX + (p.cos(minuteAngle) * clockDiameter) / 2.5,
+        centerY + (p.sin(minuteAngle) * clockDiameter) / 2.5,
+      );
+
+      // Draw hour hand
+      p.stroke(0); // Green for hour hand
+      p.line(
+        centerX,
+        centerY,
+        centerX + (p.cos(hourAngle) * clockDiameter) / 4,
+        centerY + (p.sin(hourAngle) * clockDiameter) / 4,
+      );
+
+      p.stroke(0);
+      p.rect(1, 1, p.width - 2, p.height - 2, 10);
+
+      // if (p.frameCount % 10 === 0) {
+      //   updateFavicon();
+      //   console.log("Favicon updated");
+      // }
+    };
+
+    // const updateFavicon = () => {
+    //   let faviconCanvas = p.createGraphics(120, 120);
+    //   faviconCanvas.image(p.get(), 0, 0, 120, 120);
+
+    //   let faviconUrl = faviconCanvas.elt.toDataURL();
+    //   let link =
+    //     document.querySelector('link[rel="icon"]') ||
+    //     document.createElement("link");
+    //   link.type = "image/png";
+    //   link.rel = "icon";
+    //   link.href = faviconUrl;
+
+    //   if (!document.querySelector('link[rel="icon"]')) {
+    //     document.head.appendChild(link);
+    //   }
+    // };
+  };
+
+  // Create a new p5 instance and attach it to the div
+  new p5(sketch);
+</script>
