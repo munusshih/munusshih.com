@@ -3,10 +3,8 @@
   tag: "Writing"
   images:
     - "/p5zine/thesis.webm"
-  excerpt: |
-    A collaborative zine designed by students as part of the Techniculture 6-week workshop. Taught by the Space Type and Duty Free collective studios, this zine is a culmination our discussions and explorations reflecting the intricate relationships between type, culture, and technology. Included in this zine is a pixel typeface collaboratively developed by the students in class, along with artifacts from each session as facilitated by individuals in each collective.
   quote: |
-    By providing a collaborative and customizable approach to zine-coding, p5.genzine has transformed the traditional zine-making process, enabling artists, designers, creative coders and other creative professionals to create impactful and multi-player zines.
+    By providing a collaborative and customizable approach to zine-coding, p5.zine has transformed the traditional zine-making process, enabling artists, designers, creative coders and other creative professionals to create impactful and multi-player zines.
   recognition:
     - "Showcased at the [Open Source Arts Contributor Conference 2023](https://github.com/processing/OSACC-p5.js-Access-Report?tab=readme-ov-file)"
   link:
@@ -17,7 +15,7 @@
   year: 2025
   tag: "Interview"
   quote: |
-    A creative technologist isn’t just someone who follows existing systems or uses tools in conventional ways; they’re capable of programming and developing unique systems and making their own changes. They’re about innovation and creating something new with technology, not just using what's already been given to them.
+    A creative technologist isn’t just someone who follows existing systems or uses tools in conventional ways;  (...)  They’re about innovation and creating something new with technology, not just using what's already been given to them.
   link:
     text: "Read the Interview"
     href: "https://www.msn.com/en-us/news/technology/nyc-based-creative-technologist-munus-bridges-design-and-technology-through-community-and-code/ar-AA1zsphR"
@@ -53,7 +51,7 @@
   year: 2025
   tag: "Interview"
   quote: |
-    Graphic design isn’t just a commercial tool—it can be a framework for world-building, social critique, and alternative economies,” Shih asserts. “By making abstract labour dynamics tangible, we encouraged people to question how they value their own work and contributions. In the end, design became not just a medium of communication but a tool for reimagining systems and fostering an informed, engaged society.
+    Graphic design isn’t just a commercial tool—it can be a framework for world-building, social critique, and alternative economies (...) In the end, design became not just a medium of communication but a tool for reimagining systems and fostering an informed, engaged society.
   link:
     text: "Read the Interview"
     href: "https://www.londondaily.news/creative-technologist-munus-shih-on-fusing-together-art-design-and-code/"

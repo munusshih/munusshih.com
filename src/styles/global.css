@@ -49,7 +49,7 @@ a {
 }
 
 a:hover {
-  @apply cursor-pointer text-[blue] no-underline before:content-['(('] after:content-['))'];
+  @apply cursor-pointer text-[blue] no-underline;
 }
 
 @layer utilities {
@@ -78,4 +78,9 @@ a:hover {
 
 .tag-button.active {
   opacity: 1;
+}
+
+.news-item::before {
+  padding-right: 0.5em;
+  content: var(--index);
 }

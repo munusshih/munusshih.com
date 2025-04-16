@@ -9,9 +9,9 @@ const allTags = [...new Set(labCards.flatMap((card) => card.tags))];
 ---
 
 <BasicLayout title={`Lab — ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
-  <main class="w-full px-4 pt-20">
+  <main class="w-full px-4">
     <!-- Tag Filter UI -->
-    <div id="tag-filters" class="sans mb-6 flex flex-wrap gap-4 text-xl">
+    <div id="tag-filters" class="sans mb-6 flex flex-wrap gap-x-4">
       <button class="tag-button active cursor-pointer" data-tag="all"
         >All</button
       >
@@ -24,7 +24,9 @@ const allTags = [...new Set(labCards.flatMap((card) => card.tags))];
       }
     </div>
 
-    <div class="grid grid-cols-5 items-end gap-x-4 gap-y-20">
+    <div
+      class="grid grid-cols-1 items-end gap-x-4 gap-y-8 md:grid-cols-3 md:gap-y-20 lg:grid-cols-5"
+    >
       {
         labCards.map((card) => (
           <LabCard

@@ -16,7 +16,9 @@ import Iframe from "@/components/utils/Iframe.astro";
 
 <article class="w-full border-b border-dotted py-4 pb-8 last-of-type:border-0">
   <div class="mb-2 flex w-full flex-col items-start justify-between">
-    <div class="flex w-full flex-row items-start justify-between text-[blue]">
+    <div
+      class="flex w-full flex-row flex-wrap items-start justify-between text-[blue]"
+    >
       <h3 class="sans *:tex">{post.title}</h3>
       <p class="code text-gray-400">{post.year}</p>
     </div>
@@ -31,7 +33,7 @@ import Iframe from "@/components/utils/Iframe.astro";
   {
     post.quote && post.quote.length > 0 && (
       <blockquote
-        class="monospace text-gray-70 relative mb-4 max-w-[65ch] pt-4 pr-4 text-3xl leading-tight text-balance before:inline-block before:content-['“'] after:inline-block after:content-['”']"
+        class="monospace text-gray-70 relative max-w-[65ch] py-4 pr-4 text-2xl leading-tight text-balance before:inline-block before:content-['“'] after:inline-block after:content-['”'] md:text-3xl"
         set:html={htmlQuote}
       />
     )
@@ -73,7 +75,7 @@ import Iframe from "@/components/utils/Iframe.astro";
   {
     post.excerpt && post.excerpt.length > 0 && (
       <div
-        class="code text-gray-70 mb-4 flex flex-col gap-4 pt-8 pr-4 text-gray-500"
+        class="code text-gray-70 mb-4 flex flex-col gap-4 pt-4 pr-4 text-gray-500"
         set:html={htmlExcerpt}
       />
     )

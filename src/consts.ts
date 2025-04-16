@@ -5,6 +5,7 @@ export const SITE_TITLE = "Munus Shih";
 export const SITE_DESCRIPTION = "Munus Shih (he/they) is a Taiwanese Hakka creative technologist, designer, and educator based in NYC.";
 export const SITE_URL = "https://munusshih.com";
 export const NEWS = [
-    "Prepping for [DEMO DAY 2025](https://example.com/demo-day)",
+    "I'm prepping for [DEMO DAY 2025](https://example.com/demo-day)",
     "I've been reading [_How to speak machine_ by John Maeda](https://howtospeakmachine.com/)",
+    "This website is currently under active construction. There's probably something new every week. Come back soon!",
 ];

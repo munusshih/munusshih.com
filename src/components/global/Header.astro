@@ -13,21 +13,32 @@ const links = [
 ];
 ---
 
-<nav class="monospace flex flex-row justify-between p-4 text-black">
-  <div>
+<nav
+  class="monospace flex flex-row justify-between p-4 pb-[20vh] text-black md:pb-[40vh]"
+>
+  <div transition:animate="none" transition:persist>
     <h1 class="responsive-title max-w-[60ch] pb-8 text-balance">
       <a href="/" class="!no-underline">{SITE_DESCRIPTION}</a>
     </h1>
-    <div class="flex flex-wrap items-center gap-x-4">
-      {
-        NEWS.map((item) => (
-          <div
-            class="sans flex text-[blue] before:content-['*']"
-            set:html={marked(item)}
-          />
-        ))
-      }
-    </div>
+    <details class="news-section">
+      <summary class="sans cursor-pointer text-[blue]"
+        >NEWS
+        <div class="mt-4 h-[80px] w-[80px]">
+          <Clock />
+        </div>
+      </summary>
+      <div class="sans mt-8 flex flex-wrap items-center gap-x-4">
+        {
+          NEWS.map((item, index) => (
+            <div
+              class="news-item flex flex-row text-[blue]"
+              style={{ "--index": `"${index + 1}."` }}
+              set:html={marked(item)}
+            />
+          ))
+        }
+      </div>
+    </details>
   </div>
   <div class="responsive-title flex w-max flex-col items-end">
     <ul class="w-max border-t pt-2 pl-4 leading-tight">
@@ -36,13 +47,13 @@ const links = [
           <li key={link.href}>
             <a
               href={link.href}
-              class={`!no-underline ${
+              class={`no-before-after !no-underline ${
                 currentPage === link.href
-                  ? "pointer-events-none text-black"
-                  : "text-black"
+                  ? "pointer-events-none text-[blue]"
+                  : "text-black hover:text-[blue]"
               }`}
             >
-              {currentPage === link.href ? `(( ${link.label} ))` : link.label}
+              {link.label}
             </a>
           </li>
         ))

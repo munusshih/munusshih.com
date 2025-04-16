@@ -1,8 +1,7 @@
-<div id="sketch-container" class="mt-8"></div>
-<script
-  src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/p5.js"
-  client:load></script>
-<script is:inline>
+<div id="sketch-container" class="h-20 w-20"></div>
+<script>
+  import p5 from "p5";
+
   const sketch = (p) => {
     let clockDiameter;
 
@@ -60,31 +59,7 @@
 
       p.stroke(0);
       p.rect(1, 1, p.width - 2, p.height - 2, 10);
-
-      // if (p.frameCount % 10 === 0) {
-      //   updateFavicon();
-      //   console.log("Favicon updated");
-      // }
     };
-
-    // const updateFavicon = () => {
-    //   let faviconCanvas = p.createGraphics(120, 120);
-    //   faviconCanvas.image(p.get(), 0, 0, 120, 120);
-
-    //   let faviconUrl = faviconCanvas.elt.toDataURL();
-    //   let link =
-    //     document.querySelector('link[rel="icon"]') ||
-    //     document.createElement("link");
-    //   link.type = "image/png";
-    //   link.rel = "icon";
-    //   link.href = faviconUrl;
-
-    //   if (!document.querySelector('link[rel="icon"]')) {
-    //     document.head.appendChild(link);
-    //   }
-    // };
   };
-
-  // Create a new p5 instance and attach it to the div
   new p5(sketch);
 </script>

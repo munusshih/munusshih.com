@@ -1,15 +1,23 @@
 ---
 // Media.astro
 const { src, alt, isVideo = false, scaling = 1, cropped = false } = Astro.props;
+
+const cdnPrefix = import.meta.env.DEV
+  ? "" // local dev uses /public
+  : "https://cdn.jsdelivr.net/gh/munusshih/munusshih.com@main/public";
+
+const finalSrc = src.startsWith("/") ? `${cdnPrefix}${src}` : src;
 ---
 
 {
   isVideo ? (
     <video
-      src={src}
+      src={finalSrc}
       autoplay
       loop
       muted
+      playsinline
+      webkit-playsinline
       class={`h-auto w-full object-cover ${cropped ? "[clip-path:inset(3px)]" : ""}`}
       style={{ transform: `scale(${scaling})` }}
       alt={alt}
@@ -19,7 +27,7 @@ const { src, alt, isVideo = false, scaling = 1, cropped = false } = Astro.props;
   ) : (
     <img
       loading="lazy"
-      src={src}
+      src={finalSrc}
       alt={alt}
       class={`h-auto w-full object-cover ${cropped ? "[clip-path:inset(3px)]" : ""}`}
     />

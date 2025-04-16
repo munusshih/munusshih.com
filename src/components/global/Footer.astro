@@ -2,7 +2,7 @@
 import { marked } from "marked";
 
 const markdown = `
-This website was intentionally hand-coded using HTML, CSS (Tailwind), and vanilla JavaScript in [Astro](https://astro.build/).
+_Footnote:_ This website was intentionally hand-coded using HTML, CSS (Tailwind), and vanilla JavaScript in [Astro](https://astro.build/).
 All the texts are set in [Inclusive Sans by Olivia King](https://fonts.google.com/specimen/Inclusive+Sans), [Source Code Pro by Paul D. Hunt](https://fonts.google.com/specimen/Source+Code+Pro) and [Instrument Serif by Rodrigo Fuenzalida and Jordan Egstad](https://fonts.google.com/specimen/Instrument+Serif).
 `;
 
@@ -10,9 +10,12 @@ const html = marked(markdown);
 ---
 
 <footer client:load class="p-4 pt-20">
-  <div class="code prose-sm py-8 text-gray-600" set:html={html} />
   <div
-    class="monospace responsive-title flex flex-row flex-wrap items-center justify-between text-2xl text-black"
+    class="footnote code max-w-[40ch] py-8 pr-4 text-gray-600 prose-p:text-[12px]"
+    set:html={html}
+  />
+  <div
+    class="monospace responsive-title flex flex-row flex-wrap items-end justify-between text-2xl text-black"
   >
     <div class="border-t border-t-[blue] pt-8 text-[blue]">
       &copy; Munus Shih <span id="year"></span>
