@@ -14,7 +14,9 @@ import Media from "@/components/utils/Media.astro";
 import Iframe from "@/components/utils/Iframe.astro";
 ---
 
-<article class="w-full border-b border-dotted py-4 pb-8 last-of-type:border-0">
+<article
+  class="fade-in w-full border-b border-dotted py-4 pb-8 last-of-type:border-0"
+>
   <div class="mb-2 flex w-full flex-col items-start justify-between">
     <div
       class="flex w-full flex-row flex-wrap items-start justify-between text-[blue]"
@@ -97,9 +99,9 @@ import Iframe from "@/components/utils/Iframe.astro";
 
   {
     post.recognition && post.recognition.length > 0 && (
-      <ul class="sans mt-4 ml-4 flex w-full flex-col text-gray-500">
+      <ul class="sans mt-4 flex w-full flex-col text-gray-500">
         {post.recognition.map((item, index) => (
-          <li key={index} class="body-text list-disc">
+          <li key={index} class="body-text">
             {item.split(/(\[.*?\]\(.*?\))/g).map((part, idx) =>
               part.match(/\[.*?\]\(.*?\)/) ? (
                 <a target="_blank" key={idx} href={part.match(/\((.*?)\)/)[1]}>

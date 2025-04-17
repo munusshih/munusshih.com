@@ -75,7 +75,7 @@ a:hover {
 }
 
 .body-text {
-  font-size: clamp(14px, 1vw + 0.5rem, 1.25rem);
+  font-size: clamp(14px, 1vw + 0.5rem, 16px);
 }
 
 .no-before-after::before,
@@ -94,4 +94,8 @@ a:hover {
 .news-item::before {
   padding-right: 0.5em;
   content: var(--index);
+}
+
+.fade-in {
+  opacity: 0;
 }

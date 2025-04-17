@@ -4,7 +4,7 @@ import Iframe from "@/components/utils/Iframe.astro";
 const { title, description, tags, href, image, imageAlt } = Astro.props;
 ---
 
-<div class="flex w-auto flex-col" data-tags={tags?.join(",")}>
+<div class="fade-in flex w-auto flex-col" data-tags={tags?.join(",")}>
   <div class="w-full">
     {
       image &&

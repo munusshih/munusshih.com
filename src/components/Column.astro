@@ -6,13 +6,24 @@ const posts = content.default;
 const number = posts.length;
 ---
 
-<section
-  class="border-gray-400 pr-4 pl-4 last-of-type:border-0 md:first-of-type:border-r lg:border-r"
+<details
+  class="group fade-in border-gray-400 pr-4 pl-4 last-of-type:border-0 md:first-of-type:border-r lg:border-r"
+  open
 >
-  <h2 class="monospace mb-2 flex flex-row border-b py-2 text-2xl !font-medium">
-    {title}
-  </h2>
-  <div class="no-scrollbar flex flex-col gap-4">
+  <summary
+    class="monospace mb-2 flex cursor-pointer flex-row items-center pt-2 text-2xl !font-medium"
+  >
+    <h2>{title}</h2>
+    <sup class="ml-2 text-base font-normal no-underline">({number})</sup>
+    <span
+      class="monospace ml-auto text-5xl transition-transform duration-200 group-open:rotate-180"
+    >
+      <span class="group-open:hidden">+</span>
+      <span class="hidden group-open:inline">–</span>
+    </span>
+  </summary>
+
+  <div class="no-scrollbar flex flex-col gap-4 border-t">
     {posts.map((post) => <Card post={post} />)}
   </div>
-</section>
+</details>
