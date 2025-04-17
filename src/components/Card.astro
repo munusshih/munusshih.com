@@ -25,7 +25,7 @@ import Iframe from "@/components/utils/Iframe.astro";
 
     {
       post.tag && (
-        <p class="code mb-2 text-sm text-gray-500"> {`> ${post.tag}`}</p>
+        <p class="code body-text mb-2 text-gray-500"> {`> ${post.tag}`}</p>
       )
     }
   </div>
@@ -75,7 +75,7 @@ import Iframe from "@/components/utils/Iframe.astro";
   {
     post.excerpt && post.excerpt.length > 0 && (
       <div
-        class="sans text-gray-70 mb-4 flex flex-col gap-4 pt-4 pr-4 text-sm text-black"
+        class="sans text-gray-70 body-text mb-4 flex flex-col gap-4 pt-4 pr-4 text-black"
         set:html={htmlExcerpt}
       />
     )
@@ -87,7 +87,7 @@ import Iframe from "@/components/utils/Iframe.astro";
         <a
           target="_blank"
           href={post.link.href}
-          class="sans bg-black p-1 text-sm text-white uppercase !no-underline hover:bg-[blue]"
+          class="sans body-text bg-black p-1 text-white uppercase !no-underline hover:bg-[blue]"
         >
           {`⌦ ${post.link?.text || "Learn More"}`}
         </a>
@@ -99,7 +99,7 @@ import Iframe from "@/components/utils/Iframe.astro";
     post.recognition && post.recognition.length > 0 && (
       <ul class="sans mt-4 ml-4 flex w-full flex-col text-gray-500">
         {post.recognition.map((item, index) => (
-          <li key={index} class="list-disc text-sm">
+          <li key={index} class="body-text list-disc">
             {item.split(/(\[.*?\]\(.*?\))/g).map((part, idx) =>
               part.match(/\[.*?\]\(.*?\)/) ? (
                 <a target="_blank" key={idx} href={part.match(/\((.*?)\)/)[1]}>

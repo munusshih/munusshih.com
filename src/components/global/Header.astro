@@ -1,6 +1,6 @@
 ---
 import HeaderLink from "./HeaderLink.astro";
-import Clock from "@/components/global/Clock.astro";
+import HeroSketch from "@/components/global/HeroSketch.astro";
 import { SITE_DESCRIPTION, SITE_TITLE, NEWS } from "@/consts";
 
 import { marked } from "marked";
@@ -25,7 +25,7 @@ const links = [
       <summary class="sans cursor-pointer text-[blue]"
         >NEWS
         <div class="mt-4 h-[80px] w-[80px]">
-          <Clock />
+          <HeroSketch />
         </div>
       </summary>
       <div class="sans mt-8 flex flex-col items-center gap-x-4">

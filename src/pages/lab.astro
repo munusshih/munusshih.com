@@ -11,7 +11,7 @@ const allTags = [...new Set(labCards.flatMap((card) => card.tags))];
 <BasicLayout title={`Lab — ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
   <main class="w-full px-4">
     <!-- Tag Filter UI -->
-    <div id="tag-filters" class="sans mb-6 flex flex-wrap gap-x-4">
+    <div id="tag-filters" class="sans body-text mb-6 flex flex-wrap gap-x-4">
       <button class="tag-button active cursor-pointer" data-tag="all"
         >All</button
       >

@@ -55,14 +55,14 @@
   link:
     text: "Read the Interview"
     href: "https://www.londondaily.news/creative-technologist-munus-shih-on-fusing-together-art-design-and-code/"
-# - title: "Creative Coding Taiwan"
-#   year: 2023
-#   tag: "Guest Lecture"
-#   iframe:
-#     src: "https://www.youtube.com/embed/rFhtoRXEE30?si=vPArjHVq-sxvM83M&amp;controls=0&amp;start=1238"
-#     aspect_ratio: 16/9
-#   excerpt: |
-#     Delivered in Mandarin, this talk titled "Coding Diversity" was presented at the Creative Coding Taiwan community. I shared insights on my experience with critical tool-making, emphasizing how critical education and research contribute to fostering diversity in creative coding practices.
+- title: "Creative Coding Taiwan"
+  year: 2023
+  tag: "Guest Lecture"
+  iframe:
+    src: "https://www.youtube.com/embed/rFhtoRXEE30?si=vPArjHVq-sxvM83M&amp;controls=0&amp;start=1238"
+    aspect_ratio: 16/9
+  excerpt: |
+    Delivered in Mandarin, this talk titled "Coding Diversity" was presented at the Creative Coding Taiwan community. I shared insights on my experience with critical tool-making, emphasizing how critical education and research contribute to fostering diversity in creative coding practices.
 
 #- p5.zine [press]
 #- canvas rebel [press]
