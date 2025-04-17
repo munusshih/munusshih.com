@@ -3,7 +3,7 @@
 // all pages through the use of the <BaseHead /> component.
 import "@/styles/global.css";
 import { SITE_TITLE } from "@/consts";
-import { ClientRouter } from "astro:transitions";
+// import { ClientRouter } from "astro:transitions";
 import LoadingIndicator from "astro-loading-indicator/component";
 
 interface Props {
@@ -42,7 +42,7 @@ const { title, description, image = "/blog-placeholder-1.jpg" } = Astro.props;
 <meta name="description" content={description} />
 
 <!-- router for SPA -->
-<ClientRouter />
+<!-- <ClientRouter /> -->
 <LoadingIndicator color="#0000ff" animationDuration={500} />
 
 <!-- Open Graph / Facebook -->
