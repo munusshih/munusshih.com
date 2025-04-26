@@ -58,8 +58,6 @@ const allTags = [...new Set(labCards.flatMap((card) => card.tags))];
   const buttons = document.querySelectorAll(".tag-button");
   const cards = document.querySelectorAll("[data-tags]");
 
-  console.log(buttons, cards);
-
   buttons.forEach((btn) => {
     btn.addEventListener("click", () => {
       const tag = btn.dataset.tag;

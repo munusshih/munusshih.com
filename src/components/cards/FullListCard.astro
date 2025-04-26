@@ -56,10 +56,6 @@ const contentFilters = {
   Readings: () => Books,
 };
 
-Object.keys(contentFilters).forEach((key) => {
-  console.log(`${key}:`, contentFilters[key]());
-});
-
 let contentArray = contentFilters[title] ? contentFilters[title]() : [];
 
 contentArray = prepareAndSortContent(contentArray);
