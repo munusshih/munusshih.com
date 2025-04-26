@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+    <style>
+        html {
+            background: #00f;
+        }
+
+        body {
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            animation: moveChecker 2s linear infinite;
+            background:
+                linear-gradient(45deg, #fff 25%, transparent 25%) 0px 0,
+                linear-gradient(45deg, transparent 75%, #fff 75%) -0px 0,
+                linear-gradient(45deg, transparent 75%, #fff 75%),
+                linear-gradient(45deg, #fff 25%, transparent 25%);
+            background-size: 50px 150px;
+            background-repeat: repeat;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        @keyframes moveChecker {
+            0% {
+                background-position:
+                    0 0,
+                    0 0,
+                    0 0,
+                    0 0;
+            }
+
+            100% {
+                background-position:
+                    50px 150px,
+                    50px 150px,
+                    50px 150px,
+                    50px 150px;
+            }
+        }
+    </style>
+</body>
+
+</html>

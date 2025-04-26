@@ -1,14 +1,129 @@
 ---
 import BasicLayout from "@/layouts/Basic.astro";
-import Column from "@/components/Column.astro";
-
+import IntroCard from "@/components/cards/IntroCard.astro";
+import WorkCard from "@/components/cards/WorkCard.astro";
+import MediaCard from "@/components/cards/MediaCard.astro";
+import ListCard from "@/components/cards/ListCard.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
+import Media from "../components/utils/Media.astro";
 ---
 
 <BasicLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
-  <main class="grid grid-cols-1 gap-0 lg:grid-cols-3">
-    <Column title="Selected Projects" data="work" />
-    <Column title="Teaching & Open Source Contribution" data="teaching" />
-    <Column title="Selected Writing, Talks & Press" data="press" />
+  <main
+    class="relative grid h-auto w-full grid-cols-1 items-center justify-items-center gap-y-[8vw] overflow-hidden p-2 py-20 sm:grid-cols-2"
+  >
+    <h1
+      class="fixed -top-20 -z-10 mt-20 w-full self-center text-[30vw] leading-tight tracking-tighter sm:absolute"
+    >
+      Munus Codes Zines, Design, Tools and Many More
+    </h1>
+    <IntroCard size={"x2-card"} />
+    <ListCard title="Recent Press" />
+    <WorkCard
+      size={"x3-card"}
+      href="work"
+      linkContent="Recent Work"
+      targetName={[
+        "/goca/img2.jpg",
+        "/goca/video.mp4",
+        "/goca/video2.mp4",
+        "/goca/img.jpg",
+      ]}
+      description="A generative identity for a new asian art gallery in Chelsea, Manhattan."
+    />
+    <MediaCard
+      size={"x1-card"}
+      targetName="/misc/IMG_6912.JPG"
+      description="A recent photo of me"
+    />
+
+    <ListCard title="Upcoming Events" />
+    <ListCard title="Readings" />
+    <MediaCard
+      size={"x1-card"}
+      targetName="/misc/ccc.mp4"
+      description="Critical Coding Cookbook"
+    />
+    <WorkCard
+      size={"x2-card"}
+      href="lab"
+      linkContent="What's Brewing in Lab"
+      targetName="/lab/R&M.mp4"
+    />
+    <MediaCard
+      size={"x2-card"}
+      description="I've been listening to..."
+      iframe="https://open.spotify.com/embed/album/2MHUaRi9OCyTN02SoyRRBJ?utm_source=generator"
+      href="https://www.youtube.com/watch?v=0f2v1g3a4xA"
+    />
+
+    <WorkCard
+      size={"x2-card"}
+      href="work"
+      linkContent="A Coding Sketch"
+      iframe="sketches/pattern"
+      description="I made this pattern in CSS!"
+    />
   </main>
 </BasicLayout>
+<script>
+  const cards = document.querySelectorAll(".home-card");
+  const cardOffsets = [];
+
+  function cardOffset() {
+    cards.forEach((div, index) => {
+      const randX = index % 3 === 2 ? Math.random() * -10 : Math.random() * 20;
+      const randY = index % 2 === 0 ? Math.random() * 40 : Math.random() * 20;
+
+      cardOffsets.push({ randX, randY });
+
+      // Set initial transform (optional)
+      div.style.transition = "transform .5s ease-out";
+      div.style.transform = `translate(${randX}%, ${randY}%)`;
+    });
+  }
+
+  function parallax(e) {
+    const mouseX = e.clientX;
+    const mouseY = e.clientY;
+
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+
+    cards.forEach((div, index) => {
+      const { randX, randY } = cardOffsets[index];
+
+      const offsetX = (mouseX / windowWidth - 0.5) * 5;
+      const offsetY = (mouseY / windowHeight - 0.5) * 5;
+      div.style.transform = `translate(${randX + offsetX}%, ${randY + offsetY}%)`;
+    });
+  }
+
+  function removeTransform() {
+    cards.forEach((div) => {
+      div.style.transition = "none";
+      div.style.transform = "none";
+    });
+  }
+
+  function removeParallax() {
+    document.removeEventListener("mousemove", parallax);
+  }
+
+  function checkScreenSize() {
+    const screenWidth =
+      window.innerWidth || document.documentElement.clientWidth;
+    const specificWidth = 768; // Set your specific value here
+
+    if (screenWidth < specificWidth) {
+      removeParallax();
+      removeTransform();
+    } else {
+      cardOffset();
+      document.addEventListener("mousemove", parallax);
+    }
+  }
+
+  window.addEventListener("load", checkScreenSize);
+  window.addEventListener("resize", checkScreenSize);
+</script>

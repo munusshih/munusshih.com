@@ -1,11 +1,12 @@
 ---
-const { src, aspect_ratio, title } = Astro.props;
+const { src, aspect_ratio, title, height } = Astro.props;
 ---
 
 <div
   class="relative w-full overflow-hidden"
   style={{
     aspectRatio: aspect_ratio || "1 / 1",
+    height: height || "auto",
   }}
 >
   <iframe

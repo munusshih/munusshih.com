@@ -9,26 +9,20 @@ All the texts are set in [Inclusive Sans by Olivia King](https://fonts.google.co
 const html = marked(markdown);
 ---
 
-<footer client:load class="p-4 pt-20" transition:persist>
-  <div
-    class="footnote code fade-in max-w-[40ch] py-8 pr-4 text-gray-600 prose-p:text-[12px]"
-    set:html={html}
-  />
-  <div
-    class="monospace responsive-title flex flex-row flex-wrap items-end justify-between text-2xl text-black"
-  >
-    <div class="border-t border-t-[blue] pt-8 text-[blue]">
-      &copy; Munus Shih <span id="year"></span>
+<footer client:load class="bg-white px-2 py-2">
+  <div class="body-text flex flex-row flex-wrap justify-between">
+    <div class="heading3">
+      &copy; Munus Shih <span id="date"></span>
     </div>
-    <div id="emailButton">
+    <div id="emailButton" class="heading3 cursor-pointer">
       <a>munusshih@gmail.com</a>
     </div>
   </div>
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      const year = new Date().getFullYear();
-      document.getElementById("year").textContent = year;
+      const date = new Date().getFulldate();
+      document.getElementById("date").textContent = date;
 
       document
         .getElementById("emailButton")

@@ -18,7 +18,7 @@ const posterSrc = "posters" + src.replace(/\.(mp4|webm|ogg)$/i, ".jpg");
       muted
       playsinline
       webkit-playsinline
-      class={`h-auto w-full object-cover ${cropped ? "[clip-path:inset(3px)]" : ""}`}
+      class={`h-auto w-full object-cover ${cropped ? "[clip-path:inset(-3px)]" : ""}`}
       style={{ transform: `scale(${scaling})` }}
       alt={alt}
     >
@@ -30,7 +30,7 @@ const posterSrc = "posters" + src.replace(/\.(mp4|webm|ogg)$/i, ".jpg");
       alt={"hey"}
       loading="lazy"
       decoding="async"
-      class={`h-auto w-full object-cover ${cropped ? "[clip-path:inset(3px)]" : ""}`}
+      class={`h-auto w-full object-cover ${cropped ? "[clip-path:inset(-3px)]" : ""}`}
     />
   )
 }

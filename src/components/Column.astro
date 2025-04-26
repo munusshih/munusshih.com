@@ -6,24 +6,18 @@ const posts = content.default;
 const number = posts.length;
 ---
 
-<details
-  class="group fade-in border-gray-400 pr-4 pl-4 last-of-type:border-0 md:first-of-type:border-r lg:border-r"
-  open
->
+<details class="group fade-in" open>
   <summary
-    class="monospace mb-2 flex cursor-pointer flex-row items-center pt-2 text-2xl !font-medium"
+    class="flex cursor-pointer flex-row items-center justify-center border-b px-2 py-2 group-open:border-0"
   >
-    <h2>{title}</h2>
-    <sup class="ml-2 text-base font-normal no-underline">({number})</sup>
-    <span
-      class="monospace ml-auto text-5xl transition-transform duration-200 group-open:rotate-180"
-    >
-      <span class="group-open:hidden">+</span>
-      <span class="hidden group-open:inline">–</span>
+    <h2 class="text-2xl text-[var(--accent-color)] uppercase">{title}</h2>
+    <span class="ml-auto text-2xl transition-transform duration-200">
+      <span class="group-open:hidden">Open</span>
+      <span class="hidden group-open:inline">Close</span>
     </span>
   </summary>
 
-  <div class="no-scrollbar flex flex-col gap-4 border-t">
+  <div class="no-scrollbar grid grid-cols-2 flex-col border-t">
     {posts.map((post) => <Card post={post} />)}
   </div>
 </details>

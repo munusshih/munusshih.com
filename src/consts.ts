@@ -2,7 +2,7 @@
 // You can import this data from anywhere in your site by using the `import` keyword.
 
 export const SITE_TITLE = "Munus Shih";
-export const SITE_DESCRIPTION = "Munus Shih (he/they) is a Taiwanese Hakka creative technologist, artist, and educator based in NYC.";
+export const SITE_DESCRIPTION = "Munus Shih is a Taiwanese Hakka creative coder, artist, & organizer based in NYC.";
 export const SITE_URL = "https://munusshih.com";
 export const NEWS = [
     "I'm prepping for [DEMO DAY 2025](https://www.demofestival.org/)",

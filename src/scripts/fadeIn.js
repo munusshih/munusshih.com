@@ -6,16 +6,19 @@ gsap.registerPlugin(ScrollTrigger);
 
 document.addEventListener("DOMContentLoaded", () => {
   ScrollTrigger.batch(".fade-in", {
+    interval: 0.2,
+    batchMax: 5,
     onEnter: (batch) => {
       gsap.fromTo(
         batch,
-        { opacity: 0, y: 30 },
+        {
+          opacity: 0,
+        },
         {
           opacity: 1,
-          y: 0,
-          duration: 1,
-          stagger: 0.2,
-          ease: "power2.out",
+          duration: 0.3,
+          stagger: 0.05,
+          ease: "sine.out",
         },
       );
     },

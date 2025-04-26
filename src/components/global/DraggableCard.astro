@@ -1,0 +1,55 @@
+<div class="draggable fade-in transition-all ease-in-out hover:scale-[102%]">
+  <slot />
+</div>
+
+<script>
+  import interact from "interactjs";
+
+  // Function to initialize draggable
+  const initializeDraggable = () => {
+    const isMobile = window.innerWidth <= 768; // Adjust the width as needed
+    const draggableElements = document.querySelectorAll(".draggable");
+
+    if (!isMobile) {
+      interact(".draggable").draggable({
+        inertia: true,
+        modifiers: [
+          interact.modifiers.restrictRect({
+            restriction: "main",
+            endOnly: true,
+          }),
+        ],
+        autoScroll: true,
+        listeners: {
+          move(event) {
+            const target = event.target;
+            const x =
+              (parseFloat(target.getAttribute("data-x")) || 0) + event.dx;
+            const y =
+              (parseFloat(target.getAttribute("data-y")) || 0) + event.dy;
+
+            target.style.transform = `translate(${x}px, ${y}px)`;
+            target.setAttribute("data-x", x);
+            target.setAttribute("data-y", y);
+          },
+        },
+      });
+    } else {
+      interact(".draggable").unset(); // Disable dragging on mobile
+      // Reset position of already dragged elements on mobile
+      draggableElements.forEach((target) => {
+        target.style.transform = ""; // Remove transform style
+        target.removeAttribute("data-x");
+        target.removeAttribute("data-y");
+      });
+    }
+  };
+
+  // Initialize draggable functionality
+  initializeDraggable();
+
+  // Listen for window resize and re-initialize the draggable functionality
+  window.addEventListener("resize", () => {
+    initializeDraggable();
+  });
+</script>

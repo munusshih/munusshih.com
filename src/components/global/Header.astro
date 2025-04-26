@@ -7,59 +7,63 @@ import { marked } from "marked";
 
 const base = import.meta.env.BASE_URL;
 const currentPage = Astro.url.pathname; // Get the current page's pathname
-const links = [
-  { href: `${base}`, label: "Home" },
-  { href: `${base}encyclopedia`, label: "Encyclopedia" },
-  { href: `${base}lab`, label: "Laboratory" },
-  { href: `${base}about`, label: "About" },
-];
 ---
 
-<nav class="monospace flex flex-row justify-between p-4 pb-20 text-[black]">
-  <div transition:animate="none" transition:persist>
-    <h1
-      class="responsive-title fade-in max-w-[60ch] pb-8 font-medium text-balance"
-    >
-      <a href="/" class="!no-underline">{SITE_DESCRIPTION}</a>
+<header class="body-text fixed top-0 z-10 w-full bg-white px-2 py-2">
+  <input type="checkbox" id="nav-toggle" class="peer hidden" />
+
+  <div class="flex flex-row items-center justify-between">
+    <h1 class="heading3 font-bold tracking-tight">
+      <a href="/" class="!no-underline hover:text-gray-400">Munus Shih</a>
     </h1>
-    <details class="news-section fade-in">
-      <summary class="sans cursor-pointer text-[blue]"
-        >NEWS
-        <div class="mt-4 h-[80px] w-[80px]">
-          <HeroSketch />
-        </div>
-      </summary>
-      <div class="sans mt-8 flex flex-col items-center gap-x-4">
-        {
-          NEWS.map((item, index) => (
-            <div
-              class="news-item flex flex-row text-[blue]"
-              style={{ "--index": `"${index + 1}."` }}
-              set:html={marked(item)}
-            />
-          ))
-        }
-      </div>
-    </details>
+
+    <label for="nav-toggle" class="heading3 z-50 cursor-pointer"> Menu </label>
   </div>
-  <div class="sans fade-in flex w-max flex-col items-end">
-    <ul class="w-max pl-4 leading-tight">
-      {
-        links.map((link) => (
-          <li key={link.href}>
-            <a
-              href={link.href}
-              class={`no-before-after !no-underline ${
-                currentPage === link.href
-                  ? "pointer-events-none text-[blue]"
-                  : "text-black hover:text-[blue]"
-              }`}
-            >
-              {link.label}
-            </a>
-          </li>
-        ))
-      }
+
+  <nav
+    class="relaitve pointer-events-none fixed inset-0 z-[999] flex h-screen w-full flex-col items-center justify-center bg-black text-white opacity-0 transition-all duration-300 peer-checked:pointer-events-auto peer-checked:opacity-100"
+  >
+    <ul class="menu-textsize flex flex-col items-center justify-center gap-4">
+      <li><a href="/" class="hover:text-gray-400">Home</a></li>
+      <li><a href="/about" class="hover:text-gray-400">About</a></li>
+      <li><a href="/work" class="hover:text-gray-400">Work</a></li>
+      <li><a href="/lab" class="hover:text-gray-400">Laboratory</a></li>
+
+      <label
+        for="nav-toggle"
+        class="heading3 absolute top-2 right-2 cursor-pointer hover:text-gray-400"
+      >
+        Close
+      </label>
     </ul>
-  </div>
-</nav>
+  </nav>
+</header>
+
+<style>
+  header {
+    transition: transform 0.3s ease;
+  }
+</style>
+
+<script>
+  const header = document.querySelector("header");
+  let lastScrollY = window.scrollY;
+
+  window.addEventListener("scroll", () => {
+    if (window.scrollY < lastScrollY) {
+      // Scrolling up
+      header.style.transform = "translateY(0)";
+
+      if (window.scrollY > 0) {
+        header.classList.add("shadow-md"); // Add shadow if not at top
+      } else {
+        header.classList.remove("shadow-md"); // Remove shadow if at top
+      }
+    } else {
+      // Scrolling down
+      header.style.transform = "translateY(-100%)";
+    }
+
+    lastScrollY = window.scrollY;
+  });
+</script>

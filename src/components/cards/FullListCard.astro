@@ -1,0 +1,110 @@
+---
+const { title, href } = Astro.props;
+import DraggableCard from "@/components/global/DraggableCard.astro";
+import Media from "@/components/utils/Media.astro";
+import { SITE_DESCRIPTION } from "../../consts";
+import Press from "@/docs/press.yml";
+import Events from "@/docs/events.yml";
+import Books from "@/docs/books.yml";
+import Education from "@/docs/education.yml";
+import {
+  parseLooseDate,
+  cleanLooseDate,
+  dateToSortable,
+  prepareAndSortContent,
+} from "@/scripts/cleanDate.js";
+
+// Background & text color map
+const colorMap = {
+  "Upcoming Events": { background: "#FFBF00", text: "black" },
+  Press: { background: "#6DE7FF", text: "black" },
+  Talks: { background: "#000", text: "white" },
+  Readings: { background: "#FF876D", text: "black" },
+  Teaching: { background: "#D69EFF", text: "black" },
+  Featured: { background: "#FF876D", text: "black" },
+  Workshop: { background: "beige", text: "black" },
+};
+
+const { background = "black", text = "white" } = colorMap[title] || {};
+
+// Content selection
+const contentFilters = {
+  Press: () => Press,
+  Talks: () =>
+    Events.filter(({ type }) => ["talk"].includes(type.toLowerCase())),
+  Featured: () =>
+    Events.filter(({ type }) =>
+      [
+        "exhibition",
+        "award",
+        "fellowship",
+        "residency",
+        "conference",
+        "panel",
+      ].includes(type.toLowerCase()),
+    ),
+  Workshop: () =>
+    Events.filter(({ type }) => ["workshop"].includes(type.toLowerCase())),
+  Teaching: () =>
+    Events.filter(({ type }) => ["class"].includes(type.toLowerCase())),
+  "Code/Contribution": () =>
+    Events.filter(({ type }) =>
+      ["website", "code", "contribution"].includes(type.toLowerCase()),
+    ),
+  "Upcoming Events": () =>
+    Events.filter(({ date }) => parseLooseDate(date) > new Date()),
+  Readings: () => Books,
+};
+
+Object.keys(contentFilters).forEach((key) => {
+  console.log(`${key}:`, contentFilters[key]());
+});
+
+let contentArray = contentFilters[title] ? contentFilters[title]() : [];
+
+contentArray = prepareAndSortContent(contentArray);
+---
+
+<div
+  class={`home-card w-full flex flex-col p-4 text-black h-max `}
+  style={`background: ${background}; color: ${text};`}
+  open
+>
+  <h2 class="heading1 mb-4">{title}</h2>
+  {
+    contentArray?.length > 0 && (
+      <ul class="w-full border-t pb-2">
+        {contentArray.map((item, index) => (
+          <li key={index} class="border-b py-2 pb-4">
+            <div class="mb-2 grid w-full grid-cols-5">
+              {item.title && (
+                <h3 class="body1 col-span-3 flex flex-col gap-2 font-semibold text-balance">
+                  {item.link?.href ? (
+                    <a href={item.link.href} class="linkout body1">
+                      {item.title}
+                    </a>
+                  ) : (
+                    item.title
+                  )}
+                  {item?.note && <span class="code">{item.note}</span>}
+                  {item.type && (
+                    <span class="code inline-block w-max rounded-2xl border px-2 py-1 font-medium">
+                      {item.type}
+                    </span>
+                  )}
+                </h3>
+              )}
+
+              <div class="col-span-2 text-left">
+                {item.date && <h4 class="body1">{item.date}</h4>}{" "}
+                {item?.place && (
+                  <span class="code mt-4 inline-block">{item.place}</span>
+                )}
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</div>

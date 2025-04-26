@@ -1,5 +1,5 @@
 - title: "Image of the Studio"
-  year: 2023-2024
+  date: 2023-2024
   tag: "Data Visualization"
   images:
     - "/iots/square-1.mp4"
@@ -14,8 +14,8 @@
     text: "View the project"
     href: "https://imageofthestudio.athleticsnyc.io/"
 
-- title: "GOCA, Gallery of Contemporary Art"
-  year: 2025
+- title: "GOCA"
+  date: 2025
   tag: "Web Design, Generative Design"
   images:
     - "/goca/video.mp4"
@@ -30,7 +30,7 @@
     href: "https://athleticsnyc.com/work/goca"
 
 - title: "Soulmate Matcher"
-  year: 2023
+  date: 2023
   tag: "Data Visualization, Generative Design"
   images:
     - "/soulmate/video3.mp4"
@@ -41,7 +41,7 @@
     href: "https://munusshih.github.io/dt-soulmate/"
 
 - title: "New Museum"
-  year: 2024
+  date: 2024
   tag: "Web Design, Web Development"
   images:
     - "/new-museum/video3.mp4"
@@ -56,7 +56,7 @@
     href: "https://athleticsnyc.com/work/new-museum"
 
 - title: "(4066.62, 62)"
-  year: 2024-25
+  date: 2024-25
   tag: "Data Visualization, Generative Design"
   images:
     - "/4066/history.png"
