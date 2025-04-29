@@ -1,6 +1,10 @@
 export function parseLooseDate(input) {
   let clean = String(input).trim().replace(",", "");
 
+  if (clean.toLowerCase() === "now") {
+    return new Date();
+  }
+
   // Handle "spring" as January and "fall" as August
   if (clean.toLowerCase().includes("spring")) {
     clean = clean.replace(/spring/i, "January");
@@ -15,25 +19,10 @@ export function parseLooseDate(input) {
 }
 
 export function cleanLooseDate(input) {
-  let raw = String(input).trim().replace(",", "");
+  const date = parseLooseDate(input);
 
-  // Save the original input for returning
-  const originalInput = raw;
-
-  // Handle "spring" as January and "fall" as August
-  if (raw.toLowerCase().includes("spring")) {
-    raw = raw.replace(/spring/i, "January");
-  } else if (raw.toLowerCase().includes("fall")) {
-    raw = raw.replace(/fall/i, "August");
-  }
-
-  const date = new Date(raw);
-  if (isNaN(date)) return originalInput; // Return the original input if the date is invalid
-
-  if (/^\d{4}$/.test(raw)) return date.getFullYear().toString();
-  if (/^[A-Za-z]+\s+\d{4}$/.test(raw)) {
-    // Return formatted string with the original term if it was 'spring' or 'fall'
-    return originalInput.replace("spring", "January").replace("fall", "August");
+  if (isNaN(date)) {
+    return String(input).trim().replace(",", "");
   }
 
   return date.toLocaleDateString("en-US", {
@@ -56,5 +45,46 @@ export function prepareAndSortContent(content) {
     }))
     .sort((a, b) =>
       a._sortDate && b._sortDate ? b._sortDate - a._sortDate : 0,
-    ); // notice b - a
+    );
+}
+
+export function formatDateRange(startDate, endDate) {
+  const startYear = cleanLooseDate(startDate).split(" ")[1];
+
+  if (endDate === "now") return `${startYear} — now`;
+
+  const endYear = endDate ? cleanLooseDate(endDate).split(" ")[1] : null;
+
+  return startYear === endYear || !endYear
+    ? startYear
+    : `${startYear} — ${endYear}`;
+}
+
+export function sortByDate(items, order = "desc") {
+  return items.sort((a, b) => {
+    const startA = new Date(cleanLooseDate(a.data.startDate)).getTime();
+    const startB = new Date(cleanLooseDate(b.data.startDate)).getTime();
+    const endA = a.data.endDate
+      ? new Date(cleanLooseDate(a.data.endDate)).getTime()
+      : null;
+    const endB = b.data.endDate
+      ? new Date(cleanLooseDate(b.data.endDate)).getTime()
+      : null;
+
+    if (isNaN(startA) || isNaN(startB)) return 0; // If either startDate is invalid, leave them in place
+
+    // Compare startDate first
+    if (startA !== startB) {
+      return order === "desc" ? startB - startA : startA - startB;
+    }
+
+    // If startDate is the same, compare endDate (if available)
+    if (endA !== endB) {
+      if (endA === null) return order === "desc" ? 1 : -1;
+      if (endB === null) return order === "desc" ? -1 : 1;
+      return order === "desc" ? endB - endA : endA - endB;
+    }
+
+    return 0;
+  });
 }

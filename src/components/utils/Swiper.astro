@@ -1,19 +1,17 @@
 ---
 // Swiper.astro
-const { images } = Astro.props;
+const { images, width = "75%" } = Astro.props;
 import Swiper from "swiper";
 import "swiper/css";
 import Media from "@/components/utils/Media.astro";
 ---
 
-<div class="swiper">
+<div class="swiper" style={`--swiper-slide-width: ${width}`}>
   <div class="swiper-wrapper">
     {
       images.map((src, idx) => {
-        // If src is an array, assign the values accordingly
         const [mediaSrc, scaling] = Array.isArray(src) ? src : [src];
-
-        const isVideo = mediaSrc.match(/\.(mp4|webm|ogg)$/i); // Check if media is a video
+        const isVideo = mediaSrc.match(/\.(mp4|webm|ogg)$/i);
         return (
           <div key={idx} class="swiper-slide h-auto">
             <Media
@@ -60,7 +58,7 @@ import Media from "@/components/utils/Media.astro";
     display: flex;
     background: lightgray;
     aspect-ratio: 4/3;
-    width: 75%;
+    width: var(--swiper-slide-width);
     overflow: hidden;
   }
 </style>

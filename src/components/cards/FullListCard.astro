@@ -10,7 +10,6 @@ import Education from "@/docs/education.yml";
 import {
   parseLooseDate,
   cleanLooseDate,
-  dateToSortable,
   prepareAndSortContent,
 } from "@/scripts/cleanDate.js";
 
@@ -84,7 +83,7 @@ contentArray = prepareAndSortContent(contentArray);
                   )}
                   {item?.note && <span class="code">{item.note}</span>}
                   {item.type && (
-                    <span class="code inline-block w-max rounded-2xl border px-2 py-1 font-medium">
+                    <span class="code inline-block w-max rounded-2xl border px-[var(--page-margin)] py-1 font-medium">
                       {item.type}
                     </span>
                   )}

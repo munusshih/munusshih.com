@@ -4,6 +4,16 @@
 :root {
   --accent-color: blue;
   --grid-color: rgba(0, 0, 0, 0.5);
+  --page-margin: 1rem;
+}
+
+::selection {
+  background-color: transparent;
+  color: inherit;
+}
+
+html {
+  overflow-x: hidden;
 }
 
 body {
@@ -15,7 +25,6 @@ body {
 
 html,
 body {
-  overflow-x: hidden;
   font-size: 16px;
   line-height: 1.25;
   font-family: "Be Vietnam Pro", sans-serif;
@@ -71,9 +80,14 @@ img.dithered {
     @apply leading-[95%] font-semibold tracking-tighter;
   }
 
-  .heading3 {
+  .heading2 {
     font-weight: normal;
     font-size: clamp(1rem, 1vw + 1rem, 1vw + 1rem);
+  }
+
+  .heading3 {
+    font-weight: normal;
+    font-size: clamp(1rem, 1vw + 0.25rem, 1vw + 0.25rem);
   }
 
   .body1 {
@@ -116,14 +130,21 @@ img.dithered {
 
   .menu-textsize {
     font-size: clamp(2rem, 6vw, 6vw);
+    line-height: 1;
+  }
+  .credit sup {
+    @apply text-gray-400;
+    margin-left: 0.2em;
+    font-family: "Source Code Pro", monospace;
+    font-optical-sizing: auto;
+  }
+
+  .responsive-title {
+    font-size: 30vw;
   }
 }
 
-.responsive-title {
-  font-size: 1rem;
-}
-
-.body-text {
+.body1 {
   font-size: 1rem;
 }
 
@@ -151,4 +172,39 @@ img.dithered {
 
 .subtitle {
   @apply mb-4 font-semibold uppercase underline underline-offset-4;
+}
+
+#index-title span {
+  display: inline-block;
+}
+
+.marquee {
+  display: inline-block;
+  width: 100%;
+  white-space: nowrap;
+}
+
+.marquee span {
+  margin-right: 1em;
+}
+
+.marquee {
+  animation: marquee-animation 10s linear infinite;
+}
+
+@keyframes marquee-animation {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.work-content div > video + p {
+  margin-top: 0.5em;
+}
+
+.work-content div > img + p {
+  margin-top: 0.5em;
 }

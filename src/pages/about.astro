@@ -9,18 +9,18 @@ import FullListCard from "@/components/cards/FullListCard.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
 ---
 
-<BasicLayout title={`About — ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
-  <main class="mt-[2vw] p-2">
+<BasicLayout title={`About≈${SITE_TITLE}`} description={SITE_DESCRIPTION}>
+  <main class="p-[var(--page-margin)]">
     <section
       class="mt-10 grid auto-cols-min auto-rows-min grid-cols-1 gap-0 pb-20 lg:grid-cols-2"
     >
       <article
-        class="heading3 fade-in flex flex-col gap-4 prose-p:indent-[2em] prose-p:text-pretty prose-p:first-of-type:indent-[6em]"
+        class="heading2 fade-in flex flex-col gap-4 prose-p:indent-[2em] prose-p:text-pretty prose-p:first-of-type:indent-[6em]"
       >
         <Content />
       </article>
       <div
-        class="heading3 fade-in mt-20 lg:mt-0 lg:text-right prose-li:font-bold"
+        class="heading2 fade-in mt-20 lg:mt-0 lg:text-right prose-li:font-bold"
       >
         <Clout />
       </div>
@@ -58,9 +58,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
   let swiperInstance = null;
 
   function initSwiper() {
-    // Check if the screen width is above 768px (desktop)
     if (window.matchMedia("(min-width: 768px)").matches) {
-      // Only initialize Swiper if it hasn't been initialized already
       if (!swiperInstance) {
         swiperInstance = new Swiper(".swiper", {
           modules: [Autoplay],
@@ -74,7 +72,6 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
         });
       }
     } else {
-      // Destroy Swiper if the screen is smaller than 768px (mobile)
       if (swiperInstance) {
         swiperInstance.destroy(true, true);
         swiperInstance = null;
@@ -82,10 +79,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
     }
   }
 
-  // Initialize swiper on page load
   window.addEventListener("load", initSwiper);
-
-  // Re-check on window resize to adjust swiper behavior
   window.addEventListener("resize", initSwiper);
 </script>
 

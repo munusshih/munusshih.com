@@ -11,10 +11,11 @@ const work = defineCollection({
     credit: z.string().optional(),
     excerpt: z.string().optional(),
     recognition: z.array(z.string()).optional(),
-    roles: z.array(z.string()),
     tags: z.array(z.string()),
-    date: z.string(),
+    startDate: z.string(),
+    endDate: z.string().optional(),
     heroImage: z.string().optional(),
+    images: z.array(z.string()),
   }),
 });
 

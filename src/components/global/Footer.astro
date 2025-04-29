@@ -9,40 +9,44 @@ All the texts are set in [Inclusive Sans by Olivia King](https://fonts.google.co
 const html = marked(markdown);
 ---
 
-<footer client:load class="bg-white px-2 py-2">
-  <div class="body-text flex flex-row flex-wrap justify-between">
-    <div class="heading3">
+<footer
+  client:load
+  class="border-t bg-white px-[var(--page-margin)] pt-4 pb-4 md:border-0 md:pb-2"
+>
+  <div
+    class="body1 flex flex-col-reverse flex-wrap justify-between gap-4 md:flex-row 2xl:py-8"
+    "
+  >
+    <div class="heading2">
       &copy; Munus Shih <span id="date"></span>
     </div>
-    <div id="emailButton" class="heading3 cursor-pointer">
+    <div id="emailButton" class="heading2 cursor-pointer">
       <a>munusshih@gmail.com</a>
     </div>
   </div>
 
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const date = new Date().getFulldate();
-      document.getElementById("date").textContent = date;
+    const year = new Date().getFullYear();
+    document.getElementById("date").textContent = year;
 
-      document
-        .getElementById("emailButton")
-        .addEventListener("click", function () {
-          const email = this.querySelector("a");
+    document
+      .getElementById("emailButton")
+      .addEventListener("click", function () {
+        const email = this.querySelector("a");
 
-          navigator.clipboard
-            .writeText(email.textContent)
-            .then(() => {
-              const originalText = email.textContent;
-              email.textContent = "Copied!";
+        navigator.clipboard
+          .writeText(email.textContent)
+          .then(() => {
+            const originalText = email.textContent;
+            email.textContent = "Copied!";
 
-              setTimeout(() => {
-                email.textContent = originalText;
-              }, 2000);
-            })
-            .catch((err) => {
-              console.error("Failed to copy text: ", err);
-            });
-        });
-    });
+            setTimeout(() => {
+              email.textContent = originalText;
+            }, 2000);
+          })
+          .catch((err) => {
+            console.error("Failed to copy text: ", err);
+          });
+      });
   </script>
 </footer>

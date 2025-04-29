@@ -1,100 +1,141 @@
 ---
 import { marked } from "marked"; // install via npm i marked
 import BasicLayout from "./Basic.astro";
+import NextProject from "@/components/NextProject.astro";
+import { toTitleCase } from "@/scripts/typography";
+import { formatDateRange } from "@/scripts/cleanDate";
 import type { CollectionEntry } from "astro:content";
 type Props = CollectionEntry<"work">["data"];
+import { SITE_TITLE } from "@/consts";
 
 const {
   title,
   description,
-  quote,
-  excerpt,
+  credit,
   recognition = [],
   roles,
   tags,
-  date,
+  startDate,
+  endDate,
   heroImage,
+  images = [],
 } = Astro.props;
 
-const parsedDescription = description ? marked.parseInline(description) : null;
-const parsedExcerpt = excerpt ? marked.parseInline(excerpt) : null;
+const parsedDescription = description
+  ? marked.parse(description, { gfm: true })
+  : null;
+
+const parsedCredit = credit ? marked.parse(credit, { gfm: true }) : null;
+const parsedExcerpt =
+  parsedDescription.match(/<p>(.*?)<\/p>/)?.[1].replace(/<[^>]+>/g, "") || "";
 const parsedRecognition = recognition.map((item) => marked.parseInline(item));
 ---
 
-<BasicLayout>
-  <main class="body-text">
-    <div class="grid grid-cols-3 px-2 py-4">
-      <h1 class="title text-4xl leading-tight">{title}</h1>
-
-      <p>
-        {
-          roles && roles.length > 0 && (
-            <span class="">{`${roles.join(", ")}`}</span>
-          )
-        }
+<BasicLayout
+  title={`${title} — ${SITE_TITLE}`}
+  description={parsedExcerpt}
+  image={heroImage?.replace("mp4", "jpg") || images[0]}
+>
+  <main>
+    <div
+      class="fade-in grid flex-col gap-4 px-[var(--page-margin)] py-4 md:grid-cols-3 md:gap-8"
+    >
+      <h1 class="title heading1 col-span-2">{title}</h1>
+      <p class="code text-gray-400">
+        {tags.map((tag) => toTitleCase(tag)).join(", ")},{" "}
+        {startDate && formatDateRange(startDate, endDate)}
       </p>
-      <h2>{date}</h2>
     </div>
-    <video
-      class="mb-20 aspect-[16/9] h-auto w-full overflow-hidden bg-black"
-      controls
-      src={heroImage}
-      poster={heroImage}
-      loading="lazy"></video>
-    <article class="grid grid-cols-2">
-      <div class="sticky top-0 flex flex-col gap-16 self-start px-2 py-4">
+    <div class="fade-in m-auto flex justify-center pt-10 md:w-[75%]">
+      <video
+        class="mb-20 aspect-[16/9] h-auto overflow-hidden"
+        loop
+        muted
+        playsinline
+        autoPlay
+        preload="auto"
+        src={heroImage}
+        poster={heroImage}></video>
+    </div>
+    <div class="relative">
+      <input type="checkbox" id="expand-article" class="peer hidden" />
+
+      <article
+        class="fade-in mb-8 grid max-h-[20vh] gap-10 overflow-hidden transition-all duration-300 peer-checked:max-h-[200rem] md:max-h-none md:grid-cols-3"
+      >
+        <!-- your full article content here -->
         {
           parsedDescription && (
-            <section>
-              <h2 class="subtitle">Description</h2>
-              <p
-                class="body-text columns-2 text-pretty"
-                set:html={parsedDescription}
+            <div
+              class="heading3 col-span-2 flex max-w-prose flex-col gap-2 px-[var(--page-margin)] font-light text-pretty text-[#0A0A0A] prose-p:indent-[2em] prose-p:text-pretty prose-p:first-of-type:indent-[6em]"
+              set:html={parsedDescription}
+            />
+          )
+        }
+
+        <div
+          class="grid w-full flex-col gap-4 gap-x-20 px-[var(--page-margin)] 2xl:grid-cols-2"
+        >
+          {
+            parsedCredit && (
+              <div
+                class="credit body1 max-w-prose !leading-normal text-pretty prose-h3:mb-2 prose-h3:font-bold prose-h3:not-first:mt-4"
+                set:html={parsedCredit}
               />
-            </section>
-          )
-        }
-
-        {
-          parsedExcerpt && (
-            <section>
-              <h2 class="body-text mb-4 font-semibold uppercase underline underline-offset-4">
-                Excerpt
-              </h2>
-              <div class="grid grid-cols-2">
-                <p class="body-text text-pretty" set:html={parsedExcerpt} />
+            )
+          }
+          {
+            recognition.length > 0 && (
+              <div>
+                <h3 class="body1 mb-5 font-bold">Recognitions</h3>
+                <ul class="body1 flex flex-col gap-2">
+                  {parsedRecognition.map((item) => (
+                    <li set:html={item} />
+                  ))}
+                </ul>
               </div>
-            </section>
-          )
-        }
+            )
+          }
+        </div>
+      </article>
 
-        {
-          recognition.length > 0 && (
-            <section>
-              <h2 class="body-text mb-4 font-semibold uppercase underline underline-offset-4">
-                Recognition
-              </h2>
-              <ul class="body-text list-inside list-decimal space-y-1">
-                {parsedRecognition.map((item) => (
-                  <li set:html={item} />
-                ))}
-              </ul>
-            </section>
-          )
-        }
-      </div>
-      <div class="flex flex-col gap-4 pt-4 prose-img:mb-2">
-        <slot />
-      </div>
-    </article>
-
-    <div class="mt-20 flex flex-row gap-4 px-2 py-4">
-      <button class="w-full border-t border-r px-2 py-4">
-        <a href="/lab">Last Project</a>
-      </button>
-      <button class="w-full border-t border-r px-2 py-4">
-        <a href="/lab">Next Project</a></button
+      <!-- FADE overlay for collapsed state only -->
+      <div
+        class="pointer-events-none absolute inset-x-0 bottom-10 h-32 bg-[linear-gradient(to_top,white_30%,transparent_70%)] peer-checked:hidden md:hidden"
       >
+      </div>
+
+      <!-- Toggle buttons -->
+      <label
+        for="expand-article"
+        class="heading2 block cursor-pointer px-[var(--page-margin)] peer-checked:hidden md:hidden"
+      >
+        + Read more
+      </label>
+      <label
+        for="expand-article"
+        class="heading2 hidden cursor-pointer px-[var(--page-margin)] peer-checked:block md:hidden"
+      >
+        - Read less
+      </label>
     </div>
+
+    <div
+      class="code prose-p:fade-in slot work-content flex flex-col gap-4 px-[var(--page-margin)] pt-4 text-gray-400 xl:grid xl:grid-cols-2 xl:gap-4 prose-img:mb-2"
+    >
+      <slot />
+    </div>
+
+    <NextProject />
   </main>
+
+  <script>
+    const slot = document.querySelector(".slot");
+    const pElements = slot.querySelectorAll("p");
+
+    pElements.forEach((p) => {
+      p.classList.add("fade-in");
+      p.classList.add("text-pretty");
+    });
+  </script>
 </BasicLayout>

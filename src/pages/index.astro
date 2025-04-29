@@ -10,13 +10,21 @@ import Media from "../components/utils/Media.astro";
 
 <BasicLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
   <main
-    class="relative grid h-auto w-full grid-cols-1 items-center justify-items-center gap-y-[8vw] overflow-hidden p-2 py-20 sm:grid-cols-2"
+    class="relative grid h-auto w-full grid-cols-1 items-center justify-items-center gap-y-[8vw] overflow-hidden p-[var(--page-margin)] py-20 sm:grid-cols-2"
   >
     <h1
-      class="fixed -top-20 -z-10 mt-20 w-full self-center text-[30vw] leading-tight tracking-tighter sm:absolute"
+      class="responsive-title fixed top-10 -z-10 w-full self-center leading-tight tracking-tighter sm:absolute"
     >
-      Munus Codes Zines, Design, Tools and Many More
+      <span class="fade-in">Munus</span>
+      <span class="fade-in">Codes</span>
+      <span class="fade-in">Zines,</span>
+      <span class="fade-in">Design,</span>
+      <span class="fade-in">Tools</span>
+      <span class="fade-in">and</span>
+      <span class="fade-in">Many</span>
+      <span class="fade-in">More</span>
     </h1>
+
     <IntroCard size={"x2-card"} />
     <ListCard title="Recent Press" />
     <WorkCard
@@ -67,63 +75,102 @@ import Media from "../components/utils/Media.astro";
   </main>
 </BasicLayout>
 <script>
-  const cards = document.querySelectorAll(".home-card");
-  const cardOffsets = [];
+  import { gsap } from "gsap";
 
-  function cardOffset() {
-    cards.forEach((div, index) => {
-      const randX = index % 3 === 2 ? Math.random() * -10 : Math.random() * 20;
-      const randY = index % 2 === 0 ? Math.random() * 40 : Math.random() * 20;
+  class ParallaxEffect {
+    constructor(cardsSelector) {
+      this.cards = document.querySelectorAll(cardsSelector);
+      this.cardOffsets = [];
+      this.isThrottled = false;
+      this.hasOffsets = false; // Flag to track if the offsets are already set
+      this.init();
+    }
 
-      cardOffsets.push({ randX, randY });
+    init() {
+      this.checkScreenSize(); // Setup on load
+      window.addEventListener("resize", this.checkScreenSize.bind(this));
+    }
 
-      // Set initial transform (optional)
-      div.style.transition = "transform .5s ease-out";
-      div.style.transform = `translate(${randX}%, ${randY}%)`;
-    });
-  }
+    cardOffset() {
+      // Only calculate offsets once
+      if (this.hasOffsets) return;
 
-  function parallax(e) {
-    const mouseX = e.clientX;
-    const mouseY = e.clientY;
+      this.cards.forEach((div, index) => {
+        const randX =
+          index % 3 === 2 ? Math.random() * -10 : Math.random() * 20;
+        const randY = index % 2 === 0 ? Math.random() * 40 : Math.random() * 20;
 
-    const windowWidth = window.innerWidth;
-    const windowHeight = window.innerHeight;
+        this.cardOffsets.push({ randX, randY });
 
-    cards.forEach((div, index) => {
-      const { randX, randY } = cardOffsets[index];
+        gsap.set(div, {
+          transform: `translate(${randX}%, ${randY}%)`,
+          duration: 0.5,
+          ease: "power2.out",
+        });
+      });
 
-      const offsetX = (mouseX / windowWidth - 0.5) * 5;
-      const offsetY = (mouseY / windowHeight - 0.5) * 5;
-      div.style.transform = `translate(${randX + offsetX}%, ${randY + offsetY}%)`;
-    });
-  }
+      this.hasOffsets = true; // Mark offsets as calculated
+    }
 
-  function removeTransform() {
-    cards.forEach((div) => {
-      div.style.transition = "none";
-      div.style.transform = "none";
-    });
-  }
+    throttleParallax(e) {
+      if (this.isThrottled) return;
 
-  function removeParallax() {
-    document.removeEventListener("mousemove", parallax);
-  }
+      this.isThrottled = true;
+      requestAnimationFrame(() => this.parallax(e));
+      setTimeout(() => {
+        this.isThrottled = false;
+      }, 16); // ~60 FPS
+    }
 
-  function checkScreenSize() {
-    const screenWidth =
-      window.innerWidth || document.documentElement.clientWidth;
-    const specificWidth = 768; // Set your specific value here
+    parallax(e) {
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
+      const windowWidth = window.innerWidth;
+      const windowHeight = window.innerHeight;
 
-    if (screenWidth < specificWidth) {
-      removeParallax();
-      removeTransform();
-    } else {
-      cardOffset();
-      document.addEventListener("mousemove", parallax);
+      this.cards.forEach((div, index) => {
+        const { randX, randY } = this.cardOffsets[index];
+
+        const offsetX = (mouseX / windowWidth - 0.5) * 5;
+        const offsetY = (mouseY / windowHeight - 0.5) * 5;
+
+        gsap.to(div, {
+          transform: `translate(${randX + offsetX}%, ${randY + offsetY}%)`,
+          duration: 0.3,
+          ease: "power2.out",
+        });
+      });
+    }
+
+    removeTransform() {
+      this.cards.forEach((div) => {
+        gsap.set(div, { transform: "none", duration: 0.3 });
+      });
+    }
+
+    removeParallax() {
+      document.removeEventListener(
+        "mousemove",
+        this.throttleParallax.bind(this),
+      );
+    }
+
+    checkScreenSize() {
+      const screenWidth = window.innerWidth;
+
+      if (screenWidth < 768) {
+        // Remove effects for small screens
+        this.removeParallax();
+        this.removeTransform();
+        this.hasOffsets = false; // Reset offset flag on small screen
+      } else {
+        // Add effects for large screens
+        this.cardOffset();
+        document.addEventListener(
+          "mousemove",
+          this.throttleParallax.bind(this),
+        );
+      }
     }
   }
-
-  window.addEventListener("load", checkScreenSize);
-  window.addEventListener("resize", checkScreenSize);
 </script>

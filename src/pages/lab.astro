@@ -9,32 +9,12 @@ const allTags = [...new Set(labCards.flatMap((card) => card.tags))];
 ---
 
 <BasicLayout title={`Lab — ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
-  <main class="w-full px-2">
+  <main class="mb-20 w-full px-[var(--page-margin)]">
     <h1
       class="fade-in w-full self-center text-[30vw] leading-tight tracking-tighter"
     >
       Lab
     </h1>
-    <!-- Tag Filter UI -->
-    <!-- <details
-      id="tag-filters"
-      class="heading3 mb-20 flex w-max flex-wrap gap-x-4"
-      open
-    >
-      <summary class="tag-button active cursor-pointer" data-tag="all"
-        >Lab — All</summary
-      >
-      <div class="flex flex-row gap-x-4">
-        {
-          allTags.map((tag) => (
-            <button class="tag-button cursor-pointer" data-tag={tag}>
-              {tag}
-            </button>
-          ))
-        }
-      </div>
-    </details> -->
-
     <div
       class="grid grid-cols-1 items-end gap-x-4 gap-y-8 md:grid-cols-3 md:gap-y-20 lg:grid-cols-5"
     >

@@ -15,15 +15,14 @@ import Iframe from "@/components/utils/Iframe.astro";
 ---
 
 <article class="fade-in w-full border-b py-2 odd:border-r">
-  <div class="mb-2 flex w-full flex-col items-start justify-between px-2">
+  <div
+    class="mb-2 flex w-full flex-col items-start justify-between px-[var(--page-margin)]"
+  >
     <div class="w-full">
       <h3 class="mr-2 inline-block tracking-tighter">{post.title}</h3>
       {
         post.tag && (
-          <p class="body-text mb-2 inline-block text-gray-500">
-            {" "}
-            {`${post.tag}`}
-          </p>
+          <p class="body1 mb-2 inline-block text-gray-500"> {`${post.tag}`}</p>
         )
       }
     </div>
@@ -32,7 +31,7 @@ import Iframe from "@/components/utils/Iframe.astro";
   {
     post.quote && post.quote.length > 0 && !post.excerpt && (
       <blockquote
-        class="text-gray-70 relative max-w-[65ch] px-2 py-4 pr-4 text-2xl leading-tight text-pretty before:inline-block before:content-['“'] after:inline-block after:content-['”'] md:text-3xl"
+        class="text-gray-70 relative max-w-[65ch] px-[var(--page-margin)] py-4 pr-4 text-2xl leading-tight text-pretty before:inline-block before:content-['“'] after:inline-block after:content-['”'] md:text-3xl"
         set:html={htmlQuote}
       />
     )
@@ -74,7 +73,7 @@ import Iframe from "@/components/utils/Iframe.astro";
   {
     post.excerpt && post.excerpt.length > 0 && (
       <div
-        class="text-gray-70 body-text mb-4 flex max-w-prose flex-col gap-4 px-2 pt-4 pr-4 text-black"
+        class="text-gray-70 body1 mb-4 flex max-w-prose flex-col gap-4 px-[var(--page-margin)] pt-4 pr-4 text-black"
         set:html={htmlExcerpt}
       />
     )
@@ -82,7 +81,7 @@ import Iframe from "@/components/utils/Iframe.astro";
 
   {
     post.link && (
-      <div class="w-full border-y px-2 py-2">
+      <div class="w-full border-y px-[var(--page-margin)] py-2">
         <a target="_blank" href={post.link.href} class="">
           {`⌦ ${post.link?.text || "Learn More"}`}
         </a>
@@ -94,7 +93,7 @@ import Iframe from "@/components/utils/Iframe.astro";
     post.recognition && post.recognition.length > 0 && (
       <ul class="mt-4 flex w-full flex-col text-gray-500">
         {post.recognition.map((item, index) => (
-          <li key={index} class="body-text">
+          <li key={index} class="body1">
             {item.split(/(\[.*?\]\(.*?\))/g).map((part, idx) =>
               part.match(/\[.*?\]\(.*?\)/) ? (
                 <a target="_blank" key={idx} href={part.match(/\((.*?)\)/)[1]}>
