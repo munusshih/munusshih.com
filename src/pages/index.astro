@@ -8,7 +8,11 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
 import Media from "../components/utils/Media.astro";
 ---
 
-<BasicLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
+<BasicLayout
+  title={SITE_TITLE}
+  description={SITE_DESCRIPTION}
+  image={`/thumbnails/index.jpg`}
+>
   <main
     class="relative grid h-auto w-full grid-cols-1 items-center justify-items-center gap-y-[8vw] overflow-hidden p-[var(--page-margin)] py-20 sm:grid-cols-2"
   >

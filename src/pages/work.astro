@@ -21,7 +21,11 @@ const allTags = [
 const sortedWorkItems = sortByDate(workItems, "desc");
 ---
 
-<BasicLayout title={`Work — ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
+<BasicLayout
+  title={`Work — ${SITE_TITLE}`}
+  description={SITE_DESCRIPTION}
+  image={`/thumbnails/work.jpg`}
+>
   <main class="w-full">
     <!-- Tag Filter UI -->
 
