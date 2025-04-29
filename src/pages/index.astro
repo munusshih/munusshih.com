@@ -1,14 +1,176 @@
 ---
 import BasicLayout from "@/layouts/Basic.astro";
-import Column from "@/components/Column.astro";
-
+import IntroCard from "@/components/cards/IntroCard.astro";
+import WorkCard from "@/components/cards/WorkCard.astro";
+import MediaCard from "@/components/cards/MediaCard.astro";
+import ListCard from "@/components/cards/ListCard.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
+import Media from "../components/utils/Media.astro";
 ---
 
 <BasicLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
-  <main class="grid grid-cols-1 gap-0 lg:grid-cols-3">
-    <Column title="Selected Projects" data="work" />
-    <Column title="Teaching & Open Source Contribution" data="teaching" />
-    <Column title="Selected Writing, Talks & Press" data="press" />
+  <main
+    class="relative grid h-auto w-full grid-cols-1 items-center justify-items-center gap-y-[8vw] overflow-hidden p-[var(--page-margin)] py-20 sm:grid-cols-2"
+  >
+    <h1
+      class="responsive-title fixed top-10 -z-10 w-full self-center leading-tight tracking-tighter sm:absolute"
+    >
+      <span class="fade-in">Munus</span>
+      <span class="fade-in">Codes</span>
+      <span class="fade-in">Zines,</span>
+      <span class="fade-in">Design,</span>
+      <span class="fade-in">Tools</span>
+      <span class="fade-in">and</span>
+      <span class="fade-in">Many</span>
+      <span class="fade-in">More</span>
+    </h1>
+
+    <IntroCard size={"x2-card"} />
+    <ListCard title="Recent Press" />
+    <WorkCard
+      size={"x3-card"}
+      href="work"
+      linkContent="Recent Work"
+      targetName={[
+        "/goca/img2.jpg",
+        "/goca/video.mp4",
+        "/goca/video2.mp4",
+        "/goca/img.jpg",
+      ]}
+      description="A generative identity for a new asian art gallery in Chelsea, Manhattan."
+    />
+    <MediaCard
+      size={"x1-card"}
+      targetName="/misc/IMG_6912.JPG"
+      description="A recent photo of me"
+    />
+
+    <ListCard title="Upcoming Events" />
+    <ListCard title="Readings" />
+    <MediaCard
+      size={"x1-card"}
+      targetName="/misc/ccc.mp4"
+      description="Critical Coding Cookbook"
+    />
+    <WorkCard
+      size={"x2-card"}
+      href="lab"
+      linkContent="What's Brewing in Lab"
+      targetName="/lab/R&M.mp4"
+    />
+    <MediaCard
+      size={"x2-card"}
+      description="I've been listening to..."
+      iframe="https://open.spotify.com/embed/album/2MHUaRi9OCyTN02SoyRRBJ?utm_source=generator"
+      href="https://www.youtube.com/watch?v=0f2v1g3a4xA"
+    />
+
+    <WorkCard
+      size={"x2-card"}
+      href="work"
+      linkContent="A Coding Sketch"
+      iframe="sketches/pattern"
+      description="I made this pattern in CSS!"
+    />
   </main>
 </BasicLayout>
+<script>
+  import { gsap } from "gsap";
+
+  class ParallaxEffect {
+    constructor(cardsSelector) {
+      this.cards = document.querySelectorAll(cardsSelector);
+      this.cardOffsets = [];
+      this.isThrottled = false;
+      this.hasOffsets = false; // Flag to track if the offsets are already set
+      this.init();
+    }
+
+    init() {
+      this.checkScreenSize(); // Setup on load
+      window.addEventListener("resize", this.checkScreenSize.bind(this));
+    }
+
+    cardOffset() {
+      // Only calculate offsets once
+      if (this.hasOffsets) return;
+
+      this.cards.forEach((div, index) => {
+        const randX =
+          index % 3 === 2 ? Math.random() * -10 : Math.random() * 20;
+        const randY = index % 2 === 0 ? Math.random() * 40 : Math.random() * 20;
+
+        this.cardOffsets.push({ randX, randY });
+
+        gsap.set(div, {
+          transform: `translate(${randX}%, ${randY}%)`,
+          duration: 0.5,
+          ease: "power2.out",
+        });
+      });
+
+      this.hasOffsets = true; // Mark offsets as calculated
+    }
+
+    throttleParallax(e) {
+      if (this.isThrottled) return;
+
+      this.isThrottled = true;
+      requestAnimationFrame(() => this.parallax(e));
+      setTimeout(() => {
+        this.isThrottled = false;
+      }, 16); // ~60 FPS
+    }
+
+    parallax(e) {
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
+      const windowWidth = window.innerWidth;
+      const windowHeight = window.innerHeight;
+
+      this.cards.forEach((div, index) => {
+        const { randX, randY } = this.cardOffsets[index];
+
+        const offsetX = (mouseX / windowWidth - 0.5) * 5;
+        const offsetY = (mouseY / windowHeight - 0.5) * 5;
+
+        gsap.to(div, {
+          transform: `translate(${randX + offsetX}%, ${randY + offsetY}%)`,
+          duration: 0.3,
+          ease: "power2.out",
+        });
+      });
+    }
+
+    removeTransform() {
+      this.cards.forEach((div) => {
+        gsap.set(div, { transform: "none", duration: 0.3 });
+      });
+    }
+
+    removeParallax() {
+      document.removeEventListener(
+        "mousemove",
+        this.throttleParallax.bind(this),
+      );
+    }
+
+    checkScreenSize() {
+      const screenWidth = window.innerWidth;
+
+      if (screenWidth < 768) {
+        // Remove effects for small screens
+        this.removeParallax();
+        this.removeTransform();
+        this.hasOffsets = false; // Reset offset flag on small screen
+      } else {
+        // Add effects for large screens
+        this.cardOffset();
+        document.addEventListener(
+          "mousemove",
+          this.throttleParallax.bind(this),
+        );
+      }
+    }
+  }
+</script>

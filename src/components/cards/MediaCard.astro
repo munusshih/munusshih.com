@@ -1,0 +1,37 @@
+---
+const { size, targetName, description, iframe, height } = Astro.props;
+import Iframe from "@/components/utils/Iframe.astro";
+import Media from "@/components/utils/Media.astro";
+import DraggableCard from "@/components/global/DraggableCard.astro";
+import lab_doc from "@/docs/lab.yml";
+---
+
+<DraggableCard>
+  <div
+    class={`home-card flex h-auto ${size} flex-col justify-between bg-black text-white p-4`}
+  >
+    <p class="code p-2 text-left text-balance">{description}</p>
+    {
+      iframe && (
+        <Iframe
+          src={iframe}
+          title={description || ""}
+          aspect_ratio="10/4.6"
+          height={height}
+        />
+      )
+    }
+    {
+      targetName && (
+        <div class="aspect-square w-full overflow-hidden p-0 shadow">
+          <Media
+            src={targetName}
+            alt={description || ""}
+            isVideo={targetName.match(/\.(mp4|webm|ogg)$/i)}
+            cropped={true}
+          />
+        </div>
+      )
+    }
+  </div>
+</DraggableCard>

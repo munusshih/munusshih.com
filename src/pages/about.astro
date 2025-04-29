@@ -5,31 +5,109 @@ import { Image } from "astro:assets";
 import profile from "@/assets/profile.jpg";
 import Content from "@/docs/about/about-munus.md";
 import Clout from "@/docs/about/clout.md";
+import FullListCard from "@/components/cards/FullListCard.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
 ---
 
-<BasicLayout title={`About — ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
-  <main class="pb-20">
+<BasicLayout title={`About≈${SITE_TITLE}`} description={SITE_DESCRIPTION}>
+  <main class="p-[var(--page-margin)]">
     <section
-      class="grid auto-cols-min auto-rows-min grid-cols-1 gap-0 md:grid-cols-2 lg:grid-cols-3"
+      class="mt-10 grid auto-cols-min auto-rows-min grid-cols-1 gap-0 pb-20 lg:grid-cols-2"
     >
-      <div class="fade-in col-span-1 mr-4 ml-4 md:mr-0">
-        <Image class="dithered" src={profile} alt="A protrait of Munus" />
-      </div>
-      <div
-        class="body-text fade-in col-span-2 mt-8 grid grid-cols-1 md:grid-cols-3 lg:mt-0"
+      <article
+        class="heading2 fade-in flex flex-col gap-4 prose-p:indent-[2em] prose-p:text-pretty prose-p:first-of-type:indent-[6em]"
       >
-        <article
-          class="sans map-4 col-span-2 mx-4 flex flex-col gap-4 border-gray-400 md:mt-0 lg:border-l lg:pl-4"
-        >
-          <Content />
-        </article>
-        <div
-          class="sans prose-headings:monospace mx-4 mt-8 flex flex-col gap-8 border-gray-400 md:mt-0 lg:border-l lg:pl-4 prose-headings:underline"
-        >
-          <Clout />
+        <Content />
+      </article>
+      <div
+        class="heading2 fade-in mt-20 lg:mt-0 lg:text-right prose-li:font-bold"
+      >
+        <Clout />
+      </div>
+    </section>
+    <section class="fade-in">
+      <div class="swiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <FullListCard title="Upcoming Events" />
+          </div>
+          <div class="swiper-slide">
+            <FullListCard title="Talks" />
+          </div>
+          <div class="swiper-slide">
+            <FullListCard title="Teaching" />
+          </div>
+          <div class="swiper-slide">
+            <FullListCard title="Workshop" />
+          </div>
+          <div class="swiper-slide">
+            <FullListCard title="Featured" />
+          </div>
+          <div class="swiper-slide">
+            <FullListCard title="Press" />
+          </div>
         </div>
       </div>
     </section>
   </main>
 </BasicLayout>
+<script>
+  import Swiper from "swiper";
+  import { Autoplay } from "swiper/modules";
+  import "swiper/css";
+  let swiperInstance = null;
+
+  function initSwiper() {
+    if (window.matchMedia("(min-width: 768px)").matches) {
+      if (!swiperInstance) {
+        swiperInstance = new Swiper(".swiper", {
+          modules: [Autoplay],
+          slidesPerView: "auto",
+          grabCursor: true,
+          loop: true, // Enable loop for seamless swiping
+          autoplay: {
+            delay: 10000,
+            disableOnInteraction: true,
+          },
+        });
+      }
+    } else {
+      if (swiperInstance) {
+        swiperInstance.destroy(true, true);
+        swiperInstance = null;
+      }
+    }
+  }
+
+  window.addEventListener("load", initSwiper);
+  window.addEventListener("resize", initSwiper);
+</script>
+
+<style>
+  .swiper-slide {
+    display: flex;
+    width: 30vw;
+    min-width: 300px;
+    max-width: 800px;
+    height: max-content;
+    overflow: hidden;
+  }
+
+  @media (max-width: 768px) {
+    .swiper-slide {
+      width: 100%; /* Full width on mobile */
+    }
+  }
+
+  .swiper-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 10px; /* Adjust gap as needed */
+  }
+
+  @media (max-width: 768px) {
+    .swiper-wrapper {
+      flex-direction: column; /* Change to column layout on mobile */
+    }
+  }
+</style>

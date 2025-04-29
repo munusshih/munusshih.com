@@ -1,0 +1,18 @@
+---
+const { size } = Astro.props;
+import DraggableCard from "@/components/global/DraggableCard.astro";
+import HeroSketch from "@/components/global/HeroSketch.astro";
+import { SITE_DESCRIPTION } from "../../consts";
+---
+
+<DraggableCard>
+  <div
+    class={`${size} home-card flex aspect-square flex-col justify-between bg-black p-4 text-white `}
+  >
+    <a href="/about" class="linkout body2">Learn more about me</a>
+    <div>
+      <HeroSketch />
+      <h2 class="heading1">{SITE_DESCRIPTION}</h2>
+    </div>
+  </div>
+</DraggableCard>

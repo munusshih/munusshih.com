@@ -1,0 +1,52 @@
+---
+const { size, linkContent, work, href, targetName, description, iframe } =
+  Astro.props;
+import DraggableCard from "@/components/global/DraggableCard.astro";
+import Media from "@/components/utils/Media.astro";
+import Lab from "@/docs/lab.yml";
+import Iframe from "@/components/utils/Iframe.astro";
+import Swiper from "@/components/utils/Swiper.astro";
+
+let finalContent;
+
+if (href === "lab") {
+  const lab_doc = Lab;
+  finalContent = lab_doc.find((item) => item.image === targetName);
+} else {
+  finalContent = work;
+}
+---
+
+<DraggableCard>
+  <div
+    class={`home-card flex h-auto ${size} flex-col justify-between bg-transparent `}
+  >
+    <h2 class="body2 w-max bg-black p-2 text-white">
+      <a href={href} class="linkout"> {linkContent} </a>
+    </h2>
+    {
+      iframe ? (
+        <Iframe src={iframe} title={description || ""} />
+      ) : Array.isArray(targetName) ? (
+        <Swiper images={targetName} />
+      ) : (
+        (finalContent?.image || targetName) && (
+          <div className="w-full p-0 shadow">
+            <Media
+              src={finalContent?.image || targetName}
+              alt={finalContent?.description || description || ""}
+              isVideo={/\.(mp4|webm|ogg)$/i.test(
+                finalContent?.image || targetName,
+              )}
+              cropped={true}
+            />
+          </div>
+        )
+      )
+    }
+
+    <p class="code bg-white p-4">
+      {finalContent?.description || description}
+    </p>
+  </div>
+</DraggableCard>

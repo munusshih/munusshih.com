@@ -4,22 +4,23 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-document.addEventListener("DOMContentLoaded", () => {
-  ScrollTrigger.batch(".fade-in", {
-    onEnter: (batch) => {
-      gsap.fromTo(
-        batch,
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          stagger: 0.2,
-          ease: "power2.out",
-        },
-      );
-    },
-    start: "top 85%",
-    once: true,
-  });
+ScrollTrigger.batch(".fade-in", {
+  interval: 0.2,
+  batchMax: 5,
+  onEnter: (batch) => {
+    gsap.fromTo(
+      batch,
+      {
+        opacity: 0,
+      },
+      {
+        opacity: 1,
+        duration: 0.3,
+        stagger: 0.05,
+        ease: "sine.out",
+      },
+    );
+  },
+  start: "top 85%",
+  once: true,
 });

@@ -1,0 +1,75 @@
+---
+// File: src/components/DraggableCard.astro
+const {
+  title,
+  quote,
+  size,
+  description,
+  href,
+  image,
+  list,
+  imageAlt,
+  grid,
+  background,
+  text,
+} = Astro.props;
+
+// Random starting positions
+const left = `${Math.floor(Math.random() * 10)}vw`; // 10% to 70%
+const top = `${Math.floor(Math.random() * 10)}vh`; // 5vh to 105vh
+const rotate = `${Math.floor(Math.random() * 10 - 5)}deg`; // -5 to +5
+const gridClass = `w-full ${grid}`;
+const z = Math.floor(Math.random() * 20);
+---
+
+<div class={`${gridClass}  self-start`} style={`translate(${left}, ${top})`}>
+  <div
+    class="relative flex flex-col gap-4 p-4"
+    style={!image
+      ? `background: ${background || "white"}; color: ${text}; `
+      : `color: ${text};`}
+  >
+    {
+      image && (
+        <img
+          src={image}
+          alt={imageAlt}
+          class="absolute inset-0 -z-10 h-full w-full object-cover"
+        />
+      )
+    }
+    {title && <h2 class="heading1 tracking-tighter">{title}</h2>}
+    {quote && <h2 class="heading1 tracking-tighter">{quote}</h2>}
+    {description && <p class="text-lg">{description}</p>}
+
+    {
+      list && (
+        <ul class="border-t border-b">
+          {list.map((item) => (
+            <li class="grid grid-cols-4 border-t py-4 first-of-type:border-0">
+              {item.href ? (
+                <a href={item.href} class="col-span-3">
+                  <h3>{item.title}</h3>
+                </a>
+              ) : (
+                <h3 class="col-span-3">{item.title}</h3>
+              )}
+              <p class="col-span-1">{item.description}</p>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+
+    {
+      href && href.length > 0 && (
+        <a
+          href={href[1]}
+          class="mt-20 uppercase underline-offset-4 hover:underline"
+        >
+          {href[0]}
+        </a>
+      )
+    }
+  </div>
+</div>

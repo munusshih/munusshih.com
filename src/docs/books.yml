@@ -1,0 +1,17 @@
+- title: "How to Speak Machine"
+  image: "/books/machine.png"
+  link:
+    href: "https://www.penguinrandomhouse.com/books/539046/how-to-speak-machine-by-john-maeda/"
+  date: "2019"
+
+- title: "User Friendly"
+  image: "/books/user.jpg"
+  link:
+    href: "https://draw-down.com/products/user-friendly-how-the-hidden-rules-of-design-are-changing-the-way-we-live-work-and-play"
+  date: "2020"
+
+- title: "(How) do we (want to) work (together) (as (socially engaged) designers (students and neighbors)) (in neoliberal times)?"
+  image: "/books/machine.png"
+  link:
+    href: "https://www.sternberg-press.com/product/how-do-we-want-to-work-together-as-socially-engaged-designers-students-and-neighbors-in-neoliberal-times/"
+  date: "2021"

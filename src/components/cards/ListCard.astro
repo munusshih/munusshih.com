@@ -1,0 +1,95 @@
+---
+const { title, href } = Astro.props;
+import DraggableCard from "@/components/global/DraggableCard.astro";
+import Media from "@/components/utils/Media.astro";
+import { SITE_DESCRIPTION } from "../../consts";
+import Press from "@/docs/press.yml";
+import Events from "@/docs/events.yml";
+import Books from "@/docs/books.yml";
+import {
+  parseLooseDate,
+  cleanLooseDate,
+  prepareAndSortContent,
+} from "@/scripts/cleanDate.js";
+const backgroundColors = {
+  "Upcoming Events": "#FFBF00",
+  "Recent Press": "#6DE7FF",
+  Readings: "#FF876D",
+};
+
+let background = backgroundColors[title] || "black";
+
+let contentArray = [];
+if (title === "Recent Press") {
+  contentArray = prepareAndSortContent(Press).slice(0, 3);
+} else if (title === "Upcoming Events") {
+  contentArray = prepareAndSortContent(
+    Events.filter(({ date }) => parseLooseDate(date) > new Date()),
+  );
+} else if (title === "Readings") {
+  contentArray = prepareAndSortContent([Books[0], Books[1]]);
+}
+---
+
+<DraggableCard>
+  <details
+    class={`home-card max-w-[800px] x2-card flex flex-col justify-between p-4 text-black `}
+    style={`background: ${background};`}
+    open
+  >
+    <summary class="flex items-center justify-between">
+      <h2 class="heading1 mb-4">{title}</h2>
+      <span class="arrow cursor-pointer transition-transform duration-300">
+        ▶
+      </span>
+    </summary>
+    {
+      contentArray?.length > 0 && (
+        <ul class="w-full border-t pb-2">
+          {contentArray.map((item, index) => (
+            <li key={index} class="border-b py-2 pb-4">
+              <div class="mb-2 grid w-full grid-cols-5">
+                {item.title && (
+                  <div class="body1 col-span-3 flex flex-row gap-4">
+                    {item.link?.href ? (
+                      <a href={item.link.href} class="linkout body1">
+                        {item.title}
+                      </a>
+                    ) : (
+                      item.title
+                    )}
+                    {item.image && (
+                      <div class="w-20">
+                        <Media
+                          src={item.image}
+                          alt={item.title}
+                          isVideo={false}
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {item.date && (
+                  <h4 class="body1 col-span-2 text-right">{item.date}</h4>
+                )}
+              </div>
+              {item.quote && <p class="code body2">{item.quote}</p>}
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </details>
+  <style>
+    .arrow {
+      display: inline-block;
+      transition: transform 0.5s ease;
+      margin-bottom: 10px;
+    }
+
+    details[open] .arrow {
+      transform: rotate(90deg); /* Rotate the arrow when open */
+    }
+  </style>
+</DraggableCard>

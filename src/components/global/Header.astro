@@ -7,59 +7,66 @@ import { marked } from "marked";
 
 const base = import.meta.env.BASE_URL;
 const currentPage = Astro.url.pathname; // Get the current page's pathname
-const links = [
-  { href: `${base}`, label: "Home" },
-  { href: `${base}encyclopedia`, label: "Encyclopedia" },
-  { href: `${base}lab`, label: "Laboratory" },
-  { href: `${base}about`, label: "About" },
-];
 ---
 
-<nav class="monospace flex flex-row justify-between p-4 pb-20 text-[black]">
-  <div transition:animate="none" transition:persist>
-    <h1
-      class="responsive-title fade-in max-w-[60ch] pb-8 font-medium text-balance"
-    >
-      <a href="/" class="!no-underline">{SITE_DESCRIPTION}</a>
+<header
+  class="body1 fade-in fixed top-0 z-10 w-full bg-white px-[var(--page-margin)] py-4 pt-[var(--page-margin)] md:pt-4 2xl:py-6"
+>
+  <input type="checkbox" id="nav-toggle" class="peer hidden" />
+
+  <div class="flex flex-row items-center justify-between">
+    <h1 class="heading2 font-bold tracking-tight">
+      <a href="/" class="!no-underline hover:text-gray-400">Munus Shih</a>
     </h1>
-    <details class="news-section fade-in">
-      <summary class="sans cursor-pointer text-[blue]"
-        >NEWS
-        <div class="mt-4 h-[80px] w-[80px]">
-          <HeroSketch />
-        </div>
-      </summary>
-      <div class="sans mt-8 flex flex-col items-center gap-x-4">
-        {
-          NEWS.map((item, index) => (
-            <div
-              class="news-item flex flex-row text-[blue]"
-              style={{ "--index": `"${index + 1}."` }}
-              set:html={marked(item)}
-            />
-          ))
-        }
-      </div>
-    </details>
+
+    <label for="nav-toggle" class="heading2 z-50 cursor-pointer"> Menu </label>
   </div>
-  <div class="sans fade-in flex w-max flex-col items-end">
-    <ul class="w-max pl-4 leading-tight">
-      {
-        links.map((link) => (
-          <li key={link.href}>
-            <a
-              href={link.href}
-              class={`no-before-after !no-underline ${
-                currentPage === link.href
-                  ? "pointer-events-none text-[blue]"
-                  : "text-black hover:text-[blue]"
-              }`}
-            >
-              {link.label}
-            </a>
-          </li>
-        ))
-      }
+
+  <nav
+    class="pointer-events-none absolute inset-0 z-[999] flex h-screen w-full flex-col items-center justify-center bg-black text-white opacity-0 transition-all duration-300 peer-checked:pointer-events-auto peer-checked:opacity-100"
+  >
+    <ul class="menu-textsize flex flex-col items-center justify-center gap-4">
+      <li><a href="/" class="!no-underline hover:text-gray-400">Home</a></li>
+      <li>
+        <a href="/about" class="!no-underline hover:text-gray-400">About</a>
+      </li>
+      <li>
+        <a href="/work" class="!no-underline hover:text-gray-400">Work</a>
+      </li>
+      <li>
+        <a href="/lab" class="!no-underline hover:text-gray-400">Laboratory</a>
+      </li>
+
+      <label
+        for="nav-toggle"
+        class="heading2 absolute top-[var(--page-margin)] right-[var(--page-margin)] cursor-pointer hover:text-gray-400"
+      >
+        Close
+      </label>
     </ul>
-  </div>
-</nav>
+  </nav>
+</header>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  const navToggle = document.querySelector("#nav-toggle");
+
+  ScrollTrigger.create({
+    start: 0,
+    end: "max",
+    onUpdate: ({ direction, scroll }) => {
+      if (navToggle.checked) return;
+      gsap.to("header", {
+        y: direction === -1 ? 0 : "-100%",
+        duration: 0.7,
+        ease: "power1.out",
+      });
+      document
+        .querySelector("header")
+        .classList.toggle("shadow-md", scroll() > 0);
+    },
+  });
+</script>

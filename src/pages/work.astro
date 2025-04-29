@@ -1,0 +1,169 @@
+---
+import BasicLayout from "@/layouts/Basic.astro";
+import Media from "@/components/utils/Media.astro";
+import Swiper from "@/components/utils/Swiper.astro";
+import { sortByDate } from "@/scripts/cleanDate";
+import { formatDateRange } from "@/scripts/cleanDate";
+import { toTitleCase } from "@/scripts/typography";
+
+import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
+
+import { getCollection } from "astro:content";
+const workItems = await getCollection("work");
+const allTags = [
+  ...new Set(
+    workItems.flatMap((item) =>
+      item.data.tags.flat().map((tag) => tag.toLowerCase()),
+    ),
+  ),
+];
+
+const sortedWorkItems = sortByDate(workItems, "desc");
+---
+
+<BasicLayout title={`Work — ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
+  <main class="w-full">
+    <!-- Tag Filter UI -->
+
+    <div
+      class="heading3 fade-in mb-6 hidden flex-row gap-x-4 px-[var(--page-margin)] md:flex"
+    >
+      <button data-tag="all" class="tag-button active cursor-pointer"
+        >All</button
+      >
+      {
+        allTags.map((tag) => (
+          <button class="tag-button cursor-pointer" data-tag={tag}>
+            {toTitleCase(tag)}
+          </button>
+        ))
+      }
+    </div>
+
+    <section class="flex flex-col">
+      {
+        sortedWorkItems.map((item) => () => (
+          <a href={`/${item.id}`} class="fade-in !no-underline">
+            <article
+              class="flex flex-col justify-between gap-x-20 gap-y-10 border-b px-[var(--page-margin)] py-4 md:flex-row md:gap-y-0 md:py-2"
+              key={item.data.title}
+              data-tags={item.data.tags.join(",")}
+            >
+              <div>
+                <h2 class="heading2 text-balance">{item.data.title}</h2>
+                <p class="body1 code text-gray-400">
+                  {item.data.tags.map((tag) => toTitleCase(tag)).join(", ")},{" "}
+                  {item.data.startDate &&
+                    formatDateRange(item.data.startDate, item.data.endDate)}
+                </p>
+              </div>
+              <div class="image-container pointer-events-none w-full overflow-hidden md:pointer-events-auto md:w-1/2">
+                {item.data.images && item.data.images.length > 1 ? (
+                  <div class="medias grid grid-cols-3 gap-x-2">
+                    {item.data.images.map((image, index) => (
+                      <Media
+                        src={image}
+                        alt={item.data.description}
+                        isVideo={image.match(/\.(mp4|webm|ogg)$/i)}
+                        cropped={index === 0}
+                        key={index}
+                        widthAuto={true}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <div class="grid grid-cols-3">
+                    <div class="md:col-start-3">
+                      <Media
+                        src={item.data.images[0]}
+                        alt={item.data.description}
+                        isVideo={item.data.images[0].match(
+                          /\.(mp4|webm|ogg)$/i,
+                        )}
+                        cropped={true}
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+            </article>
+          </a>
+        ))
+      }
+    </section>
+  </main>
+</BasicLayout>
+<script is:inline>
+  const buttons = document.querySelectorAll(".tag-button");
+  const cards = document.querySelectorAll("[data-tags]");
+
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const tag = btn.dataset.tag;
+      buttons.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      cards.forEach((card) => {
+        const cardTags = card.dataset.tags.split(",");
+        const show = tag === "all" || cardTags.includes(tag);
+        card.style.display = show ? "" : "none";
+      });
+    });
+  });
+</script>
+
+<script>
+  import gsap from "gsap";
+
+  const articles = document.querySelectorAll("article");
+
+  articles.forEach((article) => {
+    const swiper = article.querySelector(".image-container");
+    const medias = swiper ? swiper.querySelector(".medias") : null;
+
+    article.addEventListener("mousemove", (e) => {
+      // Always animate swiper
+      gsap.to(swiper, {
+        width: "70%",
+        duration: 0.3,
+        ease: "power2.out",
+      });
+
+      // Only animate medias if it exists
+      if (medias) {
+        const rect = medias.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const normalizedMouseX = (mouseX / rect.width) * 100;
+        const reversedMouseX = 100 - normalizedMouseX;
+
+        gsap.to(medias, {
+          x: reversedMouseX * 1.2 - 60,
+          width: "120%",
+          duration: 0.3,
+          ease: "power1.out",
+        });
+      }
+    });
+
+    article.addEventListener("mouseleave", () => {
+      // Animate swiper width with some inertia
+      gsap.to(swiper, {
+        width: "50%",
+        duration: 0.8, // A bit longer duration for smoother transition
+        ease: "power2.out", // Slightly softer easing
+        overwrite: "auto", // Make sure previous animations are overwritten
+      });
+
+      // Only animate medias if it exists
+      if (medias) {
+        gsap.to(medias, {
+          x: 0,
+          width: "100%",
+          duration: 0.8, // Same duration for consistency
+          ease: "power2.out", // Softer easing for smoother movement
+          overwrite: "auto", // Overwrite previous animations
+        });
+      }
+    });
+  });
+</script>

@@ -9,21 +9,12 @@ const allTags = [...new Set(labCards.flatMap((card) => card.tags))];
 ---
 
 <BasicLayout title={`Lab — ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
-  <main class="w-full px-4">
-    <!-- Tag Filter UI -->
-    <div id="tag-filters" class="sans body-text mb-6 flex flex-wrap gap-x-4">
-      <button class="tag-button active cursor-pointer" data-tag="all"
-        >All</button
-      >
-      {
-        allTags.map((tag) => (
-          <button class="tag-button cursor-pointer" data-tag={tag}>
-            {tag}
-          </button>
-        ))
-      }
-    </div>
-
+  <main class="mb-20 w-full px-[var(--page-margin)]">
+    <h1
+      class="fade-in w-full self-center text-[30vw] leading-tight tracking-tighter"
+    >
+      Lab
+    </h1>
     <div
       class="grid grid-cols-1 items-end gap-x-4 gap-y-8 md:grid-cols-3 md:gap-y-20 lg:grid-cols-5"
     >
@@ -46,8 +37,6 @@ const allTags = [...new Set(labCards.flatMap((card) => card.tags))];
 <script is:inline>
   const buttons = document.querySelectorAll(".tag-button");
   const cards = document.querySelectorAll("[data-tags]");
-
-  console.log(buttons, cards);
 
   buttons.forEach((btn) => {
     btn.addEventListener("click", () => {

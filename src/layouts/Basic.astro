@@ -14,11 +14,23 @@ const { title, description, image } = Astro.props;
   <head>
     <BaseHead title={title} description={description} image={image} />
   </head>
-  <body>
+  <body class="relative mt-20 flex flex-col">
     <Header />
     <slot />
     <Footer />
-    <Overscroll />
+    <!-- <Overscroll /> -->
     <script src="../scripts/fadeIn.js"></script>
+    <script src="../scripts/smoothTransition.js"></script>
   </body>
 </html>
+<noscript>
+  <style>
+    .fade-in {
+      opacity: 1; /* Fallback for JS-disabled users */
+    }
+
+    div.swiper {
+      overflow: auto;
+    }
+  </style></noscript
+>

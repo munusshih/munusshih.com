@@ -14,28 +14,24 @@ import Media from "@/components/utils/Media.astro";
 import Iframe from "@/components/utils/Iframe.astro";
 ---
 
-<article
-  class="fade-in w-full border-b border-dotted py-4 pb-8 last-of-type:border-0"
->
-  <div class="mb-2 flex w-full flex-col items-start justify-between">
-    <div
-      class="flex w-full flex-row flex-wrap items-start justify-between text-[blue]"
-    >
-      <h3 class="sans *:tex">{post.title}</h3>
-      <p class="code text-gray-400">{post.year}</p>
+<article class="fade-in w-full border-b py-2 odd:border-r">
+  <div
+    class="mb-2 flex w-full flex-col items-start justify-between px-[var(--page-margin)]"
+  >
+    <div class="w-full">
+      <h3 class="mr-2 inline-block tracking-tighter">{post.title}</h3>
+      {
+        post.tag && (
+          <p class="body1 mb-2 inline-block text-gray-500"> {`${post.tag}`}</p>
+        )
+      }
     </div>
-
-    {
-      post.tag && (
-        <p class="code body-text mb-2 text-gray-500"> {`> ${post.tag}`}</p>
-      )
-    }
   </div>
 
   {
-    post.quote && post.quote.length > 0 && (
+    post.quote && post.quote.length > 0 && !post.excerpt && (
       <blockquote
-        class="monospace text-gray-70 relative max-w-[65ch] py-4 pr-4 text-2xl leading-tight text-pretty before:inline-block before:content-['“'] after:inline-block after:content-['”'] md:text-3xl"
+        class="text-gray-70 relative max-w-[65ch] px-[var(--page-margin)] py-4 pr-4 text-2xl leading-tight text-pretty before:inline-block before:content-['“'] after:inline-block after:content-['”'] md:text-3xl"
         set:html={htmlQuote}
       />
     )
@@ -77,7 +73,7 @@ import Iframe from "@/components/utils/Iframe.astro";
   {
     post.excerpt && post.excerpt.length > 0 && (
       <div
-        class="sans text-gray-70 body-text mb-4 flex flex-col gap-4 pt-4 pr-4 text-black"
+        class="text-gray-70 body1 mb-4 flex max-w-prose flex-col gap-4 px-[var(--page-margin)] pt-4 pr-4 text-black"
         set:html={htmlExcerpt}
       />
     )
@@ -85,12 +81,8 @@ import Iframe from "@/components/utils/Iframe.astro";
 
   {
     post.link && (
-      <div class="post-link-wrapper mt-2 mb-2 flex h-max w-full">
-        <a
-          target="_blank"
-          href={post.link.href}
-          class="sans body-text bg-black p-1 text-white uppercase !no-underline hover:bg-[blue]"
-        >
+      <div class="w-full border-y px-[var(--page-margin)] py-2">
+        <a target="_blank" href={post.link.href} class="">
           {`⌦ ${post.link?.text || "Learn More"}`}
         </a>
       </div>
@@ -99,9 +91,9 @@ import Iframe from "@/components/utils/Iframe.astro";
 
   {
     post.recognition && post.recognition.length > 0 && (
-      <ul class="sans mt-4 flex w-full flex-col text-gray-500">
+      <ul class="mt-4 flex w-full flex-col text-gray-500">
         {post.recognition.map((item, index) => (
-          <li key={index} class="body-text">
+          <li key={index} class="body1">
             {item.split(/(\[.*?\]\(.*?\))/g).map((part, idx) =>
               part.match(/\[.*?\]\(.*?\)/) ? (
                 <a target="_blank" key={idx} href={part.match(/\((.*?)\)/)[1]}>
