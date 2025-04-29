@@ -45,19 +45,6 @@ img.dithered {
   image-rendering: pixelated;
 }
 
-.sans {
-  font-family: "Inclusive Sans", sans-serif;
-  font-optical-sizing: auto;
-}
-
-.monospace {
-  font-style: normal;
-  font-weight: 400;
-  font-family: "Instrument Serif", serif;
-  @apply leading-tight tracking-wide;
-  font-optical-sizing: auto;
-}
-
 .code {
   font-family: "Source Code Pro", monospace;
   @apply leading-snug tracking-tight;
@@ -101,8 +88,11 @@ img.dithered {
   }
 
   .linkout::after {
+    font-family: "Source Code Pro", monospace;
+    @apply leading-snug tracking-tight;
     content: " ↗";
     font-size: 0.8em;
+    font-optical-sizing: auto;
   }
 
   .x1-card {
@@ -207,4 +197,8 @@ img.dithered {
 
 .work-content div > img + p {
   margin-top: 0.5em;
+}
+
+summary::-webkit-details-marker {
+  display: none;
 }

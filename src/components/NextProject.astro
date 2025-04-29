@@ -23,7 +23,7 @@ nextProject.color;
           class="flex flex-col gap-4 pt-2 !no-underline"
           href={`${nextProject.id}`}
         >
-          <div class="relative ml-4 flex h-20 w-20 items-center justify-center overflow-hidden">
+          <div class="relative ml-4 flex h-20 w-20 items-center justify-end overflow-hidden">
             <svg
               class="next-arrow absolute"
               xmlns="http://www.w3.org/2000/svg"
@@ -73,63 +73,46 @@ nextProject.color;
 
   let hoverTween;
   const distance = 80;
+  const targets = [image, content, link];
 
-  link.addEventListener("mouseenter", function () {
-    gsap.to(image, {
-      y: -10,
-      scale: 1.1,
+  function animateHover(up = true) {
+    gsap.to(targets, {
+      y: up ? -10 : 0,
+      scale: (i, el) => (el === image ? (up ? 1.1 : 1) : 1),
       duration: 0.3,
       ease: "power2.out",
+      overwrite: "auto",
     });
+  }
 
-    gsap.to(content, {
-      y: -10,
-      duration: 0.3,
-      ease: "power2.out",
-    });
-
-    gsap.to(link, {
-      y: -10,
-      duration: 0.3,
-      ease: "power2.out",
-    });
+  link.addEventListener("mouseenter", () => {
+    animateHover(true);
 
     if (hoverTween) hoverTween.kill();
 
     hoverTween = gsap.fromTo(
       arrow,
-      { x: -distance }, // Start a little to the left
+      { x: -distance },
       {
-        x: distance, // Move a little to the right
+        x: distance,
         duration: 1,
         ease: "none",
         repeat: -1,
+        overwrite: "auto",
       },
     );
   });
 
-  link.addEventListener("mouseleave", function () {
-    gsap.to(image, {
-      y: 0,
-      scale: 1,
-      duration: 0.3,
-      ease: "power2.out",
-    });
-
-    gsap.to(content, {
-      y: 0,
-      duration: 0.3,
-      ease: "power2.out",
-    });
-
-    gsap.to(link, {
-      y: 0,
-      duration: 0.3,
-      ease: "power2.out",
-    });
+  link.addEventListener("mouseleave", () => {
+    animateHover(false);
 
     if (hoverTween) hoverTween.kill();
 
-    gsap.to(arrow, { x: 0, duration: 0.3, ease: "power2.out" });
+    gsap.to(arrow, {
+      x: 0,
+      duration: 0.3,
+      ease: "power2.out",
+      overwrite: "auto",
+    });
   });
 </script>

@@ -55,7 +55,7 @@ const sortedWorkItems = sortByDate(workItems, "desc");
             >
               <div>
                 <h2 class="heading2 text-balance">{item.data.title}</h2>
-                <p class="body1 code text-gray-400">
+                <p class="body1 code mt-2 text-balance text-gray-400">
                   {item.data.tags.map((tag) => toTitleCase(tag)).join(", ")},{" "}
                   {item.data.startDate &&
                     formatDateRange(item.data.startDate, item.data.endDate)}
@@ -64,21 +64,33 @@ const sortedWorkItems = sortByDate(workItems, "desc");
               <div class="image-container pointer-events-none w-full overflow-hidden md:pointer-events-auto md:w-1/2">
                 {item.data.images && item.data.images.length > 1 ? (
                   <div class="medias grid grid-cols-3 gap-x-2">
-                    {item.data.images.map((image, index) => (
-                      <Media
-                        src={image}
-                        alt={item.data.description}
-                        isVideo={image.match(/\.(mp4|webm|ogg)$/i)}
-                        cropped={index === 0}
-                        key={index}
-                        widthAuto={true}
-                      />
-                    ))}
+                    {item.data.images.map((image, index) => {
+                      const isTwoImages = item.data.images.length === 2;
+                      let colStart = null;
+
+                      if (isTwoImages) {
+                        colStart =
+                          index === 0 ? "md:col-start-2" : "md:col-start-3"; // start at grid columns 2 and 3
+                      }
+
+                      return (
+                        <Media
+                          className={colStart ? `${colStart}` : "aspect-square"}
+                          src={image}
+                          alt={item.data.description}
+                          isVideo={image.match(/\.(mp4|webm|ogg)$/i)}
+                          cropped={index === 0}
+                          key={index}
+                          widthAuto={true}
+                        />
+                      );
+                    })}
                   </div>
                 ) : (
                   <div class="grid grid-cols-3">
                     <div class="md:col-start-3">
                       <Media
+                        className="aspect-square"
                         src={item.data.images[0]}
                         alt={item.data.description}
                         isVideo={item.data.images[0].match(
@@ -97,7 +109,7 @@ const sortedWorkItems = sortByDate(workItems, "desc");
     </section>
   </main>
 </BasicLayout>
-<script is:inline>
+<script>
   const buttons = document.querySelectorAll(".tag-button");
   const cards = document.querySelectorAll("[data-tags]");
 
@@ -108,8 +120,8 @@ const sortedWorkItems = sortByDate(workItems, "desc");
       btn.classList.add("active");
 
       cards.forEach((card) => {
-        const cardTags = card.dataset.tags.split(",");
-        const show = tag === "all" || cardTags.includes(tag);
+        const cardTags = card.dataset.tags.toLowerCase().split(",");
+        const show = tag === "all" || cardTags.includes(tag.toLowerCase());
         card.style.display = show ? "" : "none";
       });
     });
@@ -123,51 +135,67 @@ const sortedWorkItems = sortByDate(workItems, "desc");
 
   articles.forEach((article) => {
     const swiper = article.querySelector(".image-container");
-    const medias = swiper ? swiper.querySelector(".medias") : null;
+    const medias = swiper?.querySelector(".medias");
 
-    article.addEventListener("mousemove", (e) => {
-      // Always animate swiper
-      gsap.to(swiper, {
-        width: "70%",
-        duration: 0.3,
-        ease: "power2.out",
-      });
+    let animationFrameId = null;
 
-      // Only animate medias if it exists
-      if (medias) {
-        const rect = medias.getBoundingClientRect();
-        const mouseX = e.clientX - rect.left;
-        const normalizedMouseX = (mouseX / rect.width) * 100;
-        const reversedMouseX = 100 - normalizedMouseX;
+    const onMouseMove = (e) => {
+      if (animationFrameId) return; // throttle with rAF
 
-        gsap.to(medias, {
-          x: reversedMouseX * 1.2 - 60,
-          width: "120%",
+      animationFrameId = requestAnimationFrame(() => {
+        animationFrameId = null; // reset throttle
+
+        // Animate swiper
+        gsap.to(swiper, {
+          width: "70%",
           duration: 0.3,
-          ease: "power1.out",
+          ease: "power2.out",
+          overwrite: "auto",
         });
-      }
-    });
 
-    article.addEventListener("mouseleave", () => {
-      // Animate swiper width with some inertia
+        if (medias) {
+          const rect = medias.getBoundingClientRect();
+          const mouseX = e.clientX - rect.left;
+          const normalizedMouseX = (mouseX / rect.width) * 100;
+          const reversedMouseX = 100 - normalizedMouseX;
+
+          gsap.to(medias, {
+            x: reversedMouseX * 1.2 - 60,
+            width: "120%",
+            duration: 0.3,
+            ease: "power1.out",
+            overwrite: "auto",
+          });
+        }
+      });
+    };
+
+    const onMouseLeave = () => {
+      // Cancel any pending animation frame
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+      }
+
       gsap.to(swiper, {
         width: "50%",
-        duration: 0.8, // A bit longer duration for smoother transition
-        ease: "power2.out", // Slightly softer easing
-        overwrite: "auto", // Make sure previous animations are overwritten
+        duration: 0.8,
+        ease: "power2.out",
+        overwrite: "auto",
       });
 
-      // Only animate medias if it exists
       if (medias) {
         gsap.to(medias, {
           x: 0,
           width: "100%",
-          duration: 0.8, // Same duration for consistency
-          ease: "power2.out", // Softer easing for smoother movement
-          overwrite: "auto", // Overwrite previous animations
+          duration: 0.8,
+          ease: "power2.out",
+          overwrite: "auto",
         });
       }
-    });
+    };
+
+    article.addEventListener("mousemove", onMouseMove);
+    article.addEventListener("mouseleave", onMouseLeave);
   });
 </script>
