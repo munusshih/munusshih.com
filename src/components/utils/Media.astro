@@ -6,6 +6,7 @@ const {
   isVideo = false,
   scaling = 1,
   cropped = false,
+  className = "",
   widthAuto = false,
 } = Astro.props;
 import { Image } from "astro:assets";
@@ -25,7 +26,7 @@ const posterSrc = "posters" + src.replace(/\.(mp4|webm|ogg)$/i, ".jpg");
       muted
       playsinline
       webkit-playsinline
-      class={`media *:h-auto ${widthAuto ? "w-auto" : "w-full"} object-contain ${cropped ? "[clip-path:inset(-3px)]" : ""}`}
+      class={`media *:h-auto ${widthAuto ? "w-auto" : "w-full"} object-cover ${cropped ? "[clip-path:inset(-3px)]" : ""} ${className}`}
       style={{ transform: `scale(${scaling})` }}
       alt={alt}
     >
@@ -37,7 +38,7 @@ const posterSrc = "posters" + src.replace(/\.(mp4|webm|ogg)$/i, ".jpg");
       alt={alt}
       loading="lazy"
       decoding="async"
-      class={`media h-auto ${widthAuto ? "w-auto" : "w-full"} object-contain ${cropped ? "[clip-path:inset(-3px)]" : ""}`}
+      class={`media h-auto ${widthAuto ? "w-auto" : "w-full"} object-cover ${cropped ? "[clip-path:inset(-3px)]" : ""} ${className}`}
     />
   )
 }

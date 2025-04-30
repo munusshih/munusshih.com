@@ -8,7 +8,11 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
 const allTags = [...new Set(labCards.flatMap((card) => card.tags))];
 ---
 
-<BasicLayout title={`Lab — ${SITE_TITLE}`} description={SITE_DESCRIPTION}>
+<BasicLayout
+  title={`Lab — ${SITE_TITLE}`}
+  description={SITE_DESCRIPTION}
+  image={`/thumbnails/lab.jpg`}
+>
   <main class="mb-20 w-full px-[var(--page-margin)]">
     <h1
       class="fade-in w-full self-center text-[30vw] leading-tight tracking-tighter"

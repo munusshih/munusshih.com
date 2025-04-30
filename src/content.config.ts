@@ -8,6 +8,7 @@ const work = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
+    buttons: z.array(z.array(z.string())).optional(),
     credit: z.string().optional(),
     excerpt: z.string().optional(),
     recognition: z.array(z.string()).optional(),

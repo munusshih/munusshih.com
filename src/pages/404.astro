@@ -3,7 +3,11 @@ import BasicLayout from "@/layouts/Basic.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
 ---
 
-<BasicLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
+<BasicLayout
+  title={SITE_TITLE}
+  description={SITE_DESCRIPTION}
+  image={`/thumbnails/404.jpg`}
+>
   <main class="flex h-screen w-full flex-col items-center justify-center">
     <div
       class="flex w-full flex-col items-center justify-center bg-black p-2 text-center text-white"

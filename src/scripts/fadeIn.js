@@ -7,20 +7,19 @@ gsap.registerPlugin(ScrollTrigger);
 ScrollTrigger.batch(".fade-in", {
   interval: 0.2,
   batchMax: 5,
+  start: "top 80%",
+  once: true,
   onEnter: (batch) => {
     gsap.fromTo(
       batch,
+      { y: 30, opacity: 0 },
       {
-        opacity: 0,
-      },
-      {
+        y: 0,
         opacity: 1,
-        duration: 0.3,
-        stagger: 0.05,
-        ease: "sine.out",
+        duration: 0.6,
+        stagger: 0.1,
+        ease: "power2.out",
       },
     );
   },
-  start: "top 85%",
-  once: true,
 });

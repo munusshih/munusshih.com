@@ -11,6 +11,7 @@ import { SITE_TITLE } from "@/consts";
 const {
   title,
   description,
+  buttons = [],
   credit,
   recognition = [],
   roles,
@@ -41,14 +42,27 @@ const parsedRecognition = recognition.map((item) => marked.parseInline(item));
       class="fade-in grid flex-col gap-4 px-[var(--page-margin)] py-4 md:grid-cols-3 md:gap-8"
     >
       <h1 class="title heading1 col-span-2">{title}</h1>
-      <p class="code text-gray-400">
+      <p class="code text-balance text-gray-400">
         {tags.map((tag) => toTitleCase(tag)).join(", ")},{" "}
         {startDate && formatDateRange(startDate, endDate)}
       </p>
     </div>
-    <div class="fade-in m-auto flex justify-center pt-10 md:w-[75%]">
+    {
+      buttons.length > 0 && (
+        <div class="mt-2 flex-row flex-wrap gap-x-4 px-[var(--page-margin)]">
+          {buttons.map((item) => (
+            <a class="fade-in" href={item[1]} target="_blank">
+              <button class="heading3 cursor-pointer rounded-full border px-4 py-2">
+                {item[0]}
+              </button>
+            </a>
+          ))}
+        </div>
+      )
+    }
+    <div class="fade-in m-auto flex justify-center pt-10">
       <video
-        class="mb-20 aspect-[16/9] h-auto overflow-hidden"
+        class="mb-10 aspect-[16/9] h-auto overflow-hidden rounded-2xl lg:max-w-[80%]"
         loop
         muted
         playsinline
@@ -57,7 +71,7 @@ const parsedRecognition = recognition.map((item) => marked.parseInline(item));
         src={heroImage}
         poster={heroImage}></video>
     </div>
-    <div class="relative">
+    <div class="relative mt-2 mb-8 lg:mt-20 lg:mb-28">
       <input type="checkbox" id="expand-article" class="peer hidden" />
 
       <article
@@ -67,7 +81,7 @@ const parsedRecognition = recognition.map((item) => marked.parseInline(item));
         {
           parsedDescription && (
             <div
-              class="heading3 col-span-2 flex max-w-prose flex-col gap-2 px-[var(--page-margin)] font-light text-pretty text-[#0A0A0A] prose-p:indent-[2em] prose-p:text-pretty prose-p:first-of-type:indent-[6em]"
+              class="heading2 col-span-2 flex max-w-prose flex-col gap-2 px-[var(--page-margin)] font-light text-pretty text-[#0A0A0A] prose-p:indent-[2em] prose-p:font-[300] prose-p:text-pretty prose-p:first-of-type:indent-[6em]"
               set:html={parsedDescription}
             />
           )
@@ -87,10 +101,10 @@ const parsedRecognition = recognition.map((item) => marked.parseInline(item));
           {
             recognition.length > 0 && (
               <div>
-                <h3 class="body1 mb-5 font-bold">Recognitions</h3>
+                <h3 class="body1 mb-4 font-bold">Recognitions</h3>
                 <ul class="body1 flex flex-col gap-2">
                   {parsedRecognition.map((item) => (
-                    <li set:html={item} />
+                    <li set:html={item} class="leading-normal" />
                   ))}
                 </ul>
               </div>
@@ -121,7 +135,7 @@ const parsedRecognition = recognition.map((item) => marked.parseInline(item));
     </div>
 
     <div
-      class="code prose-p:fade-in slot work-content flex flex-col gap-4 px-[var(--page-margin)] pt-4 text-gray-400 xl:grid xl:grid-cols-2 xl:gap-4 prose-img:mb-2"
+      class="code prose-p:fade-in slot work-content body2 flex flex-col gap-4 px-[var(--page-margin)] pt-4 text-gray-600 xl:grid xl:gap-4 2xl:grid-cols-2 prose-img:mb-2"
     >
       <slot />
     </div>
@@ -130,10 +144,9 @@ const parsedRecognition = recognition.map((item) => marked.parseInline(item));
   </main>
 
   <script>
-    const slot = document.querySelector(".slot");
-    const pElements = slot.querySelectorAll("p");
+    const slot = document.querySelectorAll(".slot > *");
 
-    pElements.forEach((p) => {
+    slot.forEach((p) => {
       p.classList.add("fade-in");
       p.classList.add("text-pretty");
     });

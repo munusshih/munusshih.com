@@ -71,11 +71,11 @@ contentArray = prepareAndSortContent(contentArray);
       <ul class="w-full border-t pb-2">
         {contentArray.map((item, index) => (
           <li key={index} class="border-b py-2 pb-4">
-            <div class="mb-2 grid w-full grid-cols-5">
+            <div class="mb-2 grid w-full grid-cols-5 gap-8">
               {item.title && (
-                <h3 class="body1 col-span-3 flex flex-col gap-2 font-semibold text-balance">
+                <h3 class="body1 col-span-3 flex flex-col gap-2 !leading-normal font-semibold text-balance">
                   {item.link?.href ? (
-                    <a href={item.link.href} class="linkout body1">
+                    <a href={item.link.href} class="linkout">
                       {item.title}
                     </a>
                   ) : (

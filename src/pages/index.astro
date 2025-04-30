@@ -8,7 +8,11 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
 import Media from "../components/utils/Media.astro";
 ---
 
-<BasicLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
+<BasicLayout
+  title={SITE_TITLE}
+  description={SITE_DESCRIPTION}
+  image={`/thumbnails/index.jpg`}
+>
   <main
     class="relative grid h-auto w-full grid-cols-1 items-center justify-items-center gap-y-[8vw] overflow-hidden p-[var(--page-margin)] py-20 sm:grid-cols-2"
   >
@@ -67,7 +71,6 @@ import Media from "../components/utils/Media.astro";
 
     <WorkCard
       size={"x2-card"}
-      href="work"
       linkContent="A Coding Sketch"
       iframe="sketches/pattern"
       description="I made this pattern in CSS!"
@@ -82,19 +85,21 @@ import Media from "../components/utils/Media.astro";
       this.cards = document.querySelectorAll(cardsSelector);
       this.cardOffsets = [];
       this.isThrottled = false;
-      this.hasOffsets = false; // Flag to track if the offsets are already set
+
+      // Bind methods once to preserve references
+      this.boundCheckScreenSize = this.checkScreenSize.bind(this);
+      this.boundThrottleParallax = this.throttleParallax.bind(this);
+
       this.init();
     }
 
     init() {
       this.checkScreenSize(); // Setup on load
-      window.addEventListener("resize", this.checkScreenSize.bind(this));
+      window.addEventListener("resize", this.boundCheckScreenSize);
     }
 
     cardOffset() {
-      // Only calculate offsets once
-      if (this.hasOffsets) return;
-
+      this.cardOffsets = []; // Clear previous offsets to avoid duplication
       this.cards.forEach((div, index) => {
         const randX =
           index % 3 === 2 ? Math.random() * -10 : Math.random() * 20;
@@ -103,13 +108,12 @@ import Media from "../components/utils/Media.astro";
         this.cardOffsets.push({ randX, randY });
 
         gsap.set(div, {
-          transform: `translate(${randX}%, ${randY}%)`,
+          xPercent: randX,
+          yPercent: randY,
           duration: 0.5,
           ease: "power2.out",
         });
       });
-
-      this.hasOffsets = true; // Mark offsets as calculated
     }
 
     throttleParallax(e) {
@@ -123,19 +127,17 @@ import Media from "../components/utils/Media.astro";
     }
 
     parallax(e) {
-      const mouseX = e.clientX;
-      const mouseY = e.clientY;
-      const windowWidth = window.innerWidth;
-      const windowHeight = window.innerHeight;
+      const { clientX, clientY } = e;
+      const { innerWidth, innerHeight } = window;
+      const offsetX = (clientX / innerWidth - 0.5) * 5;
+      const offsetY = (clientY / innerHeight - 0.5) * 5;
 
       this.cards.forEach((div, index) => {
         const { randX, randY } = this.cardOffsets[index];
 
-        const offsetX = (mouseX / windowWidth - 0.5) * 5;
-        const offsetY = (mouseY / windowHeight - 0.5) * 5;
-
         gsap.to(div, {
-          transform: `translate(${randX + offsetX}%, ${randY + offsetY}%)`,
+          xPercent: randX + offsetX,
+          yPercent: randY + offsetY,
           duration: 0.3,
           ease: "power2.out",
         });
@@ -144,33 +146,27 @@ import Media from "../components/utils/Media.astro";
 
     removeTransform() {
       this.cards.forEach((div) => {
-        gsap.set(div, { transform: "none", duration: 0.3 });
+        gsap.set(div, { clearProps: "transform", duration: 0.3 });
       });
     }
 
     removeParallax() {
-      document.removeEventListener(
-        "mousemove",
-        this.throttleParallax.bind(this),
-      );
+      document.removeEventListener("mousemove", this.boundThrottleParallax);
     }
 
     checkScreenSize() {
       const screenWidth = window.innerWidth;
 
       if (screenWidth < 768) {
-        // Remove effects for small screens
         this.removeParallax();
         this.removeTransform();
-        this.hasOffsets = false; // Reset offset flag on small screen
       } else {
-        // Add effects for large screens
         this.cardOffset();
-        document.addEventListener(
-          "mousemove",
-          this.throttleParallax.bind(this),
-        );
+        this.removeParallax(); // Prevent double binding
+        document.addEventListener("mousemove", this.boundThrottleParallax);
       }
     }
   }
+
+  const parallax = new ParallaxEffect(".home-card");
 </script>

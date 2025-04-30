@@ -9,13 +9,17 @@ import FullListCard from "@/components/cards/FullListCard.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
 ---
 
-<BasicLayout title={`About≈${SITE_TITLE}`} description={SITE_DESCRIPTION}>
+<BasicLayout
+  title={`About — ${SITE_TITLE}`}
+  description={SITE_DESCRIPTION}
+  image={`/thumbnails/about.jpg`}
+>
   <main class="p-[var(--page-margin)]">
     <section
       class="mt-10 grid auto-cols-min auto-rows-min grid-cols-1 gap-0 pb-20 lg:grid-cols-2"
     >
       <article
-        class="heading2 fade-in flex flex-col gap-4 prose-p:indent-[2em] prose-p:text-pretty prose-p:first-of-type:indent-[6em]"
+        class="heading2 fade-in flex flex-col gap-4 prose-p:indent-[2em] prose-p:text-pretty prose-p:first-of-type:indent-[6em] prose-a:italic"
       >
         <Content />
       </article>
