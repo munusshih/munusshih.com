@@ -12,6 +12,8 @@
   date: "May 2025"
   place: "National Taiwan University of Science and Technology"
   type: "Talk"
+  link:
+    href: "https://www.youtube.com/live/I3jfwLpwn_E"
 
 - title: "We Remember: Local Hakka Memorial"
   date: "May 2024"
@@ -69,7 +71,7 @@
 
 - title: "Dragon Bytes: Coding Chinese New Year with p5.js and AI ft. Roy Yang"
   date: "Jan 2024"
-  type: "Panel"
+  type: "Workshop"
   place: "CC Festival, The Dalton School"
   link:
     href: "https://www.notion.so/munusshih/NCTU-IAA-f9c5d9e4b9ed46f9ad6558f3f7465150?pvs=4"
@@ -113,7 +115,7 @@
 
 - title: "Style My Glitch: An HTML/CSS/JS Workshop ft. Simran Jagnik"
   date: "May 2021"
-  type: "Talk"
+  type: "Workshop"
   place: "National Taiwan University of Science and Technology"
 
 - title: "Design & Building A Portfolio using Cargo ft. KT Son"

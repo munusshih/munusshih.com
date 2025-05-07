@@ -29,7 +29,7 @@ const sortedWorkItems = sortByDate(workItems, "desc");
   <main class="w-full">
     <!-- Tag Filter UI -->
 
-    <div
+    <!-- <div
       class="heading3 fade-in mb-6 hidden flex-row gap-x-4 px-[var(--page-margin)] md:flex"
     >
       <button data-tag="all" class="tag-button active cursor-pointer"
@@ -42,35 +42,132 @@ const sortedWorkItems = sortByDate(workItems, "desc");
           </button>
         ))
       }
-    </div>
-
+    </div> -->
+    <h1
+      class="fade-in w-full self-center text-[30vw] leading-tight tracking-[-0.1em]"
+    >
+      Recent
+    </h1>
     <section class="flex flex-col">
       {
-        sortedWorkItems.map((item) => () => (
-          <a href={`/${item.id}`} class="fade-in !no-underline">
-            <article
-              class="flex flex-col justify-between gap-x-20 gap-y-10 border-b px-[var(--page-margin)] py-4 md:flex-row md:gap-y-0 md:py-2"
+        sortedWorkItems
+          .filter((item) => item.data.archived === false)
+          .map((item) => (
+            <a
+              href={`/${item.id}`}
+              class="fade-in !no-underline"
               key={item.data.title}
+            >
+              <article
+                class="flex flex-col justify-between gap-x-20 gap-y-10 border-b px-[var(--page-margin)] py-4 md:flex-row md:gap-y-0 md:py-2"
+                data-tags={item.data.tags.join(",")}
+              >
+                <div class="w-full md:w-1/3">
+                  <h2 class="heading2 text-balance">{item.data.title}</h2>
+                  <p class="body1 code mt-2 text-balance text-gray-400">
+                    {item.data.tags.map((tag) => toTitleCase(tag)).join(", ")},{" "}
+                    {item.data.startDate &&
+                      formatDateRange(item.data.startDate, item.data.endDate)}
+                  </p>
+                  <p class="heading3 mt-2 max-w-[30ch] text-pretty">
+                    {item.data.excerpt}
+                  </p>
+                </div>
+                <div class="image-container pointer-events-none w-full overflow-hidden md:pointer-events-auto md:w-2/3">
+                  {item.data.images && item.data.images.length > 1 ? (
+                    <div class="medias grid grid-cols-3 gap-x-2">
+                      {item.data.images.map((image, index) => {
+                        const isTwoImages = item.data.images.length === 2;
+                        let colStart = null;
+
+                        if (isTwoImages) {
+                          colStart =
+                            index === 0 ? "md:col-start-2" : "md:col-start-3";
+                        }
+
+                        return (
+                          <Media
+                            className={
+                              colStart ? `${colStart}` : "aspect-square"
+                            }
+                            src={image}
+                            alt={item.data.description}
+                            isVideo={image.match(/\.(mp4|webm|ogg)$/i)}
+                            cropped={index === 0}
+                            key={index}
+                            widthAuto={true}
+                          />
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <div class="grid grid-cols-3">
+                      <div class="md:col-start-3">
+                        <Media
+                          className="aspect-square"
+                          src={item.data.images[0]}
+                          alt={item.data.description}
+                          isVideo={item.data.images[0].match(
+                            /\.(mp4|webm|ogg)$/i,
+                          )}
+                          cropped={true}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </article>
+            </a>
+          ))
+      }
+    </section>
+
+    <h1
+      class="fade-in w-full self-center text-[30vw] leading-tight tracking-[-0.1em]"
+    >
+      Archive
+    </h1>
+    <section
+      class="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-y-20 lg:grid-cols-3"
+    >
+      {
+        sortedWorkItems
+          .filter((item) => item.data.archived === true)
+          .map((item) => (
+            <article
+              class="flex flex-col justify-items-start gap-x-20 gap-y-10 border-t px-[var(--page-margin)] pt-8 md:border-0 md:pt-0"
               data-tags={item.data.tags.join(",")}
             >
               <div>
                 <h2 class="heading2 text-balance">{item.data.title}</h2>
-                <p class="body1 code mt-2 text-balance text-gray-400">
+                <p class="body1 code mt-2 mb-10 text-balance text-gray-400">
                   {item.data.tags.map((tag) => toTitleCase(tag)).join(", ")},{" "}
                   {item.data.startDate &&
                     formatDateRange(item.data.startDate, item.data.endDate)}
                 </p>
+                <p class="heading3 mt-2 text-balance">{item.data.excerpt}</p>
+                {item.data?.buttons?.length > 0 && (
+                  <div class="mt-10 flex-row flex-wrap gap-x-4">
+                    {item.data.buttons.map((item) => (
+                      <a class="fade-in" href={item[1]} target="_blank">
+                        <button class="heading3 cursor-pointer rounded-full border px-4 py-2">
+                          {item[0]}
+                        </button>
+                      </a>
+                    ))}
+                  </div>
+                )}
               </div>
-              <div class="image-container pointer-events-none w-full overflow-hidden md:pointer-events-auto md:w-1/2">
+              <div class="pointer-events-none w-full overflow-hidden md:pointer-events-auto">
                 {item.data.images && item.data.images.length > 1 ? (
-                  <div class="medias grid grid-cols-3 gap-x-2">
+                  <div class="grid">
                     {item.data.images.map((image, index) => {
                       const isTwoImages = item.data.images.length === 2;
                       let colStart = null;
 
                       if (isTwoImages) {
                         colStart =
-                          index === 0 ? "md:col-start-2" : "md:col-start-3"; // start at grid columns 2 and 3
+                          index === 0 ? "md:col-start-2" : "md:col-start-3";
                       }
 
                       return (
@@ -87,10 +184,9 @@ const sortedWorkItems = sortByDate(workItems, "desc");
                     })}
                   </div>
                 ) : (
-                  <div class="grid grid-cols-3">
+                  <div class="grid grid-cols-1">
                     <div class="md:col-start-3">
                       <Media
-                        className="aspect-square"
                         src={item.data.images[0]}
                         alt={item.data.description}
                         isVideo={item.data.images[0].match(
@@ -103,8 +199,7 @@ const sortedWorkItems = sortByDate(workItems, "desc");
                 )}
               </div>
             </article>
-          </a>
-        ))
+          ))
       }
     </section>
   </main>
@@ -178,7 +273,7 @@ const sortedWorkItems = sortByDate(workItems, "desc");
       }
 
       gsap.to(swiper, {
-        width: "50%",
+        width: "75%",
         duration: 0.8,
         ease: "power2.out",
         overwrite: "auto",
