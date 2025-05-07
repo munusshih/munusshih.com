@@ -160,15 +160,10 @@ const sortedWorkItems = sortByDate(workItems, "desc");
               </div>
               <div class="pointer-events-none w-full overflow-hidden md:pointer-events-auto">
                 {item.data.images && item.data.images.length > 1 ? (
-                  <div class="grid">
+                  <div class="grid grid-cols-2">
                     {item.data.images.map((image, index) => {
                       const isTwoImages = item.data.images.length === 2;
                       let colStart = null;
-
-                      if (isTwoImages) {
-                        colStart =
-                          index === 0 ? "md:col-start-2" : "md:col-start-3";
-                      }
 
                       return (
                         <Media
@@ -185,7 +180,7 @@ const sortedWorkItems = sortByDate(workItems, "desc");
                   </div>
                 ) : (
                   <div class="grid grid-cols-1">
-                    <div class="md:col-start-3">
+                    <div>
                       <Media
                         src={item.data.images[0]}
                         alt={item.data.description}
