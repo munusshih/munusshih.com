@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "generatePoster": "node generatePosters.js",
-    "build": "npm run generatePoster && astro build",
+    "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
   },

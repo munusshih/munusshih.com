@@ -13,11 +13,11 @@ const work = defineCollection({
     excerpt: z.string().optional(),
     recognition: z.array(z.string()).optional(),
     archived: z.boolean().optional(),
-    tags: z.array(z.string()),
-    startDate: z.string(),
+    tags: z.array(z.string()).optional(),
+    startDate: z.string().optional(),
     endDate: z.string().optional(),
     heroImage: z.string().optional(),
-    images: z.array(z.string()),
+    images: z.array(z.string()).optional(),
   }),
 });
 
