@@ -7,16 +7,17 @@ const work = defineCollection({
   // Type-check frontmatter using a schema
   schema: z.object({
     title: z.string(),
-    description: z.string(),
+    description: z.string().optional(),
     buttons: z.array(z.array(z.string())).optional(),
     credit: z.string().optional(),
     excerpt: z.string().optional(),
     recognition: z.array(z.string()).optional(),
-    tags: z.array(z.string()),
-    startDate: z.string(),
+    archived: z.boolean().optional(),
+    tags: z.array(z.string()).optional(),
+    startDate: z.string().optional(),
     endDate: z.string().optional(),
     heroImage: z.string().optional(),
-    images: z.array(z.string()),
+    images: z.array(z.string()).optional(),
   }),
 });
 

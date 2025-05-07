@@ -44,7 +44,7 @@ if (title === "Recent Press") {
       </span>
     </summary>
     {
-      contentArray?.length > 0 && (
+      contentArray?.length > 0 ? (
         <ul class="w-full border-t pb-2">
           {contentArray.map((item, index) => (
             <li key={index} class="border-b py-2 pb-4">
@@ -52,7 +52,11 @@ if (title === "Recent Press") {
                 {item.title && (
                   <div class="body1 col-span-3 flex flex-row gap-4">
                     {item.link?.href ? (
-                      <a href={item.link.href} class="linkout body1">
+                      <a
+                        href={item.link.href}
+                        class="linkout body1"
+                        target="_blank"
+                      >
                         {item.title}
                       </a>
                     ) : (
@@ -78,6 +82,10 @@ if (title === "Recent Press") {
             </li>
           ))}
         </ul>
+      ) : (
+        <div class="flex h-full w-full items-center justify-center">
+          <h3 class="heading2">No content available</h3>
+        </div>
       )
     }
   </details>
