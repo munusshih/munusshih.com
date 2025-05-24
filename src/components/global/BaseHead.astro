@@ -20,12 +20,22 @@ const structuredData = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Munus Shih",
+  alternateName: "木那斯",
+  description:
+    "Munus Shih is an Assistant Professor at Pratt Institute, a creative technologist, artist, and designer. They specializes in creative coding, generative art, and data visualization.",
   url: "https://munusshih.com",
-  image: "https://munusshih.com/images/profile.jpg", // ideally a portrait-style profile photo
+  image: "https://munusshih.com/images/profile.jpg",
   jobTitle: "Assistant Professor, Creative Technologist, Artist, and Designer",
+  knowsAbout: [
+    "Creative Coding",
+    "Generative Art",
+    "Data Visualization",
+    "Creative Technology",
+  ],
   worksFor: {
-    "@type": "Organization",
+    "@type": "EducationalOrganization",
     name: "Pratt Institute",
+    url: "https://www.pratt.edu",
   },
   address: {
     "@type": "PostalAddress",
@@ -36,6 +46,7 @@ const structuredData = {
   alumniOf: {
     "@type": "EducationalOrganization",
     name: "Parsons School of Design",
+    url: "https://www.newschool.edu/parsons/",
   },
   sameAs: [
     "https://github.com/munusshih",
