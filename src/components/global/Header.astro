@@ -12,18 +12,37 @@ const currentPage = Astro.url.pathname; // Get the current page's pathname
 <header
   class="body1 fade-in fixed top-0 z-10 w-full bg-white px-[var(--page-margin)] py-4 pt-[var(--page-margin)] md:pt-4 2xl:py-6"
 >
-  <input type="checkbox" id="nav-toggle" class="peer hidden" />
+  <!-- Hidden checkbox controls menu visibility -->
+  <input
+    type="checkbox"
+    id="nav-toggle"
+    class="peer hidden"
+    aria-hidden="true"
+  />
 
   <div class="flex flex-row items-center justify-between">
     <h1 class="heading2 font-bold tracking-tight">
       <a href="/" class="!no-underline hover:text-gray-400">Munus Shih</a>
     </h1>
 
-    <label for="nav-toggle" class="heading2 z-50 cursor-pointer"> Menu </label>
+    <!-- Menu toggle label, acts as a button -->
+    <label
+      for="nav-toggle"
+      class="heading2 z-50 cursor-pointer"
+      role="button"
+      tabindex="0"
+      aria-controls="main-navigation"
+      aria-expanded="false"
+    >
+      Menu
+    </label>
   </div>
 
   <nav
-    class="pointer-events-none absolute inset-0 z-[999] flex h-screen w-full flex-col items-center justify-center bg-black text-white opacity-0 transition-all duration-300 peer-checked:pointer-events-auto peer-checked:opacity-100"
+    id="main-navigation"
+    role="navigation"
+    aria-label="Main navigation"
+    class="pointer-events-none absolute inset-0 z-[999] hidden h-screen w-full flex-col items-center justify-center bg-black text-white opacity-0 transition-all duration-300 peer-checked:pointer-events-auto peer-checked:flex peer-checked:opacity-100"
   >
     <ul class="menu-textsize flex flex-col items-center justify-center gap-4">
       <li><a href="/" class="!no-underline hover:text-gray-400">Home</a></li>
@@ -37,9 +56,12 @@ const currentPage = Astro.url.pathname; // Get the current page's pathname
         <a href="/lab" class="!no-underline hover:text-gray-400">Laboratory</a>
       </li>
 
+      <!-- Close button label -->
       <label
         for="nav-toggle"
         class="heading2 absolute top-[var(--page-margin)] right-[var(--page-margin)] cursor-pointer hover:text-gray-400"
+        role="button"
+        tabindex="0"
       >
         Close
       </label>
@@ -72,5 +94,47 @@ const currentPage = Astro.url.pathname; // Get the current page's pathname
 
       header.classList.toggle("shadow-md", scroll() > 0);
     },
+  });
+
+  document.querySelectorAll('label[for="nav-toggle"]').forEach((label) => {
+    label.addEventListener("keydown", (e) => {
+      if (e.key === " " || e.key === "Enter") {
+        e.preventDefault();
+        const checkbox = document.getElementById("nav-toggle");
+        checkbox.checked = !checkbox.checked;
+        checkbox.dispatchEvent(new Event("change"));
+      }
+    });
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Tab") return;
+
+    const checkbox = document.getElementById("nav-toggle");
+    if (!checkbox.checked) return; // only trap focus when menu is open
+
+    const nav = document.getElementById("main-navigation");
+    const focusable = nav.querySelectorAll(
+      'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    );
+    if (focusable.length === 0) return;
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    const active = document.activeElement;
+
+    if (e.shiftKey) {
+      // Shift + Tab
+      if (active === first) {
+        e.preventDefault();
+        last.focus();
+      }
+    } else {
+      // Tab
+      if (active === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
   });
 </script>

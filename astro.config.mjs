@@ -10,7 +10,7 @@ import vercel from "@astrojs/vercel";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://munusshih-com.vercel.app/",
+  site: "https://munusshih.com",
   output: "static",
   adapter: vercel({
     webAnalytics: {
