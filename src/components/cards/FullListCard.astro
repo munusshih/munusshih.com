@@ -40,7 +40,7 @@ const contentFilters = {
         "residency",
         "conference",
         "panel",
-      ].includes(type.toLowerCase()),
+      ].includes(type.toLowerCase())
     ),
   Workshop: () =>
     Events.filter(({ type }) => ["workshop"].includes(type.toLowerCase())),
@@ -48,7 +48,7 @@ const contentFilters = {
     Events.filter(({ type }) => ["class"].includes(type.toLowerCase())),
   "Code/Contribution": () =>
     Events.filter(({ type }) =>
-      ["website", "code", "contribution"].includes(type.toLowerCase()),
+      ["website", "code", "contribution"].includes(type.toLowerCase())
     ),
   "Upcoming Events": () =>
     Events.filter(({ date }) => parseLooseDate(date) > new Date()),
@@ -60,7 +60,7 @@ let contentArray = contentFilters[title] ? contentFilters[title]() : [];
 contentArray = prepareAndSortContent(contentArray);
 ---
 
-<div
+<section
   class={`home-card w-full flex flex-col p-4 text-black h-max `}
   style={`background: ${background}; color: ${text};`}
   open
@@ -102,4 +102,4 @@ contentArray = prepareAndSortContent(contentArray);
       </ul>
     )
   }
-</div>
+</section>

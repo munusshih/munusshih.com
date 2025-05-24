@@ -35,7 +35,7 @@ const parsedRecognition = recognition.map((item) => marked.parseInline(item));
 <BasicLayout
   title={`${title} — ${SITE_TITLE}`}
   description={parsedExcerpt}
-  image={heroImage?.replace("mp4", "jpg") || images[0]}
+  image={heroImage ? `/posters${heroImage.replace("mp4", "jpg")}` : images[0]}
 >
   <main>
     <div

@@ -178,6 +178,8 @@
   date: "Fall 2023"
   type: "Class"
   place: "Parsons School of Design"
+  link:
+    href: "https://parsonsdt.github.io/critical-computation-2023/tutorials.html"
 
 - title: "Advanced Design: Product Design"
   date: "Spring 2024"
