@@ -15,7 +15,53 @@ interface Props {
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 const { title, description, image = "/blog-placeholder-1.jpg" } = Astro.props;
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Munus Shih",
+  url: "https://munusshih.com",
+  image: "https://munusshih.com/images/profile.jpg", // ideally a portrait-style profile photo
+  jobTitle: "Assistant Professor, Creative Technologist, Artist, and Designer",
+  worksFor: {
+    "@type": "Organization",
+    name: "Pratt Institute",
+  },
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Brooklyn",
+    addressRegion: "NY",
+    addressCountry: "US",
+  },
+  alumniOf: {
+    "@type": "EducationalOrganization",
+    name: "Parsons School of Design",
+  },
+  sameAs: [
+    "https://github.com/munusshih",
+    "https://www.instagram.com/munusshih/",
+    "https://www.facebook.com/munusshih",
+    "https://linkedin.com/in/munusshih", // if public
+    "https://www.newmuseum.org/person/munus-niktari/",
+    "https://tisch.nyu.edu/itp/events/spring-2023/itp-ima-thursday-night-talk-p5-js-Community-Salon.html", // if relevant to your work
+    "https://www.informationisbeautifulawards.com/showcase/7086-image-of-the-studio-data-designer-visualizer",
+    "https://medium.com/processing-foundation/begincontour-%E5%BE%9E%E7%AD%89%E9%AB%98%E7%B7%9A%E9%96%8B%E5%A7%8B-a-critical-anti-colonial-and-intersectional-pedagogy-to-taiwanese-creative-f44d67fd0ccb", // optional, if work is hosted there
+    "https://sessionize.com/s/munusshih/tai-wan-ku-er-sheng-yin-di-tu-cong-she-ji-fa-xiang/81261",
+  ],
+};
+
+const showStructuredData =
+  Astro.url.pathname === "/" || Astro.url.pathname === "/about";
 ---
+
+{
+  showStructuredData && (
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(structuredData)}
+    />
+  )
+}
 
 <!-- Global Metadata -->
 <meta charset="utf-8" />
