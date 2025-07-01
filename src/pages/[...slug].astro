@@ -1,15 +1,20 @@
 ---
 import { getCollection } from "astro:content";
 import BlogPost from "@/layouts/BlogPost.astro";
+import ClassPost from "@/layouts/ClassPost.astro";
 import { render } from "astro:content";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("work");
-  return posts
+  const workPosts = await getCollection("work");
+  const classPosts = await getCollection("classes");
+
+  const allPosts = [...workPosts, ...classPosts];
+
+  return allPosts
     .filter((post) => post.data.archived === false)
     .map((post) => ({
       params: { slug: post.id },
-      props: post,
+      props: { ...post, collection: post.collection },
     }));
 }
 
@@ -17,6 +22,19 @@ const post = Astro.props;
 const { Content } = await render(post);
 ---
 
-<BlogPost {...post.data}>
-  <Content />
-</BlogPost>
+{
+  post.collection === "work" ? (
+    <BlogPost {...post.data}>
+      <Content />
+    </BlogPost>
+  ) : post.collection === "classes" ? (
+    <ClassPost {...post.data}>
+      <Content />
+    </ClassPost>
+  ) : (
+    <div>
+      <p>Unrecognized collection: {post.collection}</p>
+      <Content />
+    </div>
+  )
+}

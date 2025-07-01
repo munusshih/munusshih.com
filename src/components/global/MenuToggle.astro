@@ -1,0 +1,33 @@
+---
+interface Props {
+  toggleId?: string;
+  menuText?: string;
+  siteTitle?: string;
+  homeUrl?: string;
+}
+
+const {
+  toggleId = "nav-toggle",
+  menuText = "Menu",
+  siteTitle = "Munus Shih",
+  homeUrl = "/"
+} = Astro.props;
+---
+
+<div class="flex flex-row items-center justify-between">
+  <h1 class="heading2 font-bold tracking-tight">
+    <a href={homeUrl} class="!no-underline hover:text-gray-400">{siteTitle}</a>
+  </h1>
+
+  <!-- Menu toggle label, acts as a button -->
+  <label
+    for={toggleId}
+    class="heading2 z-50 cursor-pointer"
+    role="button"
+    tabindex="0"
+    aria-controls="main-navigation"
+    aria-expanded="false"
+  >
+    {menuText}
+  </label>
+</div>

@@ -7,6 +7,14 @@ import { marked } from "marked";
 
 const base = import.meta.env.BASE_URL;
 const currentPage = Astro.url.pathname; // Get the current page's pathname
+
+const navigationList = [
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Work", href: "/work" },
+  { label: "Teach", href: "/teach" },
+  { label: "Laboratory", href: "/lab" },
+];
 ---
 
 <header
@@ -45,16 +53,18 @@ const currentPage = Astro.url.pathname; // Get the current page's pathname
     class="pointer-events-none absolute inset-0 z-[999] hidden h-screen w-full flex-col items-center justify-center bg-black text-white opacity-0 transition-all duration-300 peer-checked:pointer-events-auto peer-checked:flex peer-checked:opacity-100"
   >
     <ul class="menu-textsize flex flex-col items-center justify-center gap-4">
-      <li><a href="/" class="!no-underline hover:text-gray-400">Home</a></li>
-      <li>
-        <a href="/about" class="!no-underline hover:text-gray-400">About</a>
-      </li>
-      <li>
-        <a href="/work" class="!no-underline hover:text-gray-400">Work</a>
-      </li>
-      <li>
-        <a href="/lab" class="!no-underline hover:text-gray-400">Laboratory</a>
-      </li>
+      {
+        navigationList.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class={`!no-underline hover:text-gray-400 ${currentPage.startsWith(item.href) ? "text-gray-300" : ""}`}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
 
       <!-- Close button label -->
       <label

@@ -21,5 +21,26 @@ const work = defineCollection({
   }),
 });
 
+const classes = defineCollection({
+  // Load Markdown and MDX files in the `src/content/class/` directory.
+  loader: glob({ base: "./src/content/class", pattern: "**/*.{md,mdx}" }),
+  // Type-check frontmatter using a schema
+  schema: z.object({
+    title: z.string(),
+    description: z.string().optional(),
+    school: z.string().optional(),
+    date: z.string().optional(),
+    buttons: z.array(z.array(z.string())).optional(),
+    archived: z.boolean().optional(),
+    heroImage: z.string().optional(),
+    images: z.array(z.string()).optional(),
+    index: z.string().optional(),
+    department: z.string().optional(),
+    time: z.string().optional(),
+    credits: z.number().optional(),
+    room: z.string().optional(),
+  }),
+});
 
-export const collections = { work };
+
+export const collections = { work, classes };

@@ -1,0 +1,60 @@
+---
+import { NAVIGATION, type NavItem } from "@/consts";
+
+interface Props {
+  currentPath?: string;
+  navigationItems?: NavItem[];
+  menuId?: string;
+  closeButtonText?: string;
+}
+
+const {
+  currentPath = Astro.url.pathname,
+  navigationItems = NAVIGATION,
+  menuId = "main-navigation",
+  closeButtonText = "Close",
+} = Astro.props;
+
+// Function to check if a link is active
+const isActive = (href: string, currentPath: string) => {
+  if (href === "/") {
+    return currentPath === "/";
+  }
+  return currentPath.startsWith(href);
+};
+---
+
+<nav
+  id={menuId}
+  role="navigation"
+  aria-label="Main navigation"
+  class="pointer-events-none absolute inset-0 z-[999] hidden h-screen w-full flex-col items-center justify-center bg-black text-white opacity-0 transition-all duration-300 peer-checked:pointer-events-auto peer-checked:flex peer-checked:opacity-100"
+>
+  <ul class="menu-textsize flex flex-col items-center justify-center gap-4">
+    {
+      navigationItems.map((item) => (
+        <li>
+          <a
+            href={item.href}
+            class={`!no-underline hover:text-gray-400 ${isActive(item.href, currentPath) ? "text-gray-300" : ""}`}
+            {...(item.external
+              ? { target: "_blank", rel: "noopener noreferrer" }
+              : {})}
+          >
+            {item.label}
+          </a>
+        </li>
+      ))
+    }
+
+    <!-- Close button label -->
+    <label
+      for="nav-toggle"
+      class="heading2 absolute top-[var(--page-margin)] right-[var(--page-margin)] cursor-pointer hover:text-gray-400"
+      role="button"
+      tabindex="0"
+    >
+      {closeButtonText}
+    </label>
+  </ul>
+</nav>

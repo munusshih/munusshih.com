@@ -1,0 +1,46 @@
+---
+import { marked } from "marked"; // install via npm i marked
+import BasicLayout from "./Basic.astro";
+import { SITE_TITLE } from "@/consts";
+
+const {
+  title,
+  school,
+  date,
+  description,
+  buttons,
+  archived,
+  index,
+  department,
+  credits,
+  room,
+  time,
+} = Astro.props;
+---
+
+<BasicLayout title={`${title} — ${SITE_TITLE}`} description={description}>
+  <main
+    class="-mt-20 flex w-full flex-col gap-8 bg-white px-[var(--page-margin)] pt-20 invert-100"
+  >
+    <h1
+      class="fade-in w-full self-center text-[10vw] leading-[10vw] tracking-tighter"
+    >
+      {title}
+    </h1>
+    <div class="aspect-video w-full bg-red-400"></div>
+    <div class="heading3 my-8 grid gap-8 text-balance lg:grid-cols-3">
+      <div>
+        <p>{school}, {date}</p>
+        <p>{department}</p>
+      </div>
+      <div>
+        <p>{index}</p>
+        <p>{credits} credits</p>
+      </div>
+      <div>
+        <p>{time}</p>
+        <p>{room}</p>
+      </div>
+    </div>
+  </main>
+</BasicLayout>

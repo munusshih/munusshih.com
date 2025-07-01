@@ -9,3 +9,12 @@ export const NEWS = [
     "I've been reading [_How to speak machine_ by John Maeda](https://howtospeakmachine.com/)",
     "This website is currently under active construction. There's probably something new every week. Come back soon!",
 ];
+
+// Navigation configuration
+
+export const SITE_CONFIG = {
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    url: SITE_URL,
+    author: "Munus Shih",
+};
