@@ -11,6 +11,7 @@ import {
   cleanLooseDate,
   prepareAndSortContent,
 } from "@/scripts/cleanDate.js";
+
 const backgroundColors = {
   "Upcoming Events": "#FFBF00",
   "Recent Press": "#6DE7FF",
@@ -19,15 +20,58 @@ const backgroundColors = {
 
 let background = backgroundColors[title] || "black";
 
+// Book data loader
+async function getBookData(contentArray) {
+  async function fetchGoogleBooksInfo(isbn) {
+    const url = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`;
+    const res = await fetch(url);
+    if (!res.ok) return null;
+    const data = await res.json();
+    if (data.totalItems === 0) return null;
+
+    const volume = data.items[0].volumeInfo;
+
+    return {
+      title: volume.title || "Untitled",
+      link: volume.infoLink || null,
+      image: volume.imageLinks?.thumbnail?.replace(/^http:/, "https:") || null,
+      date: volume.publishedDate || null,
+    };
+  }
+
+  const fetches = contentArray.map(async (item) => {
+    const isbn = item.isbn;
+    if (!isbn) return item;
+
+    const bookInfo = await fetchGoogleBooksInfo(isbn);
+    if (!bookInfo) return item;
+
+    return {
+      ...item,
+      title: bookInfo.title || item.title || "Untitled",
+      link: {
+        href: bookInfo.link || `https://books.google.com/books?isbn=${isbn}`,
+      },
+      image: bookInfo.image,
+      date: bookInfo.date || item.date || null,
+    };
+  });
+
+  return Promise.all(fetches);
+}
+
+// Main content logic
 let contentArray = [];
+
 if (title === "Recent Press") {
   contentArray = prepareAndSortContent(Press).slice(0, 3);
 } else if (title === "Upcoming Events") {
   contentArray = prepareAndSortContent(
-    Events.filter(({ date }) => parseLooseDate(date) > new Date()),
+    Events.filter(({ date }) => parseLooseDate(date) > new Date())
   );
 } else if (title === "Readings") {
-  contentArray = prepareAndSortContent([Books[0], Books[1]]);
+  const base = prepareAndSortContent([Books[0], Books[1]]);
+  contentArray = await getBookData(base);
 }
 ---
 
