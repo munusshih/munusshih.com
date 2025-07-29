@@ -5,6 +5,7 @@ import { Image } from "astro:assets";
 import profile from "@/assets/profile.jpg";
 import Content from "@/docs/about/about-munus.md";
 import Clout from "@/docs/about/clout.md";
+import Media from "@/components/utils/Media.astro";
 import FullListCard from "@/components/cards/FullListCard.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
 ---
@@ -15,6 +16,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
   image={`/thumbnails/about.jpg`}
 >
   <main class="p-[var(--page-margin)]">
+    <Media src={"/about/P7200611.JPG"} isVideo={false} />
     <section
       class="mt-10 grid auto-cols-min auto-rows-min grid-cols-1 gap-0 pb-20 lg:grid-cols-2"
     >
