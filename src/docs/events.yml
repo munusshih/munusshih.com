@@ -1,3 +1,8 @@
+- title: "Thesis I"
+  date: "Fall 2025"
+  type: "Class"
+  place: "Pratt Institute"
+
 - title: "Graduate Studio: Technology A"
   date: "Fall 2025"
   type: "Class"
@@ -8,7 +13,7 @@
 - title: "Techno Mirage"
   date: "Sep 2025"
   type: "Panel"
-  place: "Underground Art and Design x Index Space"
+  place: "Underground Art and Design x Index Space, New York, NY, USA"
   link:
     href: "https://www.uaad.art/technomirage"
 
