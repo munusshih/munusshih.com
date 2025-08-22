@@ -35,6 +35,16 @@
     const printResumeBtn = document.getElementById("print-resume-btn");
 
     printResumeBtn.addEventListener("click", () => {
+      // Get current date in YYYY-MM-DD format
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, "0");
+      const day = String(today.getDate()).padStart(2, "0");
+      const dateString = `${year}-${month}-${day}`;
+
+      // Create filename with date
+      const filename = `Munus_Shih_CV_${dateString}`;
+
       // Create an iframe to load the printable version
       const printFrame = document.createElement("iframe");
       printFrame.style.position = "absolute";
@@ -42,7 +52,7 @@
       printFrame.style.left = "-9999px";
       printFrame.style.width = "0";
       printFrame.style.height = "0";
-      printFrame.src = "/resume?view=true";
+      printFrame.src = `/resume?view=true&filename=${encodeURIComponent(filename)}`;
       document.body.appendChild(printFrame);
 
       // Once iframe is loaded, trigger print
