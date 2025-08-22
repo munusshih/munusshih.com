@@ -4,7 +4,13 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
 import Events from "@/docs/events.yml";
 import Education from "@/docs/education.yml";
 import Press from "@/docs/press.yml";
+import Organizing from "@/docs/organizing.yml";
+import Experiences from "@/docs/experiences.yml";
+import HeroSketch from "@/components/global/HeroSketch.astro";
 import { prepareAndSortContent } from "@/scripts/cleanDate.js";
+
+// add more exhibitions
+// add teaching and professional experience
 
 // Function to remove spaces before commas
 function removeSpaceBeforeComma(text) {
@@ -15,6 +21,106 @@ function removeSpaceBeforeComma(text) {
 const teachingEvents = Events.filter(({ type }) =>
   type.toLowerCase().includes("class")
 );
+
+// Experiences file split into Professional / Teaching
+const professionalEvents = Experiences.filter(
+  ({ type }) => type && type.toLowerCase() === "professional"
+);
+
+const teachingEventsFromExperiences = Experiences.filter(
+  ({ type }) => type && type.toLowerCase() === "teaching"
+);
+
+// Class events in Events (to be nested under teaching jobs when possible)
+const classEvents = Events.filter(
+  ({ type }) => type && type.toLowerCase().includes("class")
+);
+
+// Build teaching jobs with nested classes (match by institution name AND overlapping year)
+let remainingClasses = [...classEvents];
+function extractYears(text) {
+  if (!text) return [];
+  const matches = text.match(/\d{4}/g);
+  return matches ? matches.map((m) => Number(m)) : [];
+}
+
+function parseYearRange(text) {
+  // returns { start: number|null, end: number|null }
+  const years = extractYears(text);
+  if (!years || years.length === 0) return { start: null, end: null };
+  const start = Math.min(...years);
+  const end = Math.max(...years);
+  return { start, end };
+}
+
+function classYearInRange(jobDateText, classDateText) {
+  const jobRange = parseYearRange(jobDateText);
+  const classYears = extractYears(classDateText);
+  if (jobRange.start === null || classYears.length === 0) return false;
+  return classYears.some((y) => y >= jobRange.start && y <= jobRange.end);
+}
+
+const teachingJobsWithClasses = teachingEventsFromExperiences.map((job) => {
+  // Normalize institution name: split on dash, ' for ', or comma and strip leading 'the'
+  let institution = "";
+  if (job.place) {
+    institution = job.place
+      .split(/[-–—]/)[0]
+      .split(/ for |, /i)[0]
+      .trim()
+      .toLowerCase();
+    institution = institution.replace(/^the\s+/i, "");
+  }
+
+  const normalizePlace = (p) => {
+    if (!p) return "";
+    let s = p
+      .split(/[-–—]/)[0]
+      .split(/ for |, /i)[0]
+      .trim()
+      .toLowerCase();
+    s = s.replace(/^the\s+/i, "");
+    return s;
+  };
+
+  const matched = remainingClasses.filter((c) => {
+    const cNorm = normalizePlace(c.place);
+    const placeMatch =
+      c.place &&
+      institution &&
+      (cNorm.includes(institution) || institution.includes(cNorm));
+    const dateMatch = classYearInRange(job.date, c.date);
+    // prefer strict match: both place and class year within job date range
+    if (placeMatch && dateMatch) return true;
+    // fallback: if either side lacks year info, allow place-only match
+    if (
+      placeMatch &&
+      (extractYears(job.date).length === 0 || extractYears(c.date).length === 0)
+    )
+      return true;
+    return false;
+  });
+  // remove matched from remainingClasses
+  remainingClasses = remainingClasses.filter((c) => !matched.includes(c));
+  return { ...job, classes: matched };
+});
+
+// Special-case: ensure "Major Studio 2 (Thesis)" nests under Parsons TA if not matched
+const parsonsTA = teachingJobsWithClasses.find(
+  (j) =>
+    j.place &&
+    j.place.toLowerCase().includes("parsons") &&
+    j.title.toLowerCase().includes("teaching assistant")
+);
+if (parsonsTA) {
+  const ms2Index = remainingClasses.findIndex(
+    (c) => c.title && c.title.toLowerCase().includes("major studio 2")
+  );
+  if (ms2Index !== -1) {
+    const [ms2] = remainingClasses.splice(ms2Index, 1);
+    parsonsTA.classes = parsonsTA.classes ? [...parsonsTA.classes, ms2] : [ms2];
+  }
+}
 
 const talkEvents = Events.filter(({ type }) =>
   ["talk", "conference", "panel"].includes(type.toLowerCase())
@@ -48,13 +154,45 @@ const organizingEvents = Events.filter(({ type }) =>
 );
 
 // Sort all sections by date
-const sortedTeaching = prepareAndSortContent(teachingEvents);
+// Special-case relocation: ensure "Major Studio 2" is nested under Parsons TA
+{
+  const ms2Title = "major studio 2";
+  const ms2 = classEvents
+    .concat(remainingClasses)
+    .find((c) => c.title && c.title.toLowerCase().includes(ms2Title));
+  const parsonsTAJob = teachingJobsWithClasses.find(
+    (j) =>
+      j.place &&
+      j.place.toLowerCase().includes("parsons") &&
+      j.title &&
+      j.title.toLowerCase().includes("teaching assistant")
+  );
+  if (ms2 && parsonsTAJob) {
+    // remove from remainingClasses
+    remainingClasses = remainingClasses.filter((c) => c !== ms2);
+    // remove from any other job.classes
+    teachingJobsWithClasses.forEach((j) => {
+      if (j.classes) j.classes = j.classes.filter((c) => c !== ms2);
+    });
+    parsonsTAJob.classes = parsonsTAJob.classes
+      ? [...parsonsTAJob.classes.filter((c) => c !== ms2), ms2]
+      : [ms2];
+  }
+}
+
+// Merge teaching entries: teaching jobs (with nested classes) plus any remaining class events
+const combinedTeaching = [...teachingJobsWithClasses, ...remainingClasses];
+const sortedTeaching = prepareAndSortContent(combinedTeaching);
+
+// Professional experience
+const sortedProfessional = prepareAndSortContent(professionalEvents);
 const sortedTalks = prepareAndSortContent(talkEvents);
 const sortedWorkshops = prepareAndSortContent(workshopEvents);
 const sortedFeatured = prepareAndSortContent(featuredEvents);
 const sortedExhibitions = prepareAndSortContent(exhibitionEvents);
 const sortedAwards = prepareAndSortContent(awardEvents);
 const sortedOrganizing = prepareAndSortContent(organizingEvents);
+const sortedOrganizingFromFile = prepareAndSortContent(Organizing);
 const sortedPress = prepareAndSortContent(Press);
 
 // Define sections in order
@@ -76,6 +214,11 @@ const sections = [
     showDate: true,
   },
   {
+    title: "Professional Experience",
+    data: sortedProfessional,
+    showDate: true,
+  },
+  {
     title: "Selected Talks",
     data: sortedTalks,
     showDate: true,
@@ -92,7 +235,20 @@ const sections = [
     showDate: true,
     showType: true,
   },
+  {
+    title: "Organizing & Curating",
+    data: sortedOrganizingFromFile,
+    showDate: true,
+    showType: false,
+  },
 ];
+
+// Date the CV was last updated (build time)
+const updatedAt = new Date().toLocaleDateString("en-US", {
+  month: "long",
+  day: "numeric",
+  year: "numeric",
+});
 ---
 
 <Resume
@@ -102,39 +258,197 @@ const sections = [
 >
   <main class="p-[var(--page-margin)]">
     <!-- Header -->
-    <header class="mb-12">
-      <h1 class="body1 mb-4 font-bold text-black">Munus Shih</h1>
-      <div class="">
+    <header class="mb-6">
+      <h1 class="body1 mb-2 font-bold text-black">Munus Shih</h1>
+      <div class="flex flex-col gap-0">
         <p>Creative Technologist, Artist, Educator</p>
         <p>munusshih.com | munusshih@gmail.com</p>
       </div>
+      <!-- add star svg here -->
+      <svg
+        width="80"
+        height="80"
+        viewBox="0 0 80 80"
+        xmlns="http://www.w3.org/2000/svg"
+        class="my-4"
+      >
+        <g transform="translate(30, 40)">
+          <!-- 8 lines radiating from center -->
+          <line x1="0" y1="0" x2="30" y2="0" stroke="black" stroke-width="2">
+            <animateTransform
+              attributeName="transform"
+              type="rotate"
+              from="0 0 0"
+              to="360 0 0"
+              dur="2s"
+              repeatCount="indefinite"></animateTransform>
+          </line>
+          <line
+            x1="0"
+            y1="0"
+            x2="30"
+            y2="0"
+            stroke="black"
+            stroke-width="2"
+            transform="rotate(45)"
+          >
+            <animateTransform
+              attributeName="transform"
+              type="rotate"
+              from="45 0 0"
+              to="405 0 0"
+              dur="2s"
+              repeatCount="indefinite"></animateTransform>
+          </line>
+          <line
+            x1="0"
+            y1="0"
+            x2="30"
+            y2="0"
+            stroke="black"
+            stroke-width="2"
+            transform="rotate(90)"
+          >
+            <animateTransform
+              attributeName="transform"
+              type="rotate"
+              from="90 0 0"
+              to="450 0 0"
+              dur="2s"
+              repeatCount="indefinite"></animateTransform>
+          </line>
+          <line
+            x1="0"
+            y1="0"
+            x2="30"
+            y2="0"
+            stroke="black"
+            stroke-width="2"
+            transform="rotate(135)"
+          >
+            <animateTransform
+              attributeName="transform"
+              type="rotate"
+              from="135 0 0"
+              to="495 0 0"
+              dur="2s"
+              repeatCount="indefinite"></animateTransform>
+          </line>
+          <line
+            x1="0"
+            y1="0"
+            x2="30"
+            y2="0"
+            stroke="black"
+            stroke-width="2"
+            transform="rotate(180)"
+          >
+            <animateTransform
+              attributeName="transform"
+              type="rotate"
+              from="180 0 0"
+              to="540 0 0"
+              dur="2s"
+              repeatCount="indefinite"></animateTransform>
+          </line>
+          <line
+            x1="0"
+            y1="0"
+            x2="30"
+            y2="0"
+            stroke="black"
+            stroke-width="2"
+            transform="rotate(225)"
+          >
+            <animateTransform
+              attributeName="transform"
+              type="rotate"
+              from="225 0 0"
+              to="585 0 0"
+              dur="2s"
+              repeatCount="indefinite"></animateTransform>
+          </line>
+          <line
+            x1="0"
+            y1="0"
+            x2="30"
+            y2="0"
+            stroke="black"
+            stroke-width="2"
+            transform="rotate(270)"
+          >
+            <animateTransform
+              attributeName="transform"
+              type="rotate"
+              from="270 0 0"
+              to="630 0 0"
+              dur="2s"
+              repeatCount="indefinite"></animateTransform>
+          </line>
+          <line
+            x1="0"
+            y1="0"
+            x2="30"
+            y2="0"
+            stroke="black"
+            stroke-width="2"
+            transform="rotate(315)"
+          >
+            <animateTransform
+              attributeName="transform"
+              type="rotate"
+              from="315 0 0"
+              to="675 0 0"
+              dur="2s"
+              repeatCount="indefinite"></animateTransform>
+          </line>
+        </g>
+      </svg>
     </header>
 
-    <div class="grid max-w-7xl grid-cols-1 gap-12 lg:grid-cols-2">
+    <div class="grid max-w-7xl grid-cols-1 gap-6 lg:grid-cols-2">
       <!-- Left Column -->
-      <div class="space-y-8">
+      <div class="space-y-4">
         {
           sections.slice(0, Math.ceil(sections.length / 2)).map((section) => (
             <section>
-              <h2 class="body1 mb-4 font-bold text-black">{section.title}</h2>
-              <div class="space-y-3">
+              <h2 class="body1 mb-2 font-bold text-black">{section.title}</h2>
+              <div class="space-y-1">
                 {section.data.map((item) => (
                   <div class="flex gap-4">
                     {section.showDate && item.date ? (
-                      <div class="w-32 flex-shrink-0">
-                        <span class="body1 leading-relaxed text-black">
+                      <div class="w-48 flex-shrink-0 md:w-56">
+                        <span class="body1 leading-relaxed whitespace-nowrap text-black">
                           {item.date}
                         </span>
                       </div>
                     ) : (
-                      <div class="w-32 flex-shrink-0" />
+                      <div class="w-48 flex-shrink-0 md:w-56" />
                     )}
-                    <div class="flex-1">
-                      <h3 class="body1 leading-relaxed text-black">
+                    <div class="min-w-0 flex-1">
+                      <h3 class="body1 leading-relaxed text-pretty break-words whitespace-normal text-black">
                         {removeSpaceBeforeComma(
                           `${item.title}${item.place || item.note ? `, ${item.place || item.note}` : ""}${item.note && item.place ? `, ${item.note}` : ""}`
                         )}
                       </h3>
+                      {item.classes && item.classes.length ? (
+                        <ul class="mt-1 ml-0 list-inside list-disc text-sm text-gray-700">
+                          {item.classes.map((c) => (
+                            <li>
+                              {c.link ? (
+                                <a
+                                  class="text-pretty underline"
+                                  href={c.link.href}
+                                >
+                                  {c.title}
+                                </a>
+                              ) : (
+                                <span class="text-pretty">{c.title}</span>
+                              )}
+                            </li>
+                          ))}
+                        </ul>
+                      ) : null}
                     </div>
                   </div>
                 ))}
@@ -145,25 +459,25 @@ const sections = [
       </div>
 
       <!-- Right Column -->
-      <div class="space-y-8">
+      <div class="space-y-4">
         {
           sections.slice(Math.ceil(sections.length / 2)).map((section) => (
             <section>
-              <h2 class="body1 mb-4 font-bold text-black">{section.title}</h2>
-              <div class="space-y-3">
+              <h2 class="body1 mb-2 font-bold text-black">{section.title}</h2>
+              <div class="space-y-1">
                 {section.data.map((item) => (
                   <div class="flex gap-4">
                     {section.showDate && item.date ? (
-                      <div class="w-32 flex-shrink-0">
-                        <span class="body1 leading-relaxed text-black">
+                      <div class="w-48 flex-shrink-0 md:w-56">
+                        <span class="body1 leading-relaxed whitespace-nowrap text-black">
                           {item.date}
                         </span>
                       </div>
                     ) : (
-                      <div class="w-32 flex-shrink-0" />
+                      <div class="w-48 flex-shrink-0 md:w-56" />
                     )}
-                    <div class="flex-1">
-                      <h3 class="body1 leading-relaxed text-black">
+                    <div class="min-w-0 flex-1">
+                      <h3 class="body1 leading-relaxed text-pretty break-words whitespace-normal text-black">
                         {removeSpaceBeforeComma(
                           `${item.title}${item.place || item.note ? `, ${item.place || item.note}` : ""}${item.note && item.place ? `, ${item.note}` : ""}`
                         )}
@@ -209,6 +523,10 @@ const sections = [
   p,
   div {
     line-height: 1.5 !important;
+  }
+
+  .print-footer {
+    display: none;
   }
 
   @media print {
@@ -289,13 +607,37 @@ const sections = [
       grid-template-columns: 1fr !important;
     }
 
-    /* Reduce spacing for print */
-    .space-y-8 > * + * {
-      margin-top: 1rem !important;
+    /* Print-only footer (transparent, no padding) */
+    .print-footer {
+      display: flex !important;
+      position: fixed !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      z-index: 9999 !important;
+      border-top: none !important;
+      background: transparent !important;
+      padding: 0 !important;
+      pointer-events: none !important;
+      color: #666 !important;
+      font-size: 10px !important;
+    }
+
+    /* print spacer: explicit block at the end of main that ensures footer-safe area */
+    .print-spacer {
+      display: block !important;
+      visibility: visible !important;
+      height: 80mm !important;
     }
 
     .space-y-6 > * + * {
       margin-top: 0.5rem !important;
+    }
+
+    body h2{
+        border-bottom: 1px solid #000 !important;
     }
   }
 </style>

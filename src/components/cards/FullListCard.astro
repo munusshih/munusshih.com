@@ -7,6 +7,7 @@ import Press from "@/docs/press.yml";
 import Events from "@/docs/events.yml";
 import Books from "@/docs/books.yml";
 import Education from "@/docs/education.yml";
+import Organizing from "@/docs/organizing.yml";
 import {
   parseLooseDate,
   cleanLooseDate,
@@ -22,6 +23,7 @@ const colorMap = {
   Teaching: { background: "#D69EFF", text: "black" },
   Featured: { background: "#FF876D", text: "black" },
   Workshop: { background: "beige", text: "black" },
+  Organizing: { background: "#6F4E37", text: "white" },
 };
 
 const { background = "black", text = "white" } = colorMap[title] || {};
@@ -53,6 +55,7 @@ const contentFilters = {
   "Upcoming Events": () =>
     Events.filter(({ date }) => parseLooseDate(date) > new Date()),
   Readings: () => Books,
+  Organizing: () => Organizing,
 };
 
 let contentArray = contentFilters[title] ? contentFilters[title]() : [];

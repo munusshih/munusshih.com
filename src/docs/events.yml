@@ -31,12 +31,21 @@
   link:
     href: "https://spencer.place/fapa-webstones"
 
-- title: "Embodied Algorithms / Collective Mechanics, DEMO Festival"
-  date: "June, 2025"
+- title: "Embodied Algorithms / Collective Mechanics"
+  date: "June 2025"
   type: "Exhibition"
-  place: "NEW INC x WSA, New York, NY, USA"
+  place: "DEMO Festival, NEW INC & NEW MUSEUM, New York, NY, USA"
+  excerpt: |
+    Syllabus (Subject to Change)
   link:
     href: "https://www.demofestival.org/"
+
+- title: "Our Memories: Local Hakka Memorial"
+  date: "Dec 2024"
+  type: "Exhibition"
+  place: "Taipei Hakka Council, Taipei, Taiwan"
+  excerpt: |
+    (4066.62, 62)
 
 - title: "Pratt Thesis Class"
   date: "May 2025"
@@ -53,6 +62,13 @@
   date: "May 2024"
   place: "Hakka Affair Council, Taipei, Taiwan"
   type: "Award"
+
+- title: "Entropy"
+  date: "May 2023"
+  type: "Exhibition"
+  place: "Parsons School of Design, New York, NY, USA"
+  excerpt: |
+    p5.genzine: Zine as Coding Connectivity.
 
 - title: "Processing Community Catalog Launch Party NYC"
   date: "June 2023"
@@ -82,6 +98,13 @@
   link:
     href: "https://www.instagram.com/p/CqLb2v4sDJF/?igshid=YmMyMTA2M2Y="
 
+- title: "Plenty More: Exploring Design & Possibilities"
+  date: "Nov 2022"
+  type: "Exhibition"
+  place: "Huashan 1914 Creative Park, Taipei, Taiwan"
+  excerpt: |
+    Generative, Parametric and Creative Coding.
+
 - title: "Coding Diversity: Tool-making & Crit Education"
   date: "Nov 2022"
   type: "Talk"
@@ -91,10 +114,12 @@
   excerpt: |
     Delivered in Mandarin, this talk titled "Coding Diversity" was presented at the Creative Coding Taiwan community. I shared insights on my experience with critical tool-making, emphasizing how critical education and research contribute to fostering diversity in creative coding practices.
 
-- title: "Scaling Utopia: DEMO Festival"
+- title: "Scaling Utopia"
   date: "June 2024"
   type: "Exhibition"
-  place: "NEW INC x WSA, New York, NY, USA"
+  place: "DEMO Festival, NEW INC & NEW MUSEUM, New York, NY, USA"
+  excerpt: |
+    Duty Free.
   link:
     href: "https://2024.demofestival.org/"
 
@@ -284,7 +309,19 @@
   excerpt: |
     Mechanic is an open source framework that makes it easy to create custom, web-based design tools that export design assets right in your browser. I worked on developing some examples when I was working at Design Systems International to show what a powerful Mechanic is in generative design.
   link:
-    href: "hhttps://mechanic-examples.web.app/"
+    href: "https://mechanic-examples.web.app/"
+
+- title: "Where We Live"
+  date: "May 2020"
+  type: "Exhibition"
+  place: "National Tsing Hua University Library, Hsinchu, Taiwan"
+
+- title: "Collaborative Installation: Immersive Improvisation in Interactive Art"
+  date: "Jan 2020"
+  type: "Exhibition"
+  place: "EUR ArTeC - Université Paris 8, Paris, France"
+  excerpt: |
+    I Don't Know Nature.
 
 - title: "Innovation & Career Exploration: Culture & Creative Industry"
   date: "Spring 2020"
