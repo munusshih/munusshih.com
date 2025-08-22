@@ -1,4 +1,4 @@
-Munus Shih (he/they) is a Taiwanese Hokkien-Hakka creative coder and designer in Brooklyn, NY. (Lenapehoking) Their work moves across code, design, and community-building, with a focus on exploring identity, decoloniality, and solidarity through digital tool-making.
+Munus Shih (he/they) is a Taiwanese Minnan-Hakka creative coder and designer in Brooklyn, NY. (Lenapehoking) Their work moves across code, design, and community-building, with a focus on exploring identity, decoloniality, and solidarity through digital tool-making.
 
 Munus operates [Free99](https://www.demofestival.org/presenters/free99), a NYC based creative coding practice designing and developing experiences that transcend the web. They also co-founded [Co-Assembly/SpOnAcT!](https://co-assembly.com), a Taiwan-based co-op exploring critical data storytelling through research and organizing. Previously, Munus has worked at [Athletics](https://athleticsnyc.com) and [Design Systems International](https://designsystems.international) for clients including the New Museum, AIGA, Samsung, Amazon, NYU and the New York Review of Books.
 
