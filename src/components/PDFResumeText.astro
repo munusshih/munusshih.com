@@ -1,0 +1,33 @@
+---
+// Simple PDF download component
+---
+
+<div class="pdf-resume-container">
+  <div class="flex items-center justify-center gap-4">
+    <button
+      id="download-pdf-btn"
+      class="rounded-lg bg-black px-6 py-3 font-medium text-white transition-colors hover:bg-gray-800"
+    >
+      Download PDF
+    </button>
+
+    <a
+      href="/resume?view=true"
+      target="_blank"
+      class="rounded-lg bg-gray-200 px-6 py-3 font-medium text-black transition-colors hover:bg-gray-300"
+    >
+      Open Print View
+    </a>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const downloadBtn = document.getElementById("download-pdf-btn");
+
+    downloadBtn.addEventListener("click", () => {
+      // Open resume page and trigger print
+      window.open("/resume", "_blank");
+    });
+  });
+</script>

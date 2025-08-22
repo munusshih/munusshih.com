@@ -17,7 +17,7 @@ import {
 const colorMap = {
   "Upcoming Events": { background: "#FFBF00", text: "black" },
   Press: { background: "#6DE7FF", text: "black" },
-  Talks: { background: "#000", text: "white" },
+  Talk: { background: "#000", text: "white" },
   Readings: { background: "#FF876D", text: "black" },
   Teaching: { background: "#D69EFF", text: "black" },
   Featured: { background: "#FF876D", text: "black" },
@@ -29,7 +29,7 @@ const { background = "black", text = "white" } = colorMap[title] || {};
 // Content selection
 const contentFilters = {
   Press: () => Press,
-  Talks: () =>
+  Talk: () =>
     Events.filter(({ type }) => ["talk"].includes(type.toLowerCase())),
   Featured: () =>
     Events.filter(({ type }) =>
@@ -43,9 +43,9 @@ const contentFilters = {
       ].includes(type.toLowerCase())
     ),
   Workshop: () =>
-    Events.filter(({ type }) => ["workshop"].includes(type.toLowerCase())),
+    Events.filter(({ type }) => type.toLowerCase().includes("workshop")),
   Teaching: () =>
-    Events.filter(({ type }) => ["class"].includes(type.toLowerCase())),
+    Events.filter(({ type }) => type.toLowerCase().includes("class")),
   "Code/Contribution": () =>
     Events.filter(({ type }) =>
       ["website", "code", "contribution"].includes(type.toLowerCase())
@@ -93,7 +93,9 @@ contentArray = prepareAndSortContent(contentArray);
               <div class="col-span-2 text-left">
                 {item.date && <h4 class="body1">{item.date}</h4>}{" "}
                 {item?.place && (
-                  <span class="code mt-4 inline-block">{item.place}</span>
+                  <span class="code mt-4 inline-block">
+                    {item.place.split(",")[0]}
+                  </span>
                 )}
               </div>
             </div>

@@ -25,6 +25,7 @@
     "marked": "^15.0.8",
     "p5": "^1.11.3",
     "playwright": "^1.52.0",
+    "puppeteer": "^24.17.0",
     "swiper": "^11.2.6"
   },
   "devDependencies": {

@@ -1,0 +1,301 @@
+---
+import Resume from "@/layouts/Resume.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
+import Events from "@/docs/events.yml";
+import Education from "@/docs/education.yml";
+import Press from "@/docs/press.yml";
+import { prepareAndSortContent } from "@/scripts/cleanDate.js";
+
+// Function to remove spaces before commas
+function removeSpaceBeforeComma(text) {
+  return text ? text.replace(/\s+,/g, ",") : text;
+}
+
+// Filter and organize data for resume
+const teachingEvents = Events.filter(({ type }) =>
+  type.toLowerCase().includes("class")
+);
+
+const talkEvents = Events.filter(({ type }) =>
+  ["talk", "conference", "panel"].includes(type.toLowerCase())
+);
+
+const workshopEvents = Events.filter(({ type }) =>
+  type.toLowerCase().includes("workshop")
+);
+
+const featuredEvents = Events.filter(({ type }) =>
+  [
+    "exhibition",
+    "award",
+    "fellowship",
+    "residency",
+    "conference",
+    "panel",
+  ].includes(type.toLowerCase())
+);
+
+const exhibitionEvents = Events.filter(({ type }) =>
+  ["exhibition"].includes(type.toLowerCase())
+);
+
+const awardEvents = Events.filter(({ type }) =>
+  ["award", "fellowship", "residency"].includes(type.toLowerCase())
+);
+
+const organizingEvents = Events.filter(({ type }) =>
+  [].includes(type.toLowerCase())
+);
+
+// Sort all sections by date
+const sortedTeaching = prepareAndSortContent(teachingEvents);
+const sortedTalks = prepareAndSortContent(talkEvents);
+const sortedWorkshops = prepareAndSortContent(workshopEvents);
+const sortedFeatured = prepareAndSortContent(featuredEvents);
+const sortedExhibitions = prepareAndSortContent(exhibitionEvents);
+const sortedAwards = prepareAndSortContent(awardEvents);
+const sortedOrganizing = prepareAndSortContent(organizingEvents);
+const sortedPress = prepareAndSortContent(Press);
+
+// Define sections in order
+const sections = [
+  {
+    title: "Education",
+    data: Education,
+    showDate: true,
+  },
+  {
+    title: "Selected Exhibitions",
+    data: sortedExhibitions,
+    showDate: true,
+    showType: false,
+  },
+  {
+    title: "Teaching Appointments",
+    data: sortedTeaching,
+    showDate: true,
+  },
+  {
+    title: "Selected Talks",
+    data: sortedTalks,
+    showDate: true,
+    showType: true,
+  },
+  {
+    title: "Selected Workshops",
+    data: sortedWorkshops,
+    showDate: true,
+  },
+  {
+    title: "Awards & Fellowships",
+    data: sortedAwards,
+    showDate: true,
+    showType: true,
+  },
+];
+---
+
+<Resume
+  title={`Resume — ${SITE_TITLE}`}
+  description={`${SITE_DESCRIPTION} - Resume`}
+  image={`/thumbnails/resume.jpg`}
+>
+  <main class="p-[var(--page-margin)]">
+    <!-- Header -->
+    <header class="mb-12">
+      <h1 class="body1 mb-4 font-bold text-black">Munus Shih</h1>
+      <div class="">
+        <p>Creative Technologist, Artist, Educator</p>
+        <p>munusshih.com | munusshih@gmail.com</p>
+      </div>
+    </header>
+
+    <div class="grid max-w-7xl grid-cols-1 gap-12 lg:grid-cols-2">
+      <!-- Left Column -->
+      <div class="space-y-8">
+        {
+          sections.slice(0, Math.ceil(sections.length / 2)).map((section) => (
+            <section>
+              <h2 class="body1 mb-4 font-bold text-black">{section.title}</h2>
+              <div class="space-y-3">
+                {section.data.map((item) => (
+                  <div class="flex gap-4">
+                    {section.showDate && item.date ? (
+                      <div class="w-32 flex-shrink-0">
+                        <span class="body1 leading-relaxed text-black">
+                          {item.date}
+                        </span>
+                      </div>
+                    ) : (
+                      <div class="w-32 flex-shrink-0" />
+                    )}
+                    <div class="flex-1">
+                      <h3 class="body1 leading-relaxed text-black">
+                        {removeSpaceBeforeComma(
+                          `${item.title}${item.place || item.note ? `, ${item.place || item.note}` : ""}${item.note && item.place ? `, ${item.note}` : ""}`
+                        )}
+                      </h3>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          ))
+        }
+      </div>
+
+      <!-- Right Column -->
+      <div class="space-y-8">
+        {
+          sections.slice(Math.ceil(sections.length / 2)).map((section) => (
+            <section>
+              <h2 class="body1 mb-4 font-bold text-black">{section.title}</h2>
+              <div class="space-y-3">
+                {section.data.map((item) => (
+                  <div class="flex gap-4">
+                    {section.showDate && item.date ? (
+                      <div class="w-32 flex-shrink-0">
+                        <span class="body1 leading-relaxed text-black">
+                          {item.date}
+                        </span>
+                      </div>
+                    ) : (
+                      <div class="w-32 flex-shrink-0" />
+                    )}
+                    <div class="flex-1">
+                      <h3 class="body1 leading-relaxed text-black">
+                        {removeSpaceBeforeComma(
+                          `${item.title}${item.place || item.note ? `, ${item.place || item.note}` : ""}${item.note && item.place ? `, ${item.note}` : ""}`
+                        )}
+                      </h3>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          ))
+        }
+      </div>
+    </div>
+  </main>
+</Resume>
+
+<script>
+  // Only auto-trigger print if not in view mode
+  const urlParams = new URLSearchParams(window.location.search);
+  const isViewMode = urlParams.get("view") === "true";
+
+  if (!isViewMode) {
+    // Auto-trigger print dialog when page loads
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        window.print();
+      }, 500);
+    });
+
+    // Close window after printing
+    window.addEventListener("afterprint", () => {
+      window.close();
+    });
+  }
+</script>
+
+<style>
+  /* Global line-height enforcement */
+  .body1,
+  h2,
+  h3,
+  span,
+  p,
+  div {
+    line-height: 1.5 !important;
+  }
+
+  @media print {
+    /* Hide header and footer when printing */
+    header:has(nav),
+    footer {
+      display: none !important;
+    }
+
+    /* Adjust margins for print */
+    main {
+      margin: 0 !important;
+      padding: 0mm !important;
+    }
+
+    /* Prevent page break after header */
+    header {
+      break-after: avoid !important;
+      break-inside: avoid !important;
+      page-break-after: avoid !important;
+      page-break-inside: avoid !important;
+      margin-bottom: 1rem !important;
+    }
+
+    /* Keep all header content together */
+    header * {
+      break-after: avoid !important;
+      break-inside: avoid !important;
+      page-break-after: avoid !important;
+      page-break-inside: avoid !important;
+    }
+
+    /* Ensure main content stays together with header */
+    main > div:first-of-type {
+      break-before: avoid !important;
+      page-break-before: avoid !important;
+    }
+
+    /* Ensure grid container doesn't break from header */
+    .grid.max-w-7xl {
+      break-before: avoid !important;
+      page-break-before: avoid !important;
+    }
+
+    /* Keep individual job entries together, but allow sections to break */
+    section > div > div {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    /* Avoid breaks between title and content */
+    h2 {
+      break-after: avoid;
+      page-break-after: avoid;
+      line-height: 1.5 !important;
+    }
+
+    h3 {
+      break-after: avoid;
+      page-break-after: avoid;
+      line-height: 1.5 !important;
+    }
+
+    /* Enforce line-height for all text elements */
+    span,
+    p,
+    div {
+      line-height: 1.5 !important;
+    }
+
+    /* Specific line-height for body text */
+    .body1 {
+      line-height: 1.5 !important;
+    }
+
+    /* Single column for print */
+    .grid-cols-1.lg\\:grid-cols-2 {
+      grid-template-columns: 1fr !important;
+    }
+
+    /* Reduce spacing for print */
+    .space-y-8 > * + * {
+      margin-top: 1rem !important;
+    }
+
+    .space-y-6 > * + * {
+      margin-top: 0.5rem !important;
+    }
+  }
+</style>

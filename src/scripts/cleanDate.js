@@ -27,7 +27,7 @@ export function cleanLooseDate(input) {
 
   return date.toLocaleDateString("en-US", {
     year: "numeric",
-    month: "long",
+    month: "short",
   });
 }
 

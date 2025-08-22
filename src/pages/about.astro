@@ -7,6 +7,7 @@ import Content from "@/docs/about/about-munus.md";
 import Clout from "@/docs/about/clout.md";
 import Media from "@/components/utils/Media.astro";
 import FullListCard from "@/components/cards/FullListCard.astro";
+import PDFResumeText from "@/components/PDFResumeText.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
 ---
 
@@ -31,6 +32,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
         <Clout />
       </div>
     </section>
+
     <section class="fade-in">
       <div class="swiper">
         <div class="swiper-wrapper">
@@ -38,7 +40,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
             <FullListCard title="Upcoming Events" />
           </div>
           <div class="swiper-slide">
-            <FullListCard title="Talks" />
+            <FullListCard title="Talk" />
           </div>
           <div class="swiper-slide">
             <FullListCard title="Teaching" />

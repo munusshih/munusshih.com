@@ -1,0 +1,27 @@
+---
+import BaseHead from "@/components/global/BaseHead.astro";
+const { title, description, image } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={title} description={description} image={image} />
+  </head>
+  <body class="relative flex flex-col">
+    <slot />
+    <script src="../scripts/fadeIn.js"></script>
+    <script src="../scripts/smoothTransition.js"></script>
+  </body>
+</html>
+<noscript>
+  <style>
+    .fade-in {
+      opacity: 1; /* Fallback for JS-disabled users */
+    }
+
+    div.swiper {
+      overflow: auto;
+    }
+  </style></noscript
+>
