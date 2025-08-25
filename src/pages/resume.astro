@@ -536,6 +536,11 @@ const updatedAt = new Date().toLocaleDateString("en-US", {
   }
 
   @media print {
+    /* Set default font size for print */
+    * {
+      font-size: 7.5pt !important;
+    }
+
     /* Hide header and footer when printing */
     header:has(nav),
     footer {
@@ -643,8 +648,8 @@ const updatedAt = new Date().toLocaleDateString("en-US", {
     }
 
     body h2 {
+      margin-bottom: 0.5rem !important;
       border-bottom: 1px solid #000 !important;
-      margin-bottom: .5rem !important;
     }
   }
 </style>
