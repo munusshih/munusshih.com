@@ -4,7 +4,9 @@ import { sortByDate } from "@/scripts/cleanDate";
 import Media from "@/components/utils/Media.astro";
 const allProjects = await getCollection("work");
 // Only show projects that explicitly have archived: false
-const activeProjects = allProjects.filter((project) => project.data.archived === false);
+const activeProjects = allProjects.filter(
+  (project) => project.data.archived === false
+);
 const sortedActiveProjects = sortByDate(activeProjects, "desc");
 
 const { slug } = Astro.params;
