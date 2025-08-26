@@ -3,16 +3,28 @@ import { getCollection } from "astro:content";
 import { sortByDate } from "@/scripts/cleanDate";
 import Media from "@/components/utils/Media.astro";
 const allProjects = await getCollection("work");
-const sortedAllProjects = sortByDate(allProjects, "desc");
+// Only show projects that explicitly have archived: false
+const activeProjects = allProjects.filter((project) => project.data.archived === false);
+const sortedActiveProjects = sortByDate(activeProjects, "desc");
 
 const { slug } = Astro.params;
-const currentIndex = sortedAllProjects.findIndex((p) => p.id === slug);
+const currentIndex = sortedActiveProjects.findIndex((p) => p.id === slug);
 
-if (currentIndex === -1) return null;
-let nextProject =
-  sortedAllProjects[(currentIndex + 1) % sortedAllProjects.length];
-nextProject.id === slug ? null : nextProject;
-nextProject.color;
+// If current project is not in active projects, find next from active projects
+let nextProject;
+if (currentIndex === -1) {
+  // Current project might be archived, so just show first active project
+  nextProject =
+    sortedActiveProjects.length > 0 ? sortedActiveProjects[0] : null;
+} else {
+  // Get next active project in sequence
+  nextProject =
+    sortedActiveProjects[(currentIndex + 1) % sortedActiveProjects.length];
+  // Make sure we don't show the same project
+  if (nextProject && nextProject.id === slug) {
+    nextProject = null;
+  }
+}
 ---
 
 {
@@ -52,7 +64,7 @@ nextProject.color;
               <Media
                 src={nextProject.data.heroImage || nextProject.data.images[0]}
                 isVideo={nextProject.data.heroImage?.match(
-                  /\.(mp4|webm|ogg)$/i,
+                  /\.(mp4|webm|ogg)$/i
                 )}
               />
             </div>
@@ -99,7 +111,7 @@ nextProject.color;
         ease: "none",
         repeat: -1,
         overwrite: "auto",
-      },
+      }
     );
   });
 
