@@ -1,18 +1,37 @@
 ---
-const { size } = Astro.props;
+const {
+  size,
+  background,
+  textColor,
+  body,
+  linkContent,
+  linkLabel,
+  linkHref,
+} = Astro.props;
 import DraggableCard from "@/components/global/DraggableCard.astro";
 import HeroSketch from "@/components/global/HeroSketch.astro";
 import { SITE_DESCRIPTION } from "../../consts";
+
+const cardBackground = background ?? "black";
+const cardTextColor = textColor ?? "white";
+const introBody = body || SITE_DESCRIPTION;
+const hasCustomHref = Boolean(linkHref);
+const introLinkHref = linkHref || "/about";
+const introLinkLabel =
+  linkContent ||
+  linkLabel ||
+  (hasCustomHref ? "Learn more" : "Learn more about me");
 ---
 
 <DraggableCard>
   <div
-    class={`${size} home-card flex aspect-square flex-col justify-between bg-black p-4 text-white `}
+    class={`${size} home-card flex aspect-square flex-col justify-between p-4 `}
+    style={`background: ${cardBackground}; color: ${cardTextColor};`}
   >
-    <a href="/about" class="linkout body2">Learn more about me</a>
+    <a href={introLinkHref} class="linkout body2">{introLinkLabel}</a>
     <div>
       <HeroSketch />
-      <h2 class="heading1">{SITE_DESCRIPTION}</h2>
+      <h2 class="heading1">{introBody}</h2>
     </div>
   </div>
 </DraggableCard>

@@ -3,16 +3,17 @@ const { title, href } = Astro.props;
 import DraggableCard from "@/components/global/DraggableCard.astro";
 import Media from "@/components/utils/Media.astro";
 import { SITE_DESCRIPTION } from "../../consts";
-import Press from "@/docs/press.yml";
-import Events from "@/docs/events.yml";
-import Books from "@/docs/books.yml";
-import Education from "@/docs/education.yml";
-import Organizing from "@/docs/organizing.yml";
 import {
   parseLooseDate,
   cleanLooseDate,
   prepareAndSortContent,
 } from "@/scripts/cleanDate.js";
+import {
+  getPressEntries,
+  getEventEntries,
+  getBookEntries,
+  getOrganizingEntries,
+} from "@/data/contentSources.js";
 
 // Background & text color map
 const colorMap = {
@@ -28,34 +29,49 @@ const colorMap = {
 
 const { background = "black", text = "white" } = colorMap[title] || {};
 
+const pressEntries = await getPressEntries();
+const eventEntries = await getEventEntries();
+const bookEntries = await getBookEntries();
+const organizingEntries = await getOrganizingEntries();
+
 // Content selection
 const contentFilters = {
-  Press: () => Press,
+  Press: () => pressEntries,
   Talk: () =>
-    Events.filter(({ type }) => ["talk"].includes(type.toLowerCase())),
+    eventEntries.filter(({ type }) =>
+      type ? ["talk"].includes(String(type).toLowerCase()) : false
+    ),
   Featured: () =>
-    Events.filter(({ type }) =>
-      [
+    eventEntries.filter(({ type }) => {
+      if (!type) return false;
+      const t = String(type).toLowerCase();
+      return [
         "exhibition",
         "award",
         "fellowship",
         "residency",
         "conference",
         "panel",
-      ].includes(type.toLowerCase())
-    ),
+      ].includes(t);
+    }),
   Workshop: () =>
-    Events.filter(({ type }) => type.toLowerCase().includes("workshop")),
+    eventEntries.filter(({ type }) =>
+      type ? String(type).toLowerCase().includes("workshop") : false
+    ),
   Teaching: () =>
-    Events.filter(({ type }) => type.toLowerCase().includes("class")),
+    eventEntries.filter(({ type }) =>
+      type ? String(type).toLowerCase().includes("class") : false
+    ),
   "Code/Contribution": () =>
-    Events.filter(({ type }) =>
-      ["website", "code", "contribution"].includes(type.toLowerCase())
+    eventEntries.filter(({ type }) =>
+      type
+        ? ["website", "code", "contribution"].includes(String(type).toLowerCase())
+        : false
     ),
   "Upcoming Events": () =>
-    Events.filter(({ date }) => parseLooseDate(date) > new Date()),
-  Readings: () => Books,
-  Organizing: () => Organizing,
+    eventEntries.filter(({ date }) => parseLooseDate(date) > new Date()),
+  Readings: () => bookEntries,
+  Organizing: () => organizingEntries,
 };
 
 let contentArray = contentFilters[title] ? contentFilters[title]() : [];

@@ -1,16 +1,31 @@
 ---
-const { size, targetName, description, iframe, height } = Astro.props;
+const {
+  size,
+  targetName,
+  description,
+  iframe,
+  height,
+  background,
+  textColor,
+  title,
+} = Astro.props;
 import Iframe from "@/components/utils/Iframe.astro";
 import Media from "@/components/utils/Media.astro";
 import DraggableCard from "@/components/global/DraggableCard.astro";
-import lab_doc from "@/docs/lab.yml";
+
+const cardBackground = background ?? "black";
+const cardTextColor = textColor ?? "white";
 ---
 
 <DraggableCard>
   <div
-    class={`home-card flex h-auto ${size} flex-col justify-between bg-black text-white p-4`}
+    class={`home-card flex h-auto ${size} flex-col justify-between gap-3 p-4`}
+    style={`background: ${cardBackground}; color: ${cardTextColor};`}
   >
-    <p class="code p-2 text-left text-balance">{description}</p>
+    {title && <h2 class="heading2 text-balance">{title}</h2>}
+    {description && (
+      <p class="code text-left text-balance">{description}</p>
+    )}
     {
       iframe && (
         <Iframe

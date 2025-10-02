@@ -202,3 +202,39 @@ img.dithered {
 summary::-webkit-details-marker {
   display: none;
 }
+
+.custom-body p {
+  margin-bottom: 1em;
+  line-height: 1.5em;
+}
+
+.custom-body ol,
+.custom-body ul {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-left: 1em;
+}
+
+.custom-body ol li,
+.custom-body ul li {
+  position: relative;
+  line-height: 1.5em;
+}
+
+.custom-body ol li::before,
+.custom-body ul li::before {
+  position: absolute;
+  top: 0em;
+  margin-left: -0.75em;
+  content: "*";
+  font-size: 1.5em;
+  line-height: 1;
+}
+
+.custom-body code {
+  border: 1px solid currentColor;
+  border-radius: 0.3em;
+  padding: 0.1em 0.3em;
+}

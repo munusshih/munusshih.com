@@ -23,3 +23,11 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+spreadsheets/books.csv
+spreadsheets/education.csv
+spreadsheets/events.csv
+spreadsheets/experiences.csv
+spreadsheets/homepage.csv
+spreadsheets/lab.csv
+spreadsheets/organizing.csv
+spreadsheets/press.csv

@@ -1,16 +1,24 @@
 ---
 import Resume from "@/layouts/Resume.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
-import Events from "@/docs/events.yml";
-import Education from "@/docs/education.yml";
-import Press from "@/docs/press.yml";
-import Organizing from "@/docs/organizing.yml";
-import Experiences from "@/docs/experiences.yml";
 import HeroSketch from "@/components/global/HeroSketch.astro";
 import { prepareAndSortContent } from "@/scripts/cleanDate.js";
+import {
+  getEventEntries,
+  getPressEntries,
+  getOrganizingEntries,
+  getExperienceEntries,
+  getEducationEntries,
+} from "@/data/contentSources.js";
 
 // add more exhibitions
 // add teaching and professional experience
+
+const Events = await getEventEntries();
+const Press = await getPressEntries();
+const Organizing = await getOrganizingEntries();
+const Experiences = await getExperienceEntries();
+const Education = await getEducationEntries();
 
 // Function to remove spaces before commas
 function removeSpaceBeforeComma(text) {

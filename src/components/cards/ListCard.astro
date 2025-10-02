@@ -1,16 +1,14 @@
 ---
-const { title, href } = Astro.props;
+const { title, background: backgroundProp, textColor, body } = Astro.props;
 import DraggableCard from "@/components/global/DraggableCard.astro";
 import Media from "@/components/utils/Media.astro";
-import { SITE_DESCRIPTION } from "../../consts";
-import Press from "@/docs/press.yml";
-import Events from "@/docs/events.yml";
-import Books from "@/docs/books.yml";
+import { marked } from "marked";
+import { parseLooseDate, prepareAndSortContent } from "@/scripts/cleanDate.js";
 import {
-  parseLooseDate,
-  cleanLooseDate,
-  prepareAndSortContent,
-} from "@/scripts/cleanDate.js";
+  getPressEntries,
+  getEventEntries,
+  getBookEntries,
+} from "@/data/contentSources.js";
 
 const backgroundColors = {
   "Upcoming Events": "#FFBF00",
@@ -18,7 +16,31 @@ const backgroundColors = {
   Readings: "#FF876D",
 };
 
-let background = backgroundColors[title] || "black";
+let background = backgroundColors[title] || "white";
+if (backgroundProp) background = backgroundProp;
+const cardTextColor = textColor || "black";
+let bodyItems = [];
+let bodyListType = "ul";
+
+if (body) {
+  bodyItems = body
+    .split(/\n+/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+
+  if (bodyItems.length > 0) {
+    const isOrdered = bodyItems.every((item) => /^\d+\.\s+/.test(item));
+    const isBulleted = bodyItems.every((item) => /^[-*+]\s+/.test(item));
+
+    if (isOrdered) {
+      bodyListType = "ol";
+      bodyItems = bodyItems.map((item) => item.replace(/^\d+\.\s+/, ""));
+    } else if (isBulleted) {
+      bodyListType = "ul";
+      bodyItems = bodyItems.map((item) => item.replace(/^[-*+]\s+/, ""));
+    }
+  }
+}
 
 // Book data loader
 async function getBookData(contentArray) {
@@ -64,21 +86,27 @@ async function getBookData(contentArray) {
 let contentArray = [];
 
 if (title === "Recent Press") {
-  contentArray = prepareAndSortContent(Press).slice(0, 3);
+  const pressEntries = await getPressEntries();
+  contentArray = prepareAndSortContent(pressEntries).slice(0, 3);
 } else if (title === "Upcoming Events") {
-  contentArray = prepareAndSortContent(
-    Events.filter(({ date }) => parseLooseDate(date) > new Date())
-  );
+  const eventEntries = await getEventEntries();
+  const upcoming = eventEntries.filter(({ date }) => {
+    if (!date) return false;
+    const parsed = parseLooseDate(date);
+    return parsed instanceof Date && !isNaN(parsed) && parsed > new Date();
+  });
+  contentArray = prepareAndSortContent(upcoming);
 } else if (title === "Readings") {
-  const base = prepareAndSortContent([Books[0], Books[1]]);
+  const bookEntries = await getBookEntries();
+  const base = prepareAndSortContent(bookEntries.slice(0, 2));
   contentArray = await getBookData(base);
 }
 ---
 
 <DraggableCard>
   <details
-    class={`home-card max-w-[800px] x2-card flex flex-col justify-between p-4 text-black `}
-    style={`background: ${background};`}
+    class={`home-card max-w-[800px] x2-card flex flex-col justify-between p-4`}
+    style={`background: ${background}; color: ${cardTextColor};`}
     open
   >
     <summary class="flex items-center justify-between">
@@ -126,9 +154,31 @@ if (title === "Recent Press") {
             </li>
           ))}
         </ul>
+      ) : bodyItems.length > 0 ? (
+        bodyListType === "ol" ? (
+          <ol class="listcard-body w-full border-t pb-2">
+            {bodyItems.map((item, index) => (
+              <li
+                key={index}
+                class="border-b py-2 pb-4"
+                set:html={marked.parseInline(item)}
+              />
+            ))}
+          </ol>
+        ) : (
+          <ul class="listcard-body w-full border-t pb-2">
+            {bodyItems.map((item, index) => (
+              <li
+                key={index}
+                class="border-b py-2 pb-4"
+                set:html={marked.parseInline(item)}
+              />
+            ))}
+          </ul>
+        )
       ) : (
         <div class="flex h-full w-full items-center justify-center">
-          <h3 class="heading2">No content available</h3>
+          <h3 class="heading2">No content available yet!</h3>
         </div>
       )
     }
@@ -142,6 +192,35 @@ if (title === "Recent Press") {
 
     details[open] .arrow {
       transform: rotate(90deg); /* Rotate the arrow when open */
+    }
+
+    .listcard-body {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .listcard-body ol {
+      margin: 0;
+      padding-left: 1.5rem;
+      list-style: decimal;
+    }
+
+    .listcard-body ul {
+      margin: 0;
+      padding-left: 1.5rem;
+      list-style: none;
+    }
+
+    .listcard-body ul li {
+      position: relative;
+      padding-left: 0.5rem;
+    }
+
+    .listcard-body ul li::before {
+      position: absolute;
+      left: -1.2rem;
+      content: "-";
     }
   </style>
 </DraggableCard>

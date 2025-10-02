@@ -1,0 +1,23 @@
+- title: "After MFADT"
+  publication: "Could Salon Journal"
+  date: "Feb, 2025"
+  excerpt: |
+    Reflections on design pedagogy and community practice written following the MFADT thesis showcase.
+  link:
+    href: "https://example.com/after-mfadt"
+
+- title: "Critical Coding Cookbook"
+  publication: "Processing Foundation"
+  date: "Nov, 2024"
+  excerpt: |
+    A recipe-style guide for educators and artists exploring care-focused approaches to creative coding.
+  link:
+    href: "https://example.com/critical-coding-cookbook"
+
+- title: "Generative Rituals"
+  publication: "Index Space"
+  date: "Jun, 2024"
+  excerpt: |
+    Essay on ritual design and interactive systems published alongside the Techno Mirage exhibition.
+  link:
+    href: "https://example.com/generative-rituals"

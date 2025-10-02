@@ -1,0 +1,76 @@
+---
+const {
+  size = "x2-card",
+  title,
+  body,
+  background,
+  textColor,
+  linkHref,
+  linkContent,
+  linkLabel,
+  targetName,
+  iframe,
+  height,
+} = Astro.props;
+
+import DraggableCard from "@/components/global/DraggableCard.astro";
+import Media from "@/components/utils/Media.astro";
+import Iframe from "@/components/utils/Iframe.astro";
+import { marked } from "marked";
+
+const cardBackground = background ?? "black";
+const cardTextColor = textColor ?? "white";
+const resolvedLinkLabel =
+  linkContent || linkLabel || (linkHref ? "Learn more" : undefined);
+const bodyHtml = body ? marked.parse(body) : undefined;
+---
+
+<DraggableCard>
+  <div
+    class={`home-card flex h-auto ${size} flex-col justify-between p-4 gap-4`}
+    style={`background: ${cardBackground}; color: ${cardTextColor};`}
+  >
+    {title && <h2 class="heading1 text-balance">{title}</h2>}
+
+    {
+      bodyHtml ? (
+        <div class="body1 custom-body text-balance" set:html={bodyHtml} />
+      ) : (
+        body && (
+          <p class="body1 custom-body text-balance whitespace-pre-wrap">
+            {body}
+          </p>
+        )
+      )
+    }
+
+    {
+      iframe ? (
+        <Iframe
+          src={iframe}
+          title={title || resolvedLinkLabel || "Custom card"}
+          height={height}
+        />
+      ) : targetName ? (
+        <div class="w-full overflow-hidden">
+          <Media
+            src={targetName}
+            alt={title || body || resolvedLinkLabel || "Custom media"}
+            isVideo={/\.(mp4|webm|ogg)$/i.test(targetName)}
+            cropped={true}
+          />
+        </div>
+      ) : null
+    }
+
+    {
+      linkHref && (
+        <p class="code">
+          <a href={linkHref} class="linkout">
+            {resolvedLinkLabel}
+          </a>
+        </p>
+      )
+    }
+  </div>
+</DraggableCard>

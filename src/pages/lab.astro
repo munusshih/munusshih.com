@@ -1,11 +1,11 @@
 ---
 import BasicLayout from "@/layouts/Basic.astro";
-import Column from "@/components/Column.astro";
 import LabCard from "@/components/LabCard.astro";
-import labCards from "@/docs/lab.yml";
 import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
+import { getLabEntries } from "@/data/contentSources.js";
 
-const allTags = [...new Set(labCards.flatMap((card) => card.tags))];
+const labCards = await getLabEntries();
+const allTags = [...new Set(labCards.flatMap((card) => card.tags || []))];
 ---
 
 <BasicLayout

@@ -1,0 +1,60 @@
+- type: IntroCard
+  size: x2-card
+  order: 1
+
+- type: ListCard
+  title: Recent Press
+  order: 2
+
+- type: WorkCard
+  size: x3-card
+  href: work
+  linkContent: Recent Work
+  targetName:
+    - /goca/img2.jpg
+    - /goca/video.mp4
+    - /goca/video2.mp4
+    - /goca/img.jpg
+  description: A generative identity for a new asian art gallery in Chelsea, Manhattan.
+  order: 3
+
+- type: MediaCard
+  size: x1-card
+  targetName: /misc/IMG_6912.JPG
+  description: A recent photo of me
+  order: 4
+
+- type: ListCard
+  title: Upcoming Events
+  order: 5
+
+- type: ListCard
+  title: Readings
+  order: 6
+
+- type: MediaCard
+  size: x1-card
+  targetName: /misc/ccc.mp4
+  description: Critical Coding Cookbook
+  order: 7
+
+- type: WorkCard
+  size: x2-card
+  href: lab
+  linkContent: What's Brewing in Lab
+  targetName: /lab/R&M.mp4
+  order: 8
+
+- type: MediaCard
+  size: x2-card
+  description: I've been listening to...
+  iframe: https://open.spotify.com/embed/album/2MHUaRi9OCyTN02SoyRRBJ?utm_source=generator
+  href: https://www.youtube.com/watch?v=0f2v1g3a4xA
+  order: 9
+
+- type: WorkCard
+  size: x2-card
+  linkContent: A Coding Sketch
+  iframe: sketches/pattern
+  description: I made this pattern in CSS!
+  order: 10

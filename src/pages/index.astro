@@ -4,8 +4,39 @@ import IntroCard from "@/components/cards/IntroCard.astro";
 import WorkCard from "@/components/cards/WorkCard.astro";
 import MediaCard from "@/components/cards/MediaCard.astro";
 import ListCard from "@/components/cards/ListCard.astro";
+import CustomCard from "@/components/cards/CustomCard.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
-import Media from "../components/utils/Media.astro";
+import { getHomepageEntries } from "@/data/contentSources.js";
+
+const homepageEntries = await getHomepageEntries();
+
+const cards = Array.isArray(homepageEntries)
+  ? homepageEntries.filter((entry) => entry?.type)
+  : [];
+
+function normaliseWorkTarget(value) {
+  if (Array.isArray(value)) return value;
+  if (typeof value !== "string") return undefined;
+
+  try {
+    const parsed = JSON.parse(value);
+    if (Array.isArray(parsed)) return parsed;
+  } catch (error) {
+    // ignore JSON parse errors
+  }
+
+  const delimiters = ["|", "\n", ","];
+  const delimiter = delimiters.find((sep) => value.includes(sep));
+  if (delimiter) {
+    return value
+      .split(delimiter)
+      .map((item) => item.trim())
+      .filter(Boolean);
+  }
+
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : undefined;
+}
 ---
 
 <BasicLayout
@@ -29,52 +60,101 @@ import Media from "../components/utils/Media.astro";
       <span>More</span>
     </h1>
 
-    <IntroCard size={"x2-card"} />
-    <ListCard title="Recent Press" />
-    <WorkCard
-      size={"x3-card"}
-      href="work"
-      linkContent="Recent Work"
-      targetName={[
-        "/goca/img2.jpg",
-        "/goca/video.mp4",
-        "/goca/video2.mp4",
-        "/goca/img.jpg",
-      ]}
-      description="A generative identity for a new asian art gallery in Chelsea, Manhattan."
-    />
-    <MediaCard
-      size={"x1-card"}
-      targetName="/misc/IMG_6912.JPG"
-      description="A recent photo of me"
-    />
+    {cards.map((entry, index) => {
+      const type = entry.type?.toLowerCase?.() || "";
+      const key = entry.order ?? index;
 
-    <ListCard title="Upcoming Events" />
-    <ListCard title="Readings" />
-    <MediaCard
-      size={"x1-card"}
-      targetName="/misc/ccc.mp4"
-      description="Critical Coding Cookbook"
-    />
-    <WorkCard
-      size={"x2-card"}
-      href="lab"
-      linkContent="What's Brewing in Lab"
-      targetName="/lab/R&M.mp4"
-    />
-    <MediaCard
-      size={"x2-card"}
-      description="I've been listening to..."
-      iframe="https://open.spotify.com/embed/album/2MHUaRi9OCyTN02SoyRRBJ?utm_source=generator"
-      href="https://www.youtube.com/watch?v=0f2v1g3a4xA"
-    />
+      if (["introcard", "intro"].includes(type)) {
+        return (
+          <IntroCard
+            key={key}
+            size={entry.size || "x2-card"}
+            background={entry.background}
+            textColor={entry.textColor}
+            body={entry.body || entry.description || entry.text}
+            linkContent={entry.linkContent || entry.linkLabel}
+            linkLabel={entry.linkLabel}
+            linkHref={entry.href || entry.link?.href}
+          />
+        );
+      }
 
-    <WorkCard
-      size={"x2-card"}
-      linkContent="A Coding Sketch"
-      iframe="sketches/pattern"
-      description="I made this pattern in CSS!"
-    />
+      if (["listcard", "list"].includes(type)) {
+        const listTitle = entry.title || entry.heading || entry.listTitle;
+        if (!listTitle) return null;
+        return (
+          <ListCard
+            key={key}
+            title={listTitle}
+            background={entry.background}
+            textColor={entry.textColor}
+            body={entry.body || entry.description || entry.text}
+          />
+        );
+      }
+
+      if (["workcard", "work"].includes(type)) {
+        const target = normaliseWorkTarget(entry.targetName);
+        const href = entry.href || entry.link?.href || undefined;
+        const description = entry.description || entry.excerpt || "";
+        return (
+          <WorkCard
+            key={key}
+            size={entry.size || "x2-card"}
+            href={href}
+            linkContent={entry.linkContent || entry.title || ""}
+            targetName={target}
+            description={description}
+            iframe={entry.iframe}
+            background={entry.background}
+            textColor={entry.textColor}
+          />
+        );
+      }
+
+      if (["mediacard", "media"].includes(type)) {
+        const target = Array.isArray(entry.targetName)
+          ? entry.targetName[0]
+          : entry.targetName;
+        return (
+          <MediaCard
+            key={key}
+            size={entry.size || "x1-card"}
+            title={entry.title}
+            targetName={target}
+            description={entry.description || ""}
+            iframe={entry.iframe}
+            height={entry.height}
+            background={entry.background}
+            textColor={entry.textColor}
+          />
+        );
+      }
+
+      if (["customcard", "custom"].includes(type)) {
+        const target = Array.isArray(entry.targetName)
+          ? entry.targetName[0]
+          : entry.targetName;
+        return (
+          <CustomCard
+            key={key}
+            size={entry.size || "x2-card"}
+            title={entry.title}
+            body={entry.body || entry.description || entry.text}
+            background={entry.background}
+            textColor={entry.textColor}
+            linkHref={entry.href || entry.link?.href}
+            linkContent={entry.linkContent}
+            linkLabel={entry.linkLabel}
+            targetName={target}
+            iframe={entry.iframe}
+            height={entry.height}
+          />
+        );
+      }
+
+      return null;
+    })}
   </main>
 </BasicLayout>
 <script>

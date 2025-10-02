@@ -1,17 +1,30 @@
 ---
-const { size, linkContent, work, href, targetName, description, iframe } =
-  Astro.props;
+const {
+  size,
+  linkContent,
+  work,
+  href,
+  targetName,
+  description,
+  iframe,
+  background,
+  textColor,
+} = Astro.props;
 import DraggableCard from "@/components/global/DraggableCard.astro";
 import Media from "@/components/utils/Media.astro";
-import Lab from "@/docs/lab.yml";
 import Iframe from "@/components/utils/Iframe.astro";
 import Swiper from "@/components/utils/Swiper.astro";
+import { getLabEntries } from "@/data/contentSources.js";
 
 let finalContent;
 
+const labEntries = await getLabEntries();
+
+const cardBackground = background ?? "transparent";
+const cardTextColor = textColor ?? "inherit";
+
 if (href === "lab") {
-  const lab_doc = Lab;
-  finalContent = lab_doc.find((item) => item.image === targetName);
+  finalContent = labEntries.find((item) => item.image === targetName);
 } else {
   finalContent = work;
 }
@@ -19,7 +32,8 @@ if (href === "lab") {
 
 <DraggableCard>
   <div
-    class={`home-card flex h-auto ${size} flex-col justify-between bg-transparent `}
+    class={`home-card flex h-auto ${size} flex-col justify-between`}
+    style={`background: ${cardBackground}; color: ${cardTextColor};`}
   >
     <h2 class="body2 w-max bg-black p-2 text-white">
       <a href={href} class="linkout"> {linkContent} </a>
