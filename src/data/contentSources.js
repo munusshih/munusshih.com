@@ -13,55 +13,46 @@ const DATASETS = {
     fallback: Press,
     defaultTab: "Press",
     urlEnvKeys: ["PRESS_SHEET_URL", "LISTCARD_PRESS_SHEET_URL"],
-    tabEnvKeys: ["PRESS_SHEET_TAB", "LISTCARD_PRESS_SHEET_TAB"],
   },
   events: {
     fallback: Events,
     defaultTab: "Events",
     urlEnvKeys: ["EVENTS_SHEET_URL", "LISTCARD_EVENTS_SHEET_URL"],
-    tabEnvKeys: ["EVENTS_SHEET_TAB", "LISTCARD_EVENTS_SHEET_TAB"],
   },
   books: {
     fallback: Books,
     defaultTab: "Books",
     urlEnvKeys: ["BOOKS_SHEET_URL", "LISTCARD_READINGS_SHEET_URL"],
-    tabEnvKeys: ["BOOKS_SHEET_TAB", "LISTCARD_READINGS_SHEET_TAB"],
   },
   organizing: {
     fallback: Organizing,
     defaultTab: "Organizing",
     urlEnvKeys: ["ORGANIZING_SHEET_URL"],
-    tabEnvKeys: ["ORGANIZING_SHEET_TAB"],
   },
   experiences: {
     fallback: Experiences,
     defaultTab: "Experiences",
     urlEnvKeys: ["EXPERIENCES_SHEET_URL"],
-    tabEnvKeys: ["EXPERIENCES_SHEET_TAB"],
   },
   education: {
     fallback: Education,
     defaultTab: "Education",
     urlEnvKeys: ["EDUCATION_SHEET_URL"],
-    tabEnvKeys: ["EDUCATION_SHEET_TAB"],
   },
   lab: {
     fallback: Lab,
     defaultTab: "Lab",
     urlEnvKeys: ["LAB_SHEET_URL"],
-    tabEnvKeys: ["LAB_SHEET_TAB"],
   },
   writing: {
     fallback: Writing,
     defaultTab: "Writing",
     urlEnvKeys: ["WRITING_SHEET_URL"],
-    tabEnvKeys: ["WRITING_SHEET_TAB"],
   },
   homepage: {
     fallback: Homepage,
     defaultTab: "Homepage",
     urlEnvKeys: ["HOMEPAGE_SHEET_URL"],
-    tabEnvKeys: ["HOMEPAGE_SHEET_TAB"],
   },
 };
 
