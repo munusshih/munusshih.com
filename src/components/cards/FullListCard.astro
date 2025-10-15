@@ -15,6 +15,7 @@ import {
   getOrganizingEntries,
   getTeachingEntries,
 } from "@/data/contentSources.js";
+import { entryHasTokens } from "@/data/teachingUtils.js";
 
 // Background & text color map
 const colorMap = {
@@ -34,7 +35,7 @@ const pressEntries = await getPressEntries();
 const eventEntries = await getEventEntries();
 const bookEntries = await getBookEntries();
 const organizingEntries = await getOrganizingEntries();
-const teachingEntries = await getTeachingEntries();
+const teachingEntries = prepareAndSortContent(await getTeachingEntries());
 
 // Content selection
 const contentFilters = {
@@ -56,36 +57,11 @@ const contentFilters = {
         "panel",
       ].includes(t);
     }),
-  Workshop: () =>
-    teachingEntries.filter((item) => {
-      const tokens = [
-        item.section,
-        item.category,
-        item.type,
-        item.status,
-      ]
-        .flat()
-        .filter(Boolean)
-        .map((value) => String(value).toLowerCase());
-      return tokens.some((token) => token.includes("workshop"));
-    }),
+  Workshop: () => teachingEntries.filter((item) => entryHasTokens(item, ["workshop", "lab"])),
   Teaching: () =>
-    teachingEntries.filter((item) => {
-      const tokens = [
-        item.section,
-        item.category,
-        item.type,
-        item.status,
-      ]
-        .flat()
-        .filter(Boolean)
-        .map((value) => String(value).toLowerCase());
-      return tokens.some((token) =>
-        ["course", "class", "teaching"].some((keyword) =>
-          token.includes(keyword)
-        )
-      );
-    }),
+    teachingEntries.filter((item) =>
+      entryHasTokens(item, ["course", "class", "teaching", "studio"])
+    ),
   "Code/Contribution": () =>
     eventEntries.filter(({ type }) =>
       type
