@@ -1,0 +1,141 @@
+{
+  "p5.js 2.0 Workshop: Combinatory Poetry with Variable Fonts|Sep 27, 2025|https://www.eventbrite.com/e/p5js-20-workshop-combinatory-poetry-with-variable-fonts-tickets-1623313417129?aff=oddtdtcreator": [
+    {
+      "kind": "video",
+      "src": "/teaching/p5js-20-workshop-combinatory-poetry-with-variable-fonts/p5js-20-workshop-combinatory-poetry-with-variable-fonts-01.mp4",
+      "source": "recorded"
+    },
+    {
+      "kind": "video",
+      "src": "/teaching/p5js-20-workshop-combinatory-poetry-with-variable-fonts/p5js-20-workshop-combinatory-poetry-with-variable-fonts-02.mp4",
+      "source": "recorded"
+    }
+  ],
+  "Thesis I|Fall 2025|https://thesis-i.munusshih.com/": [
+    {
+      "kind": "image",
+      "src": "/teaching/thesis-i/thesis-i-01.png",
+      "source": "og"
+    },
+    {
+      "kind": "video",
+      "src": "/teaching/thesis-i/thesis-i-02.mp4",
+      "source": "recorded"
+    }
+  ],
+  "Graduate Studio: Technology A|Fall 2025|https://tech-a.munusshih.com/": [
+    {
+      "kind": "image",
+      "src": "/teaching/graduate-studio-technology-a/graduate-studio-technology-a-01.jpg",
+      "source": "og"
+    },
+    {
+      "kind": "video",
+      "src": "/teaching/graduate-studio-technology-a/graduate-studio-technology-a-02.mp4",
+      "source": "recorded"
+    }
+  ],
+  "Touching Computers: NFC as Ritual, Memory, and Interface ft. Spencer Chang|Jun 19, 2025|https://spencer.place/fapa-webstones": [
+    {
+      "kind": "image",
+      "src": "/teaching/touching-computers-nfc-as-ritual-memory-and-interface-ft-spencer-chang/touching-computers-nfc-as-ritual-memory-and-interface-ft-spencer-chang-01.jpg",
+      "source": "screenshot"
+    },
+    {
+      "kind": "video",
+      "src": "/teaching/touching-computers-nfc-as-ritual-memory-and-interface-ft-spencer-chang/touching-computers-nfc-as-ritual-memory-and-interface-ft-spencer-chang-02.mp4",
+      "source": "download"
+    }
+  ],
+  "Dragon Bytes: Coding Chinese New Year with p5.js and AI ft. Roy Yang|Jan 2024|https://www.notion.so/munusshih/NCTU-IAA-f9c5d9e4b9ed46f9ad6558f3f7465150?pvs=4": [
+    {
+      "kind": "image",
+      "src": "/teaching/dragon-bytes-coding-chinese-new-year-with-p5js-and-ai-ft-roy-yang/dragon-bytes-coding-chinese-new-year-with-p5js-and-ai-ft-roy-yang-01.png",
+      "source": "og"
+    }
+  ],
+  "Creative Coding: SVG and Canvas Workshop Series|Oct 2023|https://www.notion.so/munusshih/NCTU-IAA-f9c5d9e4b9ed46f9ad6558f3f7465150?pvs=4": [
+    {
+      "kind": "image",
+      "src": "/teaching/creative-coding-svg-and-canvas-workshop-series/creative-coding-svg-and-canvas-workshop-series-01.png",
+      "source": "og"
+    }
+  ],
+  "Hello Zine! 從小誌到開源藝術|Sep 2023|https://www.youtube.com/live/QfgvuTZPCa0?si=VifKhDf5IUivzc6q": [
+    {
+      "kind": "image",
+      "src": "/teaching/hello-zine/hello-zine-01.jpg",
+      "source": "og"
+    }
+  ],
+  "CSS Magin! Transition, Transform and Animation|June 2022|https://www.notion.so/munusshih/CSS-Magic-Click-Touch-Move-9589b601e9db449ca452906d2ca96e2f": [
+    {
+      "kind": "image",
+      "src": "/teaching/css-magin-transition-transform-and-animation/css-magin-transition-transform-and-animation-01.png",
+      "source": "og"
+    }
+  ],
+  "p5.(Gen)Zine V.2|June 2022|https://www.youtube.com/watch?v=lAQc3Ij3O8k&ab_channel=ProcessingFoundation": [
+    {
+      "kind": "image",
+      "src": "/teaching/p5genzine-v2/p5genzine-v2-01.jpg",
+      "source": "og"
+    }
+  ],
+  "p5.(Gen)Zine|June 2022|https://medium.com/@ProcessingOrg/code-decolonized-x-powrplnt-symposium-2022-6433cc84e9c3": [
+    {
+      "kind": "image",
+      "src": "/teaching/p5genzine/p5genzine-01.jpg",
+      "source": "og"
+    }
+  ],
+  "Advanced Design: Product Design|Spring 2024|https://adpd.munusandniktari.com/": [
+    {
+      "kind": "video",
+      "src": "/teaching/advanced-design-product-design/advanced-design-product-design-01.mp4",
+      "source": "recorded"
+    }
+  ],
+  "The Web is Fluid, Generative and Live|Spring 2024|https://ci2-munus.munusandniktari.com/": [
+    {
+      "kind": "video",
+      "src": "/teaching/the-web-is-fluid-generative-and-live/the-web-is-fluid-generative-and-live-01.mp4",
+      "source": "recorded"
+    }
+  ],
+  "Techniculture|Feb 2024|https://www.typeelectives.com/courses/techniculture-sp-24": [
+    {
+      "kind": "image",
+      "src": "/teaching/techniculture/techniculture-01.png",
+      "source": "og"
+    }
+  ],
+  "Innovation & Career Exploration: Culture & Creative Industry|Spring 2020|https://sites.google.com/view/tzaiwu-cc/last-semester?authuser=0": [
+    {
+      "kind": "image",
+      "src": "/teaching/innovation-career-exploration-culture-creative-industry/innovation-career-exploration-culture-creative-industry-01.jpg",
+      "source": "og"
+    }
+  ],
+  "Future Museum: Creative Coding & Speculative Design|Fall 2020|https://sites.google.com/view/tzaiwu-cc/home?authuser=0": [
+    {
+      "kind": "image",
+      "src": "/teaching/future-museum-creative-coding-speculative-design/future-museum-creative-coding-speculative-design-01.jpg",
+      "source": "og"
+    }
+  ],
+  "Major Studio 1 (Thesis)|Fall 2022|https://github.com/munusshih/dv-majorstudio": [
+    {
+      "kind": "image",
+      "src": "/teaching/major-studio-1-thesis/major-studio-1-thesis-01.jpg",
+      "source": "og"
+    }
+  ],
+  "Combinatory Poetry with Variable Fonts ft. Nikki Makagiansar|June 29, 2025|https://typelab.free99.work": [
+    {
+      "kind": "image",
+      "src": "/teaching/combinatory-poetry-with-variable-fonts-ft-nikki-makagiansar/combinatory-poetry-with-variable-fonts-ft-nikki-makagiansar-02.jpg",
+      "source": "screenshot"
+    }
+  ]
+}

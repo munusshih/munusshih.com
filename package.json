@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "astro dev",
     "generatePoster": "node generatePosters.js",
+    "cache:teaching-media": "node scripts/cacheTeachingMedia.js",
+    "sync:yml": "node scripts/updateYamlFromSheets.js",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
