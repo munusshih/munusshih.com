@@ -1,0 +1,408 @@
+---
+import BasicLayout from "@/layouts/Basic.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
+import { prepareAndSortContent, parseLooseDate } from "@/scripts/cleanDate.js";
+import { getTeachingEntries } from "@/data/contentSources.js";
+
+const teachingEntriesRaw = await getTeachingEntries();
+const teachingEntries = prepareAndSortContent(teachingEntriesRaw);
+
+const now = new Date();
+const currentYear = now.getFullYear();
+
+const seasonFromMonth = (month) => {
+  if (month >= 2 && month <= 4) return "spring";
+  if (month >= 5 && month <= 6) return "summer";
+  if (month >= 7 && month <= 10) return "fall";
+  return "winter";
+};
+
+const currentSeason = seasonFromMonth(now.getMonth());
+
+const tokenCache = new WeakMap();
+
+const toArray = (value) => {
+  if (!value) return [];
+  if (Array.isArray(value)) return value.flat();
+  return String(value).split(/[|,/]+/);
+};
+
+const getTokens = (item) => {
+  if (tokenCache.has(item)) return tokenCache.get(item);
+  const rawValues = [
+    item.section,
+    item.category,
+    item.type,
+    item.status,
+    item.tag,
+    item.note,
+    item.tags,
+  ];
+  const tokens = rawValues
+    .flatMap(toArray)
+    .map((entry) => entry.trim().toLowerCase())
+    .filter(Boolean);
+  tokenCache.set(item, tokens);
+  return tokens;
+};
+
+const hasToken = (item, keywords) => {
+  const tokens = getTokens(item);
+  return keywords.some((keyword) =>
+    tokens.some((token) => token.includes(keyword))
+  );
+};
+
+const getSectionName = (item) =>
+  String(item.section ?? item.category ?? "")
+    .trim()
+    .toLowerCase();
+
+const belongsToSection = (item, keywords) => {
+  const section = getSectionName(item);
+  if (!section) return false;
+  return keywords.some((keyword) => section.includes(keyword));
+};
+
+const normaliseDate = (item) => {
+  if (item._sortDate instanceof Date && !Number.isNaN(item._sortDate.valueOf()))
+    return item._sortDate;
+
+  const raw = item.originalDate ?? item.date;
+  if (!raw) return null;
+
+  const parsed = parseLooseDate(raw);
+  return parsed instanceof Date && !Number.isNaN(parsed.valueOf())
+    ? parsed
+    : null;
+};
+
+const detectSeasonInfo = (item) => {
+  const raw = (item.originalDate ?? item.date ?? "").toLowerCase();
+  const knownSeason = ["spring", "summer", "fall", "winter"].find((season) =>
+    raw.includes(season)
+  );
+
+  const yearMatch = (item.originalDate ?? item.date ?? "").match(/\d{4}/);
+  const fallbackDate = normaliseDate(item);
+
+  const season =
+    knownSeason ??
+    (fallbackDate ? seasonFromMonth(fallbackDate.getMonth()) : null);
+  const year =
+    yearMatch ? Number(yearMatch[0]) : fallbackDate?.getFullYear() ?? null;
+
+  return { season, year };
+};
+
+const isCourseLike = (item) =>
+  belongsToSection(item, ["course", "class"]) ||
+  hasToken(item, ["course", "class", "studio", "syllabus", "lecture"]);
+
+const isWorkshopLike = (item) =>
+  belongsToSection(item, ["workshop"]) || hasToken(item, ["workshop"]);
+
+const isHappeningClass = (item) => {
+  if (!isCourseLike(item)) return false;
+
+  if (
+    belongsToSection(item, ["happening"]) ||
+    hasToken(item, ["happening", "current", "now", "upcoming"]) ||
+    hasToken(item, ["active"])
+  ) {
+    return true;
+  }
+
+  const status = String(item.status ?? "").toLowerCase();
+  if (
+    ["current", "happening", "ongoing", "active", "now"].some((keyword) =>
+      status.includes(keyword)
+    )
+  ) {
+    return true;
+  }
+
+  const { season, year } = detectSeasonInfo(item);
+  if (season && year) {
+    return year === currentYear && season === currentSeason;
+  }
+
+  const date = normaliseDate(item);
+  if (!date) return false;
+
+  const diffDays = Math.abs((date.getTime() - now.getTime()) / 86_400_000);
+  return diffDays <= 60;
+};
+
+const keyForItem = (item) =>
+  [
+    item.title ?? "",
+    item.originalDate ?? item.date ?? "",
+    item.link?.href ?? "",
+  ].join("|");
+
+const happeningClassesRaw = [];
+const coursesRaw = [];
+const workshopsRaw = [];
+
+for (const item of teachingEntries) {
+  if (isHappeningClass(item)) {
+    happeningClassesRaw.push(item);
+    continue;
+  }
+
+  if (isWorkshopLike(item)) {
+    workshopsRaw.push(item);
+    continue;
+  }
+
+  if (isCourseLike(item)) {
+    coursesRaw.push(item);
+    continue;
+  }
+
+  coursesRaw.push(item);
+}
+
+const usedKeys = new Set([
+  ...happeningClassesRaw.map((item) => keyForItem(item)),
+  ...coursesRaw.map((item) => keyForItem(item)),
+  ...workshopsRaw.map((item) => keyForItem(item)),
+]);
+
+const leftoverItems = teachingEntries.filter(
+  (item) => !usedKeys.has(keyForItem(item))
+);
+if (leftoverItems.length) {
+  coursesRaw.push(...leftoverItems);
+}
+
+const ogCache = new Map();
+
+async function fetchOgImage(url) {
+  if (!url) return null;
+  if (ogCache.has(url)) return ogCache.get(url);
+
+  try {
+    const response = await fetch(url, { redirect: "follow" });
+    if (!response.ok) {
+      ogCache.set(url, null);
+      return null;
+    }
+
+    const html = await response.text();
+    const ogMatch =
+      html.match(
+        /<meta[^>]+property=["']og:image["'][^>]*content=["']([^"']+)["']/i
+      ) ||
+      html.match(
+        /<meta[^>]+content=["']([^"']+)["'][^>]*property=["']og:image["']/i
+      ) ||
+      html.match(
+        /<meta[^>]+name=["']twitter:image["'][^>]*content=["']([^"']+)["']/i
+      ) ||
+      html.match(
+        /<meta[^>]+content=["']([^"']+)["'][^>]*name=["']twitter:image["']/i
+      );
+
+    const imageUrl = ogMatch ? ogMatch[1] : null;
+    ogCache.set(url, imageUrl);
+    return imageUrl;
+  } catch (error) {
+    console.warn(`teaching: failed to fetch OG image for ${url}`, error);
+    ogCache.set(url, null);
+    return null;
+  }
+}
+
+async function addOgImages(items) {
+  return Promise.all(
+    items.map(async (item) => {
+      if (item.image || item.ogImage) return item;
+
+      const href = item.link?.href;
+      if (!href) return item;
+
+      const ogImage = await fetchOgImage(href);
+      return ogImage ? { ...item, ogImage } : item;
+    })
+  );
+}
+
+const [happeningClasses, courses, workshops] = await Promise.all([
+  addOgImages(happeningClassesRaw),
+  addOgImages(coursesRaw),
+  addOgImages(workshopsRaw),
+]);
+
+const displayDate = (item) => item.originalDate ?? item.date ?? "";
+
+const sections = [
+  { title: "Happening Classes", items: happeningClasses },
+  { title: "Courses", items: courses },
+  { title: "Workshops", items: workshops },
+];
+---
+
+<BasicLayout
+  title={`Teaching — ${SITE_TITLE}`}
+  description={`${SITE_DESCRIPTION} - Teaching`}
+  image={`/thumbnails/index.jpg`}
+>
+  <main class="w-full">
+    {
+      sections
+        .filter(({ items }) => items.length)
+        .map(({ title, items }) => (
+          <section class="flex flex-col" aria-label={title}>
+            <h1 class="fade-in w-full self-center text-[30vw] leading-tight tracking-[-0.1em]">
+              {title}
+            </h1>
+            <div class="flex flex-col">
+              {items.map((item) => {
+                const key = keyForItem(item);
+                const primaryImage = item.image ?? item.ogImage ?? null;
+                const hasImage = Boolean(primaryImage);
+
+                const imageSection = hasImage ? (
+                  <div class="image-container pointer-events-none w-full max-w-[600px] overflow-hidden rounded-lg md:pointer-events-auto md:w-2/3">
+                    <div class="grid grid-cols-3">
+                      <div class="md:col-start-3">
+                        <div class="aspect-square w-full overflow-hidden bg-gray-100">
+                          <img
+                            src={primaryImage}
+                            alt={`Preview for ${item.title}`}
+                            loading="lazy"
+                            class="h-full w-full object-cover"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div class="md:w-2/3 max-w-[600px]" />
+                );
+
+                const content = (
+                  <article
+                    class="teaching-card flex flex-col justify-between gap-x-20 gap-y-10 border-b px-[var(--page-margin)] py-6 md:flex-row md:gap-y-0 md:py-4"
+                    data-has-image={hasImage ? "true" : "false"}
+                  >
+                    <div class="w-full md:w-1/3">
+                      <h2 class="heading2 text-pretty">{item.title}</h2>
+                      {item.place && (
+                        <p class="body1 mt-2 text-pretty text-gray-600">
+                          {item.place}
+                        </p>
+                      )}
+                      {item.note && (
+                        <p class="body1 mt-2 text-pretty text-gray-600">
+                          {item.note}
+                        </p>
+                      )}
+                    </div>
+                    <div class="flex w-full flex-col gap-4 md:w-2/3 md:items-end">
+                      {imageSection}
+                      <p class="body1 text-left text-gray-700 md:text-right">
+                        {displayDate(item)}
+                      </p>
+                    </div>
+                  </article>
+                );
+
+                if (item.link?.href) {
+                  return (
+                    <a
+                      key={key}
+                      href={item.link.href}
+                      class="teaching-link fade-in block !no-underline transition-opacity duration-200 hover:opacity-80 focus-visible:opacity-80"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {content}
+                    </a>
+                  );
+                }
+
+                return (
+                  <div key={key} class="teaching-link fade-in block">
+                    {content}
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+        ))
+    }
+  </main>
+</BasicLayout>
+<script>
+  import gsap from "gsap";
+
+  const cards = document.querySelectorAll(".teaching-card");
+
+  cards.forEach((card) => {
+    const imageContainer = card.querySelector(".image-container");
+    if (!imageContainer || card.dataset.hasImage !== "true") return;
+
+    const medias = imageContainer.querySelector(".medias");
+    let animationFrameId = null;
+
+    const onMouseMove = (event) => {
+      if (animationFrameId) return;
+
+      animationFrameId = requestAnimationFrame(() => {
+        animationFrameId = null;
+
+        gsap.to(imageContainer, {
+          width: "70%",
+          duration: 0.3,
+          ease: "power2.out",
+          overwrite: "auto",
+        });
+
+        if (medias) {
+          const rect = medias.getBoundingClientRect();
+          const mouseX = event.clientX - rect.left;
+          const normalizedMouseX = (mouseX / rect.width) * 100;
+          const reversedMouseX = 100 - normalizedMouseX;
+
+          gsap.to(medias, {
+            x: reversedMouseX * 1.2 - 60,
+            width: "120%",
+            duration: 0.3,
+            ease: "power1.out",
+            overwrite: "auto",
+          });
+        }
+      });
+    };
+
+    const onMouseLeave = () => {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+      }
+
+      gsap.to(imageContainer, {
+        width: "75%",
+        duration: 0.8,
+        ease: "power2.out",
+        overwrite: "auto",
+      });
+
+      if (medias) {
+        gsap.to(medias, {
+          x: 0,
+          width: "100%",
+          duration: 0.8,
+          ease: "power2.out",
+          overwrite: "auto",
+        });
+      }
+    };
+
+    card.addEventListener("mousemove", onMouseMove);
+    card.addEventListener("mouseleave", onMouseLeave);
+  });
+</script>

@@ -13,6 +13,7 @@ import {
   getEventEntries,
   getBookEntries,
   getOrganizingEntries,
+  getTeachingEntries,
 } from "@/data/contentSources.js";
 
 // Background & text color map
@@ -33,6 +34,7 @@ const pressEntries = await getPressEntries();
 const eventEntries = await getEventEntries();
 const bookEntries = await getBookEntries();
 const organizingEntries = await getOrganizingEntries();
+const teachingEntries = await getTeachingEntries();
 
 // Content selection
 const contentFilters = {
@@ -55,13 +57,35 @@ const contentFilters = {
       ].includes(t);
     }),
   Workshop: () =>
-    eventEntries.filter(({ type }) =>
-      type ? String(type).toLowerCase().includes("workshop") : false
-    ),
+    teachingEntries.filter((item) => {
+      const tokens = [
+        item.section,
+        item.category,
+        item.type,
+        item.status,
+      ]
+        .flat()
+        .filter(Boolean)
+        .map((value) => String(value).toLowerCase());
+      return tokens.some((token) => token.includes("workshop"));
+    }),
   Teaching: () =>
-    eventEntries.filter(({ type }) =>
-      type ? String(type).toLowerCase().includes("class") : false
-    ),
+    teachingEntries.filter((item) => {
+      const tokens = [
+        item.section,
+        item.category,
+        item.type,
+        item.status,
+      ]
+        .flat()
+        .filter(Boolean)
+        .map((value) => String(value).toLowerCase());
+      return tokens.some((token) =>
+        ["course", "class", "teaching"].some((keyword) =>
+          token.includes(keyword)
+        )
+      );
+    }),
   "Code/Contribution": () =>
     eventEntries.filter(({ type }) =>
       type

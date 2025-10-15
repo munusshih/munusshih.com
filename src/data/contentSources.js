@@ -7,6 +7,7 @@ import Education from "@/docs/education.yml";
 import Lab from "@/docs/lab.yml";
 import Homepage from "@/docs/homepage.yml";
 import Writing from "@/docs/writing.yml";
+import Teaching from "@/docs/teaching.yml";
 
 const DATASETS = {
   press: {
@@ -54,6 +55,11 @@ const DATASETS = {
     defaultTab: "Homepage",
     urlEnvKeys: ["HOMEPAGE_SHEET_URL"],
   },
+  teaching: {
+    fallback: Teaching,
+    defaultTab: "Teaching",
+    urlEnvKeys: ["TEACHING_SHEET_URL"],
+  },
 };
 
 const BASE_SHEET_ENV_KEYS = ["GOOGLE_SHEET_ID", "SHEET_ID", "CONTENT_SHEET_ID"];
@@ -76,6 +82,10 @@ const KEY_MAP = {
   thumbnail: "image",
   isbn: "isbn",
   imagealt: "imageAlt",
+  ogimage: "ogImage",
+  og_image: "ogImage",
+  preview: "ogImage",
+  previewimage: "ogImage",
   background: "background",
   backgroundcolor: "background",
   bg: "background",
@@ -92,6 +102,12 @@ const KEY_MAP = {
   iframe: "iframe",
   height: "height",
   order: "order",
+  section: "section",
+  category: "category",
+  status: "status",
+  collection: "section",
+  group: "section",
+  tags: "tags",
 };
 
 function resolveSheetUrl(datasetKey) {
@@ -370,4 +386,8 @@ export async function getHomepageEntries() {
 
 export async function getWritingEntries() {
   return loadDataset("writing");
+}
+
+export async function getTeachingEntries() {
+  return loadDataset("teaching");
 }
