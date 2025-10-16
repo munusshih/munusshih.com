@@ -54,8 +54,10 @@ const sortedWorkItems = sortByDate(workItems, "desc");
           .filter((item) => item.data.archived === false)
           .map((item) => (
             <a
-              href={`/${item.id}`}
-              class="fade-in !no-underline"
+              href={item.data.elink ? item.data.elink : `/${item.id}`}
+              target={item.data.elink ? "_blank" : undefined}
+              rel={item.data.elink ? "noopener noreferrer" : undefined}
+              class="group fade-in !no-underline"
               key={item.data.title}
             >
               <article
@@ -63,7 +65,14 @@ const sortedWorkItems = sortByDate(workItems, "desc");
                 data-tags={item.data.tags.join(",")}
               >
                 <div class="w-full md:w-1/3">
-                  <h2 class="heading2 text-balance">{item.data.title}</h2>
+                  <h2 class="heading2 text-balance">
+                    {item.data.title}
+                    {item.data.elink && (
+                      <span class="pointer-events-none opacity-0 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:opacity-100">
+                        ↗
+                      </span>
+                    )}
+                  </h2>
                   <p class="body1 code mt-2 text-balance text-gray-400">
                     {item.data.tags.map((tag) => toTitleCase(tag)).join(", ")},{" "}
                     {item.data.startDate &&

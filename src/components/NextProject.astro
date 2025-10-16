@@ -5,7 +5,7 @@ import Media from "@/components/utils/Media.astro";
 const allProjects = await getCollection("work");
 // Only show projects that explicitly have archived: false
 const activeProjects = allProjects.filter(
-  (project) => project.data.archived === false
+  (project) => project.data.archived === false && !project.data.elink
 );
 const sortedActiveProjects = sortByDate(activeProjects, "desc");
 
@@ -35,7 +35,7 @@ if (currentIndex === -1) {
       <div class="hover-animate fade-in m-[var(--page-margin)] mt-20 gap-4 overflow-hidden pt-4">
         <a
           class="flex flex-col gap-4 pt-2 !no-underline"
-          href={`${nextProject.id}`}
+          href={`/${nextProject.id}`}
         >
           <div class="relative ml-4 flex h-20 w-20 items-center justify-end overflow-hidden">
             <svg

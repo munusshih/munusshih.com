@@ -18,6 +18,7 @@ const work = defineCollection({
     endDate: z.string().optional(),
     heroImage: z.string().optional(),
     images: z.array(z.string()).optional(),
+    elink: z.string().url().optional(),
   }),
 });
 

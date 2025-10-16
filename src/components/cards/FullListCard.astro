@@ -20,13 +20,14 @@ import { entryHasTokens } from "@/data/teachingUtils.js";
 // Background & text color map
 const colorMap = {
   "Upcoming Events": { background: "#FFBF00", text: "black" },
-  Press: { background: "#6DE7FF", text: "black" },
+  Press: { background: "#FFB6C1", text: "black" },
   Talk: { background: "#000", text: "white" },
   Readings: { background: "#FF876D", text: "black" },
   Teaching: { background: "#D69EFF", text: "black" },
   Featured: { background: "#FF876D", text: "black" },
   Workshop: { background: "beige", text: "black" },
   Organizing: { background: "#6F4E37", text: "white" },
+  Exhibition: { background: "#A0E7E5", text: "black" },
 };
 
 const { background = "black", text = "white" } = colorMap[title] || {};
@@ -44,12 +45,15 @@ const contentFilters = {
     eventEntries.filter(({ type }) =>
       type ? ["talk"].includes(String(type).toLowerCase()) : false
     ),
+  Exhibition: () =>
+    eventEntries.filter(({ type }) =>
+      type ? ["exhibition", "show"].includes(String(type).toLowerCase()) : false
+    ),
   Featured: () =>
     eventEntries.filter(({ type }) => {
       if (!type) return false;
       const t = String(type).toLowerCase();
       return [
-        "exhibition",
         "award",
         "fellowship",
         "residency",
@@ -57,7 +61,8 @@ const contentFilters = {
         "panel",
       ].includes(t);
     }),
-  Workshop: () => teachingEntries.filter((item) => entryHasTokens(item, ["workshop", "lab"])),
+  Workshop: () =>
+    teachingEntries.filter((item) => entryHasTokens(item, ["workshop", "lab"])),
   Teaching: () =>
     teachingEntries.filter((item) =>
       entryHasTokens(item, ["course", "class", "teaching", "studio"])
@@ -65,7 +70,9 @@ const contentFilters = {
   "Code/Contribution": () =>
     eventEntries.filter(({ type }) =>
       type
-        ? ["website", "code", "contribution"].includes(String(type).toLowerCase())
+        ? ["website", "code", "contribution"].includes(
+            String(type).toLowerCase()
+          )
         : false
     ),
   "Upcoming Events": () =>
