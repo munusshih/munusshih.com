@@ -36,7 +36,7 @@
   place: Formosan Association for Public Affairs, New York, NY, USA
   link:
     href: https://spencer.place/fapa-webstones
-  img1: '[img] https://spencer.place/fapa-webstones'
+  img1: '[video] https://spencer.place/fapa-webstones'
   img2: https://spencer.place/assets/nfc-1.mp4
 - title: 'Dragon Bytes: Coding Chinese New Year with p5.js and AI ft. Roy Yang'
   date: Jan 2024
@@ -58,6 +58,7 @@
   link:
     href: https://www.youtube.com/live/QfgvuTZPCa0?si=VifKhDf5IUivzc6q
   img1: OG
+  img2: https://drive.google.com/file/d/11rxYWyFMJfys0naJd2hRN3nv2gmCB3IO/view?usp=drive_link
 - title: CSS Magic! Transition, Transform and Animation
   date: June 2022
   type: Workshop
@@ -71,6 +72,7 @@
   link:
     href: https://www.youtube.com/watch?v=lAQc3Ij3O8k&ab_channel=ProcessingFoundation
   img1: OG
+  img2: https://drive.google.com/file/d/1CrJnuCPDmnGBjf6HRODG9uoK1viPk4w0/view?usp=drive_link
 - title: p5.(Gen)Zine
   date: June 2022
   type: Workshop
@@ -78,6 +80,7 @@
   link:
     href: https://medium.com/@ProcessingOrg/code-decolonized-x-powrplnt-symposium-2022-6433cc84e9c3
   img1: OG
+  img2: '`Theingi Thann` https://miro.medium.com/v2/resize:fit:4800/format:webp/0*cI9Ae3HfM8uUUfkA'
 - title: '*New* Graphic Design: Program, Data, Custom Algorithm'
   date: Oct 2021
   type: Workshop
@@ -109,7 +112,7 @@
     href: https://ci2-munus.munusandniktari.com/
   img1: '[dark] [video] https://ci2-munus.munusandniktari.com/'
   img2: OG
-- title: Techniculture
+- title: 'Techniculture: A Critical Lens on Modular Type and Generative Design'
   date: Feb 2024
   type: Workshop
   place: Type Electives, New York, NY, USA
@@ -117,6 +120,7 @@
   link:
     href: https://www.typeelectives.com/courses/techniculture-sp-24
   img1: '`Nikki Makagiansar` https://www.typeelectives.com/_next/image?url=https%3A%2F%2Fimages.ctfassets.net%2Ftwk7e297h04x%2F3JFbqOhWpZ861RoH0YyRMv%2Ff1a5bb5ccbc3b5f9c227e20a141d7a75%2Fezgif-3-424d6c8df5.gif&w=3840&q=75'
+  img2: https://antennebooks.com/cdn/shop/videos/c/vp/25780b9c54604539817a436913c9d7c0/25780b9c54604539817a436913c9d7c0.HD-1080p-4.8Mbps-43320493.mp4?v=0
 - title: 'Innovation & Career Exploration: Culture & Creative Industry'
   date: Spring 2020
   type: Class
@@ -137,10 +141,10 @@
   place: Parsons School of Design, New York, NY, USA
   img1: '`Tatiana Lahera Kalainoff` https://drive.google.com/file/d/1FdjbTkLVMGpiRpNzHJB9nvy0NhSWRYPX/view?usp=drive_link'
   img2: '`Huong Pham` https://drive.google.com/file/d/1D7MzttMCpcJsDaOC7aNMq8D8HjU_1_eu/view?usp=drive_link'
-  img3: '`Tina Titus Mathew` https://drive.google.com/file/d/1rVHL0Xe_0al6PKYDoNABpWrDFJh7MxH7/view?usp=drive_link'
 - title: Major Studio 1 (Thesis)
   date: Fall 2022
   type: Class - TA
   place: Parsons School of Design, New York, NY, USA
   link:
     href: https://github.com/munusshih/dv-majorstudio
+  img1: '`Tina Titus Mathew` https://drive.google.com/file/d/1rVHL0Xe_0al6PKYDoNABpWrDFJh7MxH7/view?usp=drive_link'
