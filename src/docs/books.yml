@@ -1,20 +1,17 @@
-- isbn: 1941753728
-- isbn: 9493148343
-
-- title: "How to Speak Machine"
-  image: "/books/machine.png"
+- isbn: '1941753728'
+- isbn: '9493148343'
+- title: How to Speak Machine
+  date: '2019'
   link:
-    href: "https://www.penguinrandomhouse.com/books/539046/how-to-speak-machine-by-john-maeda/"
-  date: "2019"
-
-- title: "User Friendly"
-  image: "/books/user.jpg"
+    href: https://www.penguinrandomhouse.com/books/539046/how-to-speak-machine-by-john-maeda/
+  image: /books/machine.png
+- title: User Friendly
+  date: '2020'
   link:
-    href: "https://draw-down.com/products/user-friendly-how-the-hidden-rules-of-design-are-changing-the-way-we-live-work-and-play"
-  date: "2020"
-
-- title: "(How) do we (want to) work (together) (as (socially engaged) designers (students and neighbors)) (in neoliberal times)?"
-  image: "/books/machine.png"
+    href: https://draw-down.com/products/user-friendly-how-the-hidden-rules-of-design-are-changing-the-way-we-live-work-and-play
+  image: /books/user.jpg
+- title: (How) do we (want to) work (together) (as (socially engaged) designers (students and neighbors)) (in neoliberal times)?
+  date: '2021'
   link:
-    href: "https://www.sternberg-press.com/product/how-do-we-want-to-work-together-as-socially-engaged-designers-students-and-neighbors-in-neoliberal-times/"
-  date: "2021"
+    href: https://www.sternberg-press.com/product/how-do-we-want-to-work-together-as-socially-engaged-designers-students-and-neighbors-in-neoliberal-times/
+  image: /books/machine.png

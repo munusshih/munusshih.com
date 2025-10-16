@@ -1,24 +1,20 @@
-- title: "Co-op Bookclub with Co-Assembly"
-  place: "(Remote) Taiwan"
-  date: "July 2025"
-  type: "organizing"
-
-- title: "Code as Acts: Processing Community Day Taiwan with SpOnAcT!"
-  place: "(Remote) Taiwan"
-  date: "2023 Sep"
-  type: "organizing"
-
-- title: "Speculation + Art & Design + Science & Technology Studies Book Club"
+- title: Co-op Bookclub with Co-Assembly
+  date: July 2025
+  place: (Remote) Taiwan
+  type: organizing
+- title: 'Code as Acts: Processing Community Day Taiwan with SpOnAcT!'
+  date: 2023 Sep
+  place: (Remote) Taiwan
+  type: organizing
+- title: Speculation + Art & Design + Science & Technology Studies Book Club
+  date: 2021 Sep
   place: '"Posthuman Art Collective" at National Tsing Hua University, Hsinchu, Taiwan'
-  date: "2021 Sep"
-  type: "organizing"
-
-- title: "Free Friday Design Forum"
-  place: "National Tsing Hua University, Hsinchu, Taiwan"
-  date: "2020 - 2021"
-  type: "organizing"
-
-- title: "Tzaiwu Graphic Design Club"
-  place: "National Tsing Hua University, Hsinchu, Taiwan"
-  date: "2018 - 2020"
-  type: "organizing"
+  type: organizing
+- title: Free Friday Design Forum
+  date: 2020 - 2021
+  place: National Tsing Hua University, Hsinchu, Taiwan
+  type: organizing
+- title: Tzaiwu Graphic Design Club
+  date: 2018 - 2020
+  place: National Tsing Hua University, Hsinchu, Taiwan
+  type: organizing

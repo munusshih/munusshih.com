@@ -1,60 +1,53 @@
-- type: IntroCard
+- order: '1'
+  type: IntroCard
   size: x2-card
-  order: 1
-
-- type: ListCard
-  title: Recent Press
-  order: 2
-
-- type: WorkCard
+  body: Munus Shih is a Taiwanese Minnan-Hakka creative coder, artist, & organizer based in NYC.
+- order: '2'
+  type: CustomCard
+  title: In Motion
+  body: |-
+    1. I'm working on a `research`  project with Professor [Asad Pervaiz](https://oldthingsnewplaces.com) called “Source, Code, Print”
+    2. I'm co-leading and `teaching` the [“Graduate Studio: Technology A”](https://tech-a.designfuture.space) class with Professor [Matt Martin](https://objectsinternational.org/)
+    3. I'm in the early stage of planning and `organizing` the 2026 Processing Community Day Taiwan!
+  background: DeepSkyBlue
+  textColor: black
+- order: '3'
+  type: WorkCard
   size: x3-card
-  href: work
-  linkContent: Recent Work
-  targetName:
-    - /goca/img2.jpg
-    - /goca/video.mp4
-    - /goca/video2.mp4
-    - /goca/img.jpg
-  description: A generative identity for a new asian art gallery in Chelsea, Manhattan.
-  order: 3
-
-- type: MediaCard
-  size: x1-card
-  targetName: /misc/IMG_6912.JPG
-  description: A recent photo of me
-  order: 4
-
-- type: ListCard
+  title: Yet to be Documented
+  excerpt: “Syllabus (Subject to Change)” This work was showcased at the Demo Festival 2025
+  targetName: /syllabus-subject/01.jpg | /syllabus-subject/02.jpg | /syllabus-subject/03.jpg
+- order: '5'
+  type: ListCard
   title: Upcoming Events
-  order: 5
-
-- type: ListCard
-  title: Readings
-  order: 6
-
-- type: MediaCard
-  size: x1-card
-  targetName: /misc/ccc.mp4
-  description: Critical Coding Cookbook
-  order: 7
-
-- type: WorkCard
+  background: salmon
+- order: '6'
+  type: ListCard
+  title: Writings
+  body: |-
+    - I'm trying to write more!
+    - But before that you can read this about [From Zine-Coding to Collective-Worldbuilding](https://github.com/processing/OSACC-p5.js-Access-Report/blob/main/4-reflection/reflection-by-munus-shih.md)
+  background: MediumPurple
+  textColor: black
+- order: '8'
+  type: WorkCard
   size: x2-card
-  href: lab
-  linkContent: What's Brewing in Lab
-  targetName: /lab/R&M.mp4
-  order: 8
-
-- type: MediaCard
+  linkContent: A Collaborated Project!
+  link:
+    href: https://niktari.com/projects/unearthing-air
+  excerpt: I worked on this textual data visualization project with designer Nikki Makagiansar for researcher Todd Whitney
+  targetName: /homepage/unearthingAir.mp4
+- order: '9'
+  type: MediaCard
   size: x2-card
-  description: I've been listening to...
-  iframe: https://open.spotify.com/embed/album/2MHUaRi9OCyTN02SoyRRBJ?utm_source=generator
-  href: https://www.youtube.com/watch?v=0f2v1g3a4xA
-  order: 9
-
-- type: WorkCard
+  title: Reading Club
+  excerpt: I recently co-hosted a Taiwanese reading club on David Reinfurt's new book “A Co-Program to Graphic Design”
+  iframe: https://www.youtube.com/embed/ToMvJNLdQ6A?si=humglHpnYCMPIMpN
+  background: yellow
+  textColor: black
+- order: '10'
+  type: WorkCard
   size: x2-card
   linkContent: A Coding Sketch
-  iframe: sketches/pattern
-  description: I made this pattern in CSS!
-  order: 10
+  excerpt: I was testing out the new p5 2.0!
+  iframe: https://editor.p5js.org/munusshih/full/f8eD2f5bh

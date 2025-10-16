@@ -251,39 +251,81 @@ const looksLikeImage = (value) => /\.(png|jpe?g|gif|webp|avif|svg)$/i.test(value
 
 const parseMediaSpec = (rawValue, entry) => {
   if (!rawValue) return null;
-  const value = String(rawValue).trim();
-  if (!value) return null;
+  let remaining = String(rawValue).trim();
+  if (!remaining) return null;
 
-  const ogMatch = value.match(/^\[og\]\s*(.*)$/i);
-  if (ogMatch) {
-    const url = ogMatch[1]?.trim() || entry.link?.href || entry.href || "";
-    return url
-      ? {
-          mode: "og",
-          url,
-        }
-      : { mode: "og" };
+  const tokens = [];
+  const tokenPattern = /^\[(.+?)\]\s*/;
+  let match;
+  while ((match = remaining.match(tokenPattern))) {
+    tokens.push(match[1].trim().toLowerCase());
+    remaining = remaining.slice(match[0].length).trimStart();
   }
 
-  if (/^\[?og\]?$/i.test(value)) return { mode: "og" };
-
-  const videoMatch = value.match(/^\[video\]\s*(.*)$/i);
-  if (videoMatch) {
-    const url = videoMatch[1]?.trim() || entry.link?.href || entry.href || "";
-    return url ? { mode: "video", url } : null;
+  let caption = null;
+  const captionMatch = remaining.match(/`([^`]+)`/);
+  if (captionMatch) {
+    caption = captionMatch[1].trim();
+    remaining = (
+      remaining.slice(0, captionMatch.index) +
+      remaining.slice(captionMatch.index + captionMatch[0].length)
+    ).trim();
   }
 
-  const imgMatch = value.match(/^\[img\]\s*(.*)$/i);
-  if (imgMatch) {
-    const url = imgMatch[1]?.trim() || entry.link?.href || entry.href || "";
-    return url ? { mode: "screenshot", url } : null;
+  const urlFallback = entry.link?.href || entry.href || "";
+  const url = remaining.trim();
+  const wantsDark = tokens.includes("dark");
+  const wantsLight = tokens.includes("light");
+
+  const spec = {
+    dark: wantsDark,
+    light: wantsLight,
+    caption,
+  };
+
+  if (tokens.includes("og")) {
+    spec.mode = "og";
+    spec.url = url || urlFallback;
+    return spec;
   }
 
-  if (value.startsWith("/")) {
-    return { mode: "local", path: value };
+  if (tokens.includes("video")) {
+    const resolved = url || urlFallback;
+  return resolved
+      ? { mode: "video", url: resolved, dark: spec.dark, light: spec.light, caption }
+      : null;
   }
 
-  return { mode: "download", url: value };
+  if (tokens.includes("img") || tokens.includes("image") || tokens.includes("screenshot")) {
+    const resolved = url || urlFallback;
+    return resolved
+      ? { mode: "screenshot", url: resolved, dark: spec.dark, light: spec.light, caption }
+      : null;
+  }
+
+  if (!tokens.length && /^\[?og\]?$/i.test(remaining)) {
+    return { mode: "og", dark: spec.dark };
+  }
+
+  if (remaining.startsWith("/")) {
+    return { mode: "local", path: remaining, dark: spec.dark, light: spec.light, caption };
+  }
+
+  if (remaining) {
+    return { mode: "download", url: remaining, dark: spec.dark, light: spec.light, caption };
+  }
+
+  if ((tokens.includes("dark") || tokens.includes("light")) && urlFallback) {
+    return {
+      mode: "screenshot",
+      url: urlFallback,
+      dark: wantsDark,
+      light: wantsLight,
+      caption,
+    };
+  }
+
+  return null;
 };
 
 const fetchOgImage = async (url) => {
@@ -321,13 +363,19 @@ const downloadFile = async (url, destination) => {
     throw new Error(`Unsupported URL for download: ${url}`);
   }
 
+  const resolvedUrl = normaliseDownloadUrl(url);
+
   if (!FORCE && existsSync(destination)) {
-    return destination;
+    return {
+      path: destination,
+      contentType: "",
+      url: resolvedUrl,
+    };
   }
 
-  const response = await fetch(url);
+  const response = await fetch(resolvedUrl);
   if (!response.ok || !response.body) {
-    throw new Error(`Failed to download ${url}: ${response.status}`);
+    throw new Error(`Failed to download ${resolvedUrl}: ${response.status}`);
   }
 
   await ensureDir(path.dirname(destination));
@@ -338,7 +386,41 @@ const downloadFile = async (url, destination) => {
   const fileStream = createWriteStream(destination);
   await pipeline(nodeStream, fileStream);
 
-  return destination;
+  const contentType = response.headers.get("content-type") || "";
+
+  return {
+    path: destination,
+    contentType,
+    url: resolvedUrl,
+  };
+};
+
+const normaliseDownloadUrl = (url) => {
+  try {
+    const parsed = new URL(url);
+    const hostname = parsed.hostname.toLowerCase();
+
+    if (hostname.includes("drive.google.com")) {
+      const fileIdMatch = parsed.pathname.match(/\/file\/d\/([^/]+)/);
+      const idFromQuery = parsed.searchParams.get("id");
+      const fileId = fileIdMatch ? fileIdMatch[1] : idFromQuery;
+
+      if (fileId) {
+        return `https://drive.google.com/uc?export=download&id=${fileId}`;
+      }
+
+      const ucMatch = parsed.pathname.includes("/uc")
+        ? parsed.searchParams.get("id")
+        : null;
+      if (ucMatch) {
+        return `https://drive.google.com/uc?export=download&id=${ucMatch}`;
+      }
+    }
+  } catch (error) {
+    // fall through to original url
+  }
+
+  return url;
 };
 
 let sharedBrowser = null;
@@ -373,7 +455,8 @@ const autoScroll = async (page) => {
   });
 };
 
-const captureScreenshot = async (url, destination) => {
+const captureScreenshot = async (url, destination, options = {}) => {
+  const { dark = false, light = false } = options;
   if (!FORCE && existsSync(destination)) return destination;
   const browser = await getBrowser();
   const page = await browser.newPage({
@@ -382,6 +465,7 @@ const captureScreenshot = async (url, destination) => {
   });
 
   try {
+    await page.emulateMedia({ colorScheme: dark ? "dark" : "light" });
     await page.goto(url, { waitUntil: "networkidle", timeout: 90_000 });
     await page.waitForTimeout(1500);
     await autoScroll(page);
@@ -400,7 +484,8 @@ const captureScreenshot = async (url, destination) => {
   return destination;
 };
 
-const recordVideo = async (url, destination) => {
+const recordVideo = async (url, destination, options = {}) => {
+  const { dark = false, light = true } = options;
   if (!FORCE && existsSync(destination)) return destination;
   const browser = await getBrowser();
   const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "teaching-video-"));
@@ -408,6 +493,7 @@ const recordVideo = async (url, destination) => {
   const context = await browser.newContext({
     viewport: { width: 1280, height: 720 },
     userAgent: USER_AGENT,
+    colorScheme: dark ? "dark" : "light",
     recordVideo: {
       dir: tempDir,
       size: { width: 1280, height: 720 },
@@ -476,25 +562,38 @@ const processEntry = async (entry, options) => {
   const entryDir = path.join(OUTPUT_DIR, slug);
   const specs = collectMediaSpecs(entry);
 
-  if (!specs.length) return [];
+  if (!specs.length) {
+    if (existsSync(entryDir)) {
+      await fs.rm(entryDir, { recursive: true, force: true });
+    }
+    return { assets: [], slug };
+  }
 
   if (force && existsSync(entryDir)) {
     await fs.rm(entryDir, { recursive: true, force: true });
   }
 
+  const expectedFiles = new Set();
   const results = [];
 
   for (let index = 0; index < specs.length; index += 1) {
     const spec = specs[index];
     try {
       if (spec.mode === "local" && spec.path) {
+        if (spec.path.startsWith("/teaching/")) {
+          const localName = spec.path.split("/").pop();
+          if (localName) expectedFiles.add(localName);
+        }
         results.push({
           kind: looksLikeVideo(spec.path) ? "video" : "image",
           src: spec.path,
           source: "local",
+          caption: spec.caption || null,
         });
         continue;
       }
+
+      const isDark = Boolean(spec.dark);
 
       if (spec.mode === "og") {
         const targetUrl = spec.url || entry.link?.href || entry.href || "";
@@ -505,11 +604,33 @@ const processEntry = async (entry, options) => {
         const ext = ensureExtension(ogUrl, "jpg");
         const fileName = generateFileName(slug, index, ext);
         const localPath = path.join(entryDir, fileName);
-        await downloadFile(ogUrl, localPath);
+        const { path: downloadedPath, contentType } = await downloadFile(
+          ogUrl,
+          localPath,
+        );
+        let finalPath = downloadedPath;
+        let finalExt = ext;
+
+        if (contentType.startsWith("video/")) {
+          if (!VALID_VIDEO_EXTS.has(ext)) {
+            finalExt = "mp4";
+            const renamedFile = generateFileName(slug, index, finalExt);
+            const renamedPath = path.join(entryDir, renamedFile);
+            await fs.rename(downloadedPath, renamedPath);
+            finalPath = renamedPath;
+          }
+        }
+
+        const finalName = path.basename(finalPath);
+        expectedFiles.add(finalName);
         results.push({
-          kind: looksLikeVideo(localPath) ? "video" : "image",
-          src: `/teaching/${slug}/${fileName}`,
+          kind:
+            contentType.startsWith("video/") || looksLikeVideo(finalPath)
+              ? "video"
+              : "image",
+          src: `/teaching/${slug}/${finalName}`,
           source: "og",
+          caption: spec.caption || null,
         });
         continue;
       }
@@ -519,14 +640,21 @@ const processEntry = async (entry, options) => {
         const videoPath = path.join(entryDir, videoFile);
         try {
           if (looksLikeVideo(spec.url) && isHttpUrl(spec.url)) {
-            await downloadFile(spec.url, videoPath);
+            const { contentType } = await downloadFile(spec.url, videoPath);
+            if (!contentType.startsWith("video/") && !QUIET) {
+              console.warn(
+                `Expected video from ${spec.url} but received content-type ${contentType}`,
+              );
+            }
           } else {
-            await recordVideo(spec.url, videoPath);
+            await recordVideo(spec.url, videoPath, { dark: isDark });
           }
+          expectedFiles.add(path.basename(videoPath));
           results.push({
             kind: "video",
             src: `/teaching/${slug}/${videoFile}`,
             source: "recorded",
+            caption: spec.caption || null,
           });
           continue;
         } catch (error) {
@@ -538,11 +666,13 @@ const processEntry = async (entry, options) => {
           }
           const fallbackFile = generateFileName(slug, index, "jpg");
           const fallbackPath = path.join(entryDir, fallbackFile);
-          await captureScreenshot(spec.url, fallbackPath);
+          await captureScreenshot(spec.url, fallbackPath, { dark: isDark });
+          expectedFiles.add(fallbackFile);
           results.push({
             kind: "image",
             src: `/teaching/${slug}/${fallbackFile}`,
             source: "video-fallback",
+            caption: spec.caption || null,
           });
           continue;
         }
@@ -551,11 +681,13 @@ const processEntry = async (entry, options) => {
       if (spec.mode === "screenshot" && spec.url) {
         const fileName = generateFileName(slug, index, "jpg");
         const localPath = path.join(entryDir, fileName);
-        await captureScreenshot(spec.url, localPath);
+        await captureScreenshot(spec.url, localPath, { dark: isDark });
+        expectedFiles.add(fileName);
         results.push({
           kind: "image",
           src: `/teaching/${slug}/${fileName}`,
           source: "screenshot",
+          caption: spec.caption || null,
         });
         continue;
       }
@@ -566,6 +698,7 @@ const processEntry = async (entry, options) => {
             kind: looksLikeVideo(spec.url) ? "video" : "image",
             src: spec.url,
             source: "reference",
+            caption: spec.caption || null,
           });
           continue;
         }
@@ -576,11 +709,34 @@ const processEntry = async (entry, options) => {
         );
         const fileName = generateFileName(slug, index, ext);
         const localPath = path.join(entryDir, fileName);
-        await downloadFile(spec.url, localPath);
+        const { path: downloadedPath, contentType } = await downloadFile(
+          spec.url,
+          localPath,
+        );
+
+        let finalPath = downloadedPath;
+        let finalExt = ext;
+
+        if (contentType.startsWith("video/")) {
+          if (!VALID_VIDEO_EXTS.has(ext)) {
+            finalExt = "mp4";
+            const renamedFile = generateFileName(slug, index, finalExt);
+            const renamedPath = path.join(entryDir, renamedFile);
+            await fs.rename(downloadedPath, renamedPath);
+            finalPath = renamedPath;
+          }
+        }
+
+        const finalName = path.basename(finalPath);
+        expectedFiles.add(finalName);
         results.push({
-          kind: looksLikeVideo(localPath) ? "video" : "image",
-          src: `/teaching/${slug}/${fileName}`,
+          kind:
+            contentType.startsWith("video/") || looksLikeVideo(finalPath)
+              ? "video"
+              : "image",
+          src: `/teaching/${slug}/${finalName}`,
           source: "download",
+          caption: spec.caption || null,
         });
       }
     } catch (error) {
@@ -594,7 +750,20 @@ const processEntry = async (entry, options) => {
     }
   }
 
-  return results;
+  if (existsSync(entryDir)) {
+    const files = await fs.readdir(entryDir);
+    for (const file of files) {
+      if (!expectedFiles.has(file)) {
+        await fs.rm(path.join(entryDir, file), { force: true });
+      }
+    }
+    const remaining = await fs.readdir(entryDir);
+    if (!remaining.length) {
+      await fs.rmdir(entryDir);
+    }
+  }
+
+  return { assets: results, slug };
 };
 
 const main = async () => {
@@ -615,18 +784,75 @@ const main = async () => {
 
   const manifest = { ...existingManifest };
 
+  const processedKeys = new Set();
+
   for (const entry of entries) {
-    const specs = collectMediaSpecs(entry);
-    if (!specs.length) continue;
-
     const key = teachingEntryKey(entry);
-    if (!FORCE && manifest[key]) continue;
+    processedKeys.add(key);
 
-    const assets = await processEntry(entry, { force: FORCE });
+    const { assets, slug } = await processEntry(entry, { force: FORCE });
+
     if (assets.length) {
       manifest[key] = assets;
       if (!QUIET) {
         console.log(`Cached ${assets.length} asset(s) for "${entry.title}"`);
+      }
+    } else if (manifest[key]) {
+      delete manifest[key];
+      if (!QUIET) {
+        console.log(`Removed cached assets for "${entry.title}"`);
+      }
+      const slugPath = path.join(OUTPUT_DIR, slug);
+      if (existsSync(slugPath)) {
+        await fs.rm(slugPath, { recursive: true, force: true });
+      }
+    }
+  }
+
+  const staleSlugs = new Set();
+
+  for (const key of Object.keys(manifest)) {
+    if (!processedKeys.has(key)) {
+      const assets = manifest[key] ?? [];
+      for (const asset of assets) {
+        if (asset?.src?.startsWith("/teaching/")) {
+          const slug = asset.src.split("/")[2];
+          if (slug) staleSlugs.add(slug);
+        }
+      }
+      delete manifest[key];
+    }
+  }
+
+  for (const slug of staleSlugs) {
+    const slugPath = path.join(OUTPUT_DIR, slug);
+    if (existsSync(slugPath)) {
+      await fs.rm(slugPath, { recursive: true, force: true });
+    }
+  }
+
+  const referencedSlugs = new Set();
+  for (const assets of Object.values(manifest)) {
+    for (const asset of assets) {
+      if (asset?.src?.startsWith("/teaching/")) {
+        const slug = asset.src.split("/")[2];
+        if (slug) referencedSlugs.add(slug);
+      }
+    }
+  }
+
+  const existingEntries = await fs.readdir(OUTPUT_DIR);
+  for (const entry of existingEntries) {
+    const fullPath = path.join(OUTPUT_DIR, entry);
+    try {
+      const stat = await fs.stat(fullPath);
+      if (!stat.isDirectory()) continue;
+      if (!referencedSlugs.has(entry)) {
+        await fs.rm(fullPath, { recursive: true, force: true });
+      }
+    } catch (error) {
+      if (!QUIET) {
+        console.warn(`Failed to inspect cache entry ${entry}`, error);
       }
     }
   }
