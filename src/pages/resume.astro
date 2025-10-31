@@ -9,6 +9,7 @@ import {
   getOrganizingEntries,
   getExperienceEntries,
   getEducationEntries,
+  getTeachingEntries,
 } from "@/data/contentSources.js";
 
 // add more exhibitions
@@ -19,10 +20,59 @@ const Press = await getPressEntries();
 const Organizing = await getOrganizingEntries();
 const Experiences = await getExperienceEntries();
 const Education = await getEducationEntries();
+const Teaching = await getTeachingEntries();
 
 // Function to remove spaces before commas
 function removeSpaceBeforeComma(text) {
   return text ? text.replace(/\s+,/g, ",") : text;
+}
+
+// Build a location string for exhibitions: place/note plus excerpt appended with a period separator
+function buildExhibitionLocation(item) {
+  if (!item) return "";
+  const place = item.place ? String(item.place).trim() : "";
+  const note = item.note ? String(item.note).trim() : "";
+  const excerpt = item.excerpt ? String(item.excerpt).trim() : "";
+
+  // Join place and note with comma if both exist
+  let location = "";
+  if (place && note) location = `${place}, ${note}`;
+  else if (place) location = place;
+  else if (note) location = note;
+
+  // Clean trailing punctuation from location
+  location = location.replace(/[\s\.,;:]+$/g, "");
+
+  // Clean leading punctuation from excerpt
+  const cleanExcerpt = excerpt.replace(/^[\s\.,;:]+/g, "");
+
+  if (cleanExcerpt) {
+    if (location) return `${location}. ${cleanExcerpt}`;
+    return cleanExcerpt;
+  }
+
+  return location;
+}
+
+// Return exhibition parts separately so we can render the excerpt in italics
+function getExhibitionParts(item) {
+  if (!item) return { location: "", excerpt: "" };
+  const place = item.place ? String(item.place).trim() : "";
+  const note = item.note ? String(item.note).trim() : "";
+  const excerpt = item.excerpt ? String(item.excerpt).trim() : "";
+
+  let location = "";
+  if (place && note) location = `${place}, ${note}`;
+  else if (place) location = place;
+  else if (note) location = note;
+
+  // remove trailing punctuation/spaces from location
+  location = location.replace(/[\s\.,;:]+$/g, "");
+
+  // clean leading punctuation/spaces from excerpt
+  const cleanExcerpt = excerpt.replace(/^[\s\.,;:]+/g, "");
+
+  return { location, excerpt: cleanExcerpt };
 }
 
 // Filter and organize data for resume
@@ -134,9 +184,11 @@ const talkEvents = Events.filter(({ type }) =>
   ["talk", "conference", "panel"].includes(type.toLowerCase())
 );
 
-const workshopEvents = Events.filter(({ type }) =>
-  type.toLowerCase().includes("workshop")
-);
+// Gather workshops from both the main Events dataset and the Teaching dataset
+const workshopEvents = [
+  ...Events.filter(({ type = "" }) => type.toLowerCase().includes("workshop")),
+  ...Teaching.filter(({ type = "" }) => type.toLowerCase().includes("workshop")),
+];
 
 const featuredEvents = Events.filter(({ type }) =>
   [
@@ -435,9 +487,21 @@ const updatedAt = new Date().toLocaleDateString("en-US", {
                     )}
                     <div class="min-w-0 flex-1">
                       <h3 class="body1 leading-relaxed text-pretty break-words whitespace-normal text-black">
-                        {removeSpaceBeforeComma(
-                          `${item.title}${item.place || item.note ? `, ${item.place || item.note}` : ""}${item.note && item.place ? `, ${item.note}` : ""}`
-                        )}
+                        {(() => {
+                          // If this is an exhibition, append excerpt after location with proper punctuation
+                          if (item.type && String(item.type).toLowerCase().includes("exhibition")) {
+                            const { location, excerpt } = getExhibitionParts(item);
+                            return (
+                              <>
+                                {removeSpaceBeforeComma(`${item.title}${location ? `, ${location}` : ""}`)}
+                                {excerpt ? <em>{`. ${excerpt}`}</em> : null}
+                              </>
+                            );
+                          }
+                          return removeSpaceBeforeComma(
+                            `${item.title}${item.place || item.note ? `, ${item.place || item.note}` : ""}${item.note && item.place ? `, ${item.note}` : ""}`
+                          );
+                        })()}
                       </h3>
                       {item.classes && item.classes.length ? (
                         <ul class="mt-1 ml-0 list-inside list-disc text-sm text-gray-700">
@@ -486,9 +550,20 @@ const updatedAt = new Date().toLocaleDateString("en-US", {
                     )}
                     <div class="min-w-0 flex-1">
                       <h3 class="body1 leading-relaxed text-pretty break-words whitespace-normal text-black">
-                        {removeSpaceBeforeComma(
-                          `${item.title}${item.place || item.note ? `, ${item.place || item.note}` : ""}${item.note && item.place ? `, ${item.note}` : ""}`
-                        )}
+                        {(() => {
+                          if (item.type && String(item.type).toLowerCase().includes("exhibition")) {
+                            const { location, excerpt } = getExhibitionParts(item);
+                            return (
+                              <>
+                                {removeSpaceBeforeComma(`${item.title}${location ? `, ${location}` : ""}`)}
+                                {excerpt ? <em>{`. ${excerpt}`}</em> : null}
+                              </>
+                            );
+                          }
+                          return removeSpaceBeforeComma(
+                            `${item.title}${item.place || item.note ? `, ${item.place || item.note}` : ""}${item.note && item.place ? `, ${item.note}` : ""}`
+                          );
+                        })()}
                       </h3>
                     </div>
                   </div>
