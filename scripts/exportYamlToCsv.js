@@ -28,16 +28,6 @@ const datasets = [
     ],
   },
   {
-    name: "books",
-    source: join(rootDir, "src/docs/books.yml"),
-    columns: ["title", "isbn", "date", "link", "image", "quote"],
-  },
-  {
-    name: "organizing",
-    source: join(rootDir, "src/docs/organizing.yml"),
-    columns: ["title", "date", "place", "type", "excerpt", "link"],
-  },
-  {
     name: "experiences",
     source: join(rootDir, "src/docs/experiences.yml"),
     columns: ["title", "date", "type", "place", "note", "link"],
