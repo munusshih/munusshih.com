@@ -1,17 +1,20 @@
+- title: Jestering A Creative Dance
+  date: December 2025
+  type: Talk
+  place: National Taiwan University of Science and Technology, Taipei, Taiwan
+- title: 'A Story That Lives Within US: Ada'
+  date: December 2025
+  type: Exhibition
+  place: Crossing Art, Chelsea, New York, NY, USA
+  excerpt: Curated by Tzu-Ying (Naomi) Chan. (Guest Stop) In Transit.
+- title: 'Shop*: Exchanging Recreation'
+  date: November 2025
+  type: Exhibition
+  place: Beholding Cell, Taipei, Taiwan
 - title: 'We Remember: Local Hakka Memorial'
   date: May 2024
   type: Award
   place: Hakka Affair Council, Taipei, Taiwan
-- title: Major Studio 2 (Thesis)
-  date: Spring 2023
-  type: Class - TA
-  place: Parsons School of Design, New York, NY, USA
-- title: Major Studio 1 (Thesis)
-  date: Fall 2022
-  type: Class - TA
-  place: Parsons School of Design, New York, NY, USA
-  link:
-    href: https://github.com/munusshih/dv-majorstudio
 - title: 'Entropy: MFA Design & Technology Thesis Symposium'
   date: May 2023
   type: Conference
@@ -35,14 +38,14 @@
   date: June 2025
   type: Exhibition
   place: DEMO Festival, NEW INC & NEW MUSEUM, New York, NY, USA
-  excerpt: Syllabus (Subject to Change). Curated by Sheldon Gooch. Produced by Ben Kudler.
+  excerpt: Curated by Sheldon Gooch. Produced by Ben Kudler. Syllabus (Subject to Change).
   link:
     href: https://www.demofestival.org/
 - title: 'Our Memories: Local Hakka Memorial'
   date: Dec 2024
   type: Exhibition
   place: Taipei Hakka Council, Taipei, Taiwan
-  excerpt: (4066.62, 62)
+  excerpt: (4066.62, 62).
 - title: Entropy
   date: May 2023
   type: Exhibition
@@ -57,7 +60,7 @@
   date: June 2024
   type: Exhibition
   place: DEMO Festival, NEW INC & NEW MUSEUM, New York, NY, USA
-  excerpt: Duty Free. Curated by Mia Matthias. Produced by Cy X.
+  excerpt: Curated by Mia Matthias. Produced by Cy X. Duty Free.
   link:
     href: https://2024.demofestival.org/
 - title: Where We Live
@@ -73,25 +76,13 @@
   date: Dec 2022
   type: Fellowship
   place: Processing Foundation, New York, NY, USA
-  excerpt: In collaboration with Taiwanese artist Yangching Lu, begin Contour is a teaching practicum. We invited many Taiwanese middle school teachers, art educators, experimental educators, designers, and creative coders to collectively reimagine creative technology through a more beginner-friendly and approachable technology education.
+  excerpt: In collaboration with Yangching Lu.
   link:
     href: https://medium.com/processing-foundation/begincontour-%E5%BE%9E%E7%AD%89%E9%AB%98%E7%B7%9A%E9%96%8B%E5%A7%8B-a-critical-anti-colonial-and-intersectional-pedagogy-to-taiwanese-creative-f44d67fd0ccb
 - title: Thesis B
   date: May 2025
   type: Guest Crit
   place: Pratt Institute, Graduate Communications Design
-- title: Mechanic.design
-  date: '2023'
-  type: Open Source Tool
-  excerpt: Mechanic is an open source framework that makes it easy to create custom, web-based design tools that export design assets right in your browser. I worked on developing some examples when I was working at Design Systems International to show what a powerful Mechanic is in generative design.
-  link:
-    href: https://mechanic-examples.web.app/
-- title: Processing Community Day Taiwan
-  date: '2023'
-  type: Organizing
-  excerpt: I co-hosted the 2023 Processing Community Day in Taiwan with SpOnAcT! an art and design collective for social justice that I co-founded in taiwan. It was a free, live-streamed 2 day intensive event that particularly prioritizes queer, femme, and creative coders and makers from the global south.
-  link:
-    href: https://www.youtube.com/playlist?list=PLaQjHexP0AoYBnqQLZhqW9q-l-lFe2Sy7
 - title: Techno Mirage
   date: Sep 21, 2025
   type: Panel
@@ -110,10 +101,11 @@
   place: New York University, New York, NY, USA
   link:
     href: https://www.instagram.com/p/CqLb2v4sDJF/?igshid=YmMyMTA2M2Y=
-- title: Applications of Interactive Technology
+- title: 'Free 99: Creative Coding and Collecitve Practice'
   date: Oct 29, 2025
   type: Talk
   place: Interactive Telecommunications Program (ITP), New York University, NY, USA
+  excerpt: With Nikki Makagiansar
 - title: Is Artschool The Uptopia We Were Promised?
   date: May 2025
   type: Talk
@@ -124,7 +116,6 @@
   date: Nov 2022
   type: Talk
   place: Creative Coding Taiwan, Taipei, Taiwan
-  excerpt: Delivered in Mandarin, this talk titled "Coding Diversity" was presented at the Creative Coding Taiwan community. I shared insights on my experience with critical tool-making, emphasizing how critical education and research contribute to fostering diversity in creative coding practices.
   link:
     href: https://www.youtube.com/embed/rFhtoRXEE30?si=vPArjHVq-sxvM83M&amp;controls=0&amp;start=1238
 - title: After MFADT
@@ -141,7 +132,6 @@
   date: July 2023
   type: Talk
   place: Type@Cooper, New York, NY, USA
-  excerpt: Invited as a guest speaker for the class _p5.js for Visual Designers_ at _Type@Cooper_ by Romello Goodman. The class focuses on using p5.js to create generative design and interactive experiences. I shared my experience in using p5.js for generative design and how it can be applied in various design contexts.
   link:
     href: https://www.youtube.com/embed/zmmN-X1YS2c?si=2cETYG9GLRpcmn0E&amp;start=91
 - title: 'Design & Tech: Alternate Possibilities in Design Profficiency'

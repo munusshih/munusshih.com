@@ -1,13 +1,12 @@
 import Press from "@/docs/press.yml";
 import Events from "@/docs/events.yml";
-import Books from "@/docs/books.yml";
-import Organizing from "@/docs/organizing.yml";
 import Experiences from "@/docs/experiences.yml";
 import Education from "@/docs/education.yml";
 import Lab from "@/docs/lab.yml";
 import Homepage from "@/docs/homepage.yml";
 import Writing from "@/docs/writing.yml";
 import Teaching from "@/docs/teaching.yml";
+import Commons from "@/docs/commons.yml";
 
 const DATASETS = {
   press: {
@@ -19,16 +18,6 @@ const DATASETS = {
     fallback: Events,
     defaultTab: "Events",
     urlEnvKeys: ["EVENTS_SHEET_URL", "LISTCARD_EVENTS_SHEET_URL"],
-  },
-  books: {
-    fallback: Books,
-    defaultTab: "Books",
-    urlEnvKeys: ["BOOKS_SHEET_URL", "LISTCARD_READINGS_SHEET_URL"],
-  },
-  organizing: {
-    fallback: Organizing,
-    defaultTab: "Organizing",
-    urlEnvKeys: ["ORGANIZING_SHEET_URL"],
   },
   experiences: {
     fallback: Experiences,
@@ -60,6 +49,11 @@ const DATASETS = {
     defaultTab: "Teaching",
     urlEnvKeys: ["TEACHING_SHEET_URL"],
   },
+  commons: {
+    fallback: Commons,
+    defaultTab: "Commons",
+    urlEnvKeys: ["COMMONS_SHEET_URL"],
+  },
 };
 
 const BASE_SHEET_ENV_KEYS = ["GOOGLE_SHEET_ID", "SHEET_ID", "CONTENT_SHEET_ID"];
@@ -76,6 +70,9 @@ const KEY_MAP = {
   excerpt: "excerpt",
   description: "excerpt",
   summary: "excerpt",
+  collaboration: "collaboration",
+  collaborator: "collaboration",
+  collaborators: "collaboration",
   publication: "publication",
   image: "image",
   cover: "image",
@@ -158,13 +155,18 @@ async function fetchSheetRows(url) {
   try {
     const response = await fetch(url, { cache: "no-store" });
     if (!response.ok) {
-      console.warn(`contentSources: failed to fetch ${url} – ${response.status}`);
+      // Extract tab name from URL for better error messaging
+      const urlParts = url.split('/');
+      const tabName = urlParts[urlParts.length - 1];
+      console.warn(`contentSources: failed to fetch tab "${decodeURIComponent(tabName)}" – ${response.status}. Tab might not exist in the sheet.`);
       return [];
     }
     const data = await response.json();
     return Array.isArray(data) ? data : [];
   } catch (error) {
-    console.warn(`contentSources: fetch error for ${url}`, error);
+    const urlParts = url.split('/');
+    const tabName = urlParts[urlParts.length - 1];
+    console.warn(`contentSources: fetch error for tab "${decodeURIComponent(tabName)}"`, error);
     return [];
   }
 }
@@ -282,18 +284,18 @@ function cloneData(data) {
 
 async function loadDataset(datasetKey) {
   const dataset = DATASETS[datasetKey];
-  if (!dataset) return undefined;
+  if (!dataset) return [];
 
   const sheetUrl = resolveSheetUrl(datasetKey);
 
   if (!sheetUrl) {
-    return cloneData(dataset.fallback);
+    return cloneData(dataset.fallback) || [];
   }
 
   const rows = await fetchSheetRows(sheetUrl);
 
   if (!rows.length) {
-    return cloneData(dataset.fallback);
+    return cloneData(dataset.fallback) || [];
   }
 
   const normalised = [];
@@ -311,7 +313,7 @@ async function loadDataset(datasetKey) {
   }
 
   if (!normalised.length) {
-    return cloneData(dataset.fallback);
+    return cloneData(dataset.fallback) || [];
   }
 
   if (datasetKey === "homepage") {
@@ -329,7 +331,7 @@ async function loadDataset(datasetKey) {
 }
 
 function postProcessEntry(datasetKey, entry) {
-  if (!entry || Object.keys(entry).length === 0) return null;
+  if (!entry || typeof entry !== 'object' || Object.keys(entry).length === 0) return null;
 
   if (datasetKey === "homepage") {
     const type = entry.type || entry.title;
@@ -360,14 +362,6 @@ export async function getEventEntries() {
   return loadDataset("events");
 }
 
-export async function getBookEntries() {
-  return loadDataset("books");
-}
-
-export async function getOrganizingEntries() {
-  return loadDataset("organizing");
-}
-
 export async function getExperienceEntries() {
   return loadDataset("experiences");
 }
@@ -390,4 +384,8 @@ export async function getWritingEntries() {
 
 export async function getTeachingEntries() {
   return loadDataset("teaching");
+}
+
+export async function getCommonsEntries() {
+  return loadDataset("commons");
 }

@@ -11,18 +11,17 @@ import {
 import {
   getPressEntries,
   getEventEntries,
-  getBookEntries,
-  getOrganizingEntries,
   getTeachingEntries,
+  getCommonsEntries,
 } from "@/data/contentSources.js";
 import { entryHasTokens } from "@/data/teachingUtils.js";
+import { markdownToHtml } from "@/utils/markdown.js";
 
 // Background & text color map
 const colorMap = {
   "Upcoming Events": { background: "#FFBF00", text: "black" },
   Press: { background: "#FFB6C1", text: "black" },
   Talk: { background: "#000", text: "white" },
-  Readings: { background: "#FF876D", text: "black" },
   Teaching: { background: "#D69EFF", text: "black" },
   Featured: { background: "#FF876D", text: "black" },
   Workshop: { background: "beige", text: "black" },
@@ -34,9 +33,8 @@ const { background = "black", text = "white" } = colorMap[title] || {};
 
 const pressEntries = await getPressEntries();
 const eventEntries = await getEventEntries();
-const bookEntries = await getBookEntries();
-const organizingEntries = await getOrganizingEntries();
 const teachingEntries = prepareAndSortContent(await getTeachingEntries());
+const commonsEntries = await getCommonsEntries();
 
 // Content selection
 const contentFilters = {
@@ -77,8 +75,12 @@ const contentFilters = {
     ),
   "Upcoming Events": () =>
     eventEntries.filter(({ date }) => parseLooseDate(date) > new Date()),
-  Readings: () => bookEntries,
-  Organizing: () => organizingEntries,
+  Organizing: () => {
+    // Get organizing entries from commons with type containing "organizing"
+    return commonsEntries.filter(({ type = "" }) => 
+      String(type).toLowerCase().includes("organizing")
+    );
+  },
 };
 
 let contentArray = contentFilters[title] ? contentFilters[title]() : [];
@@ -108,6 +110,9 @@ contentArray = prepareAndSortContent(contentArray);
                     item.title
                   )}
                   {item?.note && <span class="code">{item.note}</span>}
+                  {item?.collaboration && (
+                    <div class="code text-sm italic" set:html={markdownToHtml(item.collaboration)} />
+                  )}
                   {item.type && (
                     <span class="code inline-block w-max rounded-2xl border px-[var(--page-margin)] py-1 font-medium">
                       {item.type}

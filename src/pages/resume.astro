@@ -6,21 +6,22 @@ import { prepareAndSortContent } from "@/scripts/cleanDate.js";
 import {
   getEventEntries,
   getPressEntries,
-  getOrganizingEntries,
   getExperienceEntries,
   getEducationEntries,
   getTeachingEntries,
+  getCommonsEntries,
 } from "@/data/contentSources.js";
+import { markdownToHtml } from "@/utils/markdown.js";
 
 // add more exhibitions
 // add teaching and professional experience
 
 const Events = await getEventEntries();
 const Press = await getPressEntries();
-const Organizing = await getOrganizingEntries();
 const Experiences = await getExperienceEntries();
 const Education = await getEducationEntries();
 const Teaching = await getTeachingEntries();
+const Commons = await getCommonsEntries();
 
 // Function to remove spaces before commas
 function removeSpaceBeforeComma(text) {
@@ -187,7 +188,9 @@ const talkEvents = Events.filter(({ type }) =>
 // Gather workshops from both the main Events dataset and the Teaching dataset
 const workshopEvents = [
   ...Events.filter(({ type = "" }) => type.toLowerCase().includes("workshop")),
-  ...Teaching.filter(({ type = "" }) => type.toLowerCase().includes("workshop")),
+  ...Teaching.filter(({ type = "" }) =>
+    type.toLowerCase().includes("workshop")
+  ),
 ];
 
 const featuredEvents = Events.filter(({ type }) =>
@@ -207,10 +210,6 @@ const exhibitionEvents = Events.filter(({ type }) =>
 
 const awardEvents = Events.filter(({ type }) =>
   ["award", "fellowship", "residency"].includes(type.toLowerCase())
-);
-
-const organizingEvents = Events.filter(({ type }) =>
-  [].includes(type.toLowerCase())
 );
 
 // Sort all sections by date
@@ -251,9 +250,13 @@ const sortedWorkshops = prepareAndSortContent(workshopEvents);
 const sortedFeatured = prepareAndSortContent(featuredEvents);
 const sortedExhibitions = prepareAndSortContent(exhibitionEvents);
 const sortedAwards = prepareAndSortContent(awardEvents);
-const sortedOrganizing = prepareAndSortContent(organizingEvents);
-const sortedOrganizingFromFile = prepareAndSortContent(Organizing);
 const sortedPress = prepareAndSortContent(Press);
+
+// Filter commons entries for organizing type
+const commonsOrganizing = Commons.filter(({ type = "" }) => 
+  String(type).toLowerCase().includes("organizing")
+);
+const sortedCombinedOrganizing = prepareAndSortContent(commonsOrganizing);
 
 // Define sections in order
 const sections = [
@@ -297,7 +300,7 @@ const sections = [
   },
   {
     title: "Organizing & Curating",
-    data: sortedOrganizingFromFile,
+    data: sortedCombinedOrganizing,
     showDate: true,
     showType: false,
   },
@@ -489,11 +492,19 @@ const updatedAt = new Date().toLocaleDateString("en-US", {
                       <h3 class="body1 leading-relaxed text-pretty break-words whitespace-normal text-black">
                         {(() => {
                           // If this is an exhibition, append excerpt after location with proper punctuation
-                          if (item.type && String(item.type).toLowerCase().includes("exhibition")) {
-                            const { location, excerpt } = getExhibitionParts(item);
+                          if (
+                            item.type &&
+                            String(item.type)
+                              .toLowerCase()
+                              .includes("exhibition")
+                          ) {
+                            const { location, excerpt } =
+                              getExhibitionParts(item);
                             return (
                               <>
-                                {removeSpaceBeforeComma(`${item.title}${location ? `, ${location}` : ""}`)}
+                                {removeSpaceBeforeComma(
+                                  `${item.title}${location ? `, ${location}` : ""}`
+                                )}
                                 {excerpt ? <em>{`. ${excerpt}`}</em> : null}
                               </>
                             );
@@ -503,6 +514,9 @@ const updatedAt = new Date().toLocaleDateString("en-US", {
                           );
                         })()}
                       </h3>
+                      {item.collaboration && (
+                        <div class="mt-1 text-sm italic text-gray-600" set:html={markdownToHtml(item.collaboration)}></div>
+                      )}
                       {item.classes && item.classes.length ? (
                         <ul class="mt-1 ml-0 list-inside list-disc text-sm text-gray-700">
                           {item.classes.map((c) => (
@@ -551,11 +565,19 @@ const updatedAt = new Date().toLocaleDateString("en-US", {
                     <div class="min-w-0 flex-1">
                       <h3 class="body1 leading-relaxed text-pretty break-words whitespace-normal text-black">
                         {(() => {
-                          if (item.type && String(item.type).toLowerCase().includes("exhibition")) {
-                            const { location, excerpt } = getExhibitionParts(item);
+                          if (
+                            item.type &&
+                            String(item.type)
+                              .toLowerCase()
+                              .includes("exhibition")
+                          ) {
+                            const { location, excerpt } =
+                              getExhibitionParts(item);
                             return (
                               <>
-                                {removeSpaceBeforeComma(`${item.title}${location ? `, ${location}` : ""}`)}
+                                {removeSpaceBeforeComma(
+                                  `${item.title}${location ? `, ${location}` : ""}`
+                                )}
                                 {excerpt ? <em>{`. ${excerpt}`}</em> : null}
                               </>
                             );
@@ -565,6 +587,9 @@ const updatedAt = new Date().toLocaleDateString("en-US", {
                           );
                         })()}
                       </h3>
+                      {item.collaboration && (
+                        <div class="mt-1 text-sm italic text-gray-600" set:html={markdownToHtml(item.collaboration)}></div>
+                      )}
                     </div>
                   </div>
                 ))}

@@ -36,20 +36,6 @@ const DATASETS = [
     tabEnvKeys: ["EVENTS_TAB_NAME"],
   },
   {
-    key: "books",
-    fallback: "src/docs/books.yml",
-    defaultTab: "Books",
-    urlEnvKeys: ["BOOKS_SHEET_URL", "LISTCARD_READINGS_SHEET_URL"],
-    tabEnvKeys: ["BOOKS_TAB_NAME"],
-  },
-  {
-    key: "organizing",
-    fallback: "src/docs/organizing.yml",
-    defaultTab: "Organizing",
-    urlEnvKeys: ["ORGANIZING_SHEET_URL"],
-    tabEnvKeys: ["ORGANIZING_TAB_NAME"],
-  },
-  {
     key: "experiences",
     fallback: "src/docs/experiences.yml",
     defaultTab: "Experiences",
@@ -90,6 +76,13 @@ const DATASETS = [
     defaultTab: "Homepage",
     urlEnvKeys: ["HOMEPAGE_SHEET_URL"],
     tabEnvKeys: ["HOMEPAGE_TAB_NAME"],
+  },
+  {
+    key: "commons",
+    fallback: "src/docs/commons.yml",
+    defaultTab: "Commons",
+    urlEnvKeys: ["COMMONS_SHEET_URL"],
+    tabEnvKeys: ["COMMONS_TAB_NAME"],
   },
 ];
 
