@@ -253,12 +253,16 @@ const sortedAwards = prepareAndSortContent(awardEvents);
 const sortedPress = prepareAndSortContent(Press);
 
 // Filter commons entries for organizing type
-const commonsOrganizing = Commons.filter(({ type = "" }) => 
+const commonsOrganizing = Commons.filter(({ type = "" }) =>
   String(type).toLowerCase().includes("organizing")
 );
 const sortedCombinedOrganizing = prepareAndSortContent(commonsOrganizing);
 
-// Define sections in order
+// Combine talks and workshops for presentations section
+const combinedPresentations = [...talkEvents, ...workshopEvents];
+const sortedPresentations = prepareAndSortContent(combinedPresentations);
+
+// Define sections in order according to academic CV format
 const sections = [
   {
     title: "Education",
@@ -266,13 +270,7 @@ const sections = [
     showDate: true,
   },
   {
-    title: "Selected Exhibitions",
-    data: sortedExhibitions,
-    showDate: true,
-    showType: false,
-  },
-  {
-    title: "Teaching Appointments",
+    title: "Teaching Experience",
     data: sortedTeaching,
     showDate: true,
   },
@@ -282,24 +280,31 @@ const sections = [
     showDate: true,
   },
   {
-    title: "Selected Talks",
-    data: sortedTalks,
+    title: "Publications for Creative Practice",
+    data: sortedPress,
     showDate: true,
     showType: true,
   },
   {
-    title: "Selected Workshops",
-    data: sortedWorkshops,
+    title: "Exhibitions",
+    data: sortedExhibitions,
     showDate: true,
+    showType: false,
   },
   {
-    title: "Awards & Fellowships",
+    title: "Lectures, Presentations, Symposia, Workshops",
+    data: sortedPresentations,
+    showDate: true,
+    showType: true,
+  },
+  {
+    title: "Awards, Honors, Fellowships, Scholarships and Grants",
     data: sortedAwards,
     showDate: true,
     showType: true,
   },
   {
-    title: "Organizing & Curating",
+    title: "Community Engagement",
     data: sortedCombinedOrganizing,
     showDate: true,
     showType: false,
@@ -515,7 +520,10 @@ const updatedAt = new Date().toLocaleDateString("en-US", {
                         })()}
                       </h3>
                       {item.collaboration && (
-                        <div class="mt-1 text-sm italic text-gray-600" set:html={markdownToHtml(item.collaboration)}></div>
+                        <div
+                          class="mt-1 text-sm text-gray-600 italic"
+                          set:html={markdownToHtml(item.collaboration)}
+                        />
                       )}
                       {item.classes && item.classes.length ? (
                         <ul class="mt-1 ml-0 list-inside list-disc text-sm text-gray-700">
@@ -588,7 +596,10 @@ const updatedAt = new Date().toLocaleDateString("en-US", {
                         })()}
                       </h3>
                       {item.collaboration && (
-                        <div class="mt-1 text-sm italic text-gray-600" set:html={markdownToHtml(item.collaboration)}></div>
+                        <div
+                          class="mt-1 text-sm text-gray-600 italic"
+                          set:html={markdownToHtml(item.collaboration)}
+                        />
                       )}
                     </div>
                   </div>
