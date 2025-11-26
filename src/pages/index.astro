@@ -48,113 +48,116 @@ function normaliseWorkTarget(value) {
     class="fade-in relative grid h-auto w-full grid-cols-1 items-center justify-items-center gap-y-[8vw] overflow-hidden p-[var(--page-margin)] py-20 sm:grid-cols-2"
   >
     <h1
-      class="responsive-title fixed top-10 -z-10 w-full self-center leading-tight tracking-tighter sm:absolute"
+      class="responsive-title fixed top-10 -z-10 w-full self-center leading-tight -tracking-[.095em] sm:absolute"
     >
-      <span>Munus</span>
-      <span>Codes</span>
-      <span>Zines,</span>
-      <span>Design,</span>
-      <span>Tools</span>
-      <span>and</span>
-      <span>Many</span>
+      <span>Solidarity</span>
+      <span>Identity</span>
+      <span>Decoloniality</span>
+      <span>Publishing</span>
+      <span>Writing</span>
+      <span>Coding</span>
+      <span>Making</span>
+      <span>And</span>
       <span>More</span>
     </h1>
 
-    {cards.map((entry, index) => {
-      const type = entry.type?.toLowerCase?.() || "";
-      const key = entry.order ?? index;
+    {
+      cards.map((entry, index) => {
+        const type = entry.type?.toLowerCase?.() || "";
+        const key = entry.order ?? index;
 
-      if (["introcard", "intro"].includes(type)) {
-        return (
-          <IntroCard
-            key={key}
-            size={entry.size || "x2-card"}
-            background={entry.background}
-            textColor={entry.textColor}
-            body={entry.body || entry.description || entry.text}
-            linkContent={entry.linkContent || entry.linkLabel}
-            linkLabel={entry.linkLabel}
-            linkHref={entry.href || entry.link?.href}
-          />
-        );
-      }
+        if (["introcard", "intro"].includes(type)) {
+          return (
+            <IntroCard
+              key={key}
+              size={entry.size || "x2-card"}
+              background={entry.background}
+              textColor={entry.textColor}
+              body={entry.body || entry.description || entry.text}
+              linkContent={entry.linkContent || entry.linkLabel}
+              linkLabel={entry.linkLabel}
+              linkHref={entry.href || entry.link?.href}
+            />
+          );
+        }
 
-      if (["listcard", "list"].includes(type)) {
-        const listTitle = entry.title || entry.heading || entry.listTitle;
-        if (!listTitle) return null;
-        return (
-          <ListCard
-            key={key}
-            title={listTitle}
-            background={entry.background}
-            textColor={entry.textColor}
-            body={entry.body || entry.description || entry.text}
-          />
-        );
-      }
+        if (["listcard", "list"].includes(type)) {
+          const listTitle = entry.title || entry.heading || entry.listTitle;
+          if (!listTitle) return null;
+          return (
+            <ListCard
+              key={key}
+              title={listTitle}
+              background={entry.background}
+              textColor={entry.textColor}
+              body={entry.body || entry.description || entry.text}
+            />
+          );
+        }
 
-      if (["workcard", "work"].includes(type)) {
-        const target = normaliseWorkTarget(entry.targetName);
-        const href = entry.href || entry.link?.href || undefined;
-        const description = entry.description || entry.excerpt || "";
-        return (
-          <WorkCard
-            key={key}
-            size={entry.size || "x2-card"}
-            href={href}
-            linkContent={entry.linkContent || entry.title || ""}
-            targetName={target}
-            description={description}
-            iframe={entry.iframe}
-            background={entry.background}
-            textColor={entry.textColor}
-          />
-        );
-      }
+        if (["workcard", "work"].includes(type)) {
+          const target = normaliseWorkTarget(entry.targetName);
+          const href = entry.href || entry.link?.href || undefined;
+          const description = entry.description || entry.excerpt || "";
+          return (
+            <WorkCard
+              key={key}
+              size={entry.size || "x2-card"}
+              href={href}
+              linkContent={entry.linkContent || entry.title || ""}
+              targetName={target}
+              description={description}
+              iframe={entry.iframe}
+              background={entry.background}
+              textColor={entry.textColor}
+            />
+          );
+        }
 
-      if (["mediacard", "media"].includes(type)) {
-        const target = Array.isArray(entry.targetName)
-          ? entry.targetName[0]
-          : entry.targetName;
-        return (
-          <MediaCard
-            key={key}
-            size={entry.size || "x1-card"}
-            title={entry.title}
-            targetName={target}
-            description={entry.description || ""}
-            iframe={entry.iframe}
-            height={entry.height}
-            background={entry.background}
-            textColor={entry.textColor}
-          />
-        );
-      }
+        if (["mediacard", "media"].includes(type)) {
+          const target = Array.isArray(entry.targetName)
+            ? entry.targetName[0]
+            : entry.targetName;
+          return (
+            <MediaCard
+              key={key}
+              size={entry.size || "x1-card"}
+              title={entry.title}
+              targetName={target}
+              description={entry.description || ""}
+              iframe={entry.iframe}
+              height={entry.height}
+              background={entry.background}
+              textColor={entry.textColor}
+            />
+          );
+        }
 
-      if (["customcard", "custom"].includes(type)) {
-        const target = Array.isArray(entry.targetName)
-          ? entry.targetName[0]
-          : entry.targetName;
-        return (
-          <CustomCard
-            key={key}
-            size={entry.size || "x2-card"}
-            title={entry.title}
-            body={entry.body || entry.description || entry.text}
-            background={entry.background}
-            textColor={entry.textColor}
-            linkHref={entry.href || entry.link?.href}
-            linkContent={entry.linkContent}
-            linkLabel={entry.linkLabel}
-            targetName={target}
-            iframe={entry.iframe}
-            height={entry.height}
-          />
-        );
-      }
+        if (["customcard", "custom"].includes(type)) {
+          const target = Array.isArray(entry.targetName)
+            ? entry.targetName[0]
+            : entry.targetName;
+          return (
+            <CustomCard
+              key={key}
+              size={entry.size || "x2-card"}
+              title={entry.title}
+              body={entry.body || entry.description || entry.text}
+              background={entry.background}
+              textColor={entry.textColor}
+              linkHref={entry.href || entry.link?.href}
+              linkContent={entry.linkContent}
+              linkLabel={entry.linkLabel}
+              targetName={target}
+              iframe={entry.iframe}
+              height={entry.height}
+            />
+          );
+        }
 
-      return null;
-    })}
+        return null;
+      })
+    }
   </main>
 </BasicLayout>
 <script>

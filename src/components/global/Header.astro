@@ -91,36 +91,14 @@ const currentPage = Astro.url.pathname; // Get the current page's pathname
       // Opening animation - fly in from bottom of screen
       gsap.to(nav, {
         y: 0,
-        duration: 0.5,
+        duration: 1,
         ease: "power4.inOut",
       });
-
-      // Stagger menu items
-      gsap.fromTo(
-        menuItems,
-        {
-          y: 20,
-        },
-        {
-          y: 0,
-          duration: 0.2,
-          stagger: 0.02,
-          ease: "power4.inOut",
-          delay: 0.05,
-        }
-      );
     } else {
       // Closing animation - fly out to bottom
       gsap.to(nav, {
-        y: "100vh",
-        duration: 0.5,
-        ease: "power4.inOut",
-      });
-
-      gsap.to(menuItems, {
-        y: 20,
-        duration: 0.15,
-        stagger: 0.01,
+        y: "200vh",
+        duration: 1,
         ease: "power4.inOut",
       });
     }

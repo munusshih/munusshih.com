@@ -241,7 +241,10 @@ const sections = [
                   : {};
 
                 const imageSection = hasMedia && (
-                  <div class="image-container pointer-events-none w-full overflow-hidden lg:pointer-events-auto lg:w-full">
+                  <div
+                    class="image-container pointer-events-none overflow-hidden lg:pointer-events-auto"
+                    style={{ width: "75%" }}
+                  >
                     <div class="medias" style={gridStyle}>
                       {mediaRecords.map((media, index) => {
                         const src = media?.src ?? media?.path ?? media?.url;
@@ -368,7 +371,7 @@ const sections = [
         animationFrameId = null;
 
         gsap.to(imageContainer, {
-          width: "120%",
+          width: "100%",
           duration: 0.3,
           ease: "power2.out",
           overwrite: "auto",
@@ -382,7 +385,7 @@ const sections = [
 
           gsap.to(medias, {
             x: reversedMouseX * 1.2 - 60,
-            width: "120%",
+            width: "100%",
             duration: 0.3,
             ease: "power1.out",
             overwrite: "auto",
@@ -398,7 +401,7 @@ const sections = [
       }
 
       gsap.to(imageContainer, {
-        width: "100%",
+        width: "75%",
         duration: 0.8,
         ease: "power2.out",
         overwrite: "auto",
