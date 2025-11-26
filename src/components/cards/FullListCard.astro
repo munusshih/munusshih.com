@@ -77,7 +77,7 @@ const contentFilters = {
     eventEntries.filter(({ date }) => parseLooseDate(date) > new Date()),
   Organizing: () => {
     // Get organizing entries from commons with type containing "organizing"
-    return commonsEntries.filter(({ type = "" }) => 
+    return commonsEntries.filter(({ type = "" }) =>
       String(type).toLowerCase().includes("organizing")
     );
   },
@@ -111,7 +111,10 @@ contentArray = prepareAndSortContent(contentArray);
                   )}
                   {item?.note && <span class="code">{item.note}</span>}
                   {item?.collaboration && (
-                    <div class="code text-sm italic" set:html={markdownToHtml(item.collaboration)} />
+                    <div
+                      class="code text-sm italic"
+                      set:html={markdownToHtml(item.collaboration)}
+                    />
                   )}
                   {item.type && (
                     <span class="code inline-block w-max rounded-2xl border px-[var(--page-margin)] py-1 font-medium">

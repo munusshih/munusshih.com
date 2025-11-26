@@ -18,14 +18,7 @@ const datasets = [
   {
     name: "events",
     source: join(rootDir, "src/docs/events.yml"),
-    columns: [
-      "title",
-      "date",
-      "type",
-      "place",
-      "excerpt",
-      "link",
-    ],
+    columns: ["title", "date", "type", "place", "excerpt", "link"],
   },
   {
     name: "experiences",
@@ -116,7 +109,7 @@ async function convertDataset(dataset) {
   });
 
   const rows = parsed.map((entry) =>
-    columns.map((column) => extractValue(entry, column))
+    columns.map((column) => extractValue(entry, column)),
   );
 
   const csv = [stringifyRow(columns), ...rows.map(stringifyRow)].join("\n");

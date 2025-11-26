@@ -4,10 +4,7 @@ import DraggableCard from "@/components/global/DraggableCard.astro";
 import Media from "@/components/utils/Media.astro";
 import { marked } from "marked";
 import { parseLooseDate, prepareAndSortContent } from "@/scripts/cleanDate.js";
-import {
-  getPressEntries,
-  getEventEntries,
-} from "@/data/contentSources.js";
+import { getPressEntries, getEventEntries } from "@/data/contentSources.js";
 
 const backgroundColors = {
   "Upcoming Events": "#FFBF00",
