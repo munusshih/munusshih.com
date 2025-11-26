@@ -42,7 +42,8 @@ const currentPage = Astro.url.pathname; // Get the current page's pathname
     id="main-navigation"
     role="navigation"
     aria-label="Main navigation"
-    class="pointer-events-none absolute inset-0 z-[999] hidden h-screen w-full flex-col items-center justify-center bg-black text-white opacity-0 transition-all duration-300 peer-checked:pointer-events-auto peer-checked:flex peer-checked:opacity-100"
+    class="pointer-events-none fixed inset-0 z-[999] flex h-screen w-full flex-col items-center justify-center bg-black text-white peer-checked:pointer-events-auto peer-checked:flex"
+    style="transform: translateY(200vh);"
   >
     <ul class="menu-textsize flex flex-col items-center justify-center gap-4">
       <li><a href="/" class="!no-underline hover:text-gray-400">Home</a></li>
@@ -80,8 +81,50 @@ const currentPage = Astro.url.pathname; // Get the current page's pathname
   gsap.registerPlugin(ScrollTrigger);
 
   const navToggle = document.querySelector("#nav-toggle");
-
+  const nav = document.getElementById("main-navigation");
+  const menuItems = nav.querySelectorAll("ul li, ul label");
   const header = document.querySelector("header");
+
+  // Animate menu on open/close
+  navToggle.addEventListener("change", (e) => {
+    if (e.target.checked) {
+      // Opening animation - fly in from bottom of screen
+      gsap.to(nav, {
+        y: 0,
+        duration: 0.5,
+        ease: "power4.inOut",
+      });
+
+      // Stagger menu items
+      gsap.fromTo(
+        menuItems,
+        {
+          y: 20,
+        },
+        {
+          y: 0,
+          duration: 0.2,
+          stagger: 0.02,
+          ease: "power4.inOut",
+          delay: 0.05,
+        }
+      );
+    } else {
+      // Closing animation - fly out to bottom
+      gsap.to(nav, {
+        y: "100vh",
+        duration: 0.5,
+        ease: "power4.inOut",
+      });
+
+      gsap.to(menuItems, {
+        y: 20,
+        duration: 0.15,
+        stagger: 0.01,
+        ease: "power4.inOut",
+      });
+    }
+  });
 
   ScrollTrigger.create({
     start: 0,

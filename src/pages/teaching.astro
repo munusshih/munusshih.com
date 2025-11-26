@@ -209,7 +209,7 @@ const sections = [
             <h1 class="fade-in w-full self-center text-[24vw] leading-tight tracking-[-0.1em]">
               {title}
             </h1>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 [&>*:first-child]:border-t md:[&>*:nth-child(-n+2)]:border-t lg:[&>*:nth-child(-n+3)]:border-t md:[&>*:nth-child(2n)]:border-l lg:[&>*:nth-child(2n)]:border-l-0 lg:[&>*:nth-child(3n-1)]:border-x">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 [&>*:first-child]:border-t md:[&>*:last-child]:border-r lg:[&>*:last-child]:border-r lg:[&>*:last-child:nth-child(3n-1)]:!w-full lg:[&>*:last-child:nth-child(3n-1)]:border-x lg:[&>*:last-child:nth-child(3n-2)]:w-[calc(100%+1px)] md:[&>*:last-child:nth-child(odd)]:w-[calc(100%+1px)] md:[&>*:nth-child(-n+2)]:border-t lg:[&>*:nth-child(-n+3)]:border-t md:[&>*:nth-child(2n)]:border-l lg:[&>*:nth-child(2n)]:border-l-0 lg:[&>*:nth-child(3n)]:border-r lg:[&>*:nth-child(3n-1):not(:last-child)]:border-x">
               {items.map((item) => {
                 const key = teachingEntryKey(item);
                 const manifestRecords = teachingMedia[key] ?? [];
