@@ -20,6 +20,7 @@ pnpm-debug.log*
 
 # macOS-specific files
 .DS_Store
+Icon
 
 # jetbrains setting folder
 .idea/
@@ -31,3 +32,26 @@ spreadsheets/homepage.csv
 spreadsheets/lab.csv
 spreadsheets/organizing.csv
 spreadsheets/press.csv
+public/zhaozhou/Icon
+public/xr/Icon
+public/thumbnails/Icon
+public/teaching/Icon
+public/syllabus-subject/Icon
+public/soulmate/Icon
+public/posters/Icon
+public/pcd/Icon
+public/p5zine/Icon
+public/new-museum/Icon
+public/misc/Icon
+public/layers/Icon
+public/lab/Icon
+public/iots/Icon
+public/guansi/Icon
+public/goca/Icon
+public/duty-free/Icon
+public/books/Icon
+public/beginContour/Icon
+public/apple/Icon
+public/angles/Icon
+public/about/Icon
+Icon
