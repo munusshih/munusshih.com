@@ -86,12 +86,6 @@
   "p5.(Gen)Zine|June 2022|https://medium.com/@ProcessingOrg/code-decolonized-x-powrplnt-symposium-2022-6433cc84e9c3": [
     {
       "kind": "image",
-      "src": "/teaching/p5genzine/p5genzine-01.jpg",
-      "source": "og",
-      "caption": null
-    },
-    {
-      "kind": "image",
       "src": "/teaching/p5genzine/p5genzine-02.jpg",
       "source": "download",
       "caption": "Theingi Thann"
@@ -205,6 +199,20 @@
       "src": "/teaching/major-studio-1-thesis/major-studio-1-thesis-01.jpg",
       "source": "download",
       "caption": "Tina Titus Mathew"
+    }
+  ],
+  "Homing.zip ft. Tzuyun Wei|Nov 30, 2025|https://drive.google.com/drive/folders/1la1zmCLlDt7F7Z29QzQ57fWiAAnbz0_C?usp=drive_link": [
+    {
+      "kind": "image",
+      "src": "/teaching/homingzip-ft-tzuyun-wei/homingzip-ft-tzuyun-wei-01.jpg",
+      "source": "download",
+      "caption": null
+    },
+    {
+      "kind": "image",
+      "src": "/teaching/homingzip-ft-tzuyun-wei/homingzip-ft-tzuyun-wei-02.jpg",
+      "source": "download",
+      "caption": null
     }
   ]
 }

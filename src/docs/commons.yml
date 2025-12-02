@@ -2,19 +2,22 @@
   date: November 2025
   place: New York
   type: Organizing, Symposium
+  collaboration: Co-organized with [Binna Lee](https://www.newschool.edu/parsons/faculty/binna-lee/)
   excerpt: I'm co-hosting this symposium-lab with Binna Lee
   link:
     href: https://luma.com/sho606x4
-- title: Co-op Bookclub with Co-Assembly
+- title: Co-op Bookclub
   date: July 2025
   place: (Remote) Taiwan
   type: Organizing, Bookclub
+  collaboration: Organized by Co-Assembly (Tzuyun Wei, I-Hao Liao)
   link:
     href: https://scontent-lga3-1.xx.fbcdn.net/v/t39.30808-6/526283203_23989329104070400_6117475559864099819_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=127cfc&_nc_ohc=mxnbzNTzTXYQ7kNvwF0Fw89&_nc_oc=Admp5zXH0dk7BJtyINTcl370S6bQfBVgJOor8KJ9pICMtgMxukjsDi_nSIA6hzm57SdFNpobqS6Ursbg9oVeyTLa&_nc_zt=23&_nc_ht=scontent-lga3-1.xx&_nc_gid=2P-T3-gAIHewyxWwgH0GSA&oh=00_AfcrpSgcxlyWZLFtYX8_b8Immxrb38Bis_Hv9MQ0q8f7Ew&oe=68FA054D
 - title: 'Code as Acts: Processing Community Day Taiwan with SpOnAcT!'
   date: 2023 Sep
   place: (Remote) Taiwan
   type: Organizing, Symposium
+  collaboration: Organized by SpOnAcT! (Tzuyun Wei, I-Hao Liao, Yu-ying Lu, Billy Ho, Kiki)
   excerpt: I co-hosted the 2023 Processing Community Day in Taiwan with SpOnAcT! an art and design collective for social justice that I co-founded in taiwan. It was a free, live-streamed 2 day intensive event that particularly prioritizes queer, femme, and creative coders and makers from the global south.
   link:
     href: https://www.youtube.com/playlist?list=PLaQjHexP0AoYBnqQLZhqW9q-l-lFe2Sy7
@@ -30,6 +33,7 @@
   date: 2018 - 2020
   place: National Tsing Hua University, Hsinchu, Taiwan
   type: Organizing, Bookclub
+  collaboration: Co-organized with Yangching Lu
 - title: p5.genzine
   type: Open Source, Tool
 - title: Mechanic.design
@@ -41,7 +45,8 @@
 - title: BeginContour 從等高線開始
   date: Dec 2022
   place: Processing Foundation, New York, NY, USA
-  type: Organizing, Symposium, Archive
+  type: Organizing, Symposium
+  collaboration: Co-organized with Yangching Lu
   excerpt: In collaboration with Taiwanese artist Yangching Lu, begin Contour is a teaching practicum. We invited many Taiwanese middle school teachers, art educators, experimental educators, designers, and creative coders to collectively reimagine creative technology through a more beginner-friendly and approachable technology education.
   link:
     href: https://medium.com/processing-foundation/begincontour-%E5%BE%9E%E7%AD%89%E9%AB%98%E7%B7%9A%E9%96%8B%E5%A7%8B-a-critical-anti-colonial-and-intersectional-pedagogy-to-taiwanese-creative-f44d67fd0ccb

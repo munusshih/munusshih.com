@@ -7,6 +7,7 @@
     "generatePoster": "node generatePosters.js",
     "cache:teaching-media": "node scripts/cacheTeachingMedia.js",
     "sync:yml": "node scripts/updateYamlFromSheets.js",
+    "prebuild": "npm run sync:yml && npm run cache:teaching-media && npm run generatePoster",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
