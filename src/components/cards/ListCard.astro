@@ -3,11 +3,15 @@ const { title, background: backgroundProp, textColor, body } = Astro.props;
 import DraggableCard from "@/components/global/DraggableCard.astro";
 import Media from "@/components/utils/Media.astro";
 import { marked } from "marked";
-import { parseLooseDate, prepareAndSortContent } from "@/scripts/cleanDate.js";
+import {
+  isRecentOrUpcomingDate,
+  prepareAndSortContent,
+} from "@/scripts/cleanDate.js";
 import { getPressEntries, getEventEntries } from "@/data/contentSources.js";
 
 const backgroundColors = {
   "Upcoming Events": "#FFBF00",
+  "Recent Events": "#FFBF00",
   "Recent Press": "#6DE7FF",
   Readings: "#FF876D",
 };
@@ -15,6 +19,7 @@ const backgroundColors = {
 let background = backgroundColors[title] || "white";
 if (backgroundProp) background = backgroundProp;
 const cardTextColor = textColor || "black";
+const isEventCard = ["Upcoming Events", "Recent Events"].includes(title);
 let bodyItems = [];
 let bodyListType = "ul";
 
@@ -44,14 +49,12 @@ let contentArray = [];
 if (title === "Recent Press") {
   const pressEntries = await getPressEntries();
   contentArray = prepareAndSortContent(pressEntries).slice(0, 3);
-} else if (title === "Upcoming Events") {
+} else if (["Upcoming Events", "Recent Events"].includes(title)) {
   const eventEntries = await getEventEntries();
-  const upcoming = eventEntries.filter(({ date }) => {
-    if (!date) return false;
-    const parsed = parseLooseDate(date);
-    return parsed instanceof Date && !isNaN(parsed) && parsed > new Date();
-  });
-  contentArray = prepareAndSortContent(upcoming);
+  const recentAndUpcoming = eventEntries.filter(({ date }) =>
+    isRecentOrUpcomingDate(date)
+  );
+  contentArray = prepareAndSortContent(recentAndUpcoming);
 } else if (title === "Readings") {
   // Books data source has been removed - use body content instead
   contentArray = [];
@@ -75,20 +78,22 @@ if (title === "Recent Press") {
         <ul class="w-full border-t pb-2">
           {contentArray.map((item, index) => (
             <li key={index} class="border-b py-2 pb-4">
-              <div class="mb-2 grid w-full grid-cols-5">
+              <div class="mb-2 flex w-full items-start justify-between gap-4">
                 {item.title && (
-                  <div class="body1 col-span-3 flex flex-row gap-4">
-                    {item.link?.href ? (
-                      <a
-                        href={item.link.href}
-                        class="linkout body1"
-                        target="_blank"
-                      >
-                        {item.title}
-                      </a>
-                    ) : (
-                      item.title
-                    )}
+                  <div class="body1 min-w-0 flex-1 flex flex-row gap-4">
+                    <div class="min-w-0 flex flex-col gap-2">
+                      {item.link?.href ? (
+                        <a
+                          href={item.link.href}
+                          class="linkout body1 break-words"
+                          target="_blank"
+                        >
+                          {item.title}
+                        </a>
+                      ) : (
+                        item.title
+                      )}
+                    </div>
                     {item.image && (
                       <div class="w-20">
                         <Media
@@ -101,9 +106,14 @@ if (title === "Recent Press") {
                   </div>
                 )}
 
-                {item.date && (
-                  <h4 class="body1 col-span-2 text-right">{item.date}</h4>
-                )}
+                <div class="shrink-0 flex flex-col items-end gap-2 text-right">
+                  {item.date && <h4 class="body1">{item.date}</h4>}
+                  {isEventCard && item.type && (
+                    <span class="code inline-block max-w-[15ch] rounded-2xl border px-[var(--page-margin)] py-1 text-right font-medium break-words">
+                      {item.type}
+                    </span>
+                  )}
+                </div>
               </div>
               {item.quote && <p class="code body2">{item.quote}</p>}
             </li>

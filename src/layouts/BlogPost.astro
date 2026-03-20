@@ -4,6 +4,7 @@ import BasicLayout from "./Basic.astro";
 import NextProject from "@/components/NextProject.astro";
 import { toTitleCase } from "@/scripts/typography";
 import { formatDateRange } from "@/scripts/cleanDate";
+import { normalizeMediaSrc, posterFromMediaSrc } from "@/scripts/mediaPath";
 import type { CollectionEntry } from "astro:content";
 type Props = CollectionEntry<"work">["data"];
 import { SITE_TITLE } from "@/consts";
@@ -31,14 +32,17 @@ const parsedExcerpt = parsedDescription
   ? parsedDescription.match(/<p>(.*?)<\/p>/)?.[1].replace(/<[^>]+>/g, "") || ""
   : "";
 const parsedRecognition = recognition.map((item) => marked.parseInline(item));
+const heroSrc = normalizeMediaSrc(heroImage);
+const heroPoster = posterFromMediaSrc(heroImage);
+const socialImage = heroImage
+  ? (/\.(mp4|webm|ogg)$/i.test(heroSrc) ? heroPoster : heroSrc)
+  : normalizeMediaSrc(images[0]);
 ---
 
 <BasicLayout
   title={`${title} — ${SITE_TITLE}`}
   description={parsedExcerpt}
-  image={heroImage
-    ? heroImage.replace(/\.(mp4|webm|ogg)$/i, ".jpg")
-    : images[0]}
+  image={socialImage}
 >
   <main>
     <div
@@ -71,8 +75,8 @@ const parsedRecognition = recognition.map((item) => marked.parseInline(item));
         playsinline
         autoPlay
         preload="auto"
-        src={heroImage}
-        poster={heroImage}></video>
+        src={heroSrc}
+        poster={heroPoster}></video>
     </div>
     <div class="relative mt-2 mb-8 lg:mt-20 lg:mb-28">
       <input type="checkbox" id="expand-article" class="peer hidden" />

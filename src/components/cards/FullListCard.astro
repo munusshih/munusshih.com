@@ -4,8 +4,7 @@ import DraggableCard from "@/components/global/DraggableCard.astro";
 import Media from "@/components/utils/Media.astro";
 import { SITE_DESCRIPTION } from "../../consts";
 import {
-  parseLooseDate,
-  cleanLooseDate,
+  isRecentOrUpcomingDate,
   prepareAndSortContent,
 } from "@/scripts/cleanDate.js";
 import {
@@ -20,6 +19,7 @@ import { markdownToHtml } from "@/utils/markdown.js";
 // Background & text color map
 const colorMap = {
   "Upcoming Events": { background: "#FFBF00", text: "black" },
+  "Recent Events": { background: "#FFBF00", text: "black" },
   Press: { background: "#FFB6C1", text: "black" },
   Talk: { background: "#000", text: "white" },
   Teaching: { background: "#D69EFF", text: "black" },
@@ -35,6 +35,8 @@ const pressEntries = await getPressEntries();
 const eventEntries = await getEventEntries();
 const teachingEntries = prepareAndSortContent(await getTeachingEntries());
 const commonsEntries = await getCommonsEntries();
+const recentEvents = () =>
+  eventEntries.filter(({ date }) => isRecentOrUpcomingDate(date));
 
 // Content selection
 const contentFilters = {
@@ -73,8 +75,8 @@ const contentFilters = {
           )
         : false
     ),
-  "Upcoming Events": () =>
-    eventEntries.filter(({ date }) => parseLooseDate(date) > new Date()),
+  "Upcoming Events": recentEvents,
+  "Recent Events": recentEvents,
   Organizing: () => {
     // Get organizing entries from commons with type containing "organizing"
     return commonsEntries.filter(({ type = "" }) =>

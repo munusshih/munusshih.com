@@ -2,6 +2,12 @@
   type: IntroCard
   size: x2-card
   body: Munus Shih is a Taiwanese Minnan-Hakka creative coder, artist, & organizer based in NYC.
+- order: '1.5'
+  type: IntroCard
+  variant: trinity
+  size: x2-card
+  background: black
+  textColor: white
 - order: '2'
   type: CustomCard
   title: In Motion
@@ -16,10 +22,10 @@
   size: x3-card
   title: Yet to be Documented
   excerpt: “Syllabus (Subject to Change)” This work was showcased at the Demo Festival 2025
-  targetName: /syllabus-subject/01.jpg | /syllabus-subject/02.jpg | /syllabus-subject/03.jpg
+  targetName: /assets/syllabus-subject/01.jpg | /assets/syllabus-subject/02.jpg | /assets/syllabus-subject/03.jpg
 - order: '5'
   type: ListCard
-  title: Upcoming Events
+  title: Recent Events
   background: salmon
 - order: '6'
   type: ListCard

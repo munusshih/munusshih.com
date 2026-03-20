@@ -1,38 +1,125 @@
-export function parseLooseDate(input) {
-  let clean = String(input).trim().replace(",", "");
+function cleanInput(input) {
+  return String(input ?? "").trim();
+}
+
+function stripCommas(input) {
+  return input.replace(/,/g, "");
+}
+
+function isValidDate(date) {
+  return date instanceof Date && !Number.isNaN(date.valueOf());
+}
+
+function hasDayPrecision(input) {
+  const raw = cleanInput(input);
+  return (
+    /^[A-Za-z]+\s+\d{1,2},?\s+\d{4}$/.test(raw) ||
+    /^\d{4}-\d{1,2}-\d{1,2}$/.test(raw)
+  );
+}
+
+export function parseLooseDate(input, { preferEndOfPeriod = false } = {}) {
+  const raw = cleanInput(input);
+  const clean = stripCommas(raw);
+
+  if (!clean) return new Date(NaN);
 
   if (clean.toLowerCase() === "now") {
     return new Date();
   }
 
-  // Handle "spring" as January and "fall" as August
-  if (clean.toLowerCase().includes("spring")) {
-    clean = clean.replace(/spring/i, "January");
-  } else if (clean.toLowerCase().includes("fall")) {
-    clean = clean.replace(/fall/i, "August");
+  const seasonMatch = clean.match(/^(spring|summer|fall|winter)\s+(\d{4})$/i);
+  if (seasonMatch) {
+    const season = seasonMatch[1].toLowerCase();
+    const year = Number(seasonMatch[2]);
+    const bounds = {
+      spring: { startMonth: 0, endMonth: 4, endYearOffset: 0 },
+      summer: { startMonth: 5, endMonth: 7, endYearOffset: 0 },
+      fall: { startMonth: 7, endMonth: 10, endYearOffset: 0 },
+      winter: { startMonth: 11, endMonth: 1, endYearOffset: 1 },
+    };
+    const config = bounds[season];
+    if (!config) return new Date(NaN);
+
+    if (!preferEndOfPeriod) {
+      return new Date(year, config.startMonth, 1);
+    }
+
+    return new Date(
+      year + config.endYearOffset,
+      config.endMonth + 1,
+      0,
+      23,
+      59,
+      59,
+      999
+    );
   }
 
-  if (/^\d{4}$/.test(clean)) clean = `January 1, ${clean}`;
-  else if (/^[A-Za-z]+\s+\d{4}$/.test(clean)) clean += " 1";
+  const yearMatch = clean.match(/^(\d{4})$/);
+  if (yearMatch) {
+    const year = Number(yearMatch[1]);
+    return preferEndOfPeriod
+      ? new Date(year, 11, 31, 23, 59, 59, 999)
+      : new Date(year, 0, 1);
+  }
+
+  const monthYearMatch = clean.match(/^([A-Za-z]+)\s+(\d{4})$/);
+  if (monthYearMatch) {
+    const month = monthYearMatch[1];
+    const year = Number(monthYearMatch[2]);
+    const start = new Date(`${month} 1, ${year}`);
+    if (!isValidDate(start)) return start;
+
+    if (!preferEndOfPeriod) {
+      return start;
+    }
+
+    return new Date(
+      start.getFullYear(),
+      start.getMonth() + 1,
+      0,
+      23,
+      59,
+      59,
+      999
+    );
+  }
 
   return new Date(clean);
 }
 
 export function cleanLooseDate(input) {
-  const date = parseLooseDate(input);
+  const raw = cleanInput(input);
+  const date = parseLooseDate(raw);
 
-  if (isNaN(date)) {
-    return String(input).trim().replace(",", "");
+  if (!isValidDate(date)) {
+    return stripCommas(raw);
   }
 
-  return date.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-  });
+  const options = hasDayPrecision(raw)
+    ? { year: "numeric", month: "short", day: "numeric" }
+    : { year: "numeric", month: "short" };
+
+  return date.toLocaleDateString("en-US", options);
 }
 
 export function dateToSortable(input) {
-  return new Date(String(input).trim().replace(",", ""));
+  return parseLooseDate(input);
+}
+
+export function isRecentOrUpcomingDate(
+  input,
+  { now = new Date() } = {}
+) {
+  const start = parseLooseDate(input);
+  const end = parseLooseDate(input, { preferEndOfPeriod: true });
+  if (!isValidDate(start) || !isValidDate(end)) return false;
+
+  const thisMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+  const afterNextMonthStart = new Date(now.getFullYear(), now.getMonth() + 2, 1);
+
+  return end >= thisMonthStart && start < afterNextMonthStart;
 }
 
 export function prepareAndSortContent(content) {
@@ -49,11 +136,14 @@ export function prepareAndSortContent(content) {
 }
 
 export function formatDateRange(startDate, endDate) {
-  const startYear = cleanLooseDate(startDate).split(" ")[1];
+  const startYearMatch = cleanLooseDate(startDate).match(/\b\d{4}\b/);
+  const startYear = startYearMatch ? startYearMatch[0] : "";
 
   if (endDate === "now") return `${startYear} — now`;
 
-  const endYear = endDate ? cleanLooseDate(endDate).split(" ")[1] : null;
+  const endYear = endDate
+    ? (cleanLooseDate(endDate).match(/\b\d{4}\b/)?.[0] ?? null)
+    : null;
 
   return startYear === endYear || !endYear
     ? startYear

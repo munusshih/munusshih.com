@@ -8,26 +8,26 @@ const {
   cropped = false,
   className = "",
   widthAuto = false,
+  fadeIn = true,
 } = Astro.props;
-import { Image } from "astro:assets";
-
-const base = import.meta.env.BASE_URL;
-// Prefer a sibling JPG as poster; if not present browsers still load video.
-const posterSrc = src.replace(/\.(mp4|webm|ogg)$/i, ".jpg");
+import { normalizeMediaSrc, posterFromMediaSrc } from "@/scripts/mediaPath.js";
+const resolvedSrc = normalizeMediaSrc(src);
+const posterSrc = posterFromMediaSrc(resolvedSrc);
+const fadeClass = fadeIn ? "fade-in" : "";
 ---
 
 {
   isVideo ? (
     <video
       preload="auto"
-      src={src}
-      poster={posterSrc || src.replace(/\.(mp4|webm|ogg)$/i, ".jpg")}
+      src={resolvedSrc}
+      poster={posterSrc || undefined}
       autoplay
       loop
       muted
       playsinline
       webkit-playsinline
-      class={`fade-in media *:h-auto ${widthAuto ? "w-auto" : "w-full"} object-cover ${cropped ? "[clip-path:inset(-3px)]" : ""} ${className}`}
+      class={`${fadeClass} media *:h-auto ${widthAuto ? "w-auto" : "w-full"} object-cover ${cropped ? "[clip-path:inset(-3px)]" : ""} ${className}`}
       style={{ transform: `scale(${scaling})` }}
       alt={alt}
     >
@@ -35,11 +35,11 @@ const posterSrc = src.replace(/\.(mp4|webm|ogg)$/i, ".jpg");
     </video>
   ) : (
     <img
-      src={src}
+      src={resolvedSrc}
       alt={alt}
       loading="lazy"
       decoding="async"
-      class={`fade-in media h-auto ${widthAuto ? "w-auto" : "w-full"} object-cover ${cropped ? "[clip-path:inset(-3px)]" : ""} ${className}`}
+      class={`${fadeClass} media h-auto ${widthAuto ? "w-auto" : "w-full"} object-cover ${cropped ? "[clip-path:inset(-3px)]" : ""} ${className}`}
     />
   )
 }

@@ -27,6 +27,13 @@ if (currentIndex === -1) {
     nextProject = null;
   }
 }
+
+const nextProjectMediaSrc = nextProject
+  ? nextProject.data.heroImage || nextProject.data.images?.[0]
+  : null;
+const nextProjectIsVideo = Boolean(
+  nextProjectMediaSrc && /\.(mp4|webm|ogg)(?:$|[?#])/i.test(nextProjectMediaSrc)
+);
 ---
 
 {
@@ -64,10 +71,9 @@ if (currentIndex === -1) {
             </div>
             <div class="flex items-center justify-center">
               <Media
-                src={nextProject.data.heroImage || nextProject.data.images[0]}
-                isVideo={nextProject.data.heroImage?.match(
-                  /\.(mp4|webm|ogg)$/i
-                )}
+                src={nextProjectMediaSrc}
+                isVideo={nextProjectIsVideo}
+                fadeIn={false}
               />
             </div>
           </div>
@@ -81,52 +87,59 @@ if (currentIndex === -1) {
   import { gsap } from "gsap";
 
   const link = document.querySelector(".hover-animate");
-  const image = link.querySelector("video");
-  const content = link.querySelector(".content-text");
-  const arrow = document.querySelector(".next-arrow");
+  if (link) {
+    const mediaEl = link.querySelector("video, img");
+    const content = link.querySelector(".content-text");
+    const arrow = link.querySelector(".next-arrow");
 
-  let hoverTween;
-  const distance = 80;
-  const targets = [image, content, link];
+    let hoverTween;
+    const distance = 80;
+    const targets = [mediaEl, content, link].filter(Boolean);
 
-  function animateHover(up = true) {
-    gsap.to(targets, {
-      y: up ? -10 : 0,
-      scale: (i, el) => (el === image ? (up ? 1.1 : 1) : 1),
-      duration: 0.3,
-      ease: "power2.out",
-      overwrite: "auto",
+    function animateHover(up = true) {
+      if (!targets.length) return;
+      gsap.to(targets, {
+        y: up ? -10 : 0,
+        scale: (i, el) => (el === mediaEl ? (up ? 1.1 : 1) : 1),
+        duration: 0.3,
+        ease: "power2.out",
+        overwrite: "auto",
+      });
+    }
+
+    link.addEventListener("mouseenter", () => {
+      animateHover(true);
+
+      if (hoverTween) hoverTween.kill();
+
+      if (arrow) {
+        hoverTween = gsap.fromTo(
+          arrow,
+          { x: -distance },
+          {
+            x: distance,
+            duration: 1,
+            ease: "none",
+            repeat: -1,
+            overwrite: "auto",
+          }
+        );
+      }
+    });
+
+    link.addEventListener("mouseleave", () => {
+      animateHover(false);
+
+      if (hoverTween) hoverTween.kill();
+
+      if (arrow) {
+        gsap.to(arrow, {
+          x: 0,
+          duration: 0.3,
+          ease: "power2.out",
+          overwrite: "auto",
+        });
+      }
     });
   }
-
-  link.addEventListener("mouseenter", () => {
-    animateHover(true);
-
-    if (hoverTween) hoverTween.kill();
-
-    hoverTween = gsap.fromTo(
-      arrow,
-      { x: -distance },
-      {
-        x: distance,
-        duration: 1,
-        ease: "none",
-        repeat: -1,
-        overwrite: "auto",
-      }
-    );
-  });
-
-  link.addEventListener("mouseleave", () => {
-    animateHover(false);
-
-    if (hoverTween) hoverTween.kill();
-
-    gsap.to(arrow, {
-      x: 0,
-      duration: 0.3,
-      ease: "power2.out",
-      overwrite: "auto",
-    });
-  });
 </script>
