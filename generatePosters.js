@@ -2,9 +2,19 @@ import ffmpeg from "fluent-ffmpeg";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import ffmpegPath from "ffmpeg-static";
+import ffprobe from "ffprobe-static";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+if (ffmpegPath) {
+  ffmpeg.setFfmpegPath(ffmpegPath);
+}
+
+if (ffprobe?.path) {
+  ffmpeg.setFfprobePath(ffprobe.path);
+}
 
 const videosDir = path.resolve(__dirname, "src/assets");
 const outputDir = path.resolve(__dirname, "src/assets/posters");

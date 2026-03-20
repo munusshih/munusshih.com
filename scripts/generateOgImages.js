@@ -5,9 +5,19 @@ import { existsSync } from "node:fs";
 import path from "node:path";
 import ffmpeg from "fluent-ffmpeg";
 import yaml from "js-yaml";
+import ffmpegPath from "ffmpeg-static";
+import ffprobe from "ffprobe-static";
 
 const FORCE = process.argv.includes("--force");
 const QUIET = process.argv.includes("--quiet");
+
+if (ffmpegPath) {
+  ffmpeg.setFfmpegPath(ffmpegPath);
+}
+
+if (ffprobe?.path) {
+  ffmpeg.setFfprobePath(ffprobe.path);
+}
 
 const ASSETS_ROOT = path.resolve("src/assets");
 const CONTENT_WORK_ROOT = path.resolve("src/content/work");
@@ -207,4 +217,3 @@ main().catch((error) => {
   console.error(error);
   process.exit(1);
 });
-
