@@ -30,7 +30,7 @@ const fitClass = fit === "contain" ? "object-contain" : "object-cover";
       muted
       playsinline
       webkit-playsinline
-      class={`${fadeClass} media *:h-auto ${widthAuto ? "w-auto" : "w-full"} ${fitClass} ${cropped ? "[clip-path:inset(-3px)]" : ""} ${className}`}
+      class={`${fadeClass} media media-placeholder *:h-auto ${widthAuto ? "w-auto" : "w-full"} ${fitClass} ${cropped ? "[clip-path:inset(-3px)]" : ""} ${className}`}
       style={{ transform: `scale(${scaling})` }}
       alt={alt}
     >
@@ -42,7 +42,7 @@ const fitClass = fit === "contain" ? "object-contain" : "object-cover";
       alt={alt}
       loading="lazy"
       decoding="async"
-      class={`${fadeClass} media h-auto ${widthAuto ? "w-auto" : "w-full"} ${fitClass} ${cropped ? "[clip-path:inset(-3px)]" : ""} ${className}`}
+      class={`${fadeClass} media media-placeholder h-auto ${widthAuto ? "w-auto" : "w-full"} ${fitClass} ${cropped ? "[clip-path:inset(-3px)]" : ""} ${className}`}
     />
   )
 }

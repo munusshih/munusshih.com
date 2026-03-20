@@ -5,6 +5,17 @@
   --accent-color: blue;
   --grid-color: rgba(0, 0, 0, 0.5);
   --page-margin: 1rem;
+  --media-placeholder-size: 6px;
+  --media-placeholder-light: #ffffff;
+  --media-placeholder-dark: #000000;
+  --media-placeholder-bg: linear-gradient(
+    45deg,
+    var(--media-placeholder-dark) 25%,
+    transparent 25%,
+    transparent 75%,
+    var(--media-placeholder-dark) 75%,
+    var(--media-placeholder-dark)
+  );
 }
 
 ::selection {
@@ -38,6 +49,16 @@ a:hover {
 img,
 video {
   width: 100%;
+}
+
+.media-placeholder {
+  animation: media-placeholder-drift 8s linear infinite;
+  background-image: var(--media-placeholder-bg);
+  background-position:
+    0 0,
+    var(--media-placeholder-size) var(--media-placeholder-size);
+  background-size: calc(var(--media-placeholder-size) * 2)
+    calc(var(--media-placeholder-size) * 2);
 }
 
 img.dithered {
@@ -250,4 +271,25 @@ summary::-webkit-details-marker {
 .custom-body a:hover,
 .listcard-body a:hover {
   text-decoration-style: dotted;
+}
+
+@keyframes media-placeholder-drift {
+  from {
+    background-position:
+      0 0,
+      var(--media-placeholder-size) var(--media-placeholder-size);
+  }
+  to {
+    background-position:
+      calc(var(--media-placeholder-size) * 2)
+        calc(var(--media-placeholder-size) * 2),
+      calc(var(--media-placeholder-size) * 3)
+        calc(var(--media-placeholder-size) * 3);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .media-placeholder {
+    animation: none;
+  }
 }

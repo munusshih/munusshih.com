@@ -1,5 +1,28 @@
 # Website Structure Audit (March 2026)
 
+## Teaching
+- to redesign the teaching page to be more like a portfolio of past courses, with student works, selected lectures. Also design it like a pullout card system. it should be:
+- ongoing
+- past classes
+- workshops
+- each of them is a separate card that's expandable
+
+## Work
+- to redesign work to feature
+"selected works"
+and "recent works"
+and "archives"
+
+each work should also function like a card with color
+
+- to add a "work in progress" tag for works that are still being developed, and to feature them in a separate section on the homepage.
+- integrate maybe a cms for this, or at least a google sheet, to make it easier to update and maintain the work pages without needing to edit code directly.
+
+## Commons
+- all my collaborators, community efforts, my services as well. Talks, events, press, tools, open source projects. People I work with, and the things we do together. This is the "commons" that I contribute to and am a part of.
+- More like a network view. Each circle is a web ring.
+- make sure this is very easy to update in google sheets as well
+
 ## Current Structure Snapshot
 - Rendering: Astro static site with mixed page types (`.astro`, one custom sketch page, MDX work detail pages).
 - Content sources:
