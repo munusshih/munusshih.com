@@ -5,8 +5,11 @@
   "scripts": {
     "prepare:dev": "node scripts/prepareDev.js --quiet",
     "prepare:dev:force": "node scripts/prepareDev.js --force",
-    "prepare:build": "npm run sync:yml && npm run cache:teaching-media && npm run cache:homepage-media && npm run generatePoster && npm run generate:og -- --force && npm run sync:work-assets",
-    "prepare:build:force": "npm run sync:yml && npm run cache:teaching-media -- --force && npm run cache:homepage-media -- --force && npm run generatePoster && npm run generate:og -- --force && npm run sync:work-assets",
+    "prepare:build": "if [ \"$VERCEL\" = \"1\" ]; then npm run prepare:build:vercel; else npm run prepare:build:local; fi",
+    "prepare:build:local": "npm run sync:yml && npm run cache:teaching-media && npm run cache:homepage-media && npm run generatePoster && npm run generate:og && npm run sync:work-assets",
+    "prepare:build:local:force": "npm run sync:yml && npm run cache:teaching-media -- --force && npm run cache:homepage-media -- --force && npm run generatePoster -- --force && npm run generate:og -- --force && npm run sync:work-assets",
+    "prepare:build:vercel": "npm run sync:yml && npm run sync:work-assets",
+    "prepare:build:force": "npm run prepare:build:local:force",
     "dev": "npm run prepare:dev && astro dev",
     "dev:instant": "npm run sync:work-assets && astro dev",
     "generatePoster": "node generatePosters.js",

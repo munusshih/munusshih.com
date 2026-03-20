@@ -26,7 +26,7 @@ function createTrinitySketch(container) {
     let pointerY = 0;
 
     const nodeLabels = {
-      software: "Software",
+      software: "Code",
       commons: "Commons",
       community: "Community",
       munus: "Munus",

@@ -7,6 +7,8 @@ import ffprobe from "ffprobe-static";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const FORCE = process.argv.includes("--force");
+const QUIET = process.argv.includes("--quiet");
 
 if (ffmpegPath) {
   ffmpeg.setFfmpegPath(ffmpegPath);
@@ -162,12 +164,22 @@ async function scanDirectory(dir) {
         fs.mkdirSync(subOutputDir, { recursive: true });
 
       const posterName = `${path.parse(entry.name).name}.jpg`;
+      const posterPath = path.join(subOutputDir, posterName);
+
+      if (!FORCE && fs.existsSync(posterPath)) {
+        if (!QUIET) {
+          const relPath = path.relative(videosDir, entryPath);
+          console.log(`- Poster exists, skipping: ${relPath}`);
+        }
+        continue;
+      }
 
       // Log the video dimensions
       try {
-        const { width, height, rawWidth, rawHeight } =
-          await getVideoDimensions(entryPath);
-        console.log(`Video: ${entryPath}`);
+        const { width, height } = await getVideoDimensions(entryPath);
+        if (!QUIET) {
+          console.log(`Video: ${entryPath}`);
+        }
 
         await generatePoster(
           entryPath,
@@ -176,7 +188,9 @@ async function scanDirectory(dir) {
           width,
           height,
         );
-        console.log(`✓ Poster created\n`);
+        if (!QUIET) {
+          console.log(`✓ Poster created\n`);
+        }
       } catch (err) {
         console.error(`✗ Failed for: ${entry.name}`, err.message);
       }
@@ -185,7 +199,11 @@ async function scanDirectory(dir) {
 }
 
 (async () => {
-  console.log("Scanning videos...");
+  if (!QUIET) {
+    console.log("Scanning videos...");
+  }
   await scanDirectory(videosDir);
-  console.log("Done.");
+  if (!QUIET) {
+    console.log("Done.");
+  }
 })();
