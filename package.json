@@ -3,11 +3,12 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
+    "dev": "npm run sync:work-assets && astro dev",
     "generatePoster": "node generatePosters.js",
     "cache:teaching-media": "node scripts/cacheTeachingMedia.js",
     "sync:yml": "node scripts/updateYamlFromSheets.js",
-    "prebuild": "npm run sync:yml && npm run cache:teaching-media && npm run generatePoster",
+    "sync:work-assets": "node scripts/syncWorkAssets.js",
+    "prebuild": "npm run sync:yml && npm run cache:teaching-media && npm run generatePoster && npm run sync:work-assets",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"

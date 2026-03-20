@@ -2,8 +2,8 @@
   date: 2023-2024
   tag: "Data Visualization"
   images:
-    - "/iots/square-1.mp4"
-    - ["/iots/walkthrough.mp4", 2]
+    - "/assets/work/iots/square-1.mp4"
+    - ["/assets/work/iots/walkthrough.mp4", 2]
   quote: |
     This data story has more than 300 entries submitted by participants, each offers their unique perspective on the breadth and depth of the NYC design world.
   excerpt: |
@@ -18,10 +18,10 @@
   date: 2025
   tag: "Website, Generative Design"
   images:
-    - "/goca/video.mp4"
-    - "/goca/img.jpg"
-    - "/goca/video2.mp4"
-    - "/goca/img2.jpg"
+    - "/assets/work/goca/video.mp4"
+    - "/assets/work/goca/img.jpg"
+    - "/assets/work/goca/video2.mp4"
+    - "/assets/work/goca/img2.jpg"
   excerpt: "Co-designed and developed a custom generative patterns system and website for GOCA, a new gallery in Chelsea that highlights emerging Asian artists. The brand and site offer a dynamic introduction to these new voices, while creating a vibrant platform for the gallery to showcase fresh art, spark conversations, and host innovative ideas."
   recognition:
     - "Covered by [It's Nice That](https://www.itsnicethat.com/articles/athletics-goca-graphic-design-project-020425), [Abduzeedo](https://abduzeedo.com/gocas-branding-visual-identity-bridge-between-worlds), [Creative Boom](https://www.creativeboom.com/news/bringing-emerging-asian-art-to-the-forefront-athletics-identity-for-goca/), [The Brand Identity](https://the-brandidentity.com/project/athletics-modular-cross-cultural-identity-for-goca-is-about-putting-artists-in-the-spotlight)"
@@ -44,9 +44,9 @@
   date: 2024
   tag: "Website"
   images:
-    - "/new-museum/video3.mp4"
-    - "/new-museum/video.mp4"
-    - "/new-museum/video2.mp4"
+    - "/assets/work/new-museum/video3.mp4"
+    - "/assets/work/new-museum/video.mp4"
+    - "/assets/work/new-museum/video2.mp4"
   excerpt: "Collaborated with a group of designers and developers on designing and developing the new website for New Museum. I mainly contribute to the design and development of the membership and ticketing systems, while ensuring accessibility guidelines were met throughout the website."
   recognition:
     - "Nominated for Webby Awards 2025"

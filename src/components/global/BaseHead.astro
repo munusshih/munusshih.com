@@ -14,7 +14,7 @@ interface Props {
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const { title, description, image = "/blog-placeholder-1.jpg" } = Astro.props;
+const { title, description, image = "/assets/profile.jpg" } = Astro.props;
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -24,7 +24,7 @@ const structuredData = {
   description:
     "Munus Shih is an Assistant Professor at Pratt Institute, a creative technologist, artist, and designer. They specializes in creative coding, generative art, and data visualization.",
   url: "https://munusshih.com",
-  image: "https://munusshih.com/profile.jpg", // ideally a portrait-style profile photo
+  image: "/assets/profile.jpg", // ideally a portrait-style profile photo
   jobTitle: "Assistant Professor, Creative Technologist, Artist, and Designer",
   knowsAbout: [
     "Creative Coding",

@@ -27,15 +27,18 @@ const parsedDescription = description
   : null;
 
 const parsedCredit = credit ? marked.parse(credit, { gfm: true }) : null;
-const parsedExcerpt =
-  parsedDescription.match(/<p>(.*?)<\/p>/)?.[1].replace(/<[^>]+>/g, "") || "";
+const parsedExcerpt = parsedDescription
+  ? parsedDescription.match(/<p>(.*?)<\/p>/)?.[1].replace(/<[^>]+>/g, "") || ""
+  : "";
 const parsedRecognition = recognition.map((item) => marked.parseInline(item));
 ---
 
 <BasicLayout
   title={`${title} — ${SITE_TITLE}`}
   description={parsedExcerpt}
-  image={heroImage ? `/posters${heroImage.replace("mp4", "jpg")}` : images[0]}
+  image={heroImage
+    ? heroImage.replace(/\.(mp4|webm|ogg)$/i, ".jpg")
+    : images[0]}
 >
   <main>
     <div

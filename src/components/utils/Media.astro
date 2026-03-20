@@ -12,7 +12,8 @@ const {
 import { Image } from "astro:assets";
 
 const base = import.meta.env.BASE_URL;
-const posterSrc = "posters" + src.replace(/\.(mp4|webm|ogg)$/i, ".jpg");
+// Prefer a sibling JPG as poster; if not present browsers still load video.
+const posterSrc = src.replace(/\.(mp4|webm|ogg)$/i, ".jpg");
 ---
 
 {
