@@ -1,0 +1,56 @@
+---
+import BaseHead from "@/components/global/BaseHead.astro";
+import { SITE_DESCRIPTION, SITE_TITLE } from "@/consts";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead
+      title={`Pattern — ${SITE_TITLE}`}
+      description={SITE_DESCRIPTION}
+      image={`/assets/og/pages/pattern.jpg`}
+    />
+  </head>
+  <body>
+    <style>
+      html {
+        background: #00f;
+      }
+
+      body {
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+        animation: moveChecker 2s linear infinite;
+        background:
+          linear-gradient(45deg, #fff 25%, transparent 25%) 0 0,
+          linear-gradient(45deg, transparent 75%, #fff 75%) 0 0,
+          linear-gradient(45deg, transparent 75%, #fff 75%),
+          linear-gradient(45deg, #fff 25%, transparent 25%);
+        background-size: 50px 150px;
+        background-repeat: repeat;
+        width: 100vw;
+        height: 100vh;
+      }
+
+      @keyframes moveChecker {
+        0% {
+          background-position:
+            0 0,
+            0 0,
+            0 0,
+            0 0;
+        }
+
+        100% {
+          background-position:
+            50px 150px,
+            50px 150px,
+            50px 150px,
+            50px 150px;
+        }
+      }
+    </style>
+  </body>
+</html>

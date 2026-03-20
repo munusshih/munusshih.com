@@ -1,0 +1,13 @@
+{
+  "LinkCard|https://p5-book.vercel.app/workshop/worksheet|[video] https://p5-book.vercel.app/workshop/worksheet": {
+    "type": "link",
+    "assets": [
+      {
+        "kind": "video",
+        "src": "/assets/homepage/links/link-a-new-opensource-library-a8646ce6/preview.webm",
+        "source": "recorded"
+      }
+    ],
+    "href": "https://p5-book.vercel.app/workshop/worksheet"
+  }
+}

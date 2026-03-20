@@ -238,3 +238,16 @@ summary::-webkit-details-marker {
   border-radius: 0.3em;
   padding: 0.1em 0.3em;
 }
+
+.custom-body a,
+.listcard-body a {
+  text-decoration-line: underline;
+  text-decoration-style: dotted;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.2em;
+}
+
+.custom-body a:hover,
+.listcard-body a:hover {
+  text-decoration-style: dotted;
+}

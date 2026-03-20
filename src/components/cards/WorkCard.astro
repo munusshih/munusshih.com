@@ -1,10 +1,12 @@
 ---
 const {
   size,
+  title,
   linkContent,
   work,
   href,
   targetName,
+  body,
   description,
   iframe,
   background,
@@ -15,6 +17,7 @@ import Media from "@/components/utils/Media.astro";
 import Iframe from "@/components/utils/Iframe.astro";
 import Swiper from "@/components/utils/Swiper.astro";
 import { getLabEntries } from "@/data/contentSources.js";
+import { marked } from "marked";
 
 let finalContent;
 
@@ -28,30 +31,72 @@ if (href === "lab") {
 } else {
   finalContent = work;
 }
+
+const mediaSourceRaw = finalContent?.image || targetName;
+const mediaSource =
+  typeof mediaSourceRaw === "string"
+    ? mediaSourceRaw.replace(/\[(?:video|image|dark)\]/gi, "").trim()
+    : mediaSourceRaw;
+const mediaIsVideo =
+  typeof mediaSource === "string" &&
+  /\.(mp4|webm|ogg|mov|m4v)(?:$|[?#])/i.test(mediaSource);
+const mediaWrapperClass = mediaIsVideo
+  ? "w-full p-0 shadow"
+  : "w-full p-0 shadow aspect-[4/3] overflow-hidden";
+const mediaFit = mediaIsVideo ? "contain" : "cover";
+const mediaScale = mediaIsVideo ? 1 : 1.03;
+const mediaClassName = mediaIsVideo ? "" : "h-full";
+
+const headingLabel = linkContent || title || "";
+const panelText = finalContent?.description || body || description || "";
+const panelHtml = panelText ? marked.parse(panelText) : "";
+const hasCustomBackground =
+  typeof background === "string" &&
+  background.trim().length > 0 &&
+  background.trim().toLowerCase() !== "transparent";
+const cardStyle = `color: ${cardTextColor};`;
+const panelClass = hasCustomBackground
+  ? "code p-4"
+  : "code bg-white p-4 text-black";
+const panelStyle = hasCustomBackground
+  ? `background: ${cardBackground}; color: ${cardTextColor};`
+  : undefined;
 ---
 
 <DraggableCard>
   <div
     class={`home-card flex h-auto ${size} flex-col justify-between`}
-    style={`background: ${cardBackground}; color: ${cardTextColor};`}
+    style={cardStyle}
   >
-    <h2 class="body2 w-max bg-black p-2 text-white">
-      <a href={href} class="linkout"> {linkContent} </a>
-    </h2>
+    {
+      headingLabel && (
+        <h2 class="body2 w-max bg-black p-2 text-white">
+          {href ? (
+            <a href={href} class="linkout">
+              {headingLabel}
+            </a>
+          ) : (
+            headingLabel
+          )}
+        </h2>
+      )
+    }
     {
       iframe ? (
         <Iframe src={iframe} title={description || ""} />
       ) : Array.isArray(targetName) ? (
         <Swiper images={targetName} />
       ) : (
-        (finalContent?.image || targetName) && (
-          <div className="w-full p-0 shadow">
+        mediaSource && (
+          <div class={mediaWrapperClass}>
             <Media
-              src={finalContent?.image || targetName}
+              src={mediaSource}
               alt={finalContent?.description || description || ""}
-              isVideo={/\.(mp4|webm|ogg)$/i.test(
-                finalContent?.image || targetName,
-              )}
+              isVideo={mediaIsVideo}
+              usePoster={false}
+              fit={mediaFit}
+              scaling={mediaScale}
+              className={mediaClassName}
               cropped={true}
             />
           </div>
@@ -59,8 +104,12 @@ if (href === "lab") {
       )
     }
 
-    <p class="code bg-white p-4">
-      {finalContent?.description || description}
-    </p>
+    {
+      panelHtml && (
+        <div class={panelClass} style={panelStyle}>
+          <div class="custom-body text-balance" set:html={panelHtml} />
+        </div>
+      )
+    }
   </div>
 </DraggableCard>

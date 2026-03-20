@@ -1,4 +1,4 @@
-// public/scripts/fade-in.js
+// src/scripts/fade-in.js
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 

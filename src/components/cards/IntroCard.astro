@@ -12,6 +12,7 @@ const {
 import DraggableCard from "@/components/global/DraggableCard.astro";
 import HeroSketch from "@/components/global/HeroSketch.astro";
 import { SITE_DESCRIPTION } from "../../consts";
+import { marked } from "marked";
 
 const cardBackground = background ?? "black";
 const cardTextColor = textColor ?? "white";
@@ -27,11 +28,12 @@ const introLinkLabel =
   linkContent ||
   linkLabel ||
   (hasCustomHref ? "Learn more" : "Learn more about me");
+const introBodyHtml = introBody ? marked.parse(introBody) : "";
 ---
 
 <DraggableCard>
   <div
-    class={`${size} home-card flex aspect-square flex-col p-4 `}
+    class={`${size} home-card flex flex-col p-4 `}
     style={`background: ${cardBackground}; color: ${cardTextColor};`}
   >
     <a href={introLinkHref} class="linkout body2">{introLinkLabel}</a>
@@ -50,17 +52,22 @@ const introLinkLabel =
           <HeroSketch />
         )
       }
-      {introBody && <p class="body1 shrink-0 text-balance">{introBody}</p>}
+      {
+        introBodyHtml && (
+          <div
+            class="body1 custom-body shrink-0 text-balance"
+            set:html={introBodyHtml}
+          />
+        )
+      }
     </div>
   </div>
   <style>
     .trinity-wrapper {
-      flex: 1 1 auto;
       margin-inline: 0;
       width: 100%;
       height: 100%;
       min-height: 0;
-      overflow: hidden;
     }
 
     .trinity-canvas {

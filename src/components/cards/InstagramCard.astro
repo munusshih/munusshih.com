@@ -1,0 +1,162 @@
+---
+const {
+  size = "x2-card",
+  title,
+  body,
+  description,
+  background,
+  textColor,
+  href,
+  linkHref,
+  linkContent,
+  linkLabel,
+  targetName,
+  mediaItems = [],
+  username,
+} = Astro.props;
+
+import DraggableCard from "@/components/global/DraggableCard.astro";
+import Swiper from "@/components/utils/Swiper.astro";
+import { marked } from "marked";
+import { parseMediaList } from "@/data/homepageUtils.js";
+
+const cardBackground = background ?? "transparent";
+const cardTextColor = textColor ?? "inherit";
+
+const fallbackItems = parseMediaList(targetName)
+  .filter((src) =>
+    /\.(mp4|webm|ogg|mov|m4v|jpe?g|png|gif|webp|avif|svg)(?:$|[?#])/i.test(src),
+  )
+  .map((src) => ({
+    src,
+    kind: /\.(mp4|webm|ogg|mov|m4v)(?:$|[?#])/i.test(src) ? "video" : "image",
+    source: "targetName",
+  }));
+
+const slides =
+  Array.isArray(mediaItems) && mediaItems.length ? mediaItems : fallbackItems;
+
+const handle = String(username || "")
+  .trim()
+  .replace(/^@/, "");
+const profileHref =
+  linkHref ||
+  href ||
+  (handle ? `https://www.instagram.com/${encodeURIComponent(handle)}/` : "");
+const profileLabel =
+  linkContent || linkLabel || (handle ? `@${handle}` : "Instagram profile");
+
+const bodyText = body || description || "";
+const bodyHtml = bodyText ? marked.parse(bodyText) : "";
+
+function extractInstagramShortcode(url) {
+  if (!url) return "";
+  try {
+    const parsed = new URL(url);
+    if (!parsed.hostname.toLowerCase().includes("instagram.com")) return "";
+    const segments = parsed.pathname.split("/").filter(Boolean);
+    const markerIndex = segments.findIndex((segment) =>
+      ["p", "reel", "tv"].includes(segment.toLowerCase()),
+    );
+    if (markerIndex < 0) return "";
+    return segments[markerIndex + 1] || "";
+  } catch (_error) {
+    return "";
+  }
+}
+
+function decodeInstagramEscapes(value) {
+  return String(value)
+    .replace(/\\u0026/g, "&")
+    .replace(/\\u003d/g, "=")
+    .replace(/\\\//g, "/")
+    .replace(/\\"/g, '"');
+}
+
+async function fetchInstagramEmbedMedia(shortcode) {
+  if (!shortcode) return null;
+  const url = `https://www.instagram.com/p/${shortcode}/embed/captioned/`;
+  try {
+    const response = await fetch(url, {
+      headers: {
+        accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+      },
+      redirect: "follow",
+    });
+    if (!response.ok) return null;
+    const html = await response.text();
+    const videoMatch = html.match(/"video_url":"([^"]+)"/i);
+    const imageMatch =
+      html.match(/"display_url":"([^"]+)"/i) ||
+      html.match(/"thumbnail_url":"([^"]+)"/i);
+
+    const videoUrl = videoMatch ? decodeInstagramEscapes(videoMatch[1]) : "";
+    const imageUrl = imageMatch ? decodeInstagramEscapes(imageMatch[1]) : "";
+
+    if (videoUrl) return { src: videoUrl, kind: "video", source: "instagram-runtime" };
+    if (imageUrl) return { src: imageUrl, kind: "image", source: "instagram-runtime" };
+    return null;
+  } catch (_error) {
+    return null;
+  }
+}
+
+let resolvedSlides = slides;
+if (!resolvedSlides.length) {
+  const shortcode = extractInstagramShortcode(profileHref);
+  if (shortcode) {
+    const embedMedia = await fetchInstagramEmbedMedia(shortcode);
+    if (embedMedia) {
+      resolvedSlides = [embedMedia];
+    }
+  }
+}
+---
+
+<DraggableCard>
+  <div
+    class={`home-card flex h-auto ${size} flex-col justify-between`}
+    style={`background: ${cardBackground}; color: ${cardTextColor};`}
+  >
+    <h2 class="body2 w-max bg-black p-2 text-white">
+      {profileHref ? (
+        <a href={profileHref} class="linkout">
+          {profileLabel}
+        </a>
+      ) : (
+        profileLabel
+      )}
+    </h2>
+
+    {
+      resolvedSlides.length ? (
+        <Swiper images={resolvedSlides} width="75%" delay={7000} />
+      ) : (
+        <div class="fallback-media flex aspect-[4/3] items-center justify-center border p-4 text-center">
+          <p class="code text-xs opacity-80">
+            Instagram media will appear here when available.
+          </p>
+        </div>
+      )
+    }
+
+    {
+      (bodyHtml || title) && (
+        <div class="code bg-white p-4 text-black">
+          {title && <p class="mb-2 font-semibold">{title}</p>}
+          {
+            bodyHtml && (
+              <div class="custom-body text-balance" set:html={bodyHtml} />
+            )
+          }
+        </div>
+      )
+    }
+  </div>
+
+  <style>
+    .fallback-media {
+      border-color: color-mix(in srgb, currentColor 35%, transparent);
+    }
+  </style>
+</DraggableCard>

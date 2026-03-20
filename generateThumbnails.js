@@ -21,7 +21,7 @@ async function generateThumbnails() {
     { url: "http://localhost:4321/404", name: "404" },
   ];
 
-  const thumbnailsDir = path.resolve("public/thumbnails");
+  const thumbnailsDir = path.resolve("src/assets/thumbnails");
   fs.mkdirSync(thumbnailsDir, { recursive: true });
 
   const browser = await chromium.launch();

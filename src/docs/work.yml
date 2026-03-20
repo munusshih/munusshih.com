@@ -2,8 +2,8 @@
   date: 2023-2024
   tag: "Data Visualization"
   images:
-    - "/assets/work/iots/square-1.mp4"
-    - ["/assets/work/iots/walkthrough.mp4", 2]
+    - "/assets/work/iots/1.mp4"
+    - ["/assets/work/iots/image_of_the_studio_walkthrough.mp4", 2]
   quote: |
     This data story has more than 300 entries submitted by participants, each offers their unique perspective on the breadth and depth of the NYC design world.
   excerpt: |
@@ -19,7 +19,7 @@
   tag: "Website, Generative Design"
   images:
     - "/assets/work/goca/video.mp4"
-    - "/assets/work/goca/img.jpg"
+    - "/assets/work/goca/goca-storefront.jpg"
     - "/assets/work/goca/video2.mp4"
     - "/assets/work/goca/img2.jpg"
   excerpt: "Co-designed and developed a custom generative patterns system and website for GOCA, a new gallery in Chelsea that highlights emerging Asian artists. The brand and site offer a dynamic introduction to these new voices, while creating a vibrant platform for the gallery to showcase fresh art, spark conversations, and host innovative ideas."

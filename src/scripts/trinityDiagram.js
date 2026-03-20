@@ -98,7 +98,7 @@ function createTrinitySketch(container) {
 
       focal = width * 2;
       nodeLabelSize = width * 0.04;
-      edgeLabelSize = width * 0.08;
+      edgeLabelSize = width * 0.05;
       outerDepth = width * 0.04;
       centerDepth = width * 0.022;
       nodeTextDepthShift = width * 0.0042;

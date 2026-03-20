@@ -25,7 +25,7 @@ const __dirname = path.dirname(__filename);
 
 const FORCE = process.argv.includes("--force");
 const QUIET = process.argv.includes("--quiet");
-const OUTPUT_DIR = path.resolve(__dirname, "../public/teaching");
+const OUTPUT_DIR = path.resolve(__dirname, "../src/assets/teaching");
 const MANIFEST_PATH = path.resolve(
   __dirname,
   "../src/data/generated/teachingMedia.json",
@@ -566,7 +566,7 @@ const processEntry = async (entry, options) => {
     if (existsSync(entryDir)) {
       await fs.rm(entryDir, { recursive: true, force: true });
     }
-    return { assets: [], slug };
+    return { assets: [], slug, hasSpecs: false };
   }
 
   if (force && existsSync(entryDir)) {
@@ -763,7 +763,7 @@ const processEntry = async (entry, options) => {
     }
   }
 
-  return { assets: results, slug };
+  return { assets: results, slug, hasSpecs: true };
 };
 
 const main = async () => {
@@ -790,14 +790,14 @@ const main = async () => {
     const key = teachingEntryKey(entry);
     processedKeys.add(key);
 
-    const { assets, slug } = await processEntry(entry, { force: FORCE });
+    const { assets, slug, hasSpecs } = await processEntry(entry, { force: FORCE });
 
     if (assets.length) {
       manifest[key] = assets;
       if (!QUIET) {
         console.log(`Cached ${assets.length} asset(s) for "${entry.title}"`);
       }
-    } else if (manifest[key]) {
+    } else if (!hasSpecs && manifest[key]) {
       delete manifest[key];
       if (!QUIET) {
         console.log(`Removed cached assets for "${entry.title}"`);
@@ -806,6 +806,10 @@ const main = async () => {
       if (existsSync(slugPath)) {
         await fs.rm(slugPath, { recursive: true, force: true });
       }
+    } else if (hasSpecs && manifest[key] && !QUIET) {
+      console.warn(
+        `Keeping existing cached assets for "${entry.title}" because refreshed media generation returned no assets.`,
+      );
     }
   }
 

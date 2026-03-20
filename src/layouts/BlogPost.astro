@@ -7,7 +7,10 @@ import { formatDateRange } from "@/scripts/cleanDate";
 import { normalizeMediaSrc, posterFromMediaSrc } from "@/scripts/mediaPath";
 import type { CollectionEntry } from "astro:content";
 type Props = CollectionEntry<"work">["data"];
+type PostProps = Props & { slug?: string };
 import { SITE_TITLE } from "@/consts";
+import { existsSync } from "node:fs";
+import path from "node:path";
 
 const {
   title,
@@ -21,7 +24,8 @@ const {
   endDate,
   heroImage,
   images = [],
-} = Astro.props;
+  slug,
+} = Astro.props as PostProps;
 
 const parsedDescription = description
   ? marked.parse(description, { gfm: true })
@@ -34,9 +38,20 @@ const parsedExcerpt = parsedDescription
 const parsedRecognition = recognition.map((item) => marked.parseInline(item));
 const heroSrc = normalizeMediaSrc(heroImage);
 const heroPoster = posterFromMediaSrc(heroImage);
+const workOgImage = slug ? `/assets/og/work/${slug}.jpg` : null;
+const workOgPath = slug
+  ? path.resolve("src/assets/og/work", `${slug}.jpg`)
+  : null;
+const hasGeneratedWorkOg = workOgPath ? existsSync(workOgPath) : false;
 const socialImage = heroImage
-  ? (/\.(mp4|webm|ogg)$/i.test(heroSrc) ? heroPoster : heroSrc)
-  : normalizeMediaSrc(images[0]);
+  ? hasGeneratedWorkOg
+    ? workOgImage
+    : /\.(mp4|webm|ogg)$/i.test(heroSrc)
+      ? heroPoster
+      : heroSrc
+  : hasGeneratedWorkOg
+    ? workOgImage
+    : normalizeMediaSrc(images[0]);
 ---
 
 <BasicLayout

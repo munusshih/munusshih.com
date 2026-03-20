@@ -35,10 +35,6 @@ export function posterFromMediaSrc(value) {
 
   const withJpg = src.replace(/\.(mp4|webm|ogg)(?=$|[?#])/i, ".jpg");
 
-  if (withJpg.startsWith("/assets/work/")) {
-    return withJpg.replace("/assets/work/", "/assets/posters/");
-  }
-
   if (withJpg.startsWith("/assets/")) {
     return withJpg.replace("/assets/", "/assets/posters/");
   }

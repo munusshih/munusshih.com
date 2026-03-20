@@ -7,6 +7,7 @@ import Homepage from "@/docs/homepage.yml";
 import Writing from "@/docs/writing.yml";
 import Teaching from "@/docs/teaching.yml";
 import Commons from "@/docs/commons.yml";
+import { normaliseHomepageContentAliases } from "@/data/homepageUtils.js";
 
 const DATASETS = {
   press: {
@@ -102,9 +103,21 @@ const KEY_MAP = {
   section: "section",
   category: "category",
   status: "status",
+  "on/off": "status",
+  onoff: "status",
+  visibility: "status",
+  enabled: "status",
   collection: "section",
   group: "section",
   tags: "tags",
+  previewmode: "previewMode",
+  capturemode: "previewMode",
+  mediatype: "previewMode",
+  username: "username",
+  handle: "username",
+  instagram: "instagramUsername",
+  instagramusername: "instagramUsername",
+  limit: "limit",
 };
 
 function resolveSheetUrl(datasetKey) {
@@ -241,6 +254,11 @@ function assignKey(target, key, value, datasetKey) {
       target.height = Number.isFinite(numeric) ? numeric : trimmedValue;
       return;
     }
+    if (["limit", "count", "itemcount"].includes(normalised)) {
+      const numeric = Number(trimmedValue);
+      target.limit = Number.isFinite(numeric) ? numeric : trimmedValue;
+      return;
+    }
   }
 
   if (["link", "url", "href"].includes(normalised)) {
@@ -337,17 +355,18 @@ function postProcessEntry(datasetKey, entry) {
     const type = entry.type || entry.title;
     if (!type) return null;
 
-    const normalized = {
+    const normalizedRaw = {
       ...entry,
       type: String(type).trim(),
     };
 
-    if (normalized.targetName && Array.isArray(normalized.targetName)) {
-      normalized.targetName = normalized.targetName.map((item) =>
+    if (normalizedRaw.targetName && Array.isArray(normalizedRaw.targetName)) {
+      normalizedRaw.targetName = normalizedRaw.targetName.map((item) =>
         typeof item === "string" ? item.trim() : item,
       );
     }
 
+    const normalized = normaliseHomepageContentAliases(normalizedRaw);
     return normalized;
   }
 

@@ -6,8 +6,8 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const videosDir = path.resolve(__dirname, "public");
-const outputDir = path.resolve(__dirname, "public/posters");
+const videosDir = path.resolve(__dirname, "src/assets");
+const outputDir = path.resolve(__dirname, "src/assets/posters");
 
 if (!fs.existsSync(outputDir)) {
   fs.mkdirSync(outputDir, { recursive: true });

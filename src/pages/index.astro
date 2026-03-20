@@ -5,13 +5,25 @@ import WorkCard from "@/components/cards/WorkCard.astro";
 import MediaCard from "@/components/cards/MediaCard.astro";
 import ListCard from "@/components/cards/ListCard.astro";
 import CustomCard from "@/components/cards/CustomCard.astro";
+import InstagramCard from "@/components/cards/InstagramCard.astro";
+import LinkCard from "@/components/cards/LinkCard.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
 import { getHomepageEntries } from "@/data/contentSources.js";
+import homepageMedia from "@/data/generated/homepageMedia.json" assert { type: "json" };
+import {
+  homepageEntryKey,
+  isHomepageEntryEnabled,
+  resolveHomepageBody,
+  resolveHomepageTitle,
+  parseMediaList,
+} from "@/data/homepageUtils.js";
 
 const homepageEntries = await getHomepageEntries();
 
 const cards = Array.isArray(homepageEntries)
-  ? homepageEntries.filter((entry) => entry?.type)
+  ? homepageEntries.filter(
+      (entry) => entry?.type && isHomepageEntryEnabled(entry),
+    )
   : [];
 
 function normaliseWorkTarget(value) {
@@ -37,12 +49,57 @@ function normaliseWorkTarget(value) {
   const trimmed = value.trim();
   return trimmed.length > 0 ? trimmed : undefined;
 }
+
+function getHomepageCachedAssets(entry) {
+  const manifestKey = homepageEntryKey(entry);
+  if (!manifestKey) return [];
+  const manifestEntry = homepageMedia?.[manifestKey];
+  return Array.isArray(manifestEntry?.assets) ? manifestEntry.assets : [];
+}
+
+function fallbackAssets(value) {
+  return parseMediaList(value)
+    .filter((src) =>
+      /\.(mp4|webm|ogg|mov|m4v|jpe?g|png|gif|webp|avif|svg)(?:$|[?#])/i.test(
+        src,
+      ),
+    )
+    .map((src) => ({
+      kind: /\.(mp4|webm|ogg|mov|m4v)(?:$|[?#])/i.test(src) ? "video" : "image",
+      src,
+      source: "targetName",
+    }));
+}
+
+function resolveInstagramUsername(entry) {
+  const direct = String(
+    entry.instagramUsername || entry.username || entry.handle || "",
+  )
+    .trim()
+    .replace(/^@/, "");
+  if (direct) return direct;
+
+  const href = entry.href || entry.link?.href || "";
+  if (!href) return "";
+
+  try {
+    const parsed = new URL(href);
+    if (!parsed.hostname.toLowerCase().includes("instagram.com")) return "";
+    return parsed.pathname.split("/").filter(Boolean)[0] || "";
+  } catch (_error) {
+    return "";
+  }
+}
+
+function resolveHref(entry) {
+  return entry.href || entry.link?.href || undefined;
+}
 ---
 
 <BasicLayout
   title={SITE_TITLE}
   description={SITE_DESCRIPTION}
-  image={`/assets/thumbnails/index.jpg`}
+  image={`/assets/og/pages/index.jpg`}
 >
   <main
     class="fade-in relative grid h-auto w-full grid-cols-1 items-center justify-items-center gap-y-[8vw] overflow-hidden p-[var(--page-margin)] py-20 sm:grid-cols-2"
@@ -52,7 +109,7 @@ function normaliseWorkTarget(value) {
     >
       <span>Solidarity</span>
       <span>Identity</span>
-      <span>Decoloniality</span>
+      <span>Commons</span>
       <span>Publishing</span>
       <span>Writing</span>
       <span>Coding</span>
@@ -65,6 +122,9 @@ function normaliseWorkTarget(value) {
       cards.map((entry, index) => {
         const type = entry.type?.toLowerCase?.() || "";
         const key = entry.order ?? index;
+        const entryTitle = resolveHomepageTitle(entry);
+        const entryBody = resolveHomepageBody(entry);
+        const entryHref = resolveHref(entry);
 
         if (["introcard", "intro"].includes(type)) {
           return (
@@ -74,16 +134,16 @@ function normaliseWorkTarget(value) {
               background={entry.background}
               textColor={entry.textColor}
               variant={entry.variant}
-              body={entry.body || entry.description || entry.text}
-              linkContent={entry.linkContent || entry.linkLabel}
+              body={entryBody}
+              linkContent={entry.linkContent || entryTitle || entry.linkLabel}
               linkLabel={entry.linkLabel}
-              linkHref={entry.href || entry.link?.href}
+              linkHref={entryHref}
             />
           );
         }
 
         if (["listcard", "list"].includes(type)) {
-          const listTitle = entry.title || entry.heading || entry.listTitle;
+          const listTitle = entryTitle || entry.heading || entry.listTitle;
           if (!listTitle) return null;
           return (
             <ListCard
@@ -91,23 +151,23 @@ function normaliseWorkTarget(value) {
               title={listTitle}
               background={entry.background}
               textColor={entry.textColor}
-              body={entry.body || entry.description || entry.text}
+              body={entryBody}
             />
           );
         }
 
         if (["workcard", "work"].includes(type)) {
           const target = normaliseWorkTarget(entry.targetName);
-          const href = entry.href || entry.link?.href || undefined;
-          const description = entry.description || entry.excerpt || "";
           return (
             <WorkCard
               key={key}
               size={entry.size || "x2-card"}
-              href={href}
-              linkContent={entry.linkContent || entry.title || ""}
+              href={entryHref}
+              title={entryTitle}
+              linkContent={entry.linkContent || entryTitle || ""}
               targetName={target}
-              description={description}
+              body={entryBody}
+              description={entry.description || entryBody}
               iframe={entry.iframe}
               background={entry.background}
               textColor={entry.textColor}
@@ -123,9 +183,9 @@ function normaliseWorkTarget(value) {
             <MediaCard
               key={key}
               size={entry.size || "x1-card"}
-              title={entry.title}
+              title={entryTitle}
               targetName={target}
-              description={entry.description || ""}
+              description={entry.description || entryBody}
               iframe={entry.iframe}
               height={entry.height}
               background={entry.background}
@@ -142,16 +202,75 @@ function normaliseWorkTarget(value) {
             <CustomCard
               key={key}
               size={entry.size || "x2-card"}
-              title={entry.title}
-              body={entry.body || entry.description || entry.text}
+              title={entryTitle}
+              body={entryBody}
               background={entry.background}
               textColor={entry.textColor}
-              linkHref={entry.href || entry.link?.href}
-              linkContent={entry.linkContent}
+              linkHref={entryHref}
+              linkContent={entry.linkContent || entryTitle}
               linkLabel={entry.linkLabel}
               targetName={target}
               iframe={entry.iframe}
               height={entry.height}
+            />
+          );
+        }
+
+        if (["instagramcard", "instagram"].includes(type)) {
+          const cachedAssets = getHomepageCachedAssets(entry);
+          const targetAssets = fallbackAssets(entry.targetName);
+          const mediaItems = cachedAssets.length ? cachedAssets : targetAssets;
+          const username = resolveInstagramUsername(entry);
+          return (
+            <InstagramCard
+              key={key}
+              size={entry.size || "x2-card"}
+              title={entryTitle}
+              body={entryBody}
+              background={entry.background}
+              textColor={entry.textColor}
+              href={entryHref}
+              linkContent={entry.linkContent || entryTitle}
+              linkLabel={entry.linkLabel}
+              targetName={entry.targetName}
+              mediaItems={mediaItems}
+              username={username}
+            />
+          );
+        }
+
+        if (["linkcard", "link"].includes(type)) {
+          const cachedAssets = getHomepageCachedAssets(entry);
+          const targetAssets = fallbackAssets(entry.targetName);
+          const previewAsset =
+            cachedAssets[0] ||
+            targetAssets[0] ||
+            (entry.ogImage
+              ? {
+                  kind: /\.(mp4|webm|ogg|mov|m4v)(?:$|[?#])/i.test(
+                    entry.ogImage,
+                  )
+                    ? "video"
+                    : "image",
+                  src: entry.ogImage,
+                  source: "ogImage",
+                }
+              : null);
+
+          return (
+            <LinkCard
+              key={key}
+              size={entry.size || "x2-card"}
+              title={entryTitle}
+              body={entryBody}
+              description={entry.description || entryBody}
+              background={entry.background}
+              textColor={entry.textColor}
+              href={entryHref}
+              linkContent={entry.linkContent || entryTitle}
+              linkLabel={entry.linkLabel}
+              targetName={entry.targetName}
+              previewAsset={previewAsset}
             />
           );
         }

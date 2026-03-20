@@ -13,6 +13,8 @@
     if (!isMobile) {
       interact(".draggable").draggable({
         inertia: true,
+        ignoreFrom:
+          ".swiper, .swiper *, a, button, input, textarea, select, iframe, video",
         modifiers: [
           interact.modifiers.restrictRect({
             restriction: "main",

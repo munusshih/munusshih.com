@@ -1,7 +1,6 @@
 ---
 // Swiper.astro
 const { images, width = "75%" } = Astro.props;
-import Swiper from "swiper";
 import "swiper/css";
 import Media from "@/components/utils/Media.astro";
 ---
@@ -10,8 +9,17 @@ import Media from "@/components/utils/Media.astro";
   <div class="swiper-wrapper">
     {
       images.map((src, idx) => {
-        const [mediaSrc, scaling] = Array.isArray(src) ? src : [src];
-        const isVideo = mediaSrc.match(/\.(mp4|webm|ogg)$/i);
+        const [mediaSrcRaw, scaling] = Array.isArray(src) ? src : [src];
+        const mediaSrc =
+          typeof mediaSrcRaw === "string"
+            ? mediaSrcRaw.replace(/\[(?:video|image|dark)\]/gi, "").trim()
+            : mediaSrcRaw;
+        const isExplicitVideoTag =
+          typeof mediaSrcRaw === "string" && /\[video\]/i.test(mediaSrcRaw);
+        const isVideo =
+          isExplicitVideoTag ||
+          (typeof mediaSrc === "string" &&
+            /\.(mp4|webm|ogg|mov|m4v)(?:$|[?#])/i.test(mediaSrc));
         return (
           <div key={idx} class="swiper-slide h-auto">
             <Media
@@ -19,6 +27,7 @@ import Media from "@/components/utils/Media.astro";
               alt={images.src || ""}
               isVideo={isVideo}
               scaling={scaling}
+              usePoster={false}
             />
           </div>
         );
@@ -31,18 +40,23 @@ import Media from "@/components/utils/Media.astro";
   import Swiper from "swiper";
   import { Autoplay } from "swiper/modules";
   import "swiper/css";
-  import { init } from "astro/virtual-modules/prefetch.js";
 
   function initSwiper() {
-    const swiper = new Swiper(".swiper", {
-      modules: [Autoplay],
-      slidesPerView: "auto",
-      spaceBetween: 10,
-      grabCursor: true,
-      autoplay: {
-        delay: 10000,
-        disableOnInteraction: true,
-      },
+    const containers = document.querySelectorAll(".swiper");
+    containers.forEach((container) => {
+      if (!(container instanceof HTMLElement)) return;
+      if (container.swiper && !container.swiper.destroyed) return;
+
+      new Swiper(container, {
+        modules: [Autoplay],
+        slidesPerView: "auto",
+        spaceBetween: 10,
+        grabCursor: true,
+        autoplay: {
+          delay: 10000,
+          disableOnInteraction: true,
+        },
+      });
     });
   }
 

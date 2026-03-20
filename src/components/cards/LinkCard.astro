@@ -1,0 +1,215 @@
+---
+const {
+  size = "x2-card",
+  title,
+  body,
+  description,
+  background,
+  textColor,
+  href,
+  linkHref,
+  linkContent,
+  linkLabel,
+  targetName,
+  previewAsset,
+} = Astro.props;
+
+import DraggableCard from "@/components/global/DraggableCard.astro";
+import Media from "@/components/utils/Media.astro";
+import { marked } from "marked";
+
+const cardBackground = background ?? "transparent";
+const cardTextColor = textColor ?? "inherit";
+const hasCustomBackground =
+  typeof background === "string" &&
+  background.trim().length > 0 &&
+  background.trim().toLowerCase() !== "transparent";
+const descriptionClass = hasCustomBackground
+  ? "code p-4"
+  : "code bg-white p-4 text-black";
+const descriptionStyle = hasCustomBackground
+  ? `background: ${cardBackground}; color: ${cardTextColor};`
+  : undefined;
+
+const resolvedHref = linkHref || href || "";
+const resolvedLinkLabel =
+  linkContent || linkLabel || title || (resolvedHref ? "Open link" : "");
+
+const bodyText = body || description || "";
+const bodyHtml = bodyText ? marked.parse(bodyText) : undefined;
+
+const fallbackTarget = Array.isArray(targetName) ? targetName[0] : targetName;
+const canRenderFallbackTarget =
+  typeof fallbackTarget === "string" &&
+  /\.(mp4|webm|ogg|mov|m4v|jpe?g|png|gif|webp|avif|svg)(?:$|[?#])/i.test(
+    fallbackTarget,
+  );
+
+const resolvedPreview =
+  previewAsset && typeof previewAsset === "object" && previewAsset.src
+    ? previewAsset
+    : canRenderFallbackTarget
+      ? {
+          src: fallbackTarget,
+          kind: /\.(mp4|webm|ogg|mov|m4v)(?:$|[?#])/i.test(fallbackTarget)
+            ? "video"
+            : "image",
+          source: "targetName",
+        }
+      : null;
+
+function decodeHtmlEntities(value) {
+  return String(value)
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">");
+}
+
+function extractMeta(html, attr, value) {
+  const escaped = value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const patterns = [
+    new RegExp(
+      `<meta[^>]+${attr}=["']${escaped}["'][^>]*content=["']([^"']+)["']`,
+      "i",
+    ),
+    new RegExp(
+      `<meta[^>]+content=["']([^"']+)["'][^>]*${attr}=["']${escaped}["']`,
+      "i",
+    ),
+  ];
+  for (const pattern of patterns) {
+    const match = html.match(pattern);
+    if (match?.[1]) return decodeHtmlEntities(match[1].trim());
+  }
+  return "";
+}
+
+function toAbsolute(candidate, baseUrl) {
+  if (!candidate) return "";
+  try {
+    return new URL(candidate, baseUrl).toString();
+  } catch (_error) {
+    return "";
+  }
+}
+
+let runtimePreview = null;
+if (!resolvedPreview && resolvedHref) {
+  try {
+    const response = await fetch(resolvedHref, {
+      headers: {
+        accept:
+          "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+      },
+      redirect: "follow",
+    });
+
+    if (response.ok) {
+      const html = await response.text();
+      const finalUrl = response.url || resolvedHref;
+      const ogVideo =
+        extractMeta(html, "property", "og:video") ||
+        extractMeta(html, "property", "og:video:url") ||
+        extractMeta(html, "name", "twitter:player:stream");
+      const ogImage =
+        extractMeta(html, "property", "og:image") ||
+        extractMeta(html, "name", "twitter:image");
+      const candidate = toAbsolute(ogVideo || ogImage, finalUrl);
+
+      if (candidate) {
+        runtimePreview = {
+          src: candidate,
+          kind: ogVideo ? "video" : "image",
+          source: "og-runtime",
+        };
+      }
+    }
+  } catch (_error) {
+    runtimePreview = null;
+  }
+}
+
+const finalPreview = resolvedPreview || runtimePreview;
+---
+
+<DraggableCard>
+  <div class={`home-card flex h-auto ${size} flex-col justify-between`}>
+    <h2 class="body2 inline-block w-fit self-start bg-black p-2 text-white">
+      {
+        resolvedHref ? (
+          <a href={resolvedHref} class="linkout">
+            {resolvedLinkLabel}
+          </a>
+        ) : (
+          resolvedLinkLabel
+        )
+      }
+    </h2>
+
+    {
+      finalPreview ? (
+        <div class="w-full p-0 shadow">
+          <div class="link-preview w-full overflow-hidden">
+            <Media
+              src={finalPreview.src}
+              alt={title || resolvedLinkLabel || "Link preview"}
+              isVideo={finalPreview.kind === "video"}
+              usePoster={false}
+              cropped={true}
+            />
+          </div>
+        </div>
+      ) : (
+        <div class="link-fallback flex aspect-[16/10] w-full items-center justify-center p-4 text-center">
+          <p class="code text-xs opacity-80">Preview unavailable.</p>
+        </div>
+      )
+    }
+
+    {
+      (bodyHtml || resolvedHref) && (
+        <div class={descriptionClass} style={descriptionStyle}>
+          {bodyHtml ? (
+            <div class="custom-body text-balance" set:html={bodyHtml} />
+          ) : null}
+          {resolvedHref && (
+            <p class="mt-3 rounded-2xl">
+              <a href={resolvedHref} class="take-me-there">
+                Take me there
+              </a>
+            </p>
+          )}
+        </div>
+      )
+    }
+  </div>
+
+  <style>
+    .link-preview {
+      aspect-ratio: 16/10;
+    }
+
+    .take-me-there {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.2s ease-in-out;
+      border-radius: 0.5em;
+      background: black;
+      padding: 0.65rem 1.1rem;
+      color: white;
+      font-weight: 500;
+      font-size: 1rem;
+      line-height: 1;
+    }
+
+    .take-me-there:hover {
+      background: white;
+      color: black;
+      text-decoration: none;
+      text-underline-offset: 0;
+    }
+  </style>
+</DraggableCard>

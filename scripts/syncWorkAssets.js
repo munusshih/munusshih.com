@@ -1,23 +1,48 @@
 import fs from "fs";
 import path from "path";
-import { glob } from "glob";
 
 const srcRoot = path.resolve("src/assets");
-const destRoot = path.resolve("public/assets");
+const publicRoot = path.resolve("public");
+const destAssets = path.join(publicRoot, "assets");
+const legacyStaticRoot = path.resolve("src/static");
+const legacyStaticAssets = path.join(legacyStaticRoot, "assets");
 
-function copyAllAssets() {
-  const files = glob.sync("**/*", { cwd: srcRoot, nodir: true });
+function ensureAssetsSymlink() {
+  if (!fs.existsSync(srcRoot)) {
+    throw new Error(`Missing source assets directory: ${srcRoot}`);
+  }
 
-  files.forEach((file) => {
-    const src = path.join(srcRoot, file);
-    const dest = path.join(destRoot, file);
+  if (fs.existsSync(legacyStaticAssets)) {
+    fs.rmSync(legacyStaticAssets, { recursive: true, force: true });
+    console.log("Removed legacy src/static/assets");
+  }
 
-    fs.mkdirSync(path.dirname(dest), { recursive: true });
-    fs.copyFileSync(src, dest);
-  });
+  if (fs.existsSync(legacyStaticRoot)) {
+    const entries = fs.readdirSync(legacyStaticRoot);
+    if (entries.length === 0) {
+      fs.rmdirSync(legacyStaticRoot);
+      console.log("Removed empty legacy src/static/");
+    }
+  }
 
-  console.log(`Synced ${files.length} asset(s) to public/assets`);
+  fs.mkdirSync(publicRoot, { recursive: true });
+
+  if (fs.existsSync(destAssets)) {
+    const stat = fs.lstatSync(destAssets);
+    if (stat.isSymbolicLink()) {
+      const currentTarget = fs.readlinkSync(destAssets);
+      const resolvedTarget = path.resolve(path.dirname(destAssets), currentTarget);
+      if (resolvedTarget === srcRoot) {
+        console.log("public/assets already linked to src/assets");
+        return;
+      }
+    }
+    fs.rmSync(destAssets, { recursive: true, force: true });
+  }
+
+  const relativeTarget = path.relative(path.dirname(destAssets), srcRoot) || ".";
+  fs.symlinkSync(relativeTarget, destAssets, "dir");
+  console.log(`Linked public/assets -> ${relativeTarget}`);
 }
 
-copyAllAssets();
-
+ensureAssetsSymlink();

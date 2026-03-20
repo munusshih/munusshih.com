@@ -12,9 +12,11 @@ const {
 import Iframe from "@/components/utils/Iframe.astro";
 import Media from "@/components/utils/Media.astro";
 import DraggableCard from "@/components/global/DraggableCard.astro";
+import { marked } from "marked";
 
 const cardBackground = background ?? "black";
 const cardTextColor = textColor ?? "white";
+const descriptionHtml = description ? marked.parse(description) : "";
 ---
 
 <DraggableCard>
@@ -23,9 +25,11 @@ const cardTextColor = textColor ?? "white";
     style={`background: ${cardBackground}; color: ${cardTextColor};`}
   >
     {title && <h2 class="heading2 text-balance">{title}</h2>}
-    {description && (
-      <p class="code text-left text-balance">{description}</p>
-    )}
+    {
+      descriptionHtml && (
+        <div class="code custom-body text-left text-balance" set:html={descriptionHtml} />
+      )
+    }
     {
       iframe && (
         <Iframe

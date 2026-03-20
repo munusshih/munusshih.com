@@ -1,9 +1,16 @@
+---
+import BaseHead from "@/components/global/BaseHead.astro";
+import { SITE_DESCRIPTION, SITE_TITLE } from "@/consts";
+---
+
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Calendar - Munus Shih</title>
+    <BaseHead
+      title={`Calendar — ${SITE_TITLE}`}
+      description={SITE_DESCRIPTION}
+      image={`/assets/og/pages/calendar.jpg`}
+    />
     <style>
       html,
       body {
@@ -11,8 +18,9 @@
         padding: 0;
         width: 100%;
         height: 100%;
-        overflow: hidden; /* prevent double scroll, optional */
+        overflow: hidden;
       }
+
       iframe {
         display: block;
         border: none;

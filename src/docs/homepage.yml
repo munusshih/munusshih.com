@@ -1,34 +1,38 @@
 - order: '1'
   type: IntroCard
   size: x2-card
-  body: Munus Shih is a Taiwanese Minnan-Hakka creative coder, artist, & organizer based in NYC.
-- order: '1.5'
-  type: IntroCard
+  onOff: 'On'
   variant: trinity
-  size: x2-card
-  background: black
-  textColor: white
+  body: Munus Shih is a Taiwanese Minnan-Hakka creative coder, artist, & organizer based in NYC.
 - order: '2'
   type: CustomCard
+  onOff: 'On'
   title: In Motion
   body: |-
     1. I'm working on a `research`  project with Professor [Asad Pervaiz](https://oldthingsnewplaces.com) called [“Source, Code, Print”](https://source-code-print.vercel.app/)
-    2. I'm co-leading and `teaching` the [“Graduate Studio: Technology A”](https://tech-a.designfuture.space) class with Professor [Matt Martin](https://objectsinternational.org/)
+    2. I'm currently co-organizing and advising `a book fair` called [Other Island Book Fair](https://otherislands.designfuture.space/) at Pratt Institute
     3. I'm in the early stage of planning and `organizing` the 2026 Processing Community Day Taiwan!
   background: DeepSkyBlue
   textColor: black
 - order: '3'
-  type: WorkCard
-  size: x3-card
-  title: Yet to be Documented
-  excerpt: “Syllabus (Subject to Change)” This work was showcased at the Demo Festival 2025
-  targetName: /assets/syllabus-subject/01.jpg | /assets/syllabus-subject/02.jpg | /assets/syllabus-subject/03.jpg
+  type: LinkCard
+  size: x2-card
+  onOff: 'On'
+  title: A New Opensource Library
+  body: I recently made a new library where you can make books with p5.js!
+  link:
+    href: https://p5-book.vercel.app/workshop/worksheet
+  targetName: '[video] https://p5-book.vercel.app/workshop/worksheet'
+  background: orange
+  textColor: black
 - order: '5'
   type: ListCard
+  onOff: 'On'
   title: Recent Events
   background: salmon
 - order: '6'
   type: ListCard
+  onOff: 'On'
   title: Writings
   body: |-
     - I'm trying to write more!
@@ -37,23 +41,50 @@
   textColor: black
 - order: '8'
   type: WorkCard
+  onOff: 'On'
+  title: Recent Exhibition
+  body: I'm currently showing this video installation at [Accent Sisters](https://www.instagram.com/p/DV6TYrTAfcr/) that features conversation on colonization, history and education with artists Anoushka Bhalla and Alexandria Deters
+  targetName: /threads/smoke.mp4
+- order: '9'
+  type: WorkCard
   size: x2-card
-  linkContent: A Collaborated Project!
+  onOff: 'On'
+  title: Behind the Scene
+  body: A recent work in progress that'll be showing at National Taiwan University! Collabored with I-hao Liao and [no side here](https://www.instagram.com/no.side.here)
+  targetName: /homepage/noise.jpg
+  background: '#8b0000'
+  textColor: white
+- order: '10'
+  type: WorkCard
+  size: x3-card
+  onOff: 'On'
+  title: A Collaborated Project
+  body: I advised and collaborated with faculty and students from AIGA Pratt to design this exhibition for AIGA's ["50 Books x 50 Covers"](https://www.aiga.org/professional-development/competitions-campaigns/50-books-50-covers)
+  targetName: /aiga-books/01.JPG | /aiga-books/02.JPG | /aiga-books/03.JPG | /aiga-books/04.JPG
+- order: '11'
+  type: WorkCard
+  size: x2-card
+  onOff: 'On'
+  title: Recent Publication
+  body: I recently co-authored a book with my [design co-op](https://coassembly.work) in Taiwan on how to survive as a contemporary creative worker under neoliberalism
   link:
-    href: https://niktari.com/projects/unearthing-air
-  excerpt: I worked on this textual data visualization project with designer Nikki Makagiansar for researcher Todd Whitney
-  targetName: /assets/homepage/unearthingAir.mp4
+    href: https://www.instagram.com/p/DVa5PDCEzzh/?img_index=1
+  targetName: /coassembly/cover.jpg | /coassembly/01.jpg | /coassembly/02.jpg | /coassembly/03.jpg | /coassembly/back.jpg
+  textColor: black
+- order: '12'
+  type: WorkCard
+  size: x2-card
+  onOff: 'On'
+  title: Yet to be Documented
+  body: “Syllabus (Subject to Change)” This work was showcased at the [Demo Festival 2025](https://demofestival.org)
+  targetName: /syllabus-subject/01.jpg | /syllabus-subject/02.jpg | /syllabus-subject/03.jpg
+  background: '#81D8D0'
 - order: '9'
   type: MediaCard
   size: x2-card
+  onOff: 'Off'
   title: Reading Club
-  excerpt: I recently co-hosted a Taiwanese reading club on David Reinfurt's new book “A Co-Program to Graphic Design”
+  body: I recently co-hosted a Taiwanese reading club on David Reinfurt's new book “A Co-Program to Graphic Design”
   iframe: https://www.youtube.com/embed/ToMvJNLdQ6A?si=humglHpnYCMPIMpN
   background: yellow
   textColor: black
-- order: '10'
-  type: WorkCard
-  size: x2-card
-  linkContent: A Coding Sketch
-  excerpt: I was testing out the new p5 2.0!
-  iframe: https://editor.p5js.org/munusshih/full/f8eD2f5bh
