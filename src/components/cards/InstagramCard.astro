@@ -17,8 +17,9 @@ const {
 
 import DraggableCard from "@/components/global/DraggableCard.astro";
 import Swiper from "@/components/utils/Swiper.astro";
-import { marked } from "marked";
+import { parseMarkdown } from "@/utils/markdown.js";
 import { parseMediaList } from "@/data/homepageUtils.js";
+import { externalLinkAttrs } from "@/utils/externalLinks.js";
 
 const cardBackground = background ?? "transparent";
 const cardTextColor = textColor ?? "inherit";
@@ -47,7 +48,7 @@ const profileLabel =
   linkContent || linkLabel || (handle ? `@${handle}` : "Instagram profile");
 
 const bodyText = body || description || "";
-const bodyHtml = bodyText ? marked.parse(bodyText) : "";
+const bodyHtml = bodyText ? parseMarkdown(bodyText) : "";
 
 function extractInstagramShortcode(url) {
   if (!url) return "";
@@ -120,7 +121,7 @@ if (!resolvedSlides.length) {
   >
     <h2 class="body2 w-max bg-black p-2 text-white">
       {profileHref ? (
-        <a href={profileHref} class="linkout">
+        <a href={profileHref} class="linkout" {...externalLinkAttrs(profileHref)}>
           {profileLabel}
         </a>
       ) : (

@@ -126,3 +126,53 @@ const showStructuredData =
   href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap"
   rel="stylesheet"
 />
+
+<script is:inline>
+  (() => {
+    const isExternalHttpLink = (anchor) => {
+      const href = anchor.getAttribute("href");
+      if (!href || href.startsWith("#")) return false;
+
+      let parsed;
+      try {
+        parsed = new URL(href, window.location.href);
+      } catch (_error) {
+        return false;
+      }
+
+      if (!["http:", "https:"].includes(parsed.protocol)) return false;
+      return parsed.origin !== window.location.origin;
+    };
+
+    const ensureRel = (anchor) => {
+      const rel = new Set(
+        (anchor.getAttribute("rel") || "")
+          .split(/\s+/)
+          .map((token) => token.trim())
+          .filter(Boolean),
+      );
+      rel.add("noopener");
+      rel.add("noreferrer");
+      anchor.setAttribute("rel", Array.from(rel).join(" "));
+    };
+
+    const patchExternalAnchors = (root = document) => {
+      root.querySelectorAll("a[href]").forEach((anchor) => {
+        if (!(anchor instanceof HTMLAnchorElement)) return;
+        if (!isExternalHttpLink(anchor)) return;
+        anchor.setAttribute("target", "_blank");
+        ensureRel(anchor);
+      });
+    };
+
+    const run = () => patchExternalAnchors(document);
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", run, { once: true });
+    } else {
+      run();
+    }
+
+    document.addEventListener("astro:page-load", run);
+  })();
+</script>

@@ -2,11 +2,6 @@
 import HeaderLink from "./HeaderLink.astro";
 import HeroSketch from "@/components/global/HeroSketch.astro";
 import { SITE_DESCRIPTION, SITE_TITLE, NEWS } from "@/consts";
-
-import { marked } from "marked";
-
-const base = import.meta.env.BASE_URL;
-const currentPage = Astro.url.pathname; // Get the current page's pathname
 ---
 
 <header

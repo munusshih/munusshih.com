@@ -1,22 +1,55 @@
-import { marked } from 'marked';
+import { marked } from "marked";
+import { isExternalHttpHref } from "@/utils/externalLinks.js";
 
-// Configure marked for inline markdown processing
-marked.use({
-  breaks: true,
-  gfm: true
-});
+let configured = false;
 
-/**
- * Convert markdown text to HTML, suitable for inline use
- * @param {string} text - The markdown text to convert
- * @returns {string} - HTML string
- */
+function configureMarked() {
+  if (configured) return;
+
+  const baseRenderer = new marked.Renderer();
+  const renderer = new marked.Renderer();
+
+  renderer.link = function (...args) {
+    const html = baseRenderer.link.apply(this, args);
+    const firstArg = args[0];
+    const href =
+      firstArg && typeof firstArg === "object"
+        ? firstArg.href || ""
+        : typeof firstArg === "string"
+          ? firstArg
+          : "";
+
+    if (!isExternalHttpHref(href)) return html;
+    if (/\starget\s*=/.test(html)) return html;
+    return html.replace(
+      /^<a\s+/,
+      '<a target="_blank" rel="noopener noreferrer" ',
+    );
+  };
+
+  marked.use({
+    breaks: true,
+    gfm: true,
+    renderer,
+  });
+
+  configured = true;
+}
+
+export function parseMarkdown(text, options = {}) {
+  if (!text || typeof text !== "string") return "";
+  configureMarked();
+  return marked.parse(text.trim(), options);
+}
+
+export function parseMarkdownInline(text, options = {}) {
+  if (!text || typeof text !== "string") return "";
+  configureMarked();
+  return marked.parseInline(text.trim(), options);
+}
+
 export function markdownToHtml(text) {
-  if (!text || typeof text !== 'string') return '';
-  
-  // Process the markdown
-  const html = marked.parse(text.trim());
-  
-  // Remove wrapping paragraph tags for inline use
-  return html.replace(/^<p>(.*)<\/p>$/s, '$1');
+  const html = parseMarkdown(text);
+  if (!html) return "";
+  return html.replace(/^<p>(.*)<\/p>\s*$/s, "$1");
 }

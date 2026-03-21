@@ -15,6 +15,7 @@ import {
 } from "@/data/contentSources.js";
 import { entryHasTokens } from "@/data/teachingUtils.js";
 import { markdownToHtml } from "@/utils/markdown.js";
+import { externalLinkAttrs } from "@/utils/externalLinks.js";
 
 // Background & text color map
 const colorMap = {
@@ -105,7 +106,11 @@ contentArray = prepareAndSortContent(contentArray);
               {item.title && (
                 <h3 class="body1 col-span-3 flex flex-col gap-2 !leading-normal font-semibold text-balance">
                   {item.link?.href ? (
-                    <a href={item.link.href} class="linkout" target="_blank">
+                    <a
+                      href={item.link.href}
+                      class="linkout"
+                      {...externalLinkAttrs(item.link.href)}
+                    >
                       {item.title}
                     </a>
                   ) : (

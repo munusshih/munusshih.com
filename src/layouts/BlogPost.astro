@@ -1,10 +1,11 @@
 ---
-import { marked } from "marked"; // install via npm i marked
 import BasicLayout from "./Basic.astro";
 import NextProject from "@/components/NextProject.astro";
 import { toTitleCase } from "@/scripts/typography";
 import { formatDateRange } from "@/scripts/cleanDate";
 import { normalizeMediaSrc, posterFromMediaSrc } from "@/scripts/mediaPath";
+import { parseMarkdown, parseMarkdownInline } from "@/utils/markdown.js";
+import { externalLinkAttrs } from "@/utils/externalLinks.js";
 import type { CollectionEntry } from "astro:content";
 type Props = CollectionEntry<"work">["data"];
 type PostProps = Props & { slug?: string };
@@ -28,14 +29,14 @@ const {
 } = Astro.props as PostProps;
 
 const parsedDescription = description
-  ? marked.parse(description, { gfm: true })
+  ? parseMarkdown(description, { gfm: true })
   : null;
 
-const parsedCredit = credit ? marked.parse(credit, { gfm: true }) : null;
+const parsedCredit = credit ? parseMarkdown(credit, { gfm: true }) : null;
 const parsedExcerpt = parsedDescription
   ? parsedDescription.match(/<p>(.*?)<\/p>/)?.[1].replace(/<[^>]+>/g, "") || ""
   : "";
-const parsedRecognition = recognition.map((item) => marked.parseInline(item));
+const parsedRecognition = recognition.map((item) => parseMarkdownInline(item));
 const heroSrc = normalizeMediaSrc(heroImage);
 const heroPoster = posterFromMediaSrc(heroImage);
 const workOgImage = slug ? `/assets/og/work/${slug}.jpg` : null;
@@ -73,7 +74,11 @@ const socialImage = heroImage
       buttons.length > 0 && (
         <div class="mt-2 flex-row flex-wrap gap-x-4 px-[var(--page-margin)]">
           {buttons.map((item) => (
-            <a class="fade-in" href={item[1]} target="_blank">
+            <a
+              class="fade-in"
+              href={item[1]}
+              {...externalLinkAttrs(item[1])}
+            >
               <button class="heading3 cursor-pointer rounded-full border px-4 py-2">
                 {item[0]}
               </button>

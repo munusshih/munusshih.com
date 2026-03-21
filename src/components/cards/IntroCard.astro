@@ -12,7 +12,8 @@ const {
 import DraggableCard from "@/components/global/DraggableCard.astro";
 import HeroSketch from "@/components/global/HeroSketch.astro";
 import { SITE_DESCRIPTION } from "../../consts";
-import { marked } from "marked";
+import { parseMarkdown } from "@/utils/markdown.js";
+import { externalLinkAttrs } from "@/utils/externalLinks.js";
 
 const cardBackground = background ?? "black";
 const cardTextColor = textColor ?? "white";
@@ -28,7 +29,7 @@ const introLinkLabel =
   linkContent ||
   linkLabel ||
   (hasCustomHref ? "Learn more" : "Learn more about me");
-const introBodyHtml = introBody ? marked.parse(introBody) : "";
+const introBodyHtml = introBody ? parseMarkdown(introBody) : "";
 ---
 
 <DraggableCard>
@@ -36,7 +37,13 @@ const introBodyHtml = introBody ? marked.parse(introBody) : "";
     class={`${size} home-card flex flex-col p-4 `}
     style={`background: ${cardBackground}; color: ${cardTextColor};`}
   >
-    <a href={introLinkHref} class="linkout body2">{introLinkLabel}</a>
+    <a
+      href={introLinkHref}
+      class="linkout body2"
+      {...externalLinkAttrs(introLinkHref)}
+    >
+      {introLinkLabel}
+    </a>
     <div class="mt-4 flex min-h-0 flex-1 flex-col gap-3">
       {
         variant === "trinity" ? (

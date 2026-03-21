@@ -17,7 +17,8 @@ import Media from "@/components/utils/Media.astro";
 import Iframe from "@/components/utils/Iframe.astro";
 import Swiper from "@/components/utils/Swiper.astro";
 import { getLabEntries } from "@/data/contentSources.js";
-import { marked } from "marked";
+import { parseMarkdown } from "@/utils/markdown.js";
+import { externalLinkAttrs } from "@/utils/externalLinks.js";
 
 let finalContent;
 
@@ -49,7 +50,7 @@ const mediaClassName = mediaIsVideo ? "" : "h-full";
 
 const headingLabel = linkContent || title || "";
 const panelText = finalContent?.description || body || description || "";
-const panelHtml = panelText ? marked.parse(panelText) : "";
+const panelHtml = panelText ? parseMarkdown(panelText) : "";
 const hasCustomBackground =
   typeof background === "string" &&
   background.trim().length > 0 &&
@@ -72,7 +73,7 @@ const panelStyle = hasCustomBackground
       headingLabel && (
         <h2 class="body2 w-max bg-black p-2 text-white">
           {href ? (
-            <a href={href} class="linkout">
+            <a href={href} class="linkout" {...externalLinkAttrs(href)}>
               {headingLabel}
             </a>
           ) : (

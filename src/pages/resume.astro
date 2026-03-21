@@ -12,6 +12,7 @@ import {
   getCommonsEntries,
 } from "@/data/contentSources.js";
 import { markdownToHtml } from "@/utils/markdown.js";
+import { externalLinkAttrs } from "@/utils/externalLinks.js";
 
 // add more exhibitions
 // add teaching and professional experience
@@ -533,6 +534,7 @@ const updatedAt = new Date().toLocaleDateString("en-US", {
                                 <a
                                   class="text-pretty underline"
                                   href={c.link.href}
+                                  {...externalLinkAttrs(c.link.href)}
                                 >
                                   {c.title}
                                 </a>

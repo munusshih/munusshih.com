@@ -1,13 +1,15 @@
 ---
 import BasicLayout from "@/layouts/Basic.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
-import { Image } from "astro:assets";
-import profile from "@/assets/profile.jpg";
-import Content from "@/docs/about/about-munus.md";
-import Clout from "@/docs/about/clout.md";
+import aboutContentMarkdown from "@/docs/about/about-munus.md?raw";
+import cloutMarkdown from "@/docs/about/clout.md?raw";
 import Media from "@/components/utils/Media.astro";
 import FullListCard from "@/components/cards/FullListCard.astro";
 import PDFResumeText from "@/components/PDFResumeText.astro";
+import { parseMarkdown } from "@/utils/markdown.js";
+
+const aboutContentHtml = parseMarkdown(aboutContentMarkdown);
+const cloutHtml = parseMarkdown(cloutMarkdown);
 ---
 
 <BasicLayout
@@ -22,13 +24,13 @@ import PDFResumeText from "@/components/PDFResumeText.astro";
     >
       <article
         class="heading2 fade-in flex flex-col gap-4 prose-p:indent-[2em] prose-p:text-pretty prose-p:first-of-type:indent-[6em] prose-a:italic"
+        set:html={aboutContentHtml}
       >
-        <Content />
       </article>
       <div
         class="heading2 fade-in mt-20 lg:mt-0 lg:text-right prose-li:font-bold"
+        set:html={cloutHtml}
       >
-        <Clout />
       </div>
     </section>
 

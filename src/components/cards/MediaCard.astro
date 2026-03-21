@@ -12,11 +12,11 @@ const {
 import Iframe from "@/components/utils/Iframe.astro";
 import Media from "@/components/utils/Media.astro";
 import DraggableCard from "@/components/global/DraggableCard.astro";
-import { marked } from "marked";
+import { parseMarkdown } from "@/utils/markdown.js";
 
 const cardBackground = background ?? "black";
 const cardTextColor = textColor ?? "white";
-const descriptionHtml = description ? marked.parse(description) : "";
+const descriptionHtml = description ? parseMarkdown(description) : "";
 ---
 
 <DraggableCard>

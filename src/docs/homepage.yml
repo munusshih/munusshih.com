@@ -60,7 +60,7 @@
   onOff: 'On'
   title: A Collaborated Project
   body: I advised and collaborated with faculty and students from AIGA Pratt to design this exhibition for AIGA's ["50 Books x 50 Covers"](https://www.aiga.org/professional-development/competitions-campaigns/50-books-50-covers)
-  targetName: /aiga-books/01.JPG | /aiga-books/02.JPG | /aiga-books/03.JPG | /aiga-books/04.JPG
+  targetName: /aiga-books/03.JPG | /aiga-books/04.JPG | /aiga-books/01.JPG | /aiga-books/02.JPG
 - order: '11'
   type: WorkCard
   size: x2-card

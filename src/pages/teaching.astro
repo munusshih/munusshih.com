@@ -6,6 +6,7 @@ import { getTeachingEntries } from "@/data/contentSources.js";
 import Media from "@/components/utils/Media.astro";
 import teachingMedia from "@/data/generated/teachingMedia.json" assert { type: "json" };
 import { teachingEntryKey, entryHasTokens } from "@/data/teachingUtils.js";
+import { externalLinkAttrs } from "@/utils/externalLinks.js";
 
 const teachingEntriesRaw = await getTeachingEntries();
 const teachingEntries = prepareAndSortContent(teachingEntriesRaw);
@@ -333,8 +334,7 @@ const sections = [
                       key={key}
                       href={item.link.href}
                       class="teaching-link fade-in block h-full !no-underline transition-opacity duration-200 hover:opacity-80 focus-visible:opacity-80"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      {...externalLinkAttrs(item.link.href)}
                     >
                       {content}
                     </a>

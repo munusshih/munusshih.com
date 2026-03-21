@@ -5,6 +5,7 @@ import Swiper from "@/components/utils/Swiper.astro";
 import { sortByDate } from "@/scripts/cleanDate";
 import { formatDateRange } from "@/scripts/cleanDate";
 import { toTitleCase } from "@/scripts/typography";
+import { externalLinkAttrs } from "@/utils/externalLinks.js";
 
 import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
 
@@ -55,8 +56,7 @@ const sortedWorkItems = sortByDate(workItems, "desc");
           .map((item) => (
             <a
               href={item.data.elink ? item.data.elink : `/${item.id}`}
-              target={item.data.elink ? "_blank" : undefined}
-              rel={item.data.elink ? "noopener noreferrer" : undefined}
+              {...externalLinkAttrs(item.data.elink ? item.data.elink : `/${item.id}`)}
               class="group fade-in !no-underline"
               key={item.data.title}
             >
@@ -158,7 +158,7 @@ const sortedWorkItems = sortByDate(workItems, "desc");
                 {item.data?.buttons?.length > 0 && (
                   <div class="mt-10 flex-row flex-wrap gap-x-4">
                     {item.data.buttons.map((item) => (
-                      <a class="fade-in" href={item[1]} target="_blank">
+                      <a class="fade-in" href={item[1]} {...externalLinkAttrs(item[1])}>
                         <button class="heading3 cursor-pointer rounded-full border px-4 py-2">
                           {item[0]}
                         </button>

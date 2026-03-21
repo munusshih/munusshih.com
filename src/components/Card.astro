@@ -1,13 +1,14 @@
 ---
 const { post } = Astro.props;
-import { marked } from "marked";
-const htmlExcerpt = post.excerpt && marked(post.excerpt);
+import { parseMarkdown } from "@/utils/markdown.js";
+import { externalLinkAttrs } from "@/utils/externalLinks.js";
+const htmlExcerpt = post.excerpt && parseMarkdown(post.excerpt);
 
 function stripOuterParagraph(html: string) {
   return html.replace(/^<p>(.*?)<\/p>\s*$/s, "$1");
 }
 
-const htmlQuote = post.quote && stripOuterParagraph(marked(post.quote));
+const htmlQuote = post.quote && stripOuterParagraph(parseMarkdown(post.quote));
 
 import Swiper from "@/components/utils/Swiper.astro";
 import Media from "@/components/utils/Media.astro";
@@ -82,7 +83,7 @@ import Iframe from "@/components/utils/Iframe.astro";
   {
     post.link && (
       <div class="w-full border-y px-[var(--page-margin)] py-2">
-        <a target="_blank" href={post.link.href} class="">
+        <a href={post.link.href} class="" {...externalLinkAttrs(post.link.href)}>
           {`⌦ ${post.link?.text || "Learn More"}`}
         </a>
       </div>
@@ -96,7 +97,11 @@ import Iframe from "@/components/utils/Iframe.astro";
           <li key={index} class="body1">
             {item.split(/(\[.*?\]\(.*?\))/g).map((part, idx) =>
               part.match(/\[.*?\]\(.*?\)/) ? (
-                <a target="_blank" key={idx} href={part.match(/\((.*?)\)/)[1]}>
+                <a
+                  key={idx}
+                  href={part.match(/\((.*?)\)/)[1]}
+                  {...externalLinkAttrs(part.match(/\((.*?)\)/)[1])}
+                >
                   {part.match(/\[(.*?)\]/)[1]}
                 </a>
               ) : (

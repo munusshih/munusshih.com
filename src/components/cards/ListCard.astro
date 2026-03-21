@@ -2,7 +2,8 @@
 const { title, background: backgroundProp, textColor, body } = Astro.props;
 import DraggableCard from "@/components/global/DraggableCard.astro";
 import Media from "@/components/utils/Media.astro";
-import { marked } from "marked";
+import { parseMarkdownInline } from "@/utils/markdown.js";
+import { externalLinkAttrs } from "@/utils/externalLinks.js";
 import {
   isRecentOrUpcomingDate,
   prepareAndSortContent,
@@ -86,7 +87,7 @@ if (title === "Recent Press") {
                         <a
                           href={item.link.href}
                           class="linkout body1 break-words"
-                          target="_blank"
+                          {...externalLinkAttrs(item.link.href)}
                         >
                           {item.title}
                         </a>
@@ -126,7 +127,7 @@ if (title === "Recent Press") {
               <li
                 key={index}
                 class="border-b py-2 pb-4"
-                set:html={marked.parseInline(item)}
+                set:html={parseMarkdownInline(item)}
               />
             ))}
           </ol>
@@ -136,7 +137,7 @@ if (title === "Recent Press") {
               <li
                 key={index}
                 class="border-b py-2 pb-4"
-                set:html={marked.parseInline(item)}
+                set:html={parseMarkdownInline(item)}
               />
             ))}
           </ul>

@@ -16,13 +16,14 @@ const {
 import DraggableCard from "@/components/global/DraggableCard.astro";
 import Media from "@/components/utils/Media.astro";
 import Iframe from "@/components/utils/Iframe.astro";
-import { marked } from "marked";
+import { parseMarkdown } from "@/utils/markdown.js";
+import { externalLinkAttrs } from "@/utils/externalLinks.js";
 
 const cardBackground = background ?? "black";
 const cardTextColor = textColor ?? "white";
 const resolvedLinkLabel =
   linkContent || linkLabel || (linkHref ? "Learn more" : undefined);
-const bodyHtml = body ? marked.parse(body) : undefined;
+const bodyHtml = body ? parseMarkdown(body) : undefined;
 ---
 
 <DraggableCard>
@@ -66,7 +67,7 @@ const bodyHtml = body ? marked.parse(body) : undefined;
     {
       linkHref && (
         <p class="code">
-          <a href={linkHref} class="linkout">
+          <a href={linkHref} class="linkout" {...externalLinkAttrs(linkHref)}>
             {resolvedLinkLabel}
           </a>
         </p>

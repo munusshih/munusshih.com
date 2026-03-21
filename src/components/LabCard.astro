@@ -1,6 +1,7 @@
 ---
 import Media from "@/components/utils/Media.astro";
 import Iframe from "@/components/utils/Iframe.astro";
+import { externalLinkAttrs } from "@/utils/externalLinks.js";
 const { title, description, tags, href, image, imageAlt } = Astro.props;
 ---
 
@@ -9,7 +10,7 @@ const { title, description, tags, href, image, imageAlt } = Astro.props;
     {
       image &&
         (href ? (
-          <a target="_blank" href={href} class="group no-before-after">
+          <a href={href} class="group no-before-after" {...externalLinkAttrs(href)}>
             <Media
               src={image}
               alt={description}

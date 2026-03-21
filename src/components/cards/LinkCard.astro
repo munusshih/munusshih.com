@@ -16,7 +16,8 @@ const {
 
 import DraggableCard from "@/components/global/DraggableCard.astro";
 import Media from "@/components/utils/Media.astro";
-import { marked } from "marked";
+import { parseMarkdown } from "@/utils/markdown.js";
+import { externalLinkAttrs } from "@/utils/externalLinks.js";
 
 const cardBackground = background ?? "transparent";
 const cardTextColor = textColor ?? "inherit";
@@ -36,7 +37,7 @@ const resolvedLinkLabel =
   linkContent || linkLabel || title || (resolvedHref ? "Open link" : "");
 
 const bodyText = body || description || "";
-const bodyHtml = bodyText ? marked.parse(bodyText) : undefined;
+const bodyHtml = bodyText ? parseMarkdown(bodyText) : undefined;
 
 const fallbackTarget = Array.isArray(targetName) ? targetName[0] : targetName;
 const canRenderFallbackTarget =
@@ -139,7 +140,11 @@ const finalPreview = resolvedPreview || runtimePreview;
     <h2 class="body2 inline-block w-fit self-start bg-black p-2 text-white">
       {
         resolvedHref ? (
-          <a href={resolvedHref} class="linkout">
+          <a
+            href={resolvedHref}
+            class="linkout"
+            {...externalLinkAttrs(resolvedHref)}
+          >
             {resolvedLinkLabel}
           </a>
         ) : (
@@ -176,7 +181,11 @@ const finalPreview = resolvedPreview || runtimePreview;
           ) : null}
           {resolvedHref && (
             <p class="mt-3 rounded-2xl">
-              <a href={resolvedHref} class="take-me-there">
+              <a
+                href={resolvedHref}
+                class="take-me-there"
+                {...externalLinkAttrs(resolvedHref)}
+              >
                 Take me there
               </a>
             </p>
