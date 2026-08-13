@@ -89,6 +89,8 @@ const DATASETS = [
 const KEY_MAP = {
   title: "title",
   date: "date",
+  year: "date",
+  years: "date",
   quote: "quote",
   place: "place",
   location: "place",

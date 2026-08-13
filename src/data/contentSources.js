@@ -62,6 +62,8 @@ const BASE_SHEET_ENV_KEYS = ["GOOGLE_SHEET_ID", "SHEET_ID", "CONTENT_SHEET_ID"];
 const KEY_MAP = {
   title: "title",
   date: "date",
+  year: "date",
+  years: "date",
   quote: "quote",
   place: "place",
   location: "place",
