@@ -52,7 +52,7 @@ const introBodyHtml = introBody ? parseMarkdown(introBody) : "";
               class="trinity-canvas"
               data-trinity-sketch
               role="img"
-              aria-label="Software, Commons, Community and Munus relationship diagram"
+              aria-label="Munus practice map connecting code, commons, and community through p5 tools, publishing, teaching, and organizing"
             />
           </div>
         ) : (
@@ -78,22 +78,22 @@ const introBodyHtml = introBody ? parseMarkdown(introBody) : "";
     }
 
     .trinity-canvas {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       background: transparent;
       width: 100%;
       height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       overflow: hidden;
     }
 
     .trinity-canvas :global(canvas) {
       display: block;
-      max-width: none;
-      max-height: none;
       margin-inline: auto;
       width: 100% !important;
+      max-width: none;
       height: auto !important;
+      max-height: none;
     }
   </style>
 </DraggableCard>

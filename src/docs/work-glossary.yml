@@ -1,0 +1,64 @@
+- workId: "016"
+  name: Syllabus, Subject to Change
+  date: "2025"
+  kind: Open Source, Making, Research
+  documentationStatus: Not Yet
+  featureOnHomepage: true
+  homepageOrder: 12
+  homepageTitle: Yet to be Documented
+  homepageSummary: “Syllabus (Subject to Change)” This work was showcased at the [Demo Festival 2025](https://demofestival.org)
+  homepageLink: none
+  homepageMedia: /syllabus-subject/01.jpg | /syllabus-subject/02.jpg | /syllabus-subject/03.jpg
+  homepageSize: x2-card
+  homepageBackground: "#81D8D0"
+- workId: "020"
+  name: Noise In the Field
+  date: "2026"
+  kind: Research, Making
+  documentationStatus: Not Yet
+  featureOnHomepage: true
+  homepageOrder: 9
+  homepageTitle: Behind the Scene
+  homepageSummary: Noise in the Field was presented at National Taiwan University in collaboration with I-Hao Liao and [no side here](https://www.instagram.com/no.side.here).
+  homepageLink: none
+  homepageMedia: /homepage/noise.jpg
+  homepageSize: x2-card
+  homepageBackground: "#8b0000"
+  homepageTextColor: white
+- workId: "022"
+  name: Contemporary Worker's Survival Guide
+  date: "2026"
+  kind: Research, Making, Community
+  documentationStatus: Not Yet
+  featureOnHomepage: true
+  homepageOrder: 11
+  homepageTitle: Recent Publication
+  homepageSummary: I recently co-authored a book with my [design co-op](https://coassembly.work) in Taiwan on how to survive as a contemporary creative worker under neoliberalism
+  homepageLink: https://www.instagram.com/p/DVa5PDCEzzh/?img_index=1
+  homepageMedia: /coassembly/cover.jpg | /coassembly/01.jpg | /coassembly/02.jpg | /coassembly/03.jpg | /coassembly/back.jpg
+  homepageSize: x2-card
+  homepageTextColor: black
+- workId: "023"
+  name: Threading Memory
+  date: "2026"
+  kind: Making, Research
+  documentationStatus: Not Yet
+  featureOnHomepage: true
+  homepageOrder: 8
+  homepageTitle: Recent Exhibition
+  homepageSummary: I showed a collaborative video installation at [Accent Sisters](https://www.instagram.com/p/DV6TYrTAfcr/) built from conversations about colonization, history, and education with Anoushka Bhalla and Alexandria Deters.
+  homepageLink: https://www.instagram.com/p/DV6TYrTAfcr/
+  homepageMedia: /threads/smoke.mp4
+  homepageSize: x2-card
+- workId: "024"
+  name: 50 Books x 50 Covers
+  date: "2026"
+  kind: Making
+  documentationStatus: Not Yet
+  featureOnHomepage: true
+  homepageOrder: 10
+  homepageTitle: A Collaborated Project
+  homepageSummary: I advised and collaborated with faculty and students from AIGA Pratt to design this exhibition for AIGA's ["50 Books x 50 Covers"](https://www.aiga.org/professional-development/competitions-campaigns/50-books-50-covers)
+  homepageLink: none
+  homepageMedia: /aiga-books/03.JPG | /aiga-books/04.JPG | /aiga-books/01.JPG | /aiga-books/02.JPG
+  homepageSize: x3-card

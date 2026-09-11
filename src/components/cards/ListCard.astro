@@ -6,9 +6,15 @@ import { parseMarkdownInline } from "@/utils/markdown.js";
 import { externalLinkAttrs } from "@/utils/externalLinks.js";
 import {
   isRecentOrUpcomingDate,
+  parseLooseDate,
   prepareAndSortContent,
 } from "@/scripts/cleanDate.js";
-import { getPressEntries, getEventEntries } from "@/data/contentSources.js";
+import {
+  getPressEntries,
+  getEventEntries,
+  getWritingEntries,
+} from "@/data/contentSources.js";
+import { isExplicitFeatureEnabled } from "@/data/homepageUtils.js";
 
 const backgroundColors = {
   "Upcoming Events": "#FFBF00",
@@ -21,6 +27,7 @@ let background = backgroundColors[title] || "white";
 if (backgroundProp) background = backgroundProp;
 const cardTextColor = textColor || "black";
 const isEventCard = ["Upcoming Events", "Recent Events"].includes(title);
+const isWritingCard = ["Writing", "Writings"].includes(title);
 let bodyItems = [];
 let bodyListType = "ul";
 
@@ -55,7 +62,63 @@ if (title === "Recent Press") {
   const recentAndUpcoming = eventEntries.filter(({ date }) =>
     isRecentOrUpcomingDate(date),
   );
-  contentArray = prepareAndSortContent(recentAndUpcoming);
+  const preparedEvents = prepareAndSortContent(eventEntries);
+  const selectedEvents = prepareAndSortContent(recentAndUpcoming).slice(0, 3);
+  const selectedKeys = new Set(
+    selectedEvents.map((entry) => `${entry.title}|${entry.originalDate}`),
+  );
+  const now = new Date();
+  const eventEnd = (entry) =>
+    parseLooseDate(entry.originalDate || entry.date, {
+      preferEndOfPeriod: true,
+    });
+  const isValidDate = (date) =>
+    date instanceof Date && !Number.isNaN(date.valueOf());
+
+  const addUntilFull = (entries) => {
+    for (const entry of entries) {
+      if (selectedEvents.length >= 3) break;
+      const key = `${entry.title}|${entry.originalDate}`;
+      if (selectedKeys.has(key)) continue;
+      selectedEvents.push(entry);
+      selectedKeys.add(key);
+    }
+  };
+
+  const nextUpcoming = preparedEvents
+    .filter((entry) => {
+      const end = eventEnd(entry);
+      return isValidDate(end) && end >= now;
+    })
+    .sort((a, b) => a._sortDate - b._sortDate);
+  const recentPast = preparedEvents.filter((entry) => {
+    const end = eventEnd(entry);
+    return isValidDate(end) && end < now;
+  });
+
+  addUntilFull(nextUpcoming);
+  addUntilFull(recentPast);
+  contentArray = selectedEvents;
+} else if (isWritingCard) {
+  const writingEntries = (await getWritingEntries()).filter(
+    (entry) => entry?.title,
+  );
+  const featured = writingEntries.filter((entry) =>
+    isExplicitFeatureEnabled(entry.featureOnHomepage),
+  );
+
+  contentArray = featured.length
+    ? featured
+        .sort((a, b) => {
+          const orderA = Number(a.homepageOrder);
+          const orderB = Number(b.homepageOrder);
+          return (
+            (Number.isFinite(orderA) ? orderA : Number.MAX_SAFE_INTEGER) -
+            (Number.isFinite(orderB) ? orderB : Number.MAX_SAFE_INTEGER)
+          );
+        })
+        .slice(0, 3)
+    : prepareAndSortContent(writingEntries).slice(0, 3);
 } else if (title === "Readings") {
   // Books data source has been removed - use body content instead
   contentArray = [];
@@ -94,6 +157,9 @@ if (title === "Recent Press") {
                       ) : (
                         item.title
                       )}
+                      {isWritingCard && item.publication && (
+                        <span class="code body2">{item.publication}</span>
+                      )}
                     </div>
                     {item.image && (
                       <div class="w-20">
@@ -116,7 +182,9 @@ if (title === "Recent Press") {
                   )}
                 </div>
               </div>
-              {item.quote && <p class="code body2">{item.quote}</p>}
+              {!isWritingCard && item.quote && (
+                <p class="code body2">{item.quote}</p>
+              )}
             </li>
           ))}
         </ul>

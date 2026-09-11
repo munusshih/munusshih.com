@@ -36,19 +36,19 @@ function createTrinitySketch(container) {
       {
         from: "software",
         to: "commons",
-        text: "Open Source, Tutorials, Tools",
+        text: "p5.book, p5.export, p5.zine",
         speed: 0.9,
       },
       {
         from: "commons",
         to: "community",
-        text: "Solidarity Economy, Collective Publishing, Cooperatives",
+        text: "Co-Assembly, Source Code Print, Shared Publishing",
         speed: 0.75,
       },
       {
         from: "community",
         to: "software",
-        text: "Databases, Infrastructure, World-building",
+        text: "Pratt, Workshops, Processing Community Day",
         speed: 0.85,
       },
       {

@@ -7,6 +7,7 @@ import Homepage from "@/docs/homepage.yml";
 import Writing from "@/docs/writing.yml";
 import Teaching from "@/docs/teaching.yml";
 import Commons from "@/docs/commons.yml";
+import WorkGlossary from "@/docs/work-glossary.yml";
 import { normaliseHomepageContentAliases } from "@/data/homepageUtils.js";
 
 const DATASETS = {
@@ -54,6 +55,11 @@ const DATASETS = {
     fallback: Commons,
     defaultTab: "Commons",
     urlEnvKeys: ["COMMONS_SHEET_URL"],
+  },
+  workGlossary: {
+    fallback: WorkGlossary,
+    defaultTab: "Work Glossary",
+    urlEnvKeys: ["WORK_GLOSSARY_SHEET_URL"],
   },
 };
 
@@ -429,4 +435,8 @@ export async function getTeachingEntries() {
 
 export async function getCommonsEntries() {
   return loadDataset("commons");
+}
+
+export async function getWorkGlossaryEntries() {
+  return loadDataset("workGlossary");
 }

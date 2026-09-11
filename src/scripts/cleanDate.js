@@ -28,6 +28,23 @@ export function parseLooseDate(input, { preferEndOfPeriod = false } = {}) {
     return new Date();
   }
 
+  const dayRangeMatch = clean.match(
+    /^([A-Za-z]+)\s+(\d{1,2})\s*[–—-]\s*(\d{1,2})\s+(\d{4})$/,
+  );
+  if (dayRangeMatch) {
+    const [, month, startDay, endDay, year] = dayRangeMatch;
+    const monthStart = new Date(`${month} 1, ${year}`);
+    if (!isValidDate(monthStart)) return monthStart;
+
+    const date = new Date(
+      Number(year),
+      monthStart.getMonth(),
+      Number(preferEndOfPeriod ? endDay : startDay),
+    );
+    if (preferEndOfPeriod) date.setHours(23, 59, 59, 999);
+    return date;
+  }
+
   const seasonMatch = clean.match(/^(spring|summer|fall|winter)\s+(\d{4})$/i);
   if (seasonMatch) {
     const season = seasonMatch[1].toLowerCase();
@@ -52,7 +69,7 @@ export function parseLooseDate(input, { preferEndOfPeriod = false } = {}) {
       23,
       59,
       59,
-      999
+      999,
     );
   }
 
@@ -82,7 +99,7 @@ export function parseLooseDate(input, { preferEndOfPeriod = false } = {}) {
       23,
       59,
       59,
-      999
+      999,
     );
   }
 
@@ -91,6 +108,11 @@ export function parseLooseDate(input, { preferEndOfPeriod = false } = {}) {
 
 export function cleanLooseDate(input) {
   const raw = cleanInput(input);
+
+  if (/^[A-Za-z]+\s+\d{1,2}\s*[–—-]\s*\d{1,2},?\s+\d{4}$/.test(raw)) {
+    return raw;
+  }
+
   const date = parseLooseDate(raw);
 
   if (!isValidDate(date)) {
@@ -108,16 +130,17 @@ export function dateToSortable(input) {
   return parseLooseDate(input);
 }
 
-export function isRecentOrUpcomingDate(
-  input,
-  { now = new Date() } = {}
-) {
+export function isRecentOrUpcomingDate(input, { now = new Date() } = {}) {
   const start = parseLooseDate(input);
   const end = parseLooseDate(input, { preferEndOfPeriod: true });
   if (!isValidDate(start) || !isValidDate(end)) return false;
 
   const thisMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
-  const afterNextMonthStart = new Date(now.getFullYear(), now.getMonth() + 2, 1);
+  const afterNextMonthStart = new Date(
+    now.getFullYear(),
+    now.getMonth() + 2,
+    1,
+  );
 
   return end >= thisMonthStart && start < afterNextMonthStart;
 }

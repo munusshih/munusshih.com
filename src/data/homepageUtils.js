@@ -86,6 +86,7 @@ export function parseVisibilityFlag(value) {
 
 export function isHomepageEntryEnabled(entry) {
   const value = firstDefined([
+    entry?.show,
     entry?.status,
     entry?.onOff,
     entry?.enabled,
@@ -96,11 +97,15 @@ export function isHomepageEntryEnabled(entry) {
   return parseVisibilityFlag(value);
 }
 
+export function isExplicitFeatureEnabled(value) {
+  if (value === undefined || value === null) return false;
+  if (typeof value === "string" && value.trim().length === 0) return false;
+  return parseVisibilityFlag(value);
+}
+
 export function parseMediaList(value) {
   if (Array.isArray(value)) {
-    return value
-      .map((item) => String(item ?? "").trim())
-      .filter(Boolean);
+    return value.map((item) => String(item ?? "").trim()).filter(Boolean);
   }
   if (typeof value !== "string") return [];
 
@@ -110,9 +115,7 @@ export function parseMediaList(value) {
   try {
     const parsed = JSON.parse(trimmed);
     if (Array.isArray(parsed)) {
-      return parsed
-        .map((item) => String(item ?? "").trim())
-        .filter(Boolean);
+      return parsed.map((item) => String(item ?? "").trim()).filter(Boolean);
     }
   } catch (_error) {
     // ignore JSON parse errors

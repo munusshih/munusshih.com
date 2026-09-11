@@ -80,6 +80,13 @@ const DATASETS = [
     urlEnvKeys: ["COMMONS_SHEET_URL"],
     tabEnvKeys: ["COMMONS_TAB_NAME"],
   },
+  {
+    key: "workGlossary",
+    fallback: "src/docs/work-glossary.yml",
+    defaultTab: "Work Glossary",
+    urlEnvKeys: ["WORK_GLOSSARY_SHEET_URL"],
+    tabEnvKeys: ["WORK_GLOSSARY_TAB_NAME"],
+  },
 ];
 
 const KEY_MAP = {

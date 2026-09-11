@@ -8,23 +8,78 @@ import CustomCard from "@/components/cards/CustomCard.astro";
 import InstagramCard from "@/components/cards/InstagramCard.astro";
 import LinkCard from "@/components/cards/LinkCard.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
-import { getHomepageEntries } from "@/data/contentSources.js";
+import {
+  getHomepageEntries,
+  getWorkGlossaryEntries,
+} from "@/data/contentSources.js";
 import homepageMedia from "@/data/generated/homepageMedia.json" assert { type: "json" };
 import {
   homepageEntryKey,
   isHomepageEntryEnabled,
+  isExplicitFeatureEnabled,
   resolveHomepageBody,
   resolveHomepageTitle,
   parseMediaList,
 } from "@/data/homepageUtils.js";
 
-const homepageEntries = await getHomepageEntries();
+const [homepageEntries, workGlossaryEntries] = await Promise.all([
+  getHomepageEntries(),
+  getWorkGlossaryEntries(),
+]);
 
-const cards = Array.isArray(homepageEntries)
+const manualCards = Array.isArray(homepageEntries)
   ? homepageEntries.filter(
       (entry) => entry?.type && isHomepageEntryEnabled(entry),
     )
   : [];
+
+function resolveFeaturedWorkHref(entry) {
+  const override = String(entry.homepageLink || "").trim();
+  if (["none", "off", "false", "-"].includes(override.toLowerCase())) {
+    return undefined;
+  }
+  return (
+    override || entry.link?.href || entry.link2 || entry.link1 || undefined
+  );
+}
+
+function featuredWorkToCard(entry, index) {
+  const order = Number(entry.homepageOrder);
+  const year = entry.date || entry.year;
+  const kind = Array.isArray(entry.kind)
+    ? entry.kind.join(" · ")
+    : String(entry.kind || "").replace(/\s*,\s*/g, " · ");
+  const metadata = [year, kind].filter(Boolean).join(" · ");
+
+  return {
+    type: "WorkCard",
+    source: "Work Glossary",
+    workId: entry.workId,
+    order: Number.isFinite(order) ? order : 100 + index,
+    title: entry.homepageTitle || entry.name || entry.title,
+    body: entry.homepageSummary || entry.excerpt || metadata,
+    href: resolveFeaturedWorkHref(entry),
+    targetName: entry.homepageMedia || entry.image,
+    size: entry.homepageSize || "x2-card",
+    background: entry.homepageBackground,
+    textColor: entry.homepageTextColor,
+  };
+}
+
+const featuredWorkCards = Array.isArray(workGlossaryEntries)
+  ? workGlossaryEntries
+      .filter((entry) => isExplicitFeatureEnabled(entry?.featureOnHomepage))
+      .map(featuredWorkToCard)
+  : [];
+
+const cards = [...manualCards, ...featuredWorkCards].sort((a, b) => {
+  const orderA = Number(a.order);
+  const orderB = Number(b.order);
+  return (
+    (Number.isFinite(orderA) ? orderA : Number.MAX_SAFE_INTEGER) -
+    (Number.isFinite(orderB) ? orderB : Number.MAX_SAFE_INTEGER)
+  );
+});
 
 function normaliseWorkTarget(value) {
   if (Array.isArray(value)) return value;
