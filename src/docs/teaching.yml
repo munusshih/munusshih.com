@@ -1,7 +1,25 @@
+- title: Building Benches for the Web
+  date: June–July 2026
+  type: Class
+  place: School for Poetic Computation (Online)
+  excerpt: Co-taught with Spencer Chang; two five-class sections on community-led, multiplayer web spaces.
+  link2: https://sfpc.study/sessions/summer-26/building-benches-for-the-web
+  link:
+    href: https://sfpc.study/sessions/summer-26/building-benches-for-the-web
+- title: 'Graduate Studio: Technology B'
+  date: Fall 2026
+  type: Class
+  place: Pratt Institute, Brooklyn, NY
+  link2: https://tech-b.munusshih.com/
+  link:
+    href: https://tech-b.munusshih.com/
+  img1: OG
+  img2: '[video] https://tech-b.munusshih.com/'
 - title: Visual Language B
   date: Spring 2026
   type: Class
   place: Pratt Institute, Brooklyn, NY
+  link2: https://vlb.munusshih.com/
   link:
     href: https://vlb.munusshih.com/
   img1: OG
@@ -10,6 +28,7 @@
   date: Spring 2026
   type: Class
   place: Pratt Institute, Brooklyn, NY
+  link2: https://thesis-ii.munusshih.com/
   link:
     href: https://thesis-ii.munusshih.com/
   img1: OG
@@ -18,6 +37,7 @@
   date: Nov 30, 2025
   type: Workshop
   place: For Future 未來學家, Taiwan (Remote)
+  link2: https://drive.google.com/drive/folders/1la1zmCLlDt7F7Z29QzQ57fWiAAnbz0_C?usp=drive_link
   link:
     href: https://drive.google.com/drive/folders/1la1zmCLlDt7F7Z29QzQ57fWiAAnbz0_C?usp=drive_link
   img1: https://drive.google.com/file/d/19AfR-JwxlaPy5zfFaSuQ9SCYpSj2E0ck/view?usp=drive_link
@@ -26,22 +46,26 @@
   date: Sep 27, 2025
   type: Workshop
   place: Processing Foundation (Remote)
+  link1: https://processingfoundation.report/
   link:
     href: https://www.eventbrite.com/e/p5js-20-workshop-combinatory-poetry-with-variable-fonts-tickets-1623313417129?aff=oddtdtcreator
+  link2: https://www.eventbrite.com/e/p5js-20-workshop-combinatory-poetry-with-variable-fonts-tickets-1623313417129?aff=oddtdtcreator
   img1: '[video] https://poetry-p5.free99.work/poetry'
   img2: '[video] https://poetry-p5.free99.work/freewrite'
 - title: Thesis I
-  date: Fall 2025
+  date: Fall 2025, Fall 2026
   type: Class
   place: Pratt Institute, Brooklyn, NY
+  link2: https://thesis-i.munusshih.com/
   link:
     href: https://thesis-i.munusshih.com/
   img1: OG
   img2: '[video] https://thesis-i.munusshih.com/'
 - title: 'Graduate Studio: Technology A'
-  date: Fall 2025
+  date: Fall 2025, Fall 2026
   type: Class
   place: Pratt Institute, Brooklyn, NY
+  link2: https://tech-a.munusshih.com/
   link:
     href: https://tech-a.munusshih.com/
   img1: OG
@@ -50,6 +74,7 @@
   date: June 29, 2025
   type: Workshop
   place: Typelab x Typographics, New York, NY, USA
+  link2: https://typelab.free99.work
   link:
     href: https://typelab.free99.work
   img1: OG
@@ -58,6 +83,7 @@
   date: Jun 19, 2025
   type: Workshop
   place: Formosan Association for Public Affairs, New York, NY, USA
+  link2: https://spencer.place/fapa-webstones
   link:
     href: https://spencer.place/fapa-webstones
   img1: '[video] https://spencer.place/fapa-webstones'
@@ -66,6 +92,7 @@
   date: Jan 2024
   type: Workshop
   place: CC Festival, The Dalton School, New York, NY, USA
+  link2: https://www.figma.com/proto/JZCDRSr995rWYZfexwc0N5/DragonBytes?page-id=0%3A1&node-id=1-2&viewport=1346%2C632%2C0.48&t=TzzQkFhEuA56woWS-1&scaling=min-zoom&content-scaling=fixed
   link:
     href: https://www.figma.com/proto/JZCDRSr995rWYZfexwc0N5/DragonBytes?page-id=0%3A1&node-id=1-2&viewport=1346%2C632%2C0.48&t=TzzQkFhEuA56woWS-1&scaling=min-zoom&content-scaling=fixed
   img1: https://drive.google.com/file/d/1oxYCkRn5tXV36HMzUQ7686xKSTpQSM3P/view?usp=drive_link
@@ -73,12 +100,14 @@
   date: Oct 2023
   type: Workshop
   place: Institute of Applied Art, National Yang Ming Chiao Tung University, Hsinchu, Taiwan
+  link2: https://www.notion.so/munusshih/NCTU-IAA-f9c5d9e4b9ed46f9ad6558f3f7465150?pvs=4
   link:
     href: https://www.notion.so/munusshih/NCTU-IAA-f9c5d9e4b9ed46f9ad6558f3f7465150?pvs=4
 - title: Hello Zine! 從小誌到開源藝術
   date: Sep 2023
   type: Workshop
   place: Processing Community Day Taiwan, Taipei, Taiwan
+  link2: https://www.youtube.com/live/QfgvuTZPCa0?si=VifKhDf5IUivzc6q
   link:
     href: https://www.youtube.com/live/QfgvuTZPCa0?si=VifKhDf5IUivzc6q
   img1: OG
@@ -87,34 +116,40 @@
   date: June 2022
   type: Workshop
   place: School of Visual Arts, New York, NY, USA
+  link2: https://www.notion.so/munusshih/CSS-Magic-Click-Touch-Move-9589b601e9db449ca452906d2ca96e2f
   link:
     href: https://www.notion.so/munusshih/CSS-Magic-Click-Touch-Move-9589b601e9db449ca452906d2ca96e2f
 - title: p5.(Gen)Zine V.2
   date: June 2022
   type: Workshop
   place: Creative Coding Festival, New York, NY, USA
+  link1: https://ccfest.rocks/virtual-cc-fest-june-18
   link:
     href: https://www.youtube.com/watch?v=lAQc3Ij3O8k&ab_channel=ProcessingFoundation
+  link2: https://www.youtube.com/watch?v=lAQc3Ij3O8k&ab_channel=ProcessingFoundation
   img1: OG
   img2: https://drive.google.com/file/d/1CrJnuCPDmnGBjf6HRODG9uoK1viPk4w0/view?usp=drive_link
 - title: p5.(Gen)Zine
   date: June 2022
   type: Workshop
-  place: Code Decolonized' with POWRPLNTS, Brooklyn, NY, USA
+  place: Code, Decolonized × POWRPLNT Symposium, Pioneer Works, Brooklyn, NY, USA
+  link2: https://processingfoundation.org/advocacy/code-decolonized
   link:
-    href: https://medium.com/@ProcessingOrg/code-decolonized-x-powrplnt-symposium-2022-6433cc84e9c3
+    href: https://processingfoundation.org/advocacy/code-decolonized
   img1: OG
   img2: '`Theingi Thann` https://miro.medium.com/v2/resize:fit:4800/format:webp/0*cI9Ae3HfM8uUUfkA'
 - title: '*New* Graphic Design: Program, Data, Custom Algorithm'
   date: Oct 2021
   type: Workshop
   place: National Tsing Hua University, Hsinchu, Taiwan
+  link2: https://drive.google.com/file/d/1sFC5sSBimryMV4mpto14r7CKwlb5iYNo/view?usp=sharing
   link:
     href: https://drive.google.com/file/d/1sFC5sSBimryMV4mpto14r7CKwlb5iYNo/view?usp=sharing
 - title: Critical Computation (Lab)
   date: Fall 2023
   type: Class
   place: Parsons School of Design, New York, NY, USA
+  link2: https://munusshih.notion.site/Critical-Comp-Lab-2023-f68ebac60cf64edc814dcfe792f98734?source=copy_link
   link:
     href: https://munusshih.notion.site/Critical-Comp-Lab-2023-f68ebac60cf64edc814dcfe792f98734?source=copy_link
   img1: '`Michelle Xing` https://drive.google.com/file/d/1Vw46w3b3DJsMkHsLcSxvjN-GNwP-hKqW/view?usp=drive_link'
@@ -123,6 +158,7 @@
   date: Spring 2024
   type: Class
   place: Cooper Union, New York, NY, USA
+  link2: https://adpd.munusandniktari.com/
   link:
     href: https://adpd.munusandniktari.com/
   img1: '[dark] [video] https://adpd.munusandniktari.com/'
@@ -132,6 +168,7 @@
   type: Class
   place: Parsons School of Design, New York, NY, USA
   excerpt: A class site for the course "The Web is Fluid, Generative and Live" at Parsons School of Design. This course explores the intersection of generative design and web development, focusing on creating dynamic and interactive experiences using web technologies.
+  link2: https://ci2-munus.munusandniktari.com/
   link:
     href: https://ci2-munus.munusandniktari.com/
   img1: '[dark] [video] https://ci2-munus.munusandniktari.com/'
@@ -141,6 +178,7 @@
   type: Workshop
   place: Type Electives, New York, NY, USA
   excerpt: A collaborative zine designed by students as part of the Techniculture 6-week workshop. Taught by the Space Type and Duty Free collective studios, this zine is a culmination our discussions and explorations reflecting the intricate relationships between type, culture, and technology.
+  link2: https://www.typeelectives.com/courses/techniculture-sp-24
   link:
     href: https://www.typeelectives.com/courses/techniculture-sp-24
   img1: '`Nikki Makagiansar` https://www.typeelectives.com/_next/image?url=https%3A%2F%2Fimages.ctfassets.net%2Ftwk7e297h04x%2F3JFbqOhWpZ861RoH0YyRMv%2Ff1a5bb5ccbc3b5f9c227e20a141d7a75%2Fezgif-3-424d6c8df5.gif&w=3840&q=75'
@@ -149,6 +187,7 @@
   date: Spring 2020
   type: Class
   place: National Tsing Hua University, Hsinchu, Taiwan
+  link2: https://sites.google.com/view/tzaiwu-cc/last-semester?authuser=0
   link:
     href: https://sites.google.com/view/tzaiwu-cc/last-semester?authuser=0
   img1: https://lh3.googleusercontent.com/sitesv/AICyYdZLqGO6waTIXv5VPIk2KMYeEsa2YvnL5s_sGG0ETirNob4a0HDP4f4BZ9c1BVZoRfvO9Os7LAMmSWTwqT_bRC96lovw8l96C009-tILfLgxQ7LK4--aj_Y1MVHJfHkZ-6PFF6gGlLp6j-pesdX0H5htjzsbnyX7czw=w16383
@@ -156,6 +195,7 @@
   date: Fall 2020
   type: Class
   place: National Tsing Hua University, Hsinchu, Taiwan
+  link2: https://sites.google.com/view/tzaiwu-cc/home?authuser=0
   link:
     href: https://sites.google.com/view/tzaiwu-cc/home?authuser=0
   img1: https://lh3.googleusercontent.com/sitesv/AICyYdaptSy6vqPQ3LmQq_YkCxi3iyzgW_tCeuMp1sKUvCGKsgYzrCQ6HLAGZiq_RR24Q3JBy9Cxl8ZcUVWghsYNvgT2TVEuNkuM-4Th7mIs1_DLHbNNBzK2tw92-2Kkjkm8A0POdMdD5BpFfpZEpMe1dSikcFtPS9LCzr-XUxTJn4m50bLHmfxBWA-xaAM=w16383
@@ -177,6 +217,7 @@
   date: Fall 2022
   type: Class - TA
   place: Parsons School of Design, New York, NY, USA
+  link2: https://github.com/munusshih/dv-majorstudio
   link:
     href: https://github.com/munusshih/dv-majorstudio
   img1: '`Tina Titus Mathew` https://drive.google.com/file/d/1rVHL0Xe_0al6PKYDoNABpWrDFJh7MxH7/view?usp=drive_link'

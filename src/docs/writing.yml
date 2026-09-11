@@ -1,23 +1,30 @@
-- title: "After MFADT"
-  publication: "Could Salon Journal"
-  date: "Feb, 2025"
-  excerpt: |
-    Reflections on design pedagogy and community practice written following the MFADT thesis showcase.
+- title: 當我們不僅是為了找工作而學習
+  publication: NTHU General Education Center
+  date: August 2026
+  link2: https://cge.site.nthu.edu.tw/p/406-1573-313127,r10262.php?Lang=zh-tw&utm_source=chatgpt.com
   link:
-    href: "https://example.com/after-mfadt"
-
-- title: "Critical Coding Cookbook"
-  publication: "Processing Foundation"
-  date: "Nov, 2024"
-  excerpt: |
-    A recipe-style guide for educators and artists exploring care-focused approaches to creative coding.
+    href: https://cge.site.nthu.edu.tw/p/406-1573-313127,r10262.php?Lang=zh-tw&utm_source=chatgpt.com
+- title: 'p5.zine: Zine as Coding Connectivity'
+  publication: Thesis
+  date: May 2023
+  link2: https://munusshih.github.io/p5-genzine-thesis/
   link:
-    href: "https://example.com/critical-coding-cookbook"
-
-- title: "Generative Rituals"
-  publication: "Index Space"
-  date: "Jun, 2024"
-  excerpt: |
-    Essay on ritual design and interactive systems published alongside the Techno Mirage exhibition.
+    href: https://munusshih.github.io/p5-genzine-thesis/
+- title: From Zine-Coding to Collective-Worldbuilding
+  publication: Open Source Art Contributors Conference — p5.js Access Report
+  date: '2023'
+  excerpt: Reflection on access, creative coding, and collective publishing in the p5.js community.
+  link2: https://github.com/processing/OSACC-p5.js-Access-Report/blob/main/4-reflection/reflection-by-munus-shih.md
   link:
-    href: "https://example.com/generative-rituals"
+    href: https://github.com/processing/OSACC-p5.js-Access-Report/blob/main/4-reflection/reflection-by-munus-shih.md
+- title: Contemporary Worker's Survival Guide
+  publication: Co-Assembly
+  date: '2026'
+  excerpt: Co-authored publication on sustaining creative work under neoliberalism.
+  link1: https://www.pondingstore.com/products/%E7%95%B6%E4%BB%A3%E5%8B%9E%E5%8B%95%E8%80%85%E7%9A%84%E6%B1%82%E7%94%9F%E6%89%8B%E5%86%8A
+  link:
+    href: https://www.instagram.com/p/DVa5PDCEzzh/?img_index=1
+  link2: https://www.instagram.com/p/DVa5PDCEzzh/?img_index=1
+- link1: https://podcasts.apple.com/tw/podcast/sponact-%E5%81%B6%E7%99%BC%E9%9B%86%E5%90%88/id6801572783
+  link:
+    href: https://podcasts.apple.com/tw/podcast/sponact-%E5%81%B6%E7%99%BC%E9%9B%86%E5%90%88/id6801572783

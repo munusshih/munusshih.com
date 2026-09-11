@@ -1,4 +1,60 @@
 {
+  "Major Studio 2 (Thesis)|Spring 2023|": [
+    {
+      "kind": "image",
+      "src": "/teaching/major-studio-2-thesis/major-studio-2-thesis-01.jpg",
+      "source": "download",
+      "caption": "Tatiana Lahera Kalainoff"
+    },
+    {
+      "kind": "image",
+      "src": "/teaching/major-studio-2-thesis/major-studio-2-thesis-02.jpg",
+      "source": "download",
+      "caption": "Huong Pham"
+    }
+  ],
+  "Visual Language B|Spring 2026|https://vlb.munusshih.com/": [
+    {
+      "kind": "image",
+      "src": "/teaching/visual-language-b/visual-language-b-01.jpg",
+      "source": "og",
+      "caption": null
+    },
+    {
+      "kind": "video",
+      "src": "/teaching/visual-language-b/visual-language-b-02.mp4",
+      "source": "recorded",
+      "caption": null
+    }
+  ],
+  "Thesis II|Spring 2026|https://thesis-ii.munusshih.com/": [
+    {
+      "kind": "image",
+      "src": "/teaching/thesis-ii/thesis-ii-01.png",
+      "source": "og",
+      "caption": null
+    },
+    {
+      "kind": "video",
+      "src": "/teaching/thesis-ii/thesis-ii-02.mp4",
+      "source": "recorded",
+      "caption": null
+    }
+  ],
+  "Homing.zip ft. Tzuyun Wei|Nov 30, 2025|https://drive.google.com/drive/folders/1la1zmCLlDt7F7Z29QzQ57fWiAAnbz0_C?usp=drive_link": [
+    {
+      "kind": "image",
+      "src": "/teaching/homingzip-ft-tzuyun-wei/homingzip-ft-tzuyun-wei-01.jpg",
+      "source": "download",
+      "caption": null
+    },
+    {
+      "kind": "image",
+      "src": "/teaching/homingzip-ft-tzuyun-wei/homingzip-ft-tzuyun-wei-02.jpg",
+      "source": "download",
+      "caption": null
+    }
+  ],
   "p5.js 2.0 Workshop: Combinatory Poetry with Variable Fonts|Sep 27, 2025|https://www.eventbrite.com/e/p5js-20-workshop-combinatory-poetry-with-variable-fonts-tickets-1623313417129?aff=oddtdtcreator": [
     {
       "kind": "video",
@@ -13,7 +69,7 @@
       "caption": null
     }
   ],
-  "Thesis I|Fall 2025|https://thesis-i.munusshih.com/": [
+  "Thesis I|Fall 2025, Fall 2026|https://thesis-i.munusshih.com/": [
     {
       "kind": "image",
       "src": "/teaching/thesis-i/thesis-i-01.png",
@@ -27,7 +83,7 @@
       "caption": null
     }
   ],
-  "Graduate Studio: Technology A|Fall 2025|https://tech-a.munusshih.com/": [
+  "Graduate Studio: Technology A|Fall 2025, Fall 2026|https://tech-a.munusshih.com/": [
     {
       "kind": "image",
       "src": "/teaching/graduate-studio-technology-a/graduate-studio-technology-a-01.jpg",
@@ -41,6 +97,14 @@
       "caption": null
     }
   ],
+  "Combinatory Poetry with Variable Fonts ft. Nikki Makagiansar|June 29, 2025|https://typelab.free99.work": [
+    {
+      "kind": "image",
+      "src": "/teaching/combinatory-poetry-with-variable-fonts-ft-nikki-makagiansar/combinatory-poetry-with-variable-fonts-ft-nikki-makagiansar-02.jpg",
+      "source": "screenshot",
+      "caption": null
+    }
+  ],
   "Touching Computers: NFC as Ritual, Memory, and Interface ft. Spencer Chang|Jun 19, 2025|https://spencer.place/fapa-webstones": [
     {
       "kind": "video",
@@ -51,6 +115,14 @@
     {
       "kind": "video",
       "src": "/teaching/touching-computers-nfc-as-ritual-memory-and-interface-ft-spencer-chang/touching-computers-nfc-as-ritual-memory-and-interface-ft-spencer-chang-02.mp4",
+      "source": "download",
+      "caption": null
+    }
+  ],
+  "Dragon Bytes: Coding Chinese New Year with p5.js and AI ft. Roy Yang|Jan 2024|https://www.figma.com/proto/JZCDRSr995rWYZfexwc0N5/DragonBytes?page-id=0%3A1&node-id=1-2&viewport=1346%2C632%2C0.48&t=TzzQkFhEuA56woWS-1&scaling=min-zoom&content-scaling=fixed": [
+    {
+      "kind": "image",
+      "src": "/teaching/dragon-bytes-coding-chinese-new-year-with-p5js-and-ai-ft-roy-yang/dragon-bytes-coding-chinese-new-year-with-p5js-and-ai-ft-roy-yang-01.jpg",
       "source": "download",
       "caption": null
     }
@@ -83,62 +155,12 @@
       "caption": null
     }
   ],
-  "p5.(Gen)Zine|June 2022|https://medium.com/@ProcessingOrg/code-decolonized-x-powrplnt-symposium-2022-6433cc84e9c3": [
+  "p5.(Gen)Zine|June 2022|https://processingfoundation.org/advocacy/code-decolonized": [
     {
       "kind": "image",
       "src": "/teaching/p5genzine/p5genzine-02.jpg",
       "source": "download",
       "caption": "Theingi Thann"
-    }
-  ],
-  "The Web is Fluid, Generative and Live|Spring 2024|https://ci2-munus.munusandniktari.com/": [
-    {
-      "kind": "video",
-      "src": "/teaching/the-web-is-fluid-generative-and-live/the-web-is-fluid-generative-and-live-01.mp4",
-      "source": "recorded",
-      "caption": null
-    },
-    {
-      "kind": "image",
-      "src": "/teaching/the-web-is-fluid-generative-and-live/the-web-is-fluid-generative-and-live-02.jpg",
-      "source": "og",
-      "caption": null
-    }
-  ],
-  "Combinatory Poetry with Variable Fonts ft. Nikki Makagiansar|June 29, 2025|https://typelab.free99.work": [
-    {
-      "kind": "image",
-      "src": "/teaching/combinatory-poetry-with-variable-fonts-ft-nikki-makagiansar/combinatory-poetry-with-variable-fonts-ft-nikki-makagiansar-02.jpg",
-      "source": "screenshot",
-      "caption": null
-    }
-  ],
-  "Major Studio 2 (Thesis)|Spring 2023|": [
-    {
-      "kind": "image",
-      "src": "/teaching/major-studio-2-thesis/major-studio-2-thesis-01.jpg",
-      "source": "download",
-      "caption": "Tatiana Lahera Kalainoff"
-    },
-    {
-      "kind": "image",
-      "src": "/teaching/major-studio-2-thesis/major-studio-2-thesis-02.jpg",
-      "source": "download",
-      "caption": "Huong Pham"
-    }
-  ],
-  "Advanced Design: Product Design ft. Nikki Makagiansar|Spring 2024|https://adpd.munusandniktari.com/": [
-    {
-      "kind": "video",
-      "src": "/teaching/advanced-design-product-design-ft-nikki-makagiansar/advanced-design-product-design-ft-nikki-makagiansar-01.mp4",
-      "source": "recorded",
-      "caption": null
-    },
-    {
-      "kind": "image",
-      "src": "/teaching/advanced-design-product-design-ft-nikki-makagiansar/advanced-design-product-design-ft-nikki-makagiansar-02.jpg",
-      "source": "og",
-      "caption": null
     }
   ],
   "Critical Computation (Lab)|Fall 2023|https://munusshih.notion.site/Critical-Comp-Lab-2023-f68ebac60cf64edc814dcfe792f98734?source=copy_link": [
@@ -155,11 +177,31 @@
       "caption": "Ziye An"
     }
   ],
-  "Dragon Bytes: Coding Chinese New Year with p5.js and AI ft. Roy Yang|Jan 2024|https://www.figma.com/proto/JZCDRSr995rWYZfexwc0N5/DragonBytes?page-id=0%3A1&node-id=1-2&viewport=1346%2C632%2C0.48&t=TzzQkFhEuA56woWS-1&scaling=min-zoom&content-scaling=fixed": [
+  "Advanced Design: Product Design ft. Nikki Makagiansar|Spring 2024|https://adpd.munusandniktari.com/": [
+    {
+      "kind": "video",
+      "src": "/teaching/advanced-design-product-design-ft-nikki-makagiansar/advanced-design-product-design-ft-nikki-makagiansar-01.mp4",
+      "source": "recorded",
+      "caption": null
+    },
     {
       "kind": "image",
-      "src": "/teaching/dragon-bytes-coding-chinese-new-year-with-p5js-and-ai-ft-roy-yang/dragon-bytes-coding-chinese-new-year-with-p5js-and-ai-ft-roy-yang-01.jpg",
-      "source": "download",
+      "src": "/teaching/advanced-design-product-design-ft-nikki-makagiansar/advanced-design-product-design-ft-nikki-makagiansar-02.jpg",
+      "source": "og",
+      "caption": null
+    }
+  ],
+  "The Web is Fluid, Generative and Live|Spring 2024|https://ci2-munus.munusandniktari.com/": [
+    {
+      "kind": "video",
+      "src": "/teaching/the-web-is-fluid-generative-and-live/the-web-is-fluid-generative-and-live-01.mp4",
+      "source": "recorded",
+      "caption": null
+    },
+    {
+      "kind": "image",
+      "src": "/teaching/the-web-is-fluid-generative-and-live/the-web-is-fluid-generative-and-live-02.jpg",
+      "source": "og",
       "caption": null
     }
   ],
@@ -185,38 +227,16 @@
       "caption": "Tina Titus Mathew"
     }
   ],
-  "Homing.zip ft. Tzuyun Wei|Nov 30, 2025|https://drive.google.com/drive/folders/1la1zmCLlDt7F7Z29QzQ57fWiAAnbz0_C?usp=drive_link": [
+  "Graduate Studio: Technology B|Fall 2026|https://tech-b.munusshih.com/": [
     {
       "kind": "image",
-      "src": "/teaching/homingzip-ft-tzuyun-wei/homingzip-ft-tzuyun-wei-01.jpg",
-      "source": "download",
-      "caption": null
-    },
-    {
-      "kind": "image",
-      "src": "/teaching/homingzip-ft-tzuyun-wei/homingzip-ft-tzuyun-wei-02.jpg",
-      "source": "download",
-      "caption": null
-    }
-  ],
-  "Visual Language B|Spring 2026|https://vlb.munusshih.com/": [
-    {
-      "kind": "image",
-      "src": "/teaching/visual-language-b/visual-language-b-01.jpg",
+      "src": "/teaching/graduate-studio-technology-b/graduate-studio-technology-b-01.jpg",
       "source": "og",
       "caption": null
     },
     {
       "kind": "video",
-      "src": "/teaching/visual-language-b/visual-language-b-02.mp4",
-      "source": "recorded",
-      "caption": null
-    }
-  ],
-  "Thesis II|Spring 2026|https://thesis-ii.munusshih.com/": [
-    {
-      "kind": "video",
-      "src": "/teaching/thesis-ii/thesis-ii-02.mp4",
+      "src": "/teaching/graduate-studio-technology-b/graduate-studio-technology-b-02.mp4",
       "source": "recorded",
       "caption": null
     }

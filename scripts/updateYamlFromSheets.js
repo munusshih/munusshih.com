@@ -14,11 +14,7 @@ const QUIET = process.argv.includes("--quiet");
 const WORKDIR = path.resolve(__dirname, "..");
 const ENV_PATH = path.resolve(WORKDIR, ".env");
 
-const BASE_SHEET_ENV_KEYS = [
-  "GOOGLE_SHEET_ID",
-  "SHEET_ID",
-  "CONTENT_SHEET_ID",
-];
+const BASE_SHEET_ENV_KEYS = ["GOOGLE_SHEET_ID", "SHEET_ID", "CONTENT_SHEET_ID"];
 
 const DATASETS = [
   {
@@ -205,6 +201,20 @@ const assignKey = (target, key, rawValue) => {
   const normalised = normaliseKey(key);
   if (!normalised) return;
 
+  if (["link1", "link 1", "link2", "link 2"].includes(normalised)) {
+    const linkKey = normalised.includes("1") ? "link1" : "link2";
+    const href = String(value);
+
+    target[linkKey] = href;
+
+    // The spreadsheet's second link is the primary public destination.
+    // Fall back to the first link when a row does not provide a second one.
+    if (linkKey === "link2" || !target.link?.href) {
+      target.link = { href };
+    }
+    return;
+  }
+
   if (["link", "url", "href"].includes(normalised)) {
     target.link = { href: String(value) };
     return;
@@ -267,8 +277,8 @@ const resolveSheetUrl = (dataset) => {
   const tabName =
     dataset.tabEnvKeys
       ?.map((key) => process.env[key])
-      .find((value) => typeof value === "string" && value.trim())?.trim() ||
-    dataset.defaultTab;
+      .find((value) => typeof value === "string" && value.trim())
+      ?.trim() || dataset.defaultTab;
 
   if (!tabName) return undefined;
 

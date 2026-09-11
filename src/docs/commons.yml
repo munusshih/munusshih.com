@@ -3,20 +3,25 @@
   place: Taiwan
   type: Organizing
   collaboration: Organized by SpOnAcT! (Tzuyun Wei, I-Hao Liao, Yu-ying Lu, Billy Ho, Tuan, Vivi)
+  excerpt: Co-organized a Processing Community Day centered on queer, femme, grassroots, and Global South creative-coding communities.
   link:
-    href: pcd.sponact.org
+    href: https://pcd.sponact.org/
 - title: AIGA 50 Books 50 Covers
   date: March 2026
   place: New York
   type: Advising
   collaboration: Working with students from AIGA Pratt
+  excerpt: https://www.linkedin.com/in/johnchaich
+  link:
+    href: https://www.aiga.org/professional-development/competitions-campaigns/50-books-50-covers
 - title: Other Islands Book Fair
   date: June 2026
   place: New York
-  type: Advising
+  type: Organizing, Academic Service
   collaboration: Co-organized with [Christina Gabriele](https://www.pratt.edu/people/cristina-gabriele/) and [Gaia Hwang](https://www.pratt.edu/people/gaia-hwang/)
+  excerpt: Strategist, coordinator, and community builder for the Pratt Graduate Communications Design book fair.
   link:
-    href: otherislands.designfuture.space
+    href: https://otherislands.designfuture.space/
 - title: Praxis!
   date: November 2025
   place: New York
@@ -31,7 +36,7 @@
   type: Organizing, Bookclub
   collaboration: Organized by Co-Assembly (Tzuyun Wei, I-Hao Liao)
   link:
-    href: https://scontent-lga3-1.xx.fbcdn.net/v/t39.30808-6/526283203_23989329104070400_6117475559864099819_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=127cfc&_nc_ohc=mxnbzNTzTXYQ7kNvwF0Fw89&_nc_oc=Admp5zXH0dk7BJtyINTcl370S6bQfBVgJOor8KJ9pICMtgMxukjsDi_nSIA6hzm57SdFNpobqS6Ursbg9oVeyTLa&_nc_zt=23&_nc_ht=scontent-lga3-1.xx&_nc_gid=2P-T3-gAIHewyxWwgH0GSA&oh=00_AfcrpSgcxlyWZLFtYX8_b8Immxrb38Bis_Hv9MQ0q8f7Ew&oe=68FA054D
+    href: https://coassembly.work/
 - title: 'Code as Acts: Processing Community Day Taiwan with SpOnAcT!'
   date: 2023 Sep
   place: (Remote) Taiwan
@@ -54,7 +59,10 @@
   type: Organizing, Bookclub
   collaboration: Co-organized with Yangching Lu
 - title: p5.genzine
+  date: '2023'
   type: Open Source, Tool
+  link:
+    href: https://parsons.edu/dt-2023/p5-genzine/
 - title: Mechanic.design
   date: '2023'
   type: Open Source, Tool
@@ -69,3 +77,11 @@
   excerpt: In collaboration with Taiwanese artist Yangching Lu, begin Contour is a teaching practicum. We invited many Taiwanese middle school teachers, art educators, experimental educators, designers, and creative coders to collectively reimagine creative technology through a more beginner-friendly and approachable technology education.
   link:
     href: https://medium.com/processing-foundation/begincontour-%E5%BE%9E%E7%AD%89%E9%AB%98%E7%B7%9A%E9%96%8B%E5%A7%8B-a-critical-anti-colonial-and-intersectional-pedagogy-to-taiwanese-creative-f44d67fd0ccb
+- title: Co-Assembly / SpOnAcT!
+  date: Ongoing
+  place: Taiwan / Remote
+  type: Organizing, Community Service
+  collaboration: Co-founded with Tzuyun Wei and I-Hao Liao
+  excerpt: Design cooperative and community platform exploring data storytelling through ethnographic research, publishing, and organizing.
+  link:
+    href: https://coassembly.work/

@@ -33,15 +33,8 @@ const MANIFEST_PATH = path.resolve(
 const FALLBACK_PATH = path.resolve(__dirname, "../src/docs/teaching.yml");
 const ENV_PATH = path.resolve(__dirname, "../.env");
 
-const BASE_SHEET_ENV_KEYS = [
-  "GOOGLE_SHEET_ID",
-  "SHEET_ID",
-  "CONTENT_SHEET_ID",
-];
-const TEACHING_URL_ENV_KEYS = [
-  "TEACHING_SHEET_URL",
-  "TEACHING_TAB_URL",
-];
+const BASE_SHEET_ENV_KEYS = ["GOOGLE_SHEET_ID", "SHEET_ID", "CONTENT_SHEET_ID"];
+const TEACHING_URL_ENV_KEYS = ["TEACHING_SHEET_URL", "TEACHING_TAB_URL"];
 
 const loadEnvFile = async () => {
   try {
@@ -81,11 +74,11 @@ const KEY_MAP = {
   href: "href",
   image: "image",
   img: "image",
-  "img1": "img1",
+  img1: "img1",
   "img 1": "img1",
-  "img2": "img2",
+  img2: "img2",
   "img 2": "img2",
-  "img3": "img3",
+  img3: "img3",
   "img 3": "img3",
   og: "og",
   ogimage: "ogImage",
@@ -129,6 +122,20 @@ const assignKey = (target, key, rawValue) => {
 
   const normalised = normaliseKey(key);
   if (!normalised) return;
+
+  if (["link1", "link 1", "link2", "link 2"].includes(normalised)) {
+    const linkKey = normalised.includes("1") ? "link1" : "link2";
+    const href = String(value);
+
+    target[linkKey] = href;
+
+    // The spreadsheet's second link is the primary public destination.
+    // Fall back to the first link when a row does not provide a second one.
+    if (linkKey === "link2" || !target.link?.href) {
+      target.link = { href };
+    }
+    return;
+  }
 
   if (["link", "url", "href"].includes(normalised)) {
     target.link = { href: String(value) };
@@ -247,7 +254,8 @@ const slugify = (value) =>
 
 const isHttpUrl = (value) => /^https?:\/\//i.test(value);
 const looksLikeVideo = (value) => /\.(mp4|webm|ogg)$/i.test(value);
-const looksLikeImage = (value) => /\.(png|jpe?g|gif|webp|avif|svg)$/i.test(value);
+const looksLikeImage = (value) =>
+  /\.(png|jpe?g|gif|webp|avif|svg)$/i.test(value);
 
 const parseMediaSpec = (rawValue, entry) => {
   if (!rawValue) return null;
@@ -291,15 +299,31 @@ const parseMediaSpec = (rawValue, entry) => {
 
   if (tokens.includes("video")) {
     const resolved = url || urlFallback;
-  return resolved
-      ? { mode: "video", url: resolved, dark: spec.dark, light: spec.light, caption }
+    return resolved
+      ? {
+          mode: "video",
+          url: resolved,
+          dark: spec.dark,
+          light: spec.light,
+          caption,
+        }
       : null;
   }
 
-  if (tokens.includes("img") || tokens.includes("image") || tokens.includes("screenshot")) {
+  if (
+    tokens.includes("img") ||
+    tokens.includes("image") ||
+    tokens.includes("screenshot")
+  ) {
     const resolved = url || urlFallback;
     return resolved
-      ? { mode: "screenshot", url: resolved, dark: spec.dark, light: spec.light, caption }
+      ? {
+          mode: "screenshot",
+          url: resolved,
+          dark: spec.dark,
+          light: spec.light,
+          caption,
+        }
       : null;
   }
 
@@ -308,11 +332,23 @@ const parseMediaSpec = (rawValue, entry) => {
   }
 
   if (remaining.startsWith("/")) {
-    return { mode: "local", path: remaining, dark: spec.dark, light: spec.light, caption };
+    return {
+      mode: "local",
+      path: remaining,
+      dark: spec.dark,
+      light: spec.light,
+      caption,
+    };
   }
 
   if (remaining) {
-    return { mode: "download", url: remaining, dark: spec.dark, light: spec.light, caption };
+    return {
+      mode: "download",
+      url: remaining,
+      dark: spec.dark,
+      light: spec.light,
+      caption,
+    };
   }
 
   if ((tokens.includes("dark") || tokens.includes("light")) && urlFallback) {
@@ -790,7 +826,9 @@ const main = async () => {
     const key = teachingEntryKey(entry);
     processedKeys.add(key);
 
-    const { assets, slug, hasSpecs } = await processEntry(entry, { force: FORCE });
+    const { assets, slug, hasSpecs } = await processEntry(entry, {
+      force: FORCE,
+    });
 
     if (assets.length) {
       manifest[key] = assets;
@@ -828,13 +866,6 @@ const main = async () => {
     }
   }
 
-  for (const slug of staleSlugs) {
-    const slugPath = path.join(OUTPUT_DIR, slug);
-    if (existsSync(slugPath)) {
-      await fs.rm(slugPath, { recursive: true, force: true });
-    }
-  }
-
   const referencedSlugs = new Set();
   for (const assets of Object.values(manifest)) {
     for (const asset of assets) {
@@ -842,6 +873,15 @@ const main = async () => {
         const slug = asset.src.split("/")[2];
         if (slug) referencedSlugs.add(slug);
       }
+    }
+  }
+
+  for (const slug of staleSlugs) {
+    if (referencedSlugs.has(slug)) continue;
+
+    const slugPath = path.join(OUTPUT_DIR, slug);
+    if (existsSync(slugPath)) {
+      await fs.rm(slugPath, { recursive: true, force: true });
     }
   }
 
@@ -861,18 +901,16 @@ const main = async () => {
     }
   }
 
-  await fs.writeFile(
-    MANIFEST_PATH,
-    JSON.stringify(manifest, null, 2),
-    "utf8",
-  );
+  await fs.writeFile(MANIFEST_PATH, JSON.stringify(manifest, null, 2), "utf8");
 
   if (sharedBrowser) {
     await sharedBrowser.close();
   }
 
   if (!QUIET) {
-    console.log(`Manifest written to ${path.relative(process.cwd(), MANIFEST_PATH)}`);
+    console.log(
+      `Manifest written to ${path.relative(process.cwd(), MANIFEST_PATH)}`,
+    );
   }
 };
 

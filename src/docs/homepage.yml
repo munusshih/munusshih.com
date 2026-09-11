@@ -9,17 +9,17 @@
   onOff: 'On'
   title: In Motion
   body: |-
-    1. I'm working on a `research`  project with Professor [Asad Pervaiz](https://oldthingsnewplaces.com) called [“Source, Code, Print”](https://source-code-print.vercel.app/)
-    2. I'm currently co-organizing and advising `a book fair` called [Other Island Book Fair](https://otherislands.designfuture.space/) at Pratt Institute
-    3. I'm in the early stage of planning and `organizing` the 2026 Processing Community Day Taiwan!
+    1. I'm developing [Source, Code, Print](https://source-code-print.vercel.app/) with [Asad Pervaiz](https://oldthingsnewplaces.com/) and [Carolina Stierli de Abreu](https://carolinastierlideabreu.com/).
+    2. I helped co-organize and advise [Other Islands Book Fair](https://otherislands.designfuture.space/) at Pratt Institute.
+    3. I co-organized [Processing Community Day Taiwan 2026](https://pcd.sponact.org/) with SpOnAcT!.
   background: DeepSkyBlue
   textColor: black
 - order: '3'
   type: LinkCard
   size: x2-card
   onOff: 'On'
-  title: A New Opensource Library
-  body: I recently made a new library where you can make books with p5.js!
+  title: A New Open-Source Library
+  body: I made p5.book, an open-source library for creating books with p5.js.
   link:
     href: https://p5-book.vercel.app/workshop/worksheet
   targetName: '[video] https://p5-book.vercel.app/workshop/worksheet'
@@ -34,23 +34,21 @@
   type: ListCard
   onOff: 'On'
   title: Writings
-  body: |-
-    - I'm trying to write more!
-    - But before that you can read this about [From Zine-Coding to Collective-Worldbuilding](https://github.com/processing/OSACC-p5.js-Access-Report/blob/main/4-reflection/reflection-by-munus-shih.md)
+  body: Read [From Zine-Coding to Collective-Worldbuilding](https://github.com/processing/OSACC-p5.js-Access-Report/blob/main/4-reflection/reflection-by-munus-shih.md), a reflection on access, creative coding, and collective publishing.
   background: MediumPurple
   textColor: black
 - order: '8'
   type: WorkCard
   onOff: 'On'
   title: Recent Exhibition
-  body: I'm currently showing this video installation at [Accent Sisters](https://www.instagram.com/p/DV6TYrTAfcr/) that features conversation on colonization, history and education with artists Anoushka Bhalla and Alexandria Deters
+  body: I showed a collaborative video installation at [Accent Sisters](https://www.instagram.com/p/DV6TYrTAfcr/) built from conversations about colonization, history, and education with Anoushka Bhalla and Alexandria Deters.
   targetName: /threads/smoke.mp4
 - order: '9'
   type: WorkCard
   size: x2-card
   onOff: 'On'
   title: Behind the Scene
-  body: A recent work in progress that'll be showing at National Taiwan University! Collabored with I-hao Liao and [no side here](https://www.instagram.com/no.side.here)
+  body: Noise in the Field was presented at National Taiwan University in collaboration with I-Hao Liao and [no side here](https://www.instagram.com/no.side.here).
   targetName: /homepage/noise.jpg
   background: '#8b0000'
   textColor: white

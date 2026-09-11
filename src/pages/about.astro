@@ -18,20 +18,22 @@ const cloutHtml = parseMarkdown(cloutMarkdown);
   image={`/assets/og/pages/about.jpg`}
 >
   <main class="p-[var(--page-margin)]">
-    <Media src={"/assets/about/P7200611.JPG"} isVideo={false} />
+    <Media
+      src={"/assets/about/m-station.webp"}
+      alt="Portrait of Munus Shih"
+      isVideo={false}
+    />
     <section
       class="mt-10 grid auto-cols-min auto-rows-min grid-cols-1 gap-0 pb-20 lg:grid-cols-2"
     >
       <article
         class="heading2 fade-in flex flex-col gap-4 prose-p:indent-[2em] prose-p:text-pretty prose-p:first-of-type:indent-[6em] prose-a:italic"
         set:html={aboutContentHtml}
-      >
-      </article>
+      />
       <div
         class="heading2 fade-in mt-20 lg:mt-0 lg:text-right prose-li:font-bold"
         set:html={cloutHtml}
-      >
-      </div>
+      />
     </section>
 
     <section class="fade-in">

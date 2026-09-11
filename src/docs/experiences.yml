@@ -1,11 +1,44 @@
-- title: Designer in Residence
+- title: Community Member
   date: Aug 2025 - Present
   type: Professional
+  place: NEW INC, New Museum, New York, NY, USA
+  link2: https://www.newmuseum.org/new-inc/members-alumni/?page=1&year=year-thirteen
+  link:
+    href: https://www.newmuseum.org/new-inc/members-alumni/?page=1&year=year-thirteen
+- title: Incubator Member, Y11 Art & Code
+  date: Aug 2024 - June 2025
+  type: Professional
+  place: NEW INC, New Museum, New York, NY, USA
+  link1: https://rhizome.org/editorial/2024/sep/10/announcing-the-new-inc-year-11-art-code-cohort/
+  link:
+    href: https://admin.newmuseum.org/wp-content/uploads/2024/08/NEW-INC-Y11_VFinal.pdf
+  link2: https://admin.newmuseum.org/wp-content/uploads/2024/08/NEW-INC-Y11_VFinal.pdf
+- title: Incubator Member, Y10 Cooperative Studies
+  date: Aug 2023 - June 2024
+  type: Professional
+  place: NEW INC, New Museum, New York, NY, USA
+  link1: https://www.newmuseum.org/person/tee-topor-munus-shih-nikki-makagiansar/
+  link:
+    href: https://admin.newmuseum.org/wp-content/uploads/2023/09/NEW-INC-Y10_V10.pdf
+  link2: https://admin.newmuseum.org/wp-content/uploads/2023/09/NEW-INC-Y10_V10.pdf
+- title: Processing Fellow
+  date: Aug 2022 - June 2023
+  type: Professional
   place: Processing Foundation, New York, NY, USA
-- title: Assistant Professor of Critical Technology
+  link2: https://www.processingfoundation.org/fellowships?
+  link:
+    href: https://www.processingfoundation.org/fellowships?
+- title: Designer in Residence
+  date: Aug 2025 - Dec 2025
+  type: Professional
+  place: Processing Foundation, New York, NY, USA
+- title: Assistant Professor
   date: Aug 2025 - Present
   type: Teaching
-  place: Pratt Institute, Brooklyn, NY, USA
+  place: Graduate Communications Design, Pratt Institute, Brooklyn, NY, USA
+  link2: https://www.pratt.edu/people/munus-shih/
+  link:
+    href: https://www.pratt.edu/people/munus-shih/
 - title: Associate Designer
   date: Oct 2024 - Feb 2025
   type: Professional
@@ -19,19 +52,23 @@
   type: Professional
   place: Athletics, Brooklyn, NY, USA
 - title: Adjunct Faculty
-  date: Jan 2024 - Jun 2024
+  date: Jan 2024 - May 2024
   type: Teaching
   place: The Cooper Union for the Advancement of Science and Art, New York, NY, USA
 - title: Open Source Developer
   date: June 2023 - Sep 2023
   type: Professional
   place: Google Summer of Code x Processing Foundation, USA (Remote)
+  link1: https://medium.com/processing-foundation/announcing-google-summer-of-code-2023-projects-75080c1554aa
+  link:
+    href: https://medium.com/processing-foundation/google-summer-of-code-2023-wrap-ups-961f73edcd1b
+  link2: https://medium.com/processing-foundation/google-summer-of-code-2023-wrap-ups-961f73edcd1b
 - title: Adjunct Faculty
-  date: Aug 2023 - Aug 2024
+  date: Aug 2023 - May 2024
   type: Teaching
   place: Parsons School of Design - The New School, New York, NY, USA
 - title: Teaching Assistant
-  date: Aug 2022 - Aug 2023
+  date: Aug 2022 - June 2023
   type: Teaching
   place: Parsons School of Design - The New School, New York, NY, USA
 - title: Design Engineer

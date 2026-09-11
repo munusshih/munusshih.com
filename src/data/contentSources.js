@@ -171,17 +171,22 @@ async function fetchSheetRows(url) {
     const response = await fetch(url, { cache: "no-store" });
     if (!response.ok) {
       // Extract tab name from URL for better error messaging
-      const urlParts = url.split('/');
+      const urlParts = url.split("/");
       const tabName = urlParts[urlParts.length - 1];
-      console.warn(`contentSources: failed to fetch tab "${decodeURIComponent(tabName)}" – ${response.status}. Tab might not exist in the sheet.`);
+      console.warn(
+        `contentSources: failed to fetch tab "${decodeURIComponent(tabName)}" – ${response.status}. Tab might not exist in the sheet.`,
+      );
       return [];
     }
     const data = await response.json();
     return Array.isArray(data) ? data : [];
   } catch (error) {
-    const urlParts = url.split('/');
+    const urlParts = url.split("/");
     const tabName = urlParts[urlParts.length - 1];
-    console.warn(`contentSources: fetch error for tab "${decodeURIComponent(tabName)}"`, error);
+    console.warn(
+      `contentSources: fetch error for tab "${decodeURIComponent(tabName)}"`,
+      error,
+    );
     return [];
   }
 }
@@ -232,6 +237,20 @@ function assignKey(target, key, value, datasetKey) {
 
   const normalised = normaliseKey(key);
   if (!normalised) return;
+
+  if (["link1", "link 1", "link2", "link 2"].includes(normalised)) {
+    const linkKey = normalised.includes("1") ? "link1" : "link2";
+    const href = String(trimmedValue);
+
+    target[linkKey] = href;
+
+    // The spreadsheet's second link is the primary public destination.
+    // Fall back to the first link when a row does not provide a second one.
+    if (linkKey === "link2" || !target.link?.href) {
+      target.link = { href };
+    }
+    return;
+  }
 
   if (datasetKey === "homepage") {
     if (["component", "card"].includes(normalised)) {
@@ -351,7 +370,8 @@ async function loadDataset(datasetKey) {
 }
 
 function postProcessEntry(datasetKey, entry) {
-  if (!entry || typeof entry !== 'object' || Object.keys(entry).length === 0) return null;
+  if (!entry || typeof entry !== "object" || Object.keys(entry).length === 0)
+    return null;
 
   if (datasetKey === "homepage") {
     const type = entry.type || entry.title;
