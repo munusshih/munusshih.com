@@ -16,6 +16,7 @@
     "generate:og": "node scripts/generateOgImages.js",
     "cache:teaching-media": "node scripts/cacheTeachingMedia.js",
     "cache:homepage-media": "node scripts/cacheHomepageMedia.js",
+    "capture:homepage": "node scripts/cacheHomepageMedia.js --force",
     "sync:yml": "node scripts/updateYamlFromSheets.js",
     "sync:work-assets": "node scripts/syncWorkAssets.js",
     "build": "npm run prepare:build && astro build",

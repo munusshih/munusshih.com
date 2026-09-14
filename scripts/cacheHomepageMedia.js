@@ -8,7 +8,10 @@ import path from "node:path";
 import os from "node:os";
 import { fileURLToPath } from "node:url";
 import { createHash } from "node:crypto";
+import { execFile } from "node:child_process";
+import { promisify } from "node:util";
 import yaml from "js-yaml";
+import ffmpegPath from "ffmpeg-static";
 import { chromium } from "playwright";
 import {
   homepageEntryKey,
@@ -37,6 +40,7 @@ const USER_AGENT =
 
 const VALID_IMAGE_EXTS = new Set(["jpg", "jpeg", "png", "gif", "webp", "avif"]);
 const VALID_VIDEO_EXTS = new Set(["mp4", "webm", "ogg", "mov", "m4v"]);
+const execFileAsync = promisify(execFile);
 
 const ensureDir = async (dir) => {
   await fs.mkdir(dir, { recursive: true });
@@ -329,6 +333,48 @@ const captureScreenshot = async (url, destination, options = {}) => {
   return destination;
 };
 
+const optimizeRecordedVideo = async (source, destination) => {
+  if (!ffmpegPath) {
+    await fs.rename(source, destination);
+    return;
+  }
+
+  try {
+    await execFileAsync(
+      ffmpegPath,
+      [
+        "-y",
+        "-i",
+        source,
+        "-vf",
+        "fps=12,scale=960:-2:flags=lanczos",
+        "-c:v",
+        "libvpx-vp9",
+        "-b:v",
+        "0",
+        "-crf",
+        "40",
+        "-deadline",
+        "good",
+        "-cpu-used",
+        "4",
+        "-an",
+        destination,
+      ],
+      { maxBuffer: 2 * 1024 * 1024 },
+    );
+  } catch (error) {
+    await fs.rm(destination, { force: true });
+    await fs.rename(source, destination);
+    if (!QUIET) {
+      console.warn(
+        "Video optimization failed; keeping the original capture",
+        error,
+      );
+    }
+  }
+};
+
 const recordVideo = async (url, destination, options = {}) => {
   const { dark = false } = options;
   if (!FORCE && existsSync(destination)) return destination;
@@ -361,7 +407,7 @@ const recordVideo = async (url, destination, options = {}) => {
     }
 
     await ensureDir(path.dirname(destination));
-    await fs.rename(videoPath, destination);
+    await optimizeRecordedVideo(videoPath, destination);
   } finally {
     await context.close();
     await fs.rm(tempDir, { recursive: true, force: true });
@@ -763,7 +809,9 @@ const processLinkEntry = async (entry) => {
           console.warn(`Link target download failed for "${entry.title}"`, error);
         }
       }
-    } else if (!effectiveHref) {
+    } else {
+      // A page URL in targetName is the preview source. Keep href as the
+      // destination users visit when they click the card.
       effectiveHref = first;
     }
   }

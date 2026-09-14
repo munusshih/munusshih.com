@@ -27,7 +27,8 @@
   body: I made p5.book, an open-source library for creating books with p5.js.
   link:
     href: https://p5-book.vercel.app/
-  targetName: https://p5-book.vercel.app/assets/book-cover-poster.png
+  targetName: https://p5-book.vercel.app/workshop/
+  previewMode: Record
   background: orange
   textColor: black
   show: true

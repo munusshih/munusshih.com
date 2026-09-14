@@ -1,1 +1,13 @@
-{}
+{
+  "LinkCard|https://p5-book.vercel.app/|https://p5-book.vercel.app/workshop/": {
+    "type": "link",
+    "assets": [
+      {
+        "kind": "video",
+        "src": "/assets/homepage/links/link-a-new-open-source-library-bd705cb9/preview.webm",
+        "source": "recorded"
+      }
+    ],
+    "href": "https://p5-book.vercel.app/"
+  }
+}

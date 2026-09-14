@@ -11,9 +11,12 @@ The production workbook is the rollback source and was not edited. The developme
 The new code is backward-compatible:
 
 - Homepage uses `Show` when present and falls back to `On / Off`.
+- Homepage `Capture mode` provides `Auto`, `Record`, `Screenshot`, and `OG` controls. `targetName` is the page or asset to capture, while `href` remains the card's click destination.
 - Work Glossary creates homepage work cards only when `Feature on homepage` is checked.
 - Writing uses checked entries in `Homepage order`; if none are checked, it falls back to the three newest titled entries.
 - Teaching uses the explicit `Ongoing` checkbox when present and falls back to semester inference when the column is absent. The development sheet currently checks Technology A, Technology B, Thesis I, Thesis II, and Visual Language B.
 - The previous manual homepage work rows remain in the workbook and are disabled only through `Show`.
 
 The development workbook is private, so local preview uses the checked-in YAML snapshots. Before production migration, apply the reviewed development ranges to the production workbook, remove the development-only data override, and verify the live OpenSheet reads before deployment.
+
+To refresh homepage media from the checked-in snapshot, run `npm run capture:homepage`. `Record` automatically scrolls from the top of the target page, then compresses the recording to a lightweight 960 × 540 WebM; `Screenshot` makes a compressed full-page JPEG; `OG` uses the page's Open Graph image or video. Existing cached captures are replaced only by this explicit refresh command or a force build.
