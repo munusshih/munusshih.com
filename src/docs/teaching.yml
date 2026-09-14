@@ -6,36 +6,37 @@
   link2: https://sfpc.study/sessions/summer-26/building-benches-for-the-web
   link:
     href: https://sfpc.study/sessions/summer-26/building-benches-for-the-web
+  ongoing: 'FALSE'
 - title: 'Graduate Studio: Technology B'
   date: Fall 2026
   type: Class
-  ongoing: true
   place: Pratt Institute, Brooklyn, NY
   link2: https://tech-b.munusshih.com/
   link:
     href: https://tech-b.munusshih.com/
   img1: OG
   img2: '[video] https://tech-b.munusshih.com/'
+  ongoing: 'TRUE'
 - title: Visual Language B
   date: Spring 2026
   type: Class
-  ongoing: true
   place: Pratt Institute, Brooklyn, NY
   link2: https://vlb.munusshih.com/
   link:
     href: https://vlb.munusshih.com/
   img1: OG
   img2: '[video] https://vlb.munusshih.com/'
+  ongoing: 'TRUE'
 - title: Thesis II
   date: Spring 2026
   type: Class
-  ongoing: true
   place: Pratt Institute, Brooklyn, NY
   link2: https://thesis-ii.munusshih.com/
   link:
     href: https://thesis-ii.munusshih.com/
   img1: OG
   img2: '[video] https://thesis-ii.munusshih.com/'
+  ongoing: 'TRUE'
 - title: Homing.zip ft. Tzuyun Wei
   date: Nov 30, 2025
   type: Workshop
@@ -45,6 +46,7 @@
     href: https://drive.google.com/drive/folders/1la1zmCLlDt7F7Z29QzQ57fWiAAnbz0_C?usp=drive_link
   img1: https://drive.google.com/file/d/19AfR-JwxlaPy5zfFaSuQ9SCYpSj2E0ck/view?usp=drive_link
   img2: https://drive.google.com/file/d/1IAkRKULF_KKBImSKIyRefvCDmNuiTGFZ/view?usp=drive_link
+  ongoing: 'FALSE'
 - title: 'p5.js 2.0 Workshop: Combinatory Poetry with Variable Fonts'
   date: Sep 27, 2025
   type: Workshop
@@ -55,26 +57,27 @@
   link2: https://www.eventbrite.com/e/p5js-20-workshop-combinatory-poetry-with-variable-fonts-tickets-1623313417129?aff=oddtdtcreator
   img1: '[video] https://poetry-p5.free99.work/poetry'
   img2: '[video] https://poetry-p5.free99.work/freewrite'
+  ongoing: 'FALSE'
 - title: Thesis I
   date: Fall 2025, Fall 2026
   type: Class
-  ongoing: true
   place: Pratt Institute, Brooklyn, NY
   link2: https://thesis-i.munusshih.com/
   link:
     href: https://thesis-i.munusshih.com/
   img1: OG
   img2: '[video] https://thesis-i.munusshih.com/'
+  ongoing: 'TRUE'
 - title: 'Graduate Studio: Technology A'
   date: Fall 2025, Fall 2026
   type: Class
-  ongoing: true
   place: Pratt Institute, Brooklyn, NY
   link2: https://tech-a.munusshih.com/
   link:
     href: https://tech-a.munusshih.com/
   img1: OG
   img2: '[video] https://tech-a.munusshih.com/'
+  ongoing: 'TRUE'
 - title: Combinatory Poetry with Variable Fonts ft. Nikki Makagiansar
   date: June 29, 2025
   type: Workshop
@@ -84,6 +87,7 @@
     href: https://typelab.free99.work
   img1: OG
   img2: '[img] https://2025.typographics.com/typelab/'
+  ongoing: 'FALSE'
 - title: 'Touching Computers: NFC as Ritual, Memory, and Interface ft. Spencer Chang'
   date: Jun 19, 2025
   type: Workshop
@@ -93,6 +97,7 @@
     href: https://spencer.place/fapa-webstones
   img1: '[video] https://spencer.place/fapa-webstones'
   img2: https://spencer.place/assets/nfc-1.mp4
+  ongoing: 'FALSE'
 - title: 'Dragon Bytes: Coding Chinese New Year with p5.js and AI ft. Roy Yang'
   date: Jan 2024
   type: Workshop
@@ -101,6 +106,7 @@
   link:
     href: https://www.figma.com/proto/JZCDRSr995rWYZfexwc0N5/DragonBytes?page-id=0%3A1&node-id=1-2&viewport=1346%2C632%2C0.48&t=TzzQkFhEuA56woWS-1&scaling=min-zoom&content-scaling=fixed
   img1: https://drive.google.com/file/d/1oxYCkRn5tXV36HMzUQ7686xKSTpQSM3P/view?usp=drive_link
+  ongoing: 'FALSE'
 - title: 'Creative Coding: SVG and Canvas Workshop Series'
   date: Oct 2023
   type: Workshop
@@ -108,6 +114,7 @@
   link2: https://www.notion.so/munusshih/NCTU-IAA-f9c5d9e4b9ed46f9ad6558f3f7465150?pvs=4
   link:
     href: https://www.notion.so/munusshih/NCTU-IAA-f9c5d9e4b9ed46f9ad6558f3f7465150?pvs=4
+  ongoing: 'FALSE'
 - title: Hello Zine! 從小誌到開源藝術
   date: Sep 2023
   type: Workshop
@@ -117,6 +124,7 @@
     href: https://www.youtube.com/live/QfgvuTZPCa0?si=VifKhDf5IUivzc6q
   img1: OG
   img2: https://drive.google.com/file/d/11rxYWyFMJfys0naJd2hRN3nv2gmCB3IO/view?usp=drive_link
+  ongoing: 'FALSE'
 - title: CSS Magic! Transition, Transform and Animation
   date: June 2022
   type: Workshop
@@ -124,6 +132,7 @@
   link2: https://www.notion.so/munusshih/CSS-Magic-Click-Touch-Move-9589b601e9db449ca452906d2ca96e2f
   link:
     href: https://www.notion.so/munusshih/CSS-Magic-Click-Touch-Move-9589b601e9db449ca452906d2ca96e2f
+  ongoing: 'FALSE'
 - title: p5.(Gen)Zine V.2
   date: June 2022
   type: Workshop
@@ -134,6 +143,7 @@
   link2: https://www.youtube.com/watch?v=lAQc3Ij3O8k&ab_channel=ProcessingFoundation
   img1: OG
   img2: https://drive.google.com/file/d/1CrJnuCPDmnGBjf6HRODG9uoK1viPk4w0/view?usp=drive_link
+  ongoing: 'FALSE'
 - title: p5.(Gen)Zine
   date: June 2022
   type: Workshop
@@ -143,6 +153,7 @@
     href: https://processingfoundation.org/advocacy/code-decolonized
   img1: OG
   img2: '`Theingi Thann` https://miro.medium.com/v2/resize:fit:4800/format:webp/0*cI9Ae3HfM8uUUfkA'
+  ongoing: 'FALSE'
 - title: '*New* Graphic Design: Program, Data, Custom Algorithm'
   date: Oct 2021
   type: Workshop
@@ -150,6 +161,7 @@
   link2: https://drive.google.com/file/d/1sFC5sSBimryMV4mpto14r7CKwlb5iYNo/view?usp=sharing
   link:
     href: https://drive.google.com/file/d/1sFC5sSBimryMV4mpto14r7CKwlb5iYNo/view?usp=sharing
+  ongoing: 'FALSE'
 - title: Critical Computation (Lab)
   date: Fall 2023
   type: Class
@@ -159,6 +171,7 @@
     href: https://munusshih.notion.site/Critical-Comp-Lab-2023-f68ebac60cf64edc814dcfe792f98734?source=copy_link
   img1: '`Michelle Xing` https://drive.google.com/file/d/1Vw46w3b3DJsMkHsLcSxvjN-GNwP-hKqW/view?usp=drive_link'
   img2: '`Ziye An` https://drive.google.com/file/d/1cvKfKf2lPkkwQEyWxHaqsOp-7CnbgaM7/view?usp=drive_link'
+  ongoing: 'FALSE'
 - title: 'Advanced Design: Product Design ft. Nikki Makagiansar'
   date: Spring 2024
   type: Class
@@ -168,6 +181,7 @@
     href: https://adpd.munusandniktari.com/
   img1: '[dark] [video] https://adpd.munusandniktari.com/'
   img2: OG
+  ongoing: 'FALSE'
 - title: The Web is Fluid, Generative and Live
   date: Spring 2024
   type: Class
@@ -178,6 +192,7 @@
     href: https://ci2-munus.munusandniktari.com/
   img1: '[dark] [video] https://ci2-munus.munusandniktari.com/'
   img2: OG
+  ongoing: 'FALSE'
 - title: 'Techniculture: A Critical Lens on Modular Type and Generative Design'
   date: Feb 2024
   type: Workshop
@@ -188,6 +203,7 @@
     href: https://www.typeelectives.com/courses/techniculture-sp-24
   img1: '`Nikki Makagiansar` https://www.typeelectives.com/_next/image?url=https%3A%2F%2Fimages.ctfassets.net%2Ftwk7e297h04x%2F3JFbqOhWpZ861RoH0YyRMv%2Ff1a5bb5ccbc3b5f9c227e20a141d7a75%2Fezgif-3-424d6c8df5.gif&w=3840&q=75'
   img2: https://antennebooks.com/cdn/shop/videos/c/vp/25780b9c54604539817a436913c9d7c0/25780b9c54604539817a436913c9d7c0.HD-1080p-4.8Mbps-43320493.mp4?v=0
+  ongoing: 'FALSE'
 - title: 'Innovation & Career Exploration: Culture & Creative Industry'
   date: Spring 2020
   type: Class
@@ -196,6 +212,7 @@
   link:
     href: https://sites.google.com/view/tzaiwu-cc/last-semester?authuser=0
   img1: https://lh3.googleusercontent.com/sitesv/AICyYdZLqGO6waTIXv5VPIk2KMYeEsa2YvnL5s_sGG0ETirNob4a0HDP4f4BZ9c1BVZoRfvO9Os7LAMmSWTwqT_bRC96lovw8l96C009-tILfLgxQ7LK4--aj_Y1MVHJfHkZ-6PFF6gGlLp6j-pesdX0H5htjzsbnyX7czw=w16383
+  ongoing: 'FALSE'
 - title: 'Future Museum: Creative Coding & Speculative Design'
   date: Fall 2020
   type: Class
@@ -204,20 +221,24 @@
   link:
     href: https://sites.google.com/view/tzaiwu-cc/home?authuser=0
   img1: https://lh3.googleusercontent.com/sitesv/AICyYdaptSy6vqPQ3LmQq_YkCxi3iyzgW_tCeuMp1sKUvCGKsgYzrCQ6HLAGZiq_RR24Q3JBy9Cxl8ZcUVWghsYNvgT2TVEuNkuM-4Th7mIs1_DLHbNNBzK2tw92-2Kkjkm8A0POdMdD5BpFfpZEpMe1dSikcFtPS9LCzr-XUxTJn4m50bLHmfxBWA-xaAM=w16383
+  ongoing: 'FALSE'
 - title: Major Studio 2 (Thesis)
   date: Spring 2023
   type: Class - TA
   place: Parsons School of Design, New York, NY, USA
   img1: '`Tatiana Lahera Kalainoff` https://drive.google.com/file/d/1FdjbTkLVMGpiRpNzHJB9nvy0NhSWRYPX/view?usp=drive_link'
   img2: '`Huong Pham` https://drive.google.com/file/d/1D7MzttMCpcJsDaOC7aNMq8D8HjU_1_eu/view?usp=drive_link'
+  ongoing: 'FALSE'
 - title: Graphic Design
   date: Spring 2019
   type: Class - TA
   place: National Tsing Hua University, Hsinchu, Taiwan
+  ongoing: 'FALSE'
 - title: Visual Communication Design
   date: Fall 2019
   type: Class - TA
   place: National Tsing Hua University, Hsinchu, Taiwan
+  ongoing: 'FALSE'
 - title: Major Studio 1 (Thesis)
   date: Fall 2022
   type: Class - TA
@@ -226,3 +247,4 @@
   link:
     href: https://github.com/munusshih/dv-majorstudio
   img1: '`Tina Titus Mathew` https://drive.google.com/file/d/1rVHL0Xe_0al6PKYDoNABpWrDFJh7MxH7/view?usp=drive_link'
+  ongoing: 'FALSE'

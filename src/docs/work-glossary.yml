@@ -1,64 +1,271 @@
-- workId: "016"
+- workID: '001'
+  name: Visualize My Value
+  date: '2021'
+  kind: Making
+  documentationStatus: Ready
+  featureOnHomepage: 'FALSE'
+- workID: '002'
+  name: Layers
+  date: '2022'
+  kind: Making
+  documentationStatus: Ready
+  featureOnHomepage: 'FALSE'
+- workID: '003'
+  name: 'Angles: Cross Perspectives in Design'
+  date: '2022'
+  kind: Making
+  documentationStatus: Ready
+  featureOnHomepage: 'FALSE'
+- workID: '004'
+  name: p5.zine
+  date: '2022'
+  collaborator: Early idea co-developed with Iley Cao
+  kind: Making, Teaching, Open Source, Research
+  documentationStatus: Ready
+  link:
+    href: https://counter-tools.xyz/first-prototype-2-p5genzine.html
+  link2: https://counter-tools.xyz/first-prototype-2-p5genzine.html
+  link3: https://cc.vvvvvvaria.org/wiki/Typesetting_tools
+  link4: https://music.algorave.in/compilation-one/about.html
+  featureOnHomepage: 'FALSE'
+- workID: '005'
+  name: Soulmate Matcher
+  date: '2023'
+  kind: Making, Research, Community
+  documentationStatus: Ready
+  featureOnHomepage: 'FALSE'
+- workID: '006'
+  name: National ZhaoZhou Referendum
+  date: '2023'
+  kind: Making, Research
+  documentationStatus: Ready
+  featureOnHomepage: 'FALSE'
+- workID: '007'
+  name: 'Image of the Studio: Data Designer'
+  date: '2023'
+  kind: Making
+  documentationStatus: Documented
+  link:
+    href: https://www.informationisbeautifulawards.com/showcase/7086-image-of-the-studio-data-designer-visualizer
+  featureOnHomepage: 'FALSE'
+- workID: '008'
+  name: XR
+  date: '2024'
+  kind: Making
+  documentationStatus: Documented
+  link:
+    href: https://www.creativeboom.com/news/extreme-reach-becomes-xr-as-athletics-rebrands-video-production-and-management-platform/
+  link2: https://www.creativeboom.com/news/extreme-reach-becomes-xr-as-athletics-rebrands-video-production-and-management-platform/
+  link3: https://www.underconsideration.com/brandnew/archives/new_logo_and_identity_for_xr_by_athletics.php
+  featureOnHomepage: 'FALSE'
+- workID: '009'
+  name: Wave Maker
+  date: '2024'
+  kind: Making
+  documentationStatus: Not Yet
+  featureOnHomepage: 'FALSE'
+- workID: '010'
+  name: Duty Free
+  date: '2024'
+  kind: Making, Research
+  documentationStatus: Documented
+  link:
+    href: https://2024.demofestival.org/presenters/duty-free
+  featureOnHomepage: 'FALSE'
+- workID: '011'
+  name: (4066.62, 62)
+  date: '2024'
+  kind: Making, Research, Open Source
+  documentationStatus: Documented
+  link:
+    href: https://www.hakka.gov.tw/chhakka/app/data/view?id=323&module=preferred&serno=861f8efd-5613-46fa-8ced-1db55c936c39
+  featureOnHomepage: 'FALSE'
+- workID: '012'
+  name: New Museum
+  date: '2024'
+  kind: Making
+  documentationStatus: Documented
+  link:
+    href: https://www.underconsideration.com/brandnew/archives/new_identity_for_new_museum_by_athletics.php
+  link2: https://www.underconsideration.com/brandnew/archives/new_identity_for_new_museum_by_athletics.php
+  link3: https://winners.webbyawards.com/2025/websites-and-mobile-sites/general-desktop-mobile-sites/cultural-institutions/329597/new-museum-website
+  featureOnHomepage: 'FALSE'
+- workID: '013'
+  name: GOCA
+  date: '2025'
+  kind: Making
+  documentationStatus: Documented
+  link:
+    href: https://www.creativeboom.com/news/bringing-emerging-asian-art-to-the-forefront-athletics-identity-for-goca/
+  link2: https://www.creativeboom.com/news/bringing-emerging-asian-art-to-the-forefront-athletics-identity-for-goca/
+  link3: https://www.underconsideration.com/brandnew/archives/new_logo_and_identity_for_goca_by_athletics.php
+  featureOnHomepage: 'FALSE'
+- workID: '014'
+  name: R&M
+  date: '2025'
+  kind: Making
+  documentationStatus: Documented
+  featureOnHomepage: 'FALSE'
+- workID: '015'
+  name: Unearthing Air
+  date: '2025'
+  kind: Making, Research
+  documentationStatus: Documented
+  featureOnHomepage: 'FALSE'
+- workID: '016'
   name: Syllabus, Subject to Change
-  date: "2025"
+  date: '2025'
   kind: Open Source, Making, Research
   documentationStatus: Not Yet
-  featureOnHomepage: true
-  homepageOrder: 12
+  link:
+    href: https://www.newmuseum.org/press-release/new-inc-new-museums-cultural-incubator-announces-schedule-for-demo2025-its-annual-festival-celebrating-art-design-and-technology/
+  featureOnHomepage: 'TRUE'
+  homepageOrder: '12'
   homepageTitle: Yet to be Documented
   homepageSummary: “Syllabus (Subject to Change)” This work was showcased at the [Demo Festival 2025](https://demofestival.org)
   homepageLink: none
   homepageMedia: /syllabus-subject/01.jpg | /syllabus-subject/02.jpg | /syllabus-subject/03.jpg
   homepageSize: x2-card
-  homepageBackground: "#81D8D0"
-- workId: "020"
+  homepageBackground: '#81D8D0'
+- workID: '017'
+  name: Recreational Timebank (Offline Branch)
+  date: '2025'
+  kind: Making, Research
+  documentationStatus: Not Yet
+  featureOnHomepage: 'FALSE'
+- workID: '018'
+  name: Guest Stop (In Transit)
+  date: '2025'
+  kind: Making, Research
+  documentationStatus: Not Yet
+  featureOnHomepage: 'FALSE'
+- workID: '019'
+  name: Open Assembly
+  date: '2025'
+  featureOnHomepage: 'FALSE'
+- workID: '020'
   name: Noise In the Field
-  date: "2026"
+  date: '2026'
   kind: Research, Making
   documentationStatus: Not Yet
-  featureOnHomepage: true
-  homepageOrder: 9
+  featureOnHomepage: 'TRUE'
+  homepageOrder: '9'
   homepageTitle: Behind the Scene
   homepageSummary: Noise in the Field was presented at National Taiwan University in collaboration with I-Hao Liao and [no side here](https://www.instagram.com/no.side.here).
   homepageLink: none
   homepageMedia: /homepage/noise.jpg
   homepageSize: x2-card
-  homepageBackground: "#8b0000"
+  homepageBackground: '#8b0000'
   homepageTextColor: white
-- workId: "022"
+- workID: '021'
+  name: p5.book
+  date: '2026'
+  kind: Research, Making, Teaching, Open Source
+  documentationStatus: Documented
+  link:
+    href: https://ccfest.rocks/march21-2026
+  link2: https://ccfest.rocks/march21-2026
+  featureOnHomepage: 'FALSE'
+- workID: '022'
   name: Contemporary Worker's Survival Guide
-  date: "2026"
+  date: '2026'
   kind: Research, Making, Community
   documentationStatus: Not Yet
-  featureOnHomepage: true
-  homepageOrder: 11
+  featureOnHomepage: 'TRUE'
+  homepageOrder: '11'
   homepageTitle: Recent Publication
   homepageSummary: I recently co-authored a book with my [design co-op](https://coassembly.work) in Taiwan on how to survive as a contemporary creative worker under neoliberalism
   homepageLink: https://www.instagram.com/p/DVa5PDCEzzh/?img_index=1
   homepageMedia: /coassembly/cover.jpg | /coassembly/01.jpg | /coassembly/02.jpg | /coassembly/03.jpg | /coassembly/back.jpg
   homepageSize: x2-card
   homepageTextColor: black
-- workId: "023"
+- workID: '023'
   name: Threading Memory
-  date: "2026"
+  date: '2026'
   kind: Making, Research
   documentationStatus: Not Yet
-  featureOnHomepage: true
-  homepageOrder: 8
+  featureOnHomepage: 'TRUE'
+  homepageOrder: '8'
   homepageTitle: Recent Exhibition
   homepageSummary: I showed a collaborative video installation at [Accent Sisters](https://www.instagram.com/p/DV6TYrTAfcr/) built from conversations about colonization, history, and education with Anoushka Bhalla and Alexandria Deters.
   homepageLink: https://www.instagram.com/p/DV6TYrTAfcr/
   homepageMedia: /threads/smoke.mp4
   homepageSize: x2-card
-- workId: "024"
+- workID: '024'
   name: 50 Books x 50 Covers
-  date: "2026"
+  date: '2026'
   kind: Making
   documentationStatus: Not Yet
-  featureOnHomepage: true
-  homepageOrder: 10
+  featureOnHomepage: 'TRUE'
+  homepageOrder: '10'
   homepageTitle: A Collaborated Project
   homepageSummary: I advised and collaborated with faculty and students from AIGA Pratt to design this exhibition for AIGA's ["50 Books x 50 Covers"](https://www.aiga.org/professional-development/competitions-campaigns/50-books-50-covers)
   homepageLink: none
   homepageMedia: /aiga-books/03.JPG | /aiga-books/04.JPG | /aiga-books/01.JPG | /aiga-books/02.JPG
   homepageSize: x3-card
+- workID: '025'
+  name: 'Open Source Hakka: Bingo'
+  date: '2026'
+  kind: Making, Open Source
+  documentationStatus: Not Yet
+  link:
+    href: https://www.artrabbit.com/events/a-story-that-lives-within-us-ada-volume-ii
+  link2: https://www.artrabbit.com/events/a-story-that-lives-within-us-ada-volume-ii
+  featureOnHomepage: 'FALSE'
+- workID: '026'
+  name: '@munusshih/p5.export'
+  date: '2026'
+  kind: Research, Making, Open Source, Software
+  documentationStatus: Documented
+  link:
+    href: https://www.npmjs.com/package/@munusshih/p5.export
+  featureOnHomepage: 'FALSE'
+- workID: '027'
+  name: p5.js Contributor
+  date: '2023'
+  collaborator: Processing Foundation / p5.js community
+  kind: Open Source, Software
+  documentationStatus: Documented
+  link:
+    href: https://github.com/processing/p5.js/blob/main/CONTRIBUTORS.md
+  featureOnHomepage: 'FALSE'
+- workID: '028'
+  name: Critical Coding Cookbook Reader
+  date: '2026'
+  collaborator: Xin Xin, Katherine Moriwaki, Kevin Cadena
+  kind: Professional, Publication Design
+  documentationStatus: Documented
+  link:
+    href: https://eyebeam.org/with-xin-xin/
+  featureOnHomepage: 'FALSE'
+- workID: '029'
+  name: The Only Thing That Lasts
+  date: '2025'
+  collaborator: Nikki Makagiansar
+  kind: Professional, Web Design, Archive
+  documentationStatus: Documented
+  link:
+    href: https://static1.squarespace.com/static/537c9f82e4b031913f8e5d37/t/68d457e8397bf37a394a1aa8/1758746600624/Booklet_Press%2B%26%2BPull_%2BTwo%2BDecades%2Bat%2Bthe%2BRobert%2BBlackburn%2BPrintmaking%2BWorkshop_090325.pdf
+  link2: https://static1.squarespace.com/static/537c9f82e4b031913f8e5d37/t/68d457e8397bf37a394a1aa8/1758746600624/Booklet_Press%2B%26%2BPull_%2BTwo%2BDecades%2Bat%2Bthe%2BRobert%2BBlackburn%2BPrintmaking%2BWorkshop_090325.pdf
+  featureOnHomepage: 'FALSE'
+- workID: '030'
+  name: Processing Foundation Visual Systems
+  date: '2025'
+  collaborator: Processing Foundation
+  kind: Professional, Design Systems, Open Source
+  documentationStatus: Documented
+  link:
+    href: https://www.processingfoundation.org/grants
+  featureOnHomepage: 'FALSE'
+- workID: '031'
+  name: Source, Code, Print
+  date: '2026'
+  collaborator: Asad Pervaiz, Carolina Stierli de Abreu
+  kind: Research, Publishing, Open Source
+  documentationStatus: Documented
+  link:
+    href: https://source-code-print.vercel.app/
+  featureOnHomepage: 'FALSE'
+- name: Robert Blackburn
+  link:
+    href: https://www.rbpmw-efanyc.org/oralhistory

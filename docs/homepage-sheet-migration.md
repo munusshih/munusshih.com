@@ -1,12 +1,13 @@
-# Homepage sheet development migration
+# Homepage sheet migration
 
-Date: 2026-09-11
+- Started: 2026-09-11
+- Migrated to production: 2026-09-14
 
 - Production workbook: `1xjTWCIFYt3wOf0qKDcid2PxkLllHN3cTjkyLnOfDvBE`
 - Development workbook: `1YiU0TE5AKzGmDE0J0JrKoP1teNbvsHw-mvC0fAR8gcY`
 - Development branch: `codex/homepage-sheet-dev`
 
-The production workbook is the rollback source and was not edited. The development workbook is a complete Drive copy made before the migration.
+The development workbook was the review copy used to test the new controls. The reviewed Homepage, Work Glossary, Writing, Teaching, and Events ranges were migrated to the production workbook on 2026-09-14. Google Sheets version history remains the rollback path for the production workbook.
 
 The new code is backward-compatible:
 
@@ -17,6 +18,6 @@ The new code is backward-compatible:
 - Teaching uses the explicit `Ongoing` checkbox when present and falls back to semester inference when the column is absent. The development sheet currently checks Technology A, Technology B, Thesis I, Thesis II, and Visual Language B.
 - The previous manual homepage work rows remain in the workbook and are disabled only through `Show`.
 
-The development workbook is private, so local preview uses the checked-in YAML snapshots. Before production migration, apply the reviewed development ranges to the production workbook, remove the development-only data override, and verify the live OpenSheet reads before deployment.
+Production is again the source of truth. Local preview can still use the checked-in YAML snapshots when the production sheet is unavailable; a normal build refreshes those snapshots from the production workbook.
 
 To refresh homepage media from the checked-in snapshot, run `npm run capture:homepage`. `Record` automatically scrolls from the top of the target page, then compresses the recording to a lightweight 960 × 540 WebM; `Screenshot` makes a compressed full-page JPEG; `OG` uses the page's Open Graph image or video. Existing cached captures are replaced only by this explicit refresh command or a force build.

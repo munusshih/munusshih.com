@@ -1,103 +1,102 @@
-- order: "1"
+- order: '1'
   type: IntroCard
   size: x2-card
-  onOff: "On"
+  onOff: 'On'
   variant: trinity
   title: Learn more about me
   body: Munus Shih is a Taiwanese Minnan-Hakka creative coder, artist, educator, and organizer based in New York City. His work connects open-source software, collective publishing, teaching, and community infrastructure.
   link:
     href: https://meet.munusshih.com
-  show: true
-- order: "2"
+  show: 'TRUE'
+- order: '2'
   type: CustomCard
-  onOff: "On"
+  onOff: 'On'
   title: In Motion
   body: |-
     1. I'm developing [p5.book](https://p5-book.vercel.app/) and [p5.export](https://www.npmjs.com/package/@munusshih/p5.export), and updating [p5.zine](/work/p5-zine/). Together, these open-source projects explore how p5.js can support bookmaking, exporting sketches, and collective publishing.
-    2. I'm documenting recent projects including Threading Memory, Noise in the Field, Contemporary Worker's Survival Guide, and Syllabus (Subject to Change). I want their collaborative process to be as visible as their final outcomes.
-    3. I'm preparing to participate in [Solidarity AI](https://platform.coop/events/solidarity-ai/) at Chulalongkorn University in Bangkok, a conference focused on cooperative and community-governed AI, November 12 to 15, 2026.
+    2. I'm preparing to participate in [Solidarity AI](https://platform.coop/events/solidarity-ai/) at Chulalongkorn University in Bangkok, a conference focused on cooperative and community-governed AI.
   background: DeepSkyBlue
   textColor: black
-  show: true
-- order: "3"
+  show: 'TRUE'
+- order: '3'
   type: LinkCard
   size: x2-card
-  onOff: "On"
+  onOff: 'On'
   title: A New Open-Source Library
   body: I made p5.book, an open-source library for creating books with p5.js.
   link:
     href: https://p5-book.vercel.app/
   targetName: https://p5-book.vercel.app/workshop/
-  previewMode: Record
   background: orange
   textColor: black
-  show: true
-- order: "5"
+  show: 'TRUE'
+  captureMode: Record
+- order: '5'
   type: ListCard
-  onOff: "On"
+  onOff: 'On'
   title: Recent Events
   background: salmon
-  show: true
-- order: "6"
+  show: 'TRUE'
+- order: '6'
   type: ListCard
-  onOff: "On"
+  onOff: 'On'
   title: Writings
   body: Read [From Zine-Coding to Collective-Worldbuilding](https://github.com/processing/OSACC-p5.js-Access-Report/blob/main/4-reflection/reflection-by-munus-shih.md), a reflection on access, creative coding, and collective publishing.
   background: MediumPurple
   textColor: black
-  show: true
-- order: "8"
+  show: 'TRUE'
+- order: '8'
   type: WorkCard
-  onOff: "On"
+  onOff: 'On'
   title: Recent Exhibition
   body: I showed a collaborative video installation at [Accent Sisters](https://www.instagram.com/p/DV6TYrTAfcr/) built from conversations about colonization, history, and education with Anoushka Bhalla and Alexandria Deters.
   targetName: /threads/smoke.mp4
-  show: false
-- order: "9"
+  show: 'FALSE'
+- order: '9'
   type: WorkCard
   size: x2-card
-  onOff: "On"
+  onOff: 'On'
   title: Behind the Scene
   body: Noise in the Field was presented at National Taiwan University in collaboration with I-Hao Liao and [no side here](https://www.instagram.com/no.side.here).
   targetName: /homepage/noise.jpg
-  background: "#8b0000"
+  background: '#8b0000'
   textColor: white
-  show: false
-- order: "10"
+  show: 'FALSE'
+- order: '10'
   type: WorkCard
   size: x3-card
-  onOff: "On"
+  onOff: 'On'
   title: A Collaborated Project
   body: I advised and collaborated with faculty and students from AIGA Pratt to design this exhibition for AIGA's ["50 Books x 50 Covers"](https://www.aiga.org/professional-development/competitions-campaigns/50-books-50-covers)
   targetName: /aiga-books/03.JPG | /aiga-books/04.JPG | /aiga-books/01.JPG | /aiga-books/02.JPG
-  show: false
-- order: "11"
+  show: 'FALSE'
+- order: '11'
   type: WorkCard
   size: x2-card
-  onOff: "On"
+  onOff: 'On'
   title: Recent Publication
   body: I recently co-authored a book with my [design co-op](https://coassembly.work) in Taiwan on how to survive as a contemporary creative worker under neoliberalism
   link:
     href: https://www.instagram.com/p/DVa5PDCEzzh/?img_index=1
   targetName: /coassembly/cover.jpg | /coassembly/01.jpg | /coassembly/02.jpg | /coassembly/03.jpg | /coassembly/back.jpg
   textColor: black
-  show: false
-- order: "12"
+  show: 'FALSE'
+- order: '12'
   type: WorkCard
   size: x2-card
-  onOff: "On"
+  onOff: 'On'
   title: Yet to be Documented
   body: “Syllabus (Subject to Change)” This work was showcased at the [Demo Festival 2025](https://demofestival.org)
   targetName: /syllabus-subject/01.jpg | /syllabus-subject/02.jpg | /syllabus-subject/03.jpg
-  background: "#81D8D0"
-  show: false
-- order: "9"
+  background: '#81D8D0'
+  show: 'FALSE'
+- order: '9'
   type: MediaCard
   size: x2-card
-  onOff: "Off"
+  onOff: 'Off'
   title: Reading Club
   body: I recently co-hosted a Taiwanese reading club on David Reinfurt's new book “A Co-Program to Graphic Design”
   iframe: https://www.youtube.com/embed/ToMvJNLdQ6A?si=humglHpnYCMPIMpN
   background: yellow
   textColor: black
-  show: false
+  show: 'FALSE'
