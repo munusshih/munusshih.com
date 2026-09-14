@@ -13,10 +13,9 @@
   onOff: "On"
   title: In Motion
   body: |-
-    - Building [p5.book](https://p5-book.vercel.app/) and [p5.export](https://www.npmjs.com/package/@munusshih/p5.export).
-    - Updating [p5.zine](/work/p5-zine/).
-    - Teaching [Graduate Studio: Technology A](https://tech-a.munusshih.com/), [Graduate Studio: Technology B](https://tech-b.munusshih.com/), and [Thesis I](https://thesis-i.munusshih.com/) at Pratt this fall.
-    - Preparing for [Solidarity AI](https://platform.coop/events/solidarity-ai/) at Chulalongkorn University in Bangkok, November 12–15.
+    1. I'm developing [p5.book](https://p5-book.vercel.app/) and [p5.export](https://www.npmjs.com/package/@munusshih/p5.export), and updating [p5.zine](/work/p5-zine/)—three connected open-source projects exploring how p5.js can support bookmaking, exporting sketches, and collective publishing.
+    2. I'm teaching [Graduate Studio: Technology A](https://tech-a.munusshih.com/), [Graduate Studio: Technology B](https://tech-b.munusshih.com/), and [Thesis I](https://thesis-i.munusshih.com/) at Pratt Institute this fall, moving between creative coding, emerging technology, and thesis development.
+    3. I'm preparing to participate in [Solidarity AI](https://platform.coop/events/solidarity-ai/) at Chulalongkorn University in Bangkok, a conference focused on cooperative and community-governed AI, November 12–15.
   background: DeepSkyBlue
   textColor: black
   show: true
