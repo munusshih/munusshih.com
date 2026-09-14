@@ -9,6 +9,7 @@
 - title: 'Graduate Studio: Technology B'
   date: Fall 2026
   type: Class
+  ongoing: true
   place: Pratt Institute, Brooklyn, NY
   link2: https://tech-b.munusshih.com/
   link:
@@ -18,6 +19,7 @@
 - title: Visual Language B
   date: Spring 2026
   type: Class
+  ongoing: true
   place: Pratt Institute, Brooklyn, NY
   link2: https://vlb.munusshih.com/
   link:
@@ -27,6 +29,7 @@
 - title: Thesis II
   date: Spring 2026
   type: Class
+  ongoing: true
   place: Pratt Institute, Brooklyn, NY
   link2: https://thesis-ii.munusshih.com/
   link:
@@ -55,6 +58,7 @@
 - title: Thesis I
   date: Fall 2025, Fall 2026
   type: Class
+  ongoing: true
   place: Pratt Institute, Brooklyn, NY
   link2: https://thesis-i.munusshih.com/
   link:
@@ -64,6 +68,7 @@
 - title: 'Graduate Studio: Technology A'
   date: Fall 2025, Fall 2026
   type: Class
+  ongoing: true
   place: Pratt Institute, Brooklyn, NY
   link2: https://tech-a.munusshih.com/
   link:

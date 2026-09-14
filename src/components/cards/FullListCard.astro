@@ -4,8 +4,8 @@ import DraggableCard from "@/components/global/DraggableCard.astro";
 import Media from "@/components/utils/Media.astro";
 import { SITE_DESCRIPTION } from "../../consts";
 import {
-  isRecentOrUpcomingDate,
   prepareAndSortContent,
+  selectRecentEventEntries,
 } from "@/scripts/cleanDate.js";
 import {
   getPressEntries,
@@ -36,8 +36,7 @@ const pressEntries = await getPressEntries();
 const eventEntries = await getEventEntries();
 const teachingEntries = prepareAndSortContent(await getTeachingEntries());
 const commonsEntries = await getCommonsEntries();
-const recentEvents = () =>
-  eventEntries.filter(({ date }) => isRecentOrUpcomingDate(date));
+const recentEvents = () => selectRecentEventEntries(eventEntries);
 
 // Content selection
 const contentFilters = {

@@ -145,6 +145,50 @@ export function isRecentOrUpcomingDate(input, { now = new Date() } = {}) {
   return end >= thisMonthStart && start < afterNextMonthStart;
 }
 
+export function selectRecentEventEntries(
+  entries,
+  { now = new Date(), limit = 3 } = {},
+) {
+  if (!Array.isArray(entries) || limit <= 0) return [];
+
+  const preparedEvents = prepareAndSortContent(entries);
+  const selectedEvents = prepareAndSortContent(
+    entries.filter(({ date }) => isRecentOrUpcomingDate(date, { now })),
+  ).slice(0, limit);
+  const selectedKeys = new Set(
+    selectedEvents.map((entry) => `${entry.title}|${entry.originalDate}`),
+  );
+
+  const eventEnd = (entry) =>
+    parseLooseDate(entry.originalDate || entry.date, {
+      preferEndOfPeriod: true,
+    });
+  const addUntilFull = (candidates) => {
+    for (const entry of candidates) {
+      if (selectedEvents.length >= limit) break;
+      const key = `${entry.title}|${entry.originalDate}`;
+      if (selectedKeys.has(key)) continue;
+      selectedEvents.push(entry);
+      selectedKeys.add(key);
+    }
+  };
+
+  const nextUpcoming = preparedEvents
+    .filter((entry) => {
+      const end = eventEnd(entry);
+      return isValidDate(end) && end >= now;
+    })
+    .sort((a, b) => a._sortDate - b._sortDate);
+  const recentPast = preparedEvents.filter((entry) => {
+    const end = eventEnd(entry);
+    return isValidDate(end) && end < now;
+  });
+
+  addUntilFull(nextUpcoming);
+  addUntilFull(recentPast);
+  return selectedEvents;
+}
+
 export function prepareAndSortContent(content) {
   return content
     .map((item) => ({

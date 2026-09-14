@@ -6,6 +6,7 @@ import { getTeachingEntries } from "@/data/contentSources.js";
 import Media from "@/components/utils/Media.astro";
 import teachingMedia from "@/data/generated/teachingMedia.json" assert { type: "json" };
 import { teachingEntryKey, entryHasTokens } from "@/data/teachingUtils.js";
+import { isExplicitFeatureEnabled } from "@/data/homepageUtils.js";
 import { externalLinkAttrs } from "@/utils/externalLinks.js";
 
 const teachingEntriesRaw = await getTeachingEntries();
@@ -67,6 +68,14 @@ const isWorkshopLike = (item) => entryHasTokens(item, ["workshop", "lab"]);
 
 const isHappeningClass = (item) => {
   if (!isCourseLike(item)) return false;
+
+  if (
+    item.ongoing !== undefined &&
+    item.ongoing !== null &&
+    String(item.ongoing).trim() !== ""
+  ) {
+    return isExplicitFeatureEnabled(item.ongoing);
+  }
 
   if (
     entryHasTokens(item, [

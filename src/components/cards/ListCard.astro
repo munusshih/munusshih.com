@@ -5,9 +5,8 @@ import Media from "@/components/utils/Media.astro";
 import { parseMarkdownInline } from "@/utils/markdown.js";
 import { externalLinkAttrs } from "@/utils/externalLinks.js";
 import {
-  isRecentOrUpcomingDate,
-  parseLooseDate,
   prepareAndSortContent,
+  selectRecentEventEntries,
 } from "@/scripts/cleanDate.js";
 import {
   getPressEntries,
@@ -59,46 +58,7 @@ if (title === "Recent Press") {
   contentArray = prepareAndSortContent(pressEntries).slice(0, 3);
 } else if (["Upcoming Events", "Recent Events"].includes(title)) {
   const eventEntries = await getEventEntries();
-  const recentAndUpcoming = eventEntries.filter(({ date }) =>
-    isRecentOrUpcomingDate(date),
-  );
-  const preparedEvents = prepareAndSortContent(eventEntries);
-  const selectedEvents = prepareAndSortContent(recentAndUpcoming).slice(0, 3);
-  const selectedKeys = new Set(
-    selectedEvents.map((entry) => `${entry.title}|${entry.originalDate}`),
-  );
-  const now = new Date();
-  const eventEnd = (entry) =>
-    parseLooseDate(entry.originalDate || entry.date, {
-      preferEndOfPeriod: true,
-    });
-  const isValidDate = (date) =>
-    date instanceof Date && !Number.isNaN(date.valueOf());
-
-  const addUntilFull = (entries) => {
-    for (const entry of entries) {
-      if (selectedEvents.length >= 3) break;
-      const key = `${entry.title}|${entry.originalDate}`;
-      if (selectedKeys.has(key)) continue;
-      selectedEvents.push(entry);
-      selectedKeys.add(key);
-    }
-  };
-
-  const nextUpcoming = preparedEvents
-    .filter((entry) => {
-      const end = eventEnd(entry);
-      return isValidDate(end) && end >= now;
-    })
-    .sort((a, b) => a._sortDate - b._sortDate);
-  const recentPast = preparedEvents.filter((entry) => {
-    const end = eventEnd(entry);
-    return isValidDate(end) && end < now;
-  });
-
-  addUntilFull(nextUpcoming);
-  addUntilFull(recentPast);
-  contentArray = selectedEvents;
+  contentArray = selectRecentEventEntries(eventEntries);
 } else if (isWritingCard) {
   const writingEntries = (await getWritingEntries()).filter(
     (entry) => entry?.title,
