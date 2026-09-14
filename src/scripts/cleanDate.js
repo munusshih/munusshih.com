@@ -126,6 +126,77 @@ export function cleanLooseDate(input) {
   return date.toLocaleDateString("en-US", options);
 }
 
+export function formatEventDateForDisplay(
+  input,
+  { now = new Date(), preserveDetail = false } = {},
+) {
+  const detailedDate = cleanLooseDate(input);
+  if (preserveDetail) return detailedDate;
+
+  const start = parseLooseDate(input);
+  const end = parseLooseDate(input, { preferEndOfPeriod: true });
+  if (!isValidDate(start) || !isValidDate(end) || end >= now) {
+    return detailedDate;
+  }
+
+  return start.toLocaleDateString("en-US", {
+    month: "short",
+    year: "numeric",
+  });
+}
+
+const TEACHING_SEASONS_BY_MONTH = {
+  jan: "Spring",
+  january: "Spring",
+  feb: "Spring",
+  february: "Spring",
+  mar: "Spring",
+  march: "Spring",
+  apr: "Spring",
+  april: "Spring",
+  may: "Spring",
+  jun: "Summer",
+  june: "Summer",
+  jul: "Summer",
+  july: "Summer",
+  aug: "Fall",
+  august: "Fall",
+  sep: "Fall",
+  sept: "Fall",
+  september: "Fall",
+  oct: "Fall",
+  october: "Fall",
+  nov: "Fall",
+  november: "Fall",
+  dec: "Winter",
+  december: "Winter",
+};
+
+export function formatTeachingDateForDisplay(input) {
+  const raw = cleanInput(input);
+  if (!raw) return "";
+
+  const periods = raw.match(
+    /(?:spring|summer|fall|winter|jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)(?:\s*[–—-]\s*(?:jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?))?\s+\d{4}/gi,
+  );
+
+  if (!periods?.length) return cleanLooseDate(raw);
+
+  return periods
+    .map((period) => {
+      const year = period.match(/\d{4}/)?.[0];
+      const explicitSeason = period.match(/spring|summer|fall|winter/i)?.[0];
+      const firstMonth = period.match(/[A-Za-z]+/)?.[0]?.toLowerCase();
+      const season = explicitSeason
+        ? `${explicitSeason[0].toUpperCase()}${explicitSeason.slice(1).toLowerCase()}`
+        : TEACHING_SEASONS_BY_MONTH[firstMonth];
+
+      return season && year ? `${season} ${year}` : period;
+    })
+    .filter((period, index, allPeriods) => allPeriods.indexOf(period) === index)
+    .join(", ");
+}
+
 export function dateToSortable(input) {
   return parseLooseDate(input);
 }
@@ -193,7 +264,7 @@ export function prepareAndSortContent(content) {
   return content
     .map((item) => ({
       ...item,
-      originalDate: item.date,
+      originalDate: item.originalDate ?? item.date,
       date: item.date ? cleanLooseDate(item.date) : undefined,
       _sortDate: item.date ? dateToSortable(item.date) : undefined,
     }))

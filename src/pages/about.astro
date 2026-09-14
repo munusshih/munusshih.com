@@ -20,18 +20,18 @@ const cloutHtml = parseMarkdown(cloutMarkdown);
   <main class="p-[var(--page-margin)]">
     <Media
       src={"/assets/about/m-station.webp"}
-      alt="Portrait of Munus Shih"
+      alt="Munus Shih wearing glasses and a tan cap in a sunlit transit station"
       isVideo={false}
     />
     <section
       class="mt-10 grid auto-cols-min auto-rows-min grid-cols-1 gap-0 pb-20 lg:grid-cols-2"
     >
       <article
-        class="heading2 fade-in flex flex-col gap-4 prose-p:indent-[2em] prose-p:text-pretty prose-p:first-of-type:indent-[6em] prose-a:italic"
+        class="heading2 fade-in flex flex-col gap-4 prose-p:indent-[2em] prose-p:text-pretty prose-p:first-of-type:indent-[6em]"
         set:html={aboutContentHtml}
       />
       <div
-        class="heading2 fade-in mt-20 lg:mt-0 lg:text-right prose-li:font-bold"
+        class="clout heading2 fade-in mt-20 lg:mt-0 lg:text-right prose-li:font-bold"
         set:html={cloutHtml}
       />
     </section>
@@ -105,6 +105,33 @@ const cloutHtml = parseMarkdown(cloutMarkdown);
 </script>
 
 <style>
+  .clout :global(li:last-child) {
+    margin-top: 0.75em;
+  }
+
+  .clout :global(li:last-child a) {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border: 1px solid #000;
+    border-radius: 0.5rem;
+    color: #000;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 150ms ease;
+  }
+
+  .clout :global(li:last-child a:hover) {
+    color: #fff;
+    background: #000;
+  }
+
+  .clout :global(li:last-child a:focus) {
+    outline: none;
+    box-shadow: 0 0 0 2px #000;
+  }
+
   .swiper-slide {
     display: flex;
     width: 30vw;
