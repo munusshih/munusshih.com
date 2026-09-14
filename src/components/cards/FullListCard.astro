@@ -4,6 +4,8 @@ import DraggableCard from "@/components/global/DraggableCard.astro";
 import Media from "@/components/utils/Media.astro";
 import { SITE_DESCRIPTION } from "../../consts";
 import {
+  formatEventDateForDisplay,
+  formatTeachingDateForDisplay,
   prepareAndSortContent,
   selectRecentEventEntries,
 } from "@/scripts/cleanDate.js";
@@ -38,16 +40,56 @@ const teachingEntries = prepareAndSortContent(await getTeachingEntries());
 const commonsEntries = await getCommonsEntries();
 const recentEvents = () => selectRecentEventEntries(eventEntries);
 
+const teachingCredit = (item) => {
+  const explicitCredit =
+    item.collaboration ||
+    item.coAuthor ||
+    item.coAuthors ||
+    item.coauthor ||
+    item.coauthors;
+  if (explicitCredit) {
+    return /^co-/i.test(String(explicitCredit))
+      ? explicitCredit
+      : `Co-taught with ${explicitCredit}`;
+  }
+
+  const excerptCredit = item.excerpt?.match(/^(Co-taught with [^;]+)(?:;|$)/i);
+  if (excerptCredit) return excerptCredit[1];
+
+  const titleCredit = item.title?.match(/\s+ft\.\s+(.+)$/i);
+  return titleCredit ? `Co-taught with ${titleCredit[1]}` : undefined;
+};
+
+const teachingTitle = (item) => item.title?.replace(/\s+ft\.\s+.+$/i, "");
+
+const displayTag = (item) => {
+  if (title === "Organizing") {
+    return String(item.type || "")
+      .split(",")
+      .map((tag) => tag.trim())
+      .filter((tag) => tag.toLowerCase() !== "organizing")
+      .join(", ");
+  }
+
+  if (title === "Press") {
+    return item.tag || "Press";
+  }
+
+  return item.type;
+};
+
 // Content selection
 const contentFilters = {
   Press: () => pressEntries,
   Talk: () =>
     eventEntries.filter(({ type }) =>
-      type ? ["talk"].includes(String(type).toLowerCase()) : false
+      type ? ["talk"].includes(String(type).toLowerCase()) : false,
     ),
   Exhibition: () =>
     eventEntries.filter(({ type }) =>
-      type ? ["exhibition", "show"].includes(String(type).toLowerCase()) : false
+      type
+        ? ["exhibition", "show"].includes(String(type).toLowerCase())
+        : false,
     ),
   Featured: () =>
     eventEntries.filter(({ type }) => {
@@ -65,22 +107,22 @@ const contentFilters = {
     teachingEntries.filter((item) => entryHasTokens(item, ["workshop", "lab"])),
   Teaching: () =>
     teachingEntries.filter((item) =>
-      entryHasTokens(item, ["course", "class", "teaching", "studio"])
+      entryHasTokens(item, ["course", "class", "teaching", "studio"]),
     ),
   "Code/Contribution": () =>
     eventEntries.filter(({ type }) =>
       type
         ? ["website", "code", "contribution"].includes(
-            String(type).toLowerCase()
+            String(type).toLowerCase(),
           )
-        : false
+        : false,
     ),
   "Upcoming Events": recentEvents,
   "Recent Events": recentEvents,
   Organizing: () => {
     // Get organizing entries from commons with type containing "organizing"
     return commonsEntries.filter(({ type = "" }) =>
-      String(type).toLowerCase().includes("organizing")
+      String(type).toLowerCase().includes("organizing"),
     );
   },
 };
@@ -88,6 +130,21 @@ const contentFilters = {
 let contentArray = contentFilters[title] ? contentFilters[title]() : [];
 
 contentArray = prepareAndSortContent(contentArray);
+const preserveDateDetail = ["Recent Events", "Upcoming Events"].includes(title);
+contentArray = contentArray.map((item) => ({
+  ...item,
+  displayTitle: title === "Teaching" ? teachingTitle(item) : item.title,
+  displayCollaboration:
+    title === "Teaching" ? teachingCredit(item) : item.collaboration,
+  displayTag: displayTag(item),
+  date: item.date
+    ? title === "Teaching"
+      ? formatTeachingDateForDisplay(item.originalDate || item.date)
+      : formatEventDateForDisplay(item.originalDate || item.date, {
+          preserveDetail: preserveDateDetail,
+        })
+    : undefined,
+}));
 ---
 
 <section
@@ -102,7 +159,7 @@ contentArray = prepareAndSortContent(contentArray);
         {contentArray.map((item, index) => (
           <li key={index} class="border-b py-2 pb-4">
             <div class="mb-2 grid w-full grid-cols-5 gap-8">
-              {item.title && (
+              {item.displayTitle && (
                 <h3 class="body1 col-span-3 flex flex-col gap-2 !leading-normal font-semibold text-balance">
                   {item.link?.href ? (
                     <a
@@ -110,21 +167,21 @@ contentArray = prepareAndSortContent(contentArray);
                       class="linkout"
                       {...externalLinkAttrs(item.link.href)}
                     >
-                      {item.title}
+                      {item.displayTitle}
                     </a>
                   ) : (
-                    item.title
+                    item.displayTitle
                   )}
                   {item?.note && <span class="code">{item.note}</span>}
-                  {item?.collaboration && (
+                  {item?.displayCollaboration && (
                     <div
                       class="code text-sm italic"
-                      set:html={markdownToHtml(item.collaboration)}
+                      set:html={markdownToHtml(item.displayCollaboration)}
                     />
                   )}
-                  {item.type && (
+                  {item.displayTag && (
                     <span class="code inline-block w-max rounded-[0.3em] border border-current px-[0.3em] py-[0.1em] text-[0.95em] leading-tight font-medium">
-                      {item.type}
+                      {item.displayTag}
                     </span>
                   )}
                 </h3>
