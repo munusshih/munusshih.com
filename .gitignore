@@ -18,6 +18,10 @@ pnpm-debug.log*
 .env
 .env.production
 
+# Local-only dossier evidence, analysis, and imported source material
+/private-context/
+/mentorship/
+
 # macOS-specific files
 .DS_Store
 Icon

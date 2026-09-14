@@ -1,5 +1,7 @@
 - munusshih@gmail.com
 - [Linkedin](https://linkedin.com/in/munusshih)
+- [Instagram @munusshih](https://www.instagram.com/munusshih/)
+- [Schedule to chat](https://calendar.app.google/VBgw7UHa5iGTDUaQA)
 - [Github](https://github.com/munusshih)
 
 <!-- ## Selected Clients
