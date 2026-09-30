@@ -36,3 +36,33 @@ export function entryHasTokens(entry, keywords) {
     return tokens.some((token) => token.includes(lowerKeyword));
   });
 }
+
+const academicTermDatePattern = /\b(?:spring|summer|fall|winter)\s+\d{4}\b/i;
+
+export function isShortTeachingEvent(entry) {
+  const type = String(entry?.type || "").toLowerCase();
+
+  if (type.includes("workshop")) return true;
+  if (!type.includes("class")) return false;
+
+  const date = String(entry?.originalDate ?? entry?.date ?? "");
+  return !academicTermDatePattern.test(date);
+}
+
+export function mergeEventsWithShortTeachingEntries(
+  eventEntries = [],
+  teachingEntries = [],
+) {
+  const entries = [
+    ...eventEntries,
+    ...teachingEntries.filter(isShortTeachingEvent),
+  ];
+  const seen = new Set();
+
+  return entries.filter((entry) => {
+    const key = teachingEntryKey(entry);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}

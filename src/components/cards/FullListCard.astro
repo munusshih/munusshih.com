@@ -15,7 +15,10 @@ import {
   getTeachingEntries,
   getCommonsEntries,
 } from "@/data/contentSources.js";
-import { entryHasTokens } from "@/data/teachingUtils.js";
+import {
+  entryHasTokens,
+  mergeEventsWithShortTeachingEntries,
+} from "@/data/teachingUtils.js";
 import { markdownToHtml } from "@/utils/markdown.js";
 import { externalLinkAttrs } from "@/utils/externalLinks.js";
 
@@ -38,7 +41,10 @@ const pressEntries = await getPressEntries();
 const eventEntries = await getEventEntries();
 const teachingEntries = prepareAndSortContent(await getTeachingEntries());
 const commonsEntries = await getCommonsEntries();
-const recentEvents = () => selectRecentEventEntries(eventEntries);
+const recentEvents = () =>
+  selectRecentEventEntries(
+    mergeEventsWithShortTeachingEntries(eventEntries, teachingEntries),
+  );
 
 const teachingCredit = (item) => {
   const explicitCredit =

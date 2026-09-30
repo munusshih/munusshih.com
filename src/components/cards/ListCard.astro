@@ -11,9 +11,11 @@ import {
 import {
   getPressEntries,
   getEventEntries,
+  getTeachingEntries,
   getWritingEntries,
 } from "@/data/contentSources.js";
 import { isExplicitFeatureEnabled } from "@/data/homepageUtils.js";
+import { mergeEventsWithShortTeachingEntries } from "@/data/teachingUtils.js";
 
 const backgroundColors = {
   "Upcoming Events": "#FFBF00",
@@ -57,8 +59,13 @@ if (title === "Recent Press") {
   const pressEntries = await getPressEntries();
   contentArray = prepareAndSortContent(pressEntries).slice(0, 3);
 } else if (["Upcoming Events", "Recent Events"].includes(title)) {
-  const eventEntries = await getEventEntries();
-  contentArray = selectRecentEventEntries(eventEntries);
+  const [eventEntries, teachingEntries] = await Promise.all([
+    getEventEntries(),
+    getTeachingEntries(),
+  ]);
+  contentArray = selectRecentEventEntries(
+    mergeEventsWithShortTeachingEntries(eventEntries, teachingEntries),
+  );
 } else if (isWritingCard) {
   const writingEntries = (await getWritingEntries()).filter(
     (entry) => entry?.title,
