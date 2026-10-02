@@ -8,7 +8,58 @@ import FullListCard from "@/components/cards/FullListCard.astro";
 import PDFResumeText from "@/components/PDFResumeText.astro";
 import { parseMarkdown } from "@/utils/markdown.js";
 
-const aboutContentHtml = parseMarkdown(aboutContentMarkdown);
+const bioFaviconOverrides = {
+  "www.pratt.edu":
+    "https://www.pratt.edu/wp-content/themes/pratt/static/img/favicon/favicon.ico",
+  "parsons.edu":
+    "https://parsons.edu/dt-2023/wp-content/uploads/sites/26/2023/05/cropped-entropy-icon-32x32.png",
+  "p5-book.vercel.app":
+    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%96%3C/text%3E%3C/svg%3E",
+  "p5js.org": "https://p5js.org/favicon.ico",
+  "coassembly.work": "https://coassembly.work/favicon.svg",
+  "pcd.sponact.org": "https://pcd.sponact.org/assets/images/sponact-favicon.jpg",
+  "otherislands.designfuture.space":
+    "https://otherislands.designfuture.space/images/favicon.svg",
+  "ci2-munus.munusandniktari.com":
+    "https://ci2-munus.munusandniktari.com/apple-touch-icon.png",
+  "sfpc.study": "https://sfpc.study/images/sessions/favicon.ico",
+  "tisch.nyu.edu":
+    "https://tisch.nyu.edu/apps/settings/wcm/designs/tisch/favicon.ico",
+  "www.harvarduxd.com":
+    "https://framerusercontent.com/images/iQV6cfoDaQI86MOKuh9ljQerhw4.png",
+  "arts.ntu.edu.tw": "https://arts.ntu.edu.tw/images/favicon.ico",
+  "2025.typographics.com": "https://2025.typographics.com/favicon.ico",
+  "www.rbpmw-efanyc.org":
+    "https://images.squarespace-cdn.com/content/v1/537c9f82e4b031913f8e5d37/1400684283590-MJ2GPR0KOJC3LK8FUWQ9/favicon.ico?format=100w",
+  "danielirizarry.design":
+    "https://danielirizarry.design/wp-content/uploads/2025/11/DI_Favicon_25.png",
+  "www.awwwards.com": "https://assets.awwwards.com/assets/images/favicon.svg",
+};
+
+function getBioFaviconSrc(href) {
+  if (href.startsWith("/")) return "/favicon.svg";
+
+  const hostname = new URL(href).hostname;
+  return (
+    bioFaviconOverrides[hostname] ??
+    `https://www.google.com/s2/favicons?domain_url=${encodeURIComponent(href)}&amp;sz=32`
+  );
+}
+
+function addFaviconsToLinks(html) {
+  return html.replace(/<a\b([^>]*)>/g, (anchor, attributes) => {
+    const href = attributes.match(/\bhref="([^"]+)"/)?.[1];
+    if (!href) return anchor;
+
+    const faviconSrc = getBioFaviconSrc(href);
+
+    return `${anchor}<img class="bio-link-favicon" src="${faviconSrc}" alt="" aria-hidden="true" loading="lazy" decoding="async" />&#8288;`;
+  });
+}
+
+const aboutContentHtml = addFaviconsToLinks(
+  parseMarkdown(aboutContentMarkdown),
+);
 const cloutHtml = parseMarkdown(cloutMarkdown);
 ---
 
@@ -105,6 +156,37 @@ const cloutHtml = parseMarkdown(cloutMarkdown);
 </script>
 
 <style>
+  article :global(a) {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: left bottom;
+    background-repeat: no-repeat;
+    background-size: 0 0.06em;
+    text-decoration: none;
+    transition: background-size 250ms ease;
+  }
+
+  article :global(a:hover),
+  article :global(a:focus-visible) {
+    background-size: 100% 0.06em;
+    text-decoration: none;
+  }
+
+  article :global(.bio-link-favicon) {
+    display: inline-block;
+    vertical-align: -0.04em;
+    margin-right: 0.2em;
+    border-radius: 0.1em;
+    width: 0.8em;
+    height: 0.8em;
+    object-fit: contain;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    article :global(a) {
+      transition: none;
+    }
+  }
+
   .clout :global(li:last-child) {
     margin-top: 0.75em;
   }
