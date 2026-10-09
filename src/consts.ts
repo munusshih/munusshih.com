@@ -3,7 +3,7 @@
 
 export const SITE_TITLE = "Munus Shih";
 export const SITE_DESCRIPTION = "Munus Shih is a Taiwanese Minnan-Hakka creative coder, artist, & organizer based in NYC.";
-export const SITE_URL = "https://www.munusshih.com";
+export const SITE_URL = "https://munusshih.com";
 export const NEWS = [
     "I'm prepping for [DEMO DAY 2025](https://www.demofestival.org/)",
     "I've been reading [_How to speak machine_ by John Maeda](https://howtospeakmachine.com/)",

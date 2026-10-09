@@ -1,8 +1,8 @@
-export const CANONICAL_ORIGIN = "https://www.munusshih.com";
+export const CANONICAL_ORIGIN = "https://munusshih.com";
 
 export function canonicalUrl(pathname) {
   const path = pathname.replace(/\/+$/, "") || "/";
-  return new URL(path, CANONICAL_ORIGIN).href;
+  return new URL(path === "/" || /\.[^/]+$/.test(path) ? path : path + "/", CANONICAL_ORIGIN).href;
 }
 
 export function isIndexablePath(pathname) {

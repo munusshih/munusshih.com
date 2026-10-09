@@ -1,8 +1,8 @@
 # Technical SEO checks
 
-The canonical site is `https://www.munusshih.com`, with no trailing slash on content routes. The homepage keeps `/`. Use matching URLs in canonical tags, social URL tags, robots.txt and sitemaps.
+The canonical site is `https://munusshih.com`, with a trailing slash on content routes. The homepage keeps `/`. Use matching URLs in canonical tags, social URL tags, robots.txt and sitemaps.
 
-Vercel's apex and production mirror domain settings must use permanent, path-preserving redirects to the canonical host. `vercel.json` also contains the redirects. Deployment aliases ending in `.vercel.app` receive an `X-Robots-Tag: noindex, follow` header, including immutable production deployment URLs. Preview builds additionally include a robots meta tag. Production's canonical host stays indexable.
+Vercel's www and production mirror domain settings must use permanent, path-preserving redirects to the canonical host. `vercel.json` also contains the redirects. Deployment aliases ending in `.vercel.app` receive an `X-Robots-Tag: noindex, follow` header, including immutable production deployment URLs. Preview builds additionally include a robots meta tag. Production's canonical host stays indexable.
 
 The calendar booking utility, decorative pattern sketch and error pages have `noindex` and are excluded from the sitemap. Existing public portfolio pages stay indexable. No future unpublished routes are added. `lastmod` is omitted because the build does not have reliable per-page editorial modification dates.
 
@@ -20,3 +20,7 @@ The initial pass checked 27 rendered routes and 24 sitemap URLs, preserved their
 ## Existing follow-up work
 
 Copy-related metadata remains separate: `/ci2` and `/pcd` currently have empty meta descriptions. Several pages have multiple H1 elements from the site header and page sections; this does not block indexing. Some MDX image references have no matching local source asset (for example GOCA image names); do not substitute different artwork without a confirmed mapping. Content loading currently falls back to checked-in Lab data when the configured sheet tab returns 400. Search Console submission, ownership and field Core Web Vitals must be verified in the account; local tests cannot establish them.
+
+## Canonical recovery (2026-10-09)
+
+Search Console URL Inspection confirmed https://munusshih.com/ is indexed and is Google’s selected canonical, discovered through the existing non-www sitemaps. The initial www/no-slash rollout was reversed to preserve that established host and sitemap URL shape. Media improvements remain. The successful Google live fetch of the www sitemap did not establish successful sitemap processing.

@@ -1,25 +1,45 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "trailingSlash": false,
+  "trailingSlash": true,
   "redirects": [
     {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "munusshih-com.vercel.app" }],
-      "destination": "https://www.munusshih.com/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "munusshih-com.vercel.app"
+        }
+      ],
+      "destination": "https://munusshih.com/:path*",
       "permanent": true
     },
     {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "munusshih.com" }],
-      "destination": "https://www.munusshih.com/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.munusshih.com"
+        }
+      ],
+      "destination": "https://munusshih.com/:path*",
       "permanent": true
     }
   ],
   "headers": [
     {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": ".*\\.vercel\\.app" }],
-      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, follow" }]
+      "has": [
+        {
+          "type": "host",
+          "value": ".*\\.vercel\\.app"
+        }
+      ],
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, follow"
+        }
+      ]
     }
   ]
 }
