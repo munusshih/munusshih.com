@@ -5,6 +5,7 @@ import "@/styles/global.css";
 import { SITE_TITLE } from "@/consts";
 // import { ClientRouter } from "astro:transitions";
 import LoadingIndicator from "astro-loading-indicator/component";
+import aboutBio from "@/docs/about/about-munus.md?raw";
 import { canonicalUrl, isIndexablePath, isPreviewDeployment } from "@/utils/seo.js";
 
 interface Props {
@@ -18,16 +19,19 @@ const noindex = isPreviewDeployment() || !isIndexablePath(Astro.url.pathname);
 
 const { title, description, image = "/assets/profile.jpg" } = Astro.props;
 
-const structuredData = {
+const bioDescription = aboutBio.split(/\n\s*\n/)[0].replace(/\[([^\]]+)\]\([^)]+\)/g, "$1");
+const personId = canonicalUrl("/about") + "#person";
+const person = {
   "@context": "https://schema.org",
   "@type": "Person",
+  "@id": personId,
   name: "Munus Shih",
   alternateName: "木那斯",
-  description:
-    "Munus Shih is an Assistant Professor at Pratt Institute, a creative technologist, artist, and designer. They specializes in creative coding, generative art, and data visualization.",
-  url: canonicalUrl("/"),
-  image: canonicalUrl("/assets/profile.jpg"),
-  jobTitle: "Assistant Professor, Creative Technologist, Artist, and Designer",
+  description: bioDescription,
+  url: canonicalUrl("/about"),
+  image: canonicalUrl("/assets/about/m-station.webp"),
+  jobTitle: "Assistant Professor",
+  affiliation: { "@type": "EducationalOrganization", name: "Pratt Institute", url: "https://www.pratt.edu" },
   knowsAbout: [
     "Creative Coding",
     "Generative Art",
@@ -64,6 +68,15 @@ const structuredData = {
     "https://sessionize.com/s/munusshih/tai-wan-ku-er-sheng-yin-di-tu-cong-she-ji-fa-xiang/81261",
   ],
 };
+
+const aboutPage = Astro.url.pathname.replace(/\/$/, "") === "/about";
+const structuredData = aboutPage ? {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "@id": canonicalURL + "#profile",
+  url: canonicalURL,
+  mainEntity: person,
+} : person;
 
 const showStructuredData =
   Astro.url.pathname === "/" || Astro.url.pathname.replace(/\/$/, "") === "/about";

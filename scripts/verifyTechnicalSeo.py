@@ -2,6 +2,8 @@
 """Check generated routes, SEO directives and unchanged copy after an Astro build."""
 import argparse
 import json
+import re
+import unicodedata
 from html.parser import HTMLParser
 from pathlib import Path
 import xml.etree.ElementTree as ET
@@ -52,7 +54,19 @@ def audit(directory, baseline=None, preview=False):
         if 'assets' in file.relative_to(directory).parts: continue
         relative = file.relative_to(directory).as_posix()
         route = '/' if relative == 'index.html' else '/' + relative.removesuffix('/index.html')
-        page = Page(file.read_text())
+        html = file.read_text()
+        page = Page(html)
+        if route == '/about':
+            blocks = re.findall(r'<script[^>]*type="application/ld\+json"[^>]*>(.*?)</script>', html, re.S)
+            try:
+                profile = json.loads(blocks[0])
+                person = profile['mainEntity']
+                if profile['@type'] != 'ProfilePage' or person['@type'] != 'Person' or person['@id'] != ORIGIN + '/about/#person': failures.append('about: invalid profile entity linkage')
+                if person['jobTitle'] != 'Assistant Professor' or person['affiliation']['name'] != 'Pratt Institute': failures.append('about: invalid affiliation')
+                normalize = lambda value: re.sub(r'\s+([,.;:!?])', r'\1', ' '.join(''.join(c for c in value if unicodedata.category(c) != 'Cf').split()))
+                if normalize(person['description']) not in normalize(' '.join(page.text)): failures.append('about: schema description is not published bio')
+                if not person['image'].startswith(ORIGIN + '/assets/'): failures.append('about: invalid portrait URL')
+            except (IndexError, KeyError, ValueError): failures.append('about: missing/invalid ProfilePage JSON-LD')
         canonical_path = '/404/' if route == '/404.html' else route.rstrip('/') + '/'
         canonical = ORIGIN + canonical_path
         if page.canonical != [canonical]: failures.append(f'{route}: canonical {page.canonical}')
