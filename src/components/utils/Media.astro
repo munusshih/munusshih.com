@@ -13,8 +13,15 @@ const {
   usePoster = true,
 } = Astro.props;
 import { normalizeMediaSrc, posterFromMediaSrc } from "@/scripts/mediaPath.js";
+import { localMediaPath, mediaDimensions } from "@/utils/mediaMetadata.js";
+import { getImage } from "astro:assets";
 const resolvedSrc = normalizeMediaSrc(src);
-const posterSrc = posterFromMediaSrc(resolvedSrc);
+const possiblePoster = posterFromMediaSrc(resolvedSrc);
+const posterSrc = possiblePoster?.startsWith("/") && !localMediaPath(possiblePoster) ? undefined : possiblePoster;
+const dimensions = await mediaDimensions(resolvedSrc, Boolean(isVideo));
+const optimizedImage = !isVideo && dimensions.width && dimensions.height && /\.(jpe?g|png|webp|avif)$/i.test(resolvedSrc)
+  ? await getImage({ src: resolvedSrc, width: dimensions.width, height: dimensions.height, widths: [640, 1080, 1920].filter((width) => width <= dimensions.width), quality: 80 })
+  : undefined;
 const fadeClass = fadeIn ? "fade-in" : "";
 const fitClass = fit === "contain" ? "object-contain" : "object-cover";
 ---
@@ -22,10 +29,12 @@ const fitClass = fit === "contain" ? "object-contain" : "object-cover";
 {
   isVideo ? (
     <video
-      preload="auto"
-      src={resolvedSrc}
+      preload="none"
+      data-lazy-video
+      data-src={resolvedSrc}
+      width={dimensions.width}
+      height={dimensions.height}
       poster={usePoster ? posterSrc || undefined : undefined}
-      autoplay
       loop
       muted
       playsinline
@@ -38,7 +47,11 @@ const fitClass = fit === "contain" ? "object-contain" : "object-cover";
     </video>
   ) : (
     <img
-      src={resolvedSrc}
+      src={optimizedImage?.src || resolvedSrc}
+      srcset={optimizedImage?.srcSet.attribute || undefined}
+      sizes={optimizedImage ? "(max-width: 767px) 100vw, 75vw" : undefined}
+      width={dimensions.width}
+      height={dimensions.height}
       alt={alt}
       loading="lazy"
       decoding="async"
@@ -46,3 +59,9 @@ const fitClass = fit === "contain" ? "object-contain" : "object-cover";
     />
   )
 }
+
+{isVideo && <noscript><video src={resolvedSrc} poster={usePoster ? posterSrc : undefined} width={dimensions.width} height={dimensions.height} controls muted playsinline preload="none" class={`media w-full ${fitClass} ${className}`}></video><style>video[data-lazy-video] { display: none; }</style></noscript>}
+
+<script>
+  import "@/scripts/lazyMedia.js";
+</script>

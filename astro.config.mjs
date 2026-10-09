@@ -7,10 +7,12 @@ import tailwindcss from "@tailwindcss/vite";
 import yaml from "@rollup/plugin-yaml";
 
 import vercel from "@astrojs/vercel";
+import { CANONICAL_ORIGIN, canonicalUrl, isIndexablePath } from "./src/utils/seo.js";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://munusshih.com",
+  site: CANONICAL_ORIGIN,
+  trailingSlash: "never",
   output: "static",
   adapter: vercel({
     webAnalytics: {
@@ -21,7 +23,10 @@ export default defineConfig({
   devToolbar: {
     enabled: false,
   },
-  integrations: [mdx(), sitemap()],
+  integrations: [mdx(), sitemap({
+    filter: (url) => isIndexablePath(new URL(url).pathname),
+    serialize: (item) => ({ ...item, url: canonicalUrl(new URL(item.url).pathname) }),
+  })],
   vite: {
     resolve: {
       alias: {

@@ -3,6 +3,8 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
+    "test:seo": "node --test scripts/technicalSeo.test.mjs",
+    "verify:seo": "python3 scripts/verifyTechnicalSeo.py",
     "prepare:dev": "node scripts/prepareDev.js --quiet",
     "prepare:dev:force": "node scripts/prepareDev.js --force",
     "prepare:build": "if [ \"$VERCEL\" = \"1\" ]; then npm run prepare:build:vercel; else npm run prepare:build:local; fi",
