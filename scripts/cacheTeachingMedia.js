@@ -544,6 +544,8 @@ const recordVideo = async (url, destination, options = {}) => {
     await page.waitForTimeout(2000);
     const recordedVideo = page.video();
     await page.close();
+    // Closing the context flushes the recorder before we copy its output.
+    await context.close();
 
     const videoPath = recordedVideo ? await recordedVideo.path() : null;
     if (!videoPath) {
