@@ -3,6 +3,16 @@
   "trailingSlash": true,
   "redirects": [
     {
+      "source": "/Home",
+      "destination": "https://munusshih.com/",
+      "permanent": true
+    },
+    {
+      "source": "/home",
+      "destination": "https://munusshih.com/",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [
         {

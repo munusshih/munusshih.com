@@ -24,3 +24,7 @@ Copy-related metadata remains separate: `/ci2` and `/pcd` currently have empty m
 ## Canonical recovery (2026-10-09)
 
 Search Console URL Inspection confirmed https://munusshih.com/ is indexed and is Google’s selected canonical, discovered through the existing non-www sitemaps. The initial www/no-slash rollout was reversed to preserve that established host and sitemap URL shape. Media improvements remain. The successful Google live fetch of the www sitemap did not establish successful sitemap processing.
+
+## Retired URLs (2026-10-09)
+
+Search Console’s 16 missing URL examples include two retired homepage aliases: /Home and /home. Both map permanently to the homepage. The other 14 belong to the separate tech-a.munusshih.com course deployment (student/week pages); there is no confirmed replacement in the portfolio, so no portfolio redirect is invented. True unknown paths retain HTTP 404.
