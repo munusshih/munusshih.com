@@ -12,6 +12,7 @@ type PostProps = Props & { slug?: string };
 import { SITE_TITLE } from "@/consts";
 import { existsSync } from "node:fs";
 import path from "node:path";
+import Media from "@/components/utils/Media.astro";
 
 const {
   title,
@@ -88,15 +89,14 @@ const socialImage = heroImage
       )
     }
     <div class="fade-in m-auto flex justify-center pt-10">
-      <video
-        class="mb-10 aspect-[16/9] h-auto overflow-hidden rounded-2xl lg:max-w-[80%]"
-        loop
-        muted
-        playsinline
-        autoPlay
-        preload="auto"
+      <Media
         src={heroSrc}
-        poster={heroPoster}></video>
+        alt=""
+        fadeIn={false}
+        widthAuto={true}
+        isVideo={/\.(mp4|webm|ogg|mov|m4v)(?:$|[?#])/i.test(heroSrc)}
+        className="mb-10 aspect-[16/9] h-auto overflow-hidden rounded-2xl lg:max-w-[80%]"
+      />
     </div>
     <div class="relative mt-2 mb-8 lg:mt-20 lg:mb-28">
       <input type="checkbox" id="expand-article" class="peer hidden" />
