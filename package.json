@@ -21,8 +21,8 @@
     "capture:homepage": "node scripts/cacheHomepageMedia.js --force",
     "sync:yml": "node scripts/updateYamlFromSheets.js",
     "sync:work-assets": "node scripts/syncWorkAssets.js",
-    "build": "npm run prepare:build && astro build",
-    "build:force": "npm run prepare:build:force && astro build",
+    "build": "npm run prepare:build && astro build && node scripts/finalizeVercelRoutes.mjs",
+    "build:force": "npm run prepare:build:force && astro build && node scripts/finalizeVercelRoutes.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },

@@ -44,3 +44,22 @@ test('video controller provides a fallback when IntersectionObserver is unavaila
   assert.equal(video.src, '/movie.mp4');
   assert.equal(video.played, true);
 });
+
+
+const { withSeoRoutes } = await import('./finalizeVercelRoutes.mjs');
+test('Vercel output applies SEO rules before filesystem/slash routes without replacing adapter config', () => {
+  const original = {version:3, images:{sizes:[640]}, routes:[{src:'^/(.*)$',status:404}]};
+  const output = withSeoRoutes(original);
+  assert.deepEqual(withSeoRoutes(output), output);
+  assert.deepEqual(output.images, original.images);
+  assert.equal(output.routes.at(-1), original.routes[0]);
+  const alias = output.routes[1];
+  for (const path of ['/Home', '/Home/', '/home', '/home/']) assert.match(path, new RegExp(alias.src));
+  for (const path of ['/homework/', '/something-missing/']) assert.doesNotMatch(path, new RegExp(alias.src));
+  assert.equal(alias.status, 308);
+  assert.equal(alias.headers.Location, canonicalUrl('/'));
+  const header = output.routes[0];
+  assert.match('preview-project.vercel.app',new RegExp(header.has[0].value));
+  assert.doesNotMatch('munusshih.com',new RegExp(header.has[0].value));
+  assert.equal(header.headers['X-Robots-Tag'],'noindex, follow');
+});
