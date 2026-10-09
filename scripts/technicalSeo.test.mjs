@@ -5,9 +5,9 @@ import vm from 'node:vm';
 import { canonicalUrl, isIndexablePath, isPreviewDeployment } from '../src/utils/seo.js';
 
 test('canonical URLs ignore build host and normalize trailing slashes', () => {
-  assert.equal(canonicalUrl('/'), 'https://www.munusshih.com/');
-  assert.equal(canonicalUrl('/about/'), 'https://www.munusshih.com/about');
-  assert.equal(canonicalUrl('/sketches/pattern/'), 'https://www.munusshih.com/sketches/pattern');
+  assert.equal(canonicalUrl('/'), 'https://munusshih.com/');
+  assert.equal(canonicalUrl('/about/'), 'https://munusshih.com/about/');
+  assert.equal(canonicalUrl('/sketches/pattern/'), 'https://munusshih.com/sketches/pattern/');
   assert.equal(isPreviewDeployment({VERCEL_ENV: 'production'}), false);
   assert.equal(isPreviewDeployment({VERCEL_ENV: 'preview'}), true);
   for (const route of ['/404.html', '/calendar/', '/sketches/pattern', '/api/resume.pdf']) assert.equal(isIndexablePath(route), false);

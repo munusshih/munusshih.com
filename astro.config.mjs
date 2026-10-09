@@ -12,7 +12,7 @@ import { CANONICAL_ORIGIN, canonicalUrl, isIndexablePath } from "./src/utils/seo
 // https://astro.build/config
 export default defineConfig({
   site: CANONICAL_ORIGIN,
-  trailingSlash: "never",
+  trailingSlash: "always",
   output: "static",
   adapter: vercel({
     webAnalytics: {

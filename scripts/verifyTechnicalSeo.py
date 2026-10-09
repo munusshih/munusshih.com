@@ -6,7 +6,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
-ORIGIN = 'https://www.munusshih.com'
+ORIGIN = 'https://munusshih.com'
 UTILITY = {'/404.html', '/calendar', '/sketches/pattern'}
 
 class Page(HTMLParser):
@@ -53,7 +53,8 @@ def audit(directory, baseline=None, preview=False):
         relative = file.relative_to(directory).as_posix()
         route = '/' if relative == 'index.html' else '/' + relative.removesuffix('/index.html')
         page = Page(file.read_text())
-        canonical = ORIGIN + ('/404' if route == '/404.html' else route)
+        canonical_path = '/404/' if route == '/404.html' else route.rstrip('/') + '/'
+        canonical = ORIGIN + canonical_path
         if page.canonical != [canonical]: failures.append(f'{route}: canonical {page.canonical}')
         noindex = 'noindex' in page.meta.get('robots', '')
         if noindex != (preview or route in UTILITY): failures.append(f'{route}: incorrect noindex')
