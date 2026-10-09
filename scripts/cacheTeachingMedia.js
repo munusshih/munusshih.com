@@ -550,9 +550,11 @@ const recordVideo = async (url, destination, options = {}) => {
       throw new Error(`No video recording produced for ${url}`);
     }
     await ensureDir(path.dirname(destination));
-    await fs.rename(videoPath, destination);
+    // Vercel's /tmp and checkout can be on different filesystems (EXDEV).
+    await fs.copyFile(videoPath, destination);
   } finally {
     await context.close();
+    await fs.rm(tempDir, { recursive: true, force: true });
   }
 
   return destination;
