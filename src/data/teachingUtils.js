@@ -1,3 +1,4 @@
+import { repairContentLinks } from "../utils/contentLinks.js";
 export function teachingEntryKey(entry) {
   const title = entry?.title ?? "";
   const date = entry?.originalDate ?? entry?.date ?? "";
@@ -9,7 +10,7 @@ export function teachingEntryKey(entry) {
     entry?.source ??
     "";
 
-  return [title, date, href].join("|");
+  return [title, date, repairContentLinks(href)].join("|");
 }
 
 export function entryHasTokens(entry, keywords) {

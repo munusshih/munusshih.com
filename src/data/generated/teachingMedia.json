@@ -2,13 +2,13 @@
   "Major Studio 2 (Thesis)|Spring 2023|": [
     {
       "kind": "image",
-      "src": "/teaching/major-studio-2-thesis/major-studio-2-thesis-01.jpg",
+      "src": "/teaching/major-studio-2-thesis/major-studio-2-thesis-01.png",
       "source": "download",
       "caption": "Tatiana Lahera Kalainoff"
     },
     {
       "kind": "image",
-      "src": "/teaching/major-studio-2-thesis/major-studio-2-thesis-02.jpg",
+      "src": "/teaching/major-studio-2-thesis/major-studio-2-thesis-02.png",
       "source": "download",
       "caption": "Huong Pham"
     }
@@ -22,7 +22,7 @@
     },
     {
       "kind": "video",
-      "src": "/teaching/visual-language-b/visual-language-b-02.mp4",
+      "src": "/teaching/visual-language-b/visual-language-b-02.webm",
       "source": "recorded",
       "caption": null
     }
@@ -36,7 +36,7 @@
     },
     {
       "kind": "video",
-      "src": "/teaching/thesis-ii/thesis-ii-02.mp4",
+      "src": "/teaching/thesis-ii/thesis-ii-02.webm",
       "source": "recorded",
       "caption": null
     }
@@ -44,13 +44,13 @@
   "Homing.zip ft. Tzuyun Wei|Nov 30, 2025|https://drive.google.com/drive/folders/1la1zmCLlDt7F7Z29QzQ57fWiAAnbz0_C?usp=drive_link": [
     {
       "kind": "image",
-      "src": "/teaching/homingzip-ft-tzuyun-wei/homingzip-ft-tzuyun-wei-01.jpg",
+      "src": "/teaching/homingzip-ft-tzuyun-wei/homingzip-ft-tzuyun-wei-01.png",
       "source": "download",
       "caption": null
     },
     {
       "kind": "image",
-      "src": "/teaching/homingzip-ft-tzuyun-wei/homingzip-ft-tzuyun-wei-02.jpg",
+      "src": "/teaching/homingzip-ft-tzuyun-wei/homingzip-ft-tzuyun-wei-02.png",
       "source": "download",
       "caption": null
     }
@@ -58,13 +58,13 @@
   "p5.js 2.0 Workshop: Combinatory Poetry with Variable Fonts|Sep 27, 2025|https://www.eventbrite.com/e/p5js-20-workshop-combinatory-poetry-with-variable-fonts-tickets-1623313417129?aff=oddtdtcreator": [
     {
       "kind": "video",
-      "src": "/teaching/p5js-20-workshop-combinatory-poetry-with-variable-fonts/p5js-20-workshop-combinatory-poetry-with-variable-fonts-01.mp4",
+      "src": "/teaching/p5js-20-workshop-combinatory-poetry-with-variable-fonts/p5js-20-workshop-combinatory-poetry-with-variable-fonts-01.webm",
       "source": "recorded",
       "caption": null
     },
     {
       "kind": "video",
-      "src": "/teaching/p5js-20-workshop-combinatory-poetry-with-variable-fonts/p5js-20-workshop-combinatory-poetry-with-variable-fonts-02.mp4",
+      "src": "/teaching/p5js-20-workshop-combinatory-poetry-with-variable-fonts/p5js-20-workshop-combinatory-poetry-with-variable-fonts-02.webm",
       "source": "recorded",
       "caption": null
     }
@@ -78,7 +78,7 @@
     },
     {
       "kind": "video",
-      "src": "/teaching/thesis-i/thesis-i-02.mp4",
+      "src": "/teaching/thesis-i/thesis-i-02.webm",
       "source": "recorded",
       "caption": null
     }
@@ -92,7 +92,7 @@
     },
     {
       "kind": "video",
-      "src": "/teaching/graduate-studio-technology-a/graduate-studio-technology-a-02.mp4",
+      "src": "/teaching/graduate-studio-technology-a/graduate-studio-technology-a-02.webm",
       "source": "recorded",
       "caption": null
     }
@@ -108,7 +108,7 @@
   "Touching Computers: NFC as Ritual, Memory, and Interface ft. Spencer Chang|Jun 19, 2025|https://spencer.place/fapa-webstones": [
     {
       "kind": "video",
-      "src": "/teaching/touching-computers-nfc-as-ritual-memory-and-interface-ft-spencer-chang/touching-computers-nfc-as-ritual-memory-and-interface-ft-spencer-chang-01.mp4",
+      "src": "/teaching/touching-computers-nfc-as-ritual-memory-and-interface-ft-spencer-chang/touching-computers-nfc-as-ritual-memory-and-interface-ft-spencer-chang-01.webm",
       "source": "recorded",
       "caption": null
     },
@@ -119,7 +119,7 @@
       "caption": null
     }
   ],
-  "Dragon Bytes: Coding Chinese New Year with p5.js and AI ft. Roy Yang|Jan 2024|https://www.figma.com/proto/JZCDRSr995rWYZfexwc0N5/DragonBytes?page-id=0%3A1&node-id=1-2&viewport=1346%2C632%2C0.48&t=TzzQkFhEuA56woWS-1&scaling=min-zoom&content-scaling=fixed": [
+  "Dragon Bytes: Coding Chinese New Year with p5.js and AI ft. Roy Yang|Jan 2024|https://saber-khan-hp7r.squarespace.com/ccfestnycjan282024": [
     {
       "kind": "image",
       "src": "/teaching/dragon-bytes-coding-chinese-new-year-with-p5js-and-ai-ft-roy-yang/dragon-bytes-coding-chinese-new-year-with-p5js-and-ai-ft-roy-yang-01.jpg",
@@ -136,7 +136,7 @@
     },
     {
       "kind": "image",
-      "src": "/teaching/hello-zine/hello-zine-02.jpg",
+      "src": "/teaching/hello-zine/hello-zine-02.png",
       "source": "download",
       "caption": null
     }
@@ -150,7 +150,7 @@
     },
     {
       "kind": "image",
-      "src": "/teaching/p5genzine-v2/p5genzine-v2-02.jpg",
+      "src": "/teaching/p5genzine-v2/p5genzine-v2-02.png",
       "source": "download",
       "caption": null
     }
@@ -158,7 +158,7 @@
   "p5.(Gen)Zine|June 2022|https://processingfoundation.org/advocacy/code-decolonized": [
     {
       "kind": "image",
-      "src": "/teaching/p5genzine/p5genzine-02.jpg",
+      "src": "/teaching/p5genzine/p5genzine-02.webp",
       "source": "download",
       "caption": "Theingi Thann"
     }
@@ -180,7 +180,7 @@
   "Advanced Design: Product Design ft. Nikki Makagiansar|Spring 2024|https://adpd.munusandniktari.com/": [
     {
       "kind": "video",
-      "src": "/teaching/advanced-design-product-design-ft-nikki-makagiansar/advanced-design-product-design-ft-nikki-makagiansar-01.mp4",
+      "src": "/teaching/advanced-design-product-design-ft-nikki-makagiansar/advanced-design-product-design-ft-nikki-makagiansar-01.webm",
       "source": "recorded",
       "caption": null
     },
@@ -194,7 +194,7 @@
   "The Web is Fluid, Generative and Live|Spring 2024|https://ci2-munus.munusandniktari.com/": [
     {
       "kind": "video",
-      "src": "/teaching/the-web-is-fluid-generative-and-live/the-web-is-fluid-generative-and-live-01.mp4",
+      "src": "/teaching/the-web-is-fluid-generative-and-live/the-web-is-fluid-generative-and-live-01.webm",
       "source": "recorded",
       "caption": null
     },
@@ -208,7 +208,7 @@
   "Techniculture: A Critical Lens on Modular Type and Generative Design|Feb 2024|https://www.typeelectives.com/courses/techniculture-sp-24": [
     {
       "kind": "image",
-      "src": "/teaching/techniculture-a-critical-lens-on-modular-type-and-generative-design/techniculture-a-critical-lens-on-modular-type-and-generative-design-01.jpg",
+      "src": "/teaching/techniculture-a-critical-lens-on-modular-type-and-generative-design/techniculture-a-critical-lens-on-modular-type-and-generative-design-01.gif",
       "source": "download",
       "caption": "Nikki Makagiansar"
     },
@@ -222,7 +222,7 @@
   "Major Studio 1 (Thesis)|Fall 2022|https://github.com/munusshih/dv-majorstudio": [
     {
       "kind": "image",
-      "src": "/teaching/major-studio-1-thesis/major-studio-1-thesis-01.jpg",
+      "src": "/teaching/major-studio-1-thesis/major-studio-1-thesis-01.png",
       "source": "download",
       "caption": "Tina Titus Mathew"
     }
@@ -236,7 +236,7 @@
     },
     {
       "kind": "video",
-      "src": "/teaching/graduate-studio-technology-b/graduate-studio-technology-b-02.mp4",
+      "src": "/teaching/graduate-studio-technology-b/graduate-studio-technology-b-02.webm",
       "source": "recorded",
       "caption": null
     }

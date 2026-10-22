@@ -67,3 +67,20 @@ Check out [our documentation](https://docs.astro.build) or jump into our [Discor
 ## Credit
 
 This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+
+## Media and link validation
+
+Portfolio and cached teaching media are checked into `src/assets/` and served at
+`/assets/` via `public/assets`. Teaching downloads are inspected before caching;
+file extensions follow the actual image/video format. Browser recordings use
+`.webm`. Failed refreshes preserve the last successful cached files, and error
+responses are not saved as screenshots or media.
+
+- `npm run test:media` checks format detection, cached files, and content repairs.
+- `npm run verify:assets` checks the generated `dist/` HTML, including lazy video
+  sources, posters, image variants, and internal links. Both build commands run it.
+- `python3 scripts/verifyAssets.py .vercel/output/static` checks the deployment copy.
+
+Verified replacements for retired external URLs live in
+`src/utils/contentLinks.js`. They apply after spreadsheet loading so old sheet
+values cannot restore broken links. Update that mapping when destinations move.

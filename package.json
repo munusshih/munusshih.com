@@ -22,10 +22,12 @@
     "capture:homepage": "node scripts/cacheHomepageMedia.js --force",
     "sync:yml": "node scripts/updateYamlFromSheets.js",
     "sync:work-assets": "node scripts/syncWorkAssets.js",
-    "build": "npm run prepare:build && astro build && node scripts/finalizeVercelRoutes.mjs",
-    "build:force": "npm run prepare:build:force && astro build && node scripts/finalizeVercelRoutes.mjs",
+    "build": "npm run prepare:build && astro build && npm run verify:assets && node scripts/finalizeVercelRoutes.mjs",
+    "build:force": "npm run prepare:build:force && astro build && npm run verify:assets && node scripts/finalizeVercelRoutes.mjs",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test:media": "node --test scripts/cachedMedia.test.mjs",
+    "verify:assets": "python3 scripts/verifyAssets.py"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.1",

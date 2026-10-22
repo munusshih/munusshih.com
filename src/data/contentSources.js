@@ -1,3 +1,4 @@
+import { repairContentLinks } from "../utils/contentLinks.js";
 import Press from "@/docs/press.yml";
 import Events from "@/docs/events.yml";
 import Experiences from "@/docs/experiences.yml";
@@ -328,6 +329,10 @@ function cloneData(data) {
 }
 
 async function loadDataset(datasetKey) {
+  return repairContentLinks(await loadRawDataset(datasetKey));
+}
+
+async function loadRawDataset(datasetKey) {
   const dataset = DATASETS[datasetKey];
   if (!dataset) return [];
 

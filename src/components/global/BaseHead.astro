@@ -2,7 +2,6 @@
 // Import the global.css file here so that it is included on
 // all pages through the use of the <BaseHead /> component.
 import "@/styles/global.css";
-import { SITE_TITLE } from "@/consts";
 // import { ClientRouter } from "astro:transitions";
 import LoadingIndicator from "astro-loading-indicator/component";
 import aboutBio from "@/docs/about/about-munus.md?raw";
@@ -98,12 +97,7 @@ const showStructuredData =
 <link rel="icon" href="/favicon.ico" sizes="any" />
 <link rel="mask-icon" href="/favicon.svg" color="#000000" />
 <link rel="sitemap" href="/sitemap-index.xml" />
-<link
-  rel="alternate"
-  type="application/rss+xml"
-  title={SITE_TITLE}
-  href={new URL("rss.xml", Astro.site)}
-/>
+
 <meta name="generator" content={Astro.generator} />
 
 <!-- Font preloads -->
