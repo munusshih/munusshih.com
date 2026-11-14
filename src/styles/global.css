@@ -5,17 +5,8 @@
   --accent-color: blue;
   --grid-color: rgba(0, 0, 0, 0.5);
   --page-margin: 1rem;
-  --media-placeholder-size: 6px;
   --media-placeholder-light: #ffffff;
   --media-placeholder-dark: #000000;
-  --media-placeholder-bg: linear-gradient(
-    45deg,
-    var(--media-placeholder-dark) 25%,
-    transparent 25%,
-    transparent 75%,
-    var(--media-placeholder-dark) 75%,
-    var(--media-placeholder-dark)
-  );
 }
 
 ::selection {
@@ -52,13 +43,7 @@ video {
 }
 
 .media-placeholder {
-  animation: media-placeholder-drift 8s linear infinite;
-  background-image: var(--media-placeholder-bg);
-  background-position:
-    0 0,
-    var(--media-placeholder-size) var(--media-placeholder-size);
-  background-size: calc(var(--media-placeholder-size) * 2)
-    calc(var(--media-placeholder-size) * 2);
+  background-color: #f2f2f2;
 }
 
 img.dithered {
@@ -159,6 +144,28 @@ img.dithered {
   font-size: 1rem;
 }
 
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.pill-button {
+  @apply rounded-full border px-4 py-2;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.25em;
+  max-width: 100%;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.pill-button-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .no-before-after::before,
 .no-before-after::after {
   content: none !important;
@@ -175,10 +182,6 @@ img.dithered {
 .news-item::before {
   padding-right: 0.5em;
   content: var(--index);
-}
-
-.fade-in {
-  opacity: 0;
 }
 
 .subtitle {
@@ -273,23 +276,31 @@ summary::-webkit-details-marker {
   text-decoration-style: dotted;
 }
 
-@keyframes media-placeholder-drift {
-  from {
-    background-position:
-      0 0,
-      var(--media-placeholder-size) var(--media-placeholder-size);
+@media (prefers-reduced-motion: no-preference) {
+  :where(main > :not(section, .sr-only), main > section > :not(.grid), main > section > .grid > *):not(:focus-within, [data-reveal]) {
+    --entrance-delay: 0ms;
+    animation: page-entrance 660ms cubic-bezier(0.22, 1, 0.36, 1) var(--entrance-delay, 0ms) backwards;
   }
-  to {
-    background-position:
-      calc(var(--media-placeholder-size) * 2)
-        calc(var(--media-placeholder-size) * 2),
-      calc(var(--media-placeholder-size) * 3)
-        calc(var(--media-placeholder-size) * 3);
-  }
-}
 
-@media (prefers-reduced-motion: reduce) {
-  .media-placeholder {
-    animation: none;
+  :where(main > *, main > section > *, main > section > .grid > *):nth-child(2) {
+    --entrance-delay: 65ms;
+  }
+
+  :where(main > *, main > section > *, main > section > .grid > *):nth-child(3) {
+    --entrance-delay: 130ms;
+  }
+
+  :where(main > *, main > section > *, main > section > .grid > *):nth-child(n + 4) {
+    --entrance-delay: 195ms;
+  }
+
+  [data-reveal]:not(:focus-within) {
+    opacity: var(--reveal-opacity, 1);
+    translate: 0 var(--reveal-offset, 0px);
+  }
+
+  @keyframes page-entrance {
+    from { opacity: 0; translate: 0 12px; }
+    to { opacity: 1; translate: 0 0; }
   }
 }

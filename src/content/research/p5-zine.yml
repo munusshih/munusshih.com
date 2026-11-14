@@ -1,0 +1,35 @@
+title: p5.zine
+startDate: June 2022
+tags: [Publishing, Tools]
+description: >-
+  An open-source p5.js library for making printable zines with code. p5.zine is a
+  rewrite of p5.genzine, a tool Munus Shih and Iley Cao developed for remixing and
+  collaborative zine-making. The original library was the basis of Munus’s 2023
+  Parsons thesis, Zine as Coding Connectivity.
+credit: Original p5.genzine by Munus Shih and Iley Cao.
+link: https://github.com/munusshih/p5.zine
+linkLabel: Source code
+links:
+  - label: Read the thesis
+    url: https://munusshih.github.io/p5-genzine-thesis/
+  - label: Start with a template
+    url: https://openprocessing.org/@u261940/1897656
+images:
+  - src: /work/p5zine/hero.jpg
+    alt: Documentation of the original p5.genzine project
+  - src: /work/p5zine/thesis.mp4
+    alt: Walkthrough of the p5.genzine thesis project
+  - src: p5-genzine.mp4
+    alt: A coded zine running in the browser
+  - src: guide-1.webp
+    alt: p5.genzine code beside a generated photo collage in the p5.js editor
+  - src: previews.mp4
+    alt: Previewing pages in p5.genzine
+  - src: export.mp4
+    alt: Exporting a zine for printing
+  - src: guide-2.webp
+    alt: A zine laid out for printing next to the browser preview
+  - src: guide-3.webp
+    alt: A text-based zine open in the p5.genzine preview
+  - src: workshop.mp4
+    alt: Documentation of a p5.genzine workshop

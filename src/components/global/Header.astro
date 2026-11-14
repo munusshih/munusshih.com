@@ -1,72 +1,128 @@
 ---
-import HeaderLink from "./HeaderLink.astro";
-import HeroSketch from "@/components/global/HeroSketch.astro";
-import { SITE_DESCRIPTION, SITE_TITLE, NEWS } from "@/consts";
+const links = [
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about/" },
+  { label: "Work", href: "/work/" },
+  { label: "Research", href: "/research/" },
+  { label: "Teach", href: "/teaching/" },
+];
+const positions = [
+  [35, 12, -10],
+  [81, 23, 13],
+  [88, 66, -9],
+  [61, 86, 7],
+  [13, 51, -12],
+];
+const cityShapes = {
+  taipei: [[3, 8], [28, 8], [72, 8], [97, 8], [97, 92], [72, 92], [28, 92], [3, 92]],
+  "new-york": [[4, 32], [25, 4], [75, 4], [96, 32], [96, 68], [75, 96], [25, 96], [4, 68]],
+};
+
+function hourPosition(outline: number[][], index: number) {
+  const angle = (index * Math.PI) / 6;
+  const x = Math.sin(angle);
+  const y = -Math.cos(angle);
+  // Find where the hand's ray reaches the outline, then inset the numeral.
+  const distance = Math.min(...outline.map(([startX, startY], index) => {
+    const [endX, endY] = outline[(index + 1) % outline.length];
+    const edgeX = endX - startX;
+    const edgeY = endY - startY;
+    const projection = x * edgeY - y * edgeX;
+    return projection > 0
+      ? ((startX - 50) * edgeY - (startY - 50) * edgeX) / projection
+      : Infinity;
+  }));
+  return `left: ${50 + x * distance * 0.83}%; top: ${50 + y * distance * 0.83}%`;
+}
+
+const currentPath = Astro.url.pathname.replace(/\/$/, "");
+const { activeNavHref } = Astro.props;
+const activeLink = links.find(({ href }) =>
+  activeNavHref ? href === activeNavHref : href.replace(/\/$/, "") === currentPath
+);
+const isCurrentPage = (href: string) => currentPath === href.replace(/\/$/, "");
 ---
 
 <header
-  class="body1 fade-in fixed top-0 z-10 w-full bg-white px-[var(--page-margin)] py-4 pt-[var(--page-margin)] md:pt-4 2xl:py-6"
+  class="site-header body1 w-full bg-white px-[var(--page-margin)]"
 >
-  <!-- Hidden checkbox controls menu visibility -->
-  <input
-    type="checkbox"
-    id="nav-toggle"
-    class="peer hidden"
-    aria-hidden="true"
-  />
+  <input type="checkbox" id="nav-toggle" hidden aria-hidden="true" />
 
-  <div class="flex flex-row items-center justify-between">
-    <h1 class="heading2 font-bold tracking-tight">
-      <a href="/" class="!no-underline hover:text-gray-400">Munus Shih</a>
-    </h1>
-
-    <!-- Menu toggle label, acts as a button -->
-    <label
-      for="nav-toggle"
-      class="heading2 z-50 cursor-pointer"
-      role="button"
-      tabindex="0"
+  <div class="flex flex-row items-center justify-between" data-header-controls>
+    <a href="/" class="heading2 tracking-tight !no-underline" aria-current={currentPath === "" ? "page" : undefined}>Munus Shih</a>
+    <button
+      type="button"
+      class="heading2 cursor-pointer"
+      data-menu-open
       aria-controls="main-navigation"
       aria-expanded="false"
+      disabled
     >
       Menu
-    </label>
+    </button>
+    <details class="fallback-menu heading2">
+      <summary>Menu</summary>
+      <nav aria-label="Main navigation">
+        <ul>
+          {links.map(({ label, href }) => (
+            <li>
+              {isCurrentPage(href) ? <span aria-current="page">{label}</span> : <a href={href}>{label}</a>}
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </details>
   </div>
 
   <nav
     id="main-navigation"
-    role="navigation"
     aria-label="Main navigation"
-    class="pointer-events-none fixed inset-0 z-[999] flex h-screen w-full flex-col items-center justify-center bg-black text-white peer-checked:pointer-events-auto peer-checked:flex"
-    style="transform: translateY(200vh);"
+    class="site-menu heading2 font-bold"
   >
-    <ul class="menu-textsize flex flex-col items-center justify-center gap-4">
-      <li><a href="/" class="!no-underline hover:text-gray-400">Home</a></li>
-      <li>
-        <a href="/about" class="!no-underline hover:text-gray-400">About</a>
-      </li>
-      <li>
-        <a href="/work" class="!no-underline hover:text-gray-400">Work</a>
-      </li>
-      <li>
-        <a href="/teaching" class="!no-underline hover:text-gray-400"
-          >Teaching</a
-        >
-      </li>
-      <!-- <li>
-        <a href="/lab" class="!no-underline hover:text-gray-400">Laboratory</a>
-      </li> -->
-
-      <!-- Close button label -->
-      <label
-        for="nav-toggle"
-        class="heading2 absolute top-[var(--page-margin)] right-[var(--page-margin)] cursor-pointer hover:text-gray-400"
-        role="button"
-        tabindex="0"
-      >
-        Close
-      </label>
-    </ul>
+    <button type="button" class="menu-close" data-menu-close>
+      Close
+    </button>
+    <div class="menu-dial">
+      <div class="clock-face" aria-hidden="true">
+        <span class="clock-hand clock-hour" data-clock-hour></span>
+        <span class="clock-hand clock-minute" data-clock-minute></span>
+        <span class="clock-hand clock-second" data-clock-second></span>
+        <span class="clock-pin"></span>
+      </div>
+      {Object.entries(cityShapes).map(([city, outline]) => (
+        <div class="clock-numerals" data-city-face={city} aria-hidden="true">
+          {Array.from({ length: 12 }, (_, index) => (
+            <span style={hourPosition(outline, index)}>{index || 12}</span>
+          ))}
+        </div>
+      ))}
+      <ul class="menu-links">
+        {
+          links.map(({ label, href }, index) => (
+            <li
+              style={`--dial-x: ${positions[index][0]}%; --dial-y: ${positions[index][1]}%; --dial-rotation: ${positions[index][2]}deg`}
+            >
+              {isCurrentPage(href) ? (
+                <span aria-current="page">{label}</span>
+              ) : <a
+                href={href}
+                aria-current={activeLink?.href === href ? "location" : undefined}
+              >
+                {label}
+              </a>}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <div class="menu-time" data-menu-time hidden>
+      <button type="button" data-zone="taipei" aria-pressed="false">
+        <span>Taipei</span> <time data-taiwan-time></time>
+      </button>
+      <button type="button" data-zone="new-york" aria-pressed="false">
+        <span>New York</span> <time data-new-york-time></time>
+      </button>
+    </div>
   </nav>
 </header>
 
@@ -75,87 +131,660 @@ import { SITE_DESCRIPTION, SITE_TITLE, NEWS } from "@/consts";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
   gsap.registerPlugin(ScrollTrigger);
 
-  const navToggle = document.querySelector("#nav-toggle");
-  const nav = document.getElementById("main-navigation");
-  const menuItems = nav.querySelectorAll("ul li, ul label");
-  const header = document.querySelector("header");
+  if (window.CSS?.supports("aspect-ratio", "1") && "inert" in HTMLElement.prototype) initMenu();
 
-  // Animate menu on open/close
-  navToggle.addEventListener("change", (e) => {
-    if (e.target.checked) {
-      // Opening animation - fly in from bottom of screen
-      gsap.to(nav, {
-        y: 0,
-        duration: 1,
-        ease: "power4.inOut",
-      });
-    } else {
-      // Closing animation - fly out to bottom
-      gsap.to(nav, {
-        y: "200vh",
-        duration: 1,
-        ease: "power4.inOut",
+  function initMenu() {
+    const toggle = document.querySelector<HTMLInputElement>("#nav-toggle")!;
+    const header = toggle.closest("header")!;
+    const pageContent = document.querySelectorAll<HTMLElement>("body > .skip-link, body > main, body > footer, [data-header-controls]");
+    const nav = header.querySelector<HTMLElement>("#main-navigation")!;
+    const openButton =
+      header.querySelector<HTMLButtonElement>("[data-menu-open]")!;
+    const closeButton =
+      nav.querySelector<HTMLButtonElement>("[data-menu-close]")!;
+    const fallbackMenu = header.querySelector<HTMLDetailsElement>(".fallback-menu")!;
+    const links = Array.from(nav.querySelectorAll<HTMLAnchorElement>("a[href]"));
+    const labels = nav.querySelectorAll(".menu-links li > :is(a, span)");
+    for (const link of links) {
+      link.addEventListener("click", (event) => {
+        if (event.defaultPrevented || event.button !== 0 || event.metaKey ||
+            event.ctrlKey || event.shiftKey || event.altKey ||
+            !matchMedia("(prefers-reduced-motion: no-preference)").matches) return;
+        try {
+          sessionStorage.setItem("clock-menu-destination", link.href);
+        } catch {
+          // The link still works when storage is unavailable.
+        }
       });
     }
-  });
+    const dial = nav.querySelector<HTMLElement>(".menu-dial")!;
+    const zoneButtons = Array.from(nav.querySelectorAll<HTMLButtonElement>("[data-zone]"));
+    const controls = () => [
+      closeButton,
+      ...links,
+      ...zoneButtons.filter((button) => !button.closest("[hidden]")),
+    ];
+    const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
 
-  ScrollTrigger.create({
-    start: 0,
-    end: "max",
-    onUpdate: ({ direction, scroll }) => {
-      if (navToggle.checked) return;
+    const readout = nav.querySelector<HTMLElement>("[data-menu-time]")!;
+    const clockFace = dial.querySelector<HTMLElement>(".clock-face")!;
+    const taiwanTime =
+      nav.querySelector<HTMLTimeElement>("[data-taiwan-time]")!;
+    const newYorkTime = nav.querySelector<HTMLTimeElement>(
+      "[data-new-york-time]",
+    )!;
+    const hourHand = nav.querySelector<HTMLElement>("[data-clock-hour]")!;
+    const minuteHand = nav.querySelector<HTMLElement>("[data-clock-minute]")!;
+    const secondHand = nav.querySelector<HTMLElement>("[data-clock-second]")!;
+    let updateClock: (() => void) | undefined;
+    let clockTimer: number | undefined;
+    let selectedZone = "local";
+    let activeZone = selectedZone;
+    let hoveredZone: string | undefined;
+    let focusedZone: string | undefined;
+    let handAngles: number[] | undefined;
 
-      const yTarget = direction === -1 ? 0 : -header.offsetHeight;
-      gsap.to(header, {
-        y: yTarget,
-        duration: 0.5,
-        ease: "power2.out",
-        overwrite: "auto",
+    function syncZone() {
+      const preview = hoveredZone ?? focusedZone;
+      if (preview) {
+        dial.dataset.clockPreview = preview;
+      } else {
+        delete dial.dataset.clockPreview;
+      }
+      const next = preview ?? selectedZone;
+      activeZone = next;
+      updateClock?.();
+    }
+
+    for (const button of zoneButtons) {
+      const zone = button.dataset.zone!;
+      button.addEventListener("pointerenter", (event) => {
+        if (event.pointerType === "touch") return;
+        hoveredZone = zone;
+        syncZone();
       });
+      button.addEventListener("pointerleave", () => {
+        if (hoveredZone === zone) hoveredZone = undefined;
+        syncZone();
+      });
+      button.addEventListener("focus", () => {
+        if (!button.matches(":focus-visible")) return;
+        focusedZone = zone;
+        syncZone();
+      });
+      button.addEventListener("blur", () => {
+        focusedZone = undefined;
+        syncZone();
+      });
+      button.addEventListener("click", () => {
+        selectedZone = selectedZone === zone ? "local" : zone;
+        for (const city of zoneButtons) {
+          city.setAttribute("aria-pressed", String(city.dataset.zone === selectedZone));
+        }
+        syncZone();
+      });
+    }
 
-      header.classList.toggle("shadow-md", scroll() > 0);
-    },
-  });
+    try {
+      const timeOptions = {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hourCycle: "h23",
+      } as const;
+      const taiwan = new Intl.DateTimeFormat("en-GB", {
+        ...timeOptions,
+        timeZone: "Asia/Taipei",
+      });
+      const newYork = new Intl.DateTimeFormat("en-GB", {
+        ...timeOptions,
+        timeZone: "America/New_York",
+      });
+      if (typeof taiwan.formatToParts === "function") {
+        updateClock = () => {
+          readout.hidden = false;
+          const now = new Date();
+          taiwanTime.textContent = taiwan.format(now);
+          newYorkTime.textContent = newYork.format(now);
+          taiwanTime.dateTime = now.toISOString();
+          newYorkTime.dateTime = now.toISOString();
+          const city = activeZone === "local"
+            ? undefined
+            : activeZone === "new-york" ? newYork : taiwan;
+          const parts = city?.formatToParts(now);
+          const hour = parts ? Number(parts.find(({ type }) => type === "hour")?.value) : now.getHours();
+          const minute = parts ? Number(parts.find(({ type }) => type === "minute")?.value) : now.getMinutes();
+          const second = parts ? Number(parts.find(({ type }) => type === "second")?.value) : now.getSeconds();
+          const fraction = second + now.getMilliseconds() / 1000;
+          const targets = [
+            (hour % 12) * 30 + minute / 2 + fraction / 120,
+            minute * 6 + fraction / 10,
+            fraction * 6,
+          ];
+          const previous = handAngles;
+          const { width, height } = dial.getBoundingClientRect();
+          const aspectRatio = dial.dataset.clockPreview &&
+            !nav.querySelector(".menu-links:focus-within")
+            ? width / (height || 1)
+            : 1;
+          const angles = targets.map((target, index) => {
+            // Only compensate for the stretched layout when numerals are visible.
+            const radians = (target * Math.PI) / 180;
+            const projected =
+              (Math.atan2(Math.sin(radians) * aspectRatio, Math.cos(radians)) *
+                180) / Math.PI;
+            const angle = previous?.[index] ?? projected;
+            return angle + (((projected - angle + 180) % 360 + 360) % 360 - 180);
+          });
+          handAngles = angles;
+          [hourHand, minuteHand, secondHand].forEach((hand, index) => {
+            hand.style.transform = `rotate(${angles[index]}deg)`;
+          });
+          dial.dataset.activeZone = activeZone;
+          hourHand.parentElement?.setAttribute("data-clock-ready", "");
+        };
+      }
+    } catch {
+      // Navigation still works if the browser lacks time zone support.
+    }
 
-  document.querySelectorAll('label[for="nav-toggle"]').forEach((label) => {
-    label.addEventListener("keydown", (e) => {
-      if (e.key === " " || e.key === "Enter") {
-        e.preventDefault();
-        const checkbox = document.getElementById("nav-toggle");
-        checkbox.checked = !checkbox.checked;
-        checkbox.dispatchEvent(new Event("change"));
+    function setMenu(open: boolean) {
+      toggle.checked = open;
+      toggle.dispatchEvent(new Event("change"));
+    }
+
+    openButton.addEventListener("click", () => setMenu(true));
+    closeButton.addEventListener("click", () => setMenu(false));
+    window.addEventListener("resize", () => {
+      if (toggle.checked) updateClock?.();
+    });
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden && toggle.checked) updateClock?.();
+    });
+    window.addEventListener("pageshow", (event) => {
+      if (event.persisted && toggle.checked) setMenu(false);
+    });
+
+    const entrance = gsap.timeline({
+      paused: true,
+      defaults: { ease: "power3.out" },
+      onReverseComplete: () => {
+        gsap.set(nav, { visibility: "hidden" });
+      },
+    });
+    entrance
+      .fromTo(nav, { yPercent: 100 }, { yPercent: 0, duration: 0.52 }, 0)
+      .fromTo(clockFace, { opacity: 0, "--clock-scale": 0.55 }, {
+        opacity: 1, "--clock-scale": 1, duration: 0.56,
+      }, 0.14)
+      .fromTo(labels, { opacity: 0, y: 24, rotate: -8 }, {
+        opacity: 1, y: 0, rotate: 0, duration: 0.42, stagger: 0.06,
+      }, 0.14)
+      .fromTo(closeButton, { opacity: 0, y: -8 }, {
+        opacity: 1, y: 0, duration: 0.28,
+      }, 0.25)
+      .fromTo(readout, { opacity: 0, y: 12 }, {
+        opacity: 1, y: 0, duration: 0.32,
+      }, 0.4);
+
+    toggle.addEventListener("change", () => {
+      const open = toggle.checked;
+      document.documentElement.toggleAttribute("data-clock-menu-open", open);
+      openButton.setAttribute("aria-expanded", String(open));
+      nav.inert = !open;
+
+      if (open) {
+        if (updateClock) {
+          updateClock();
+          clockTimer = window.setInterval(updateClock, 250);
+        }
+        gsap.killTweensOf(header, "y");
+        gsap.set(header, { y: 0 });
+        nav.scrollTop = 0;
+        gsap.set(nav, { visibility: "visible" });
+        if (reducedMotion.matches) {
+          entrance.pause().progress(1);
+        } else {
+          entrance.timeScale(1).play();
+        }
+        closeButton.focus({ preventScroll: true });
+        for (const element of pageContent) element.inert = true;
+      } else {
+        for (const element of pageContent) element.inert = false;
+        window.clearInterval(clockTimer);
+        hoveredZone = undefined;
+        focusedZone = undefined;
+        syncZone();
+        openButton.focus({ preventScroll: true });
+        if (reducedMotion.matches || entrance.progress() === 0) {
+          entrance.pause().progress(0);
+          gsap.set(nav, { visibility: "hidden" });
+        } else {
+          entrance.timeScale(2).reverse();
+        }
       }
     });
-  });
 
-  document.addEventListener("keydown", (e) => {
-    if (e.key !== "Tab") return;
+    ScrollTrigger.create({
+      start: 0,
+      end: "max",
+      onUpdate: ({ direction, scroll }) => {
+        if (toggle.checked) return;
+        const hide = direction === 1 && scroll() > header.offsetHeight &&
+          !header.contains(document.activeElement);
 
-    const checkbox = document.getElementById("nav-toggle");
-    if (!checkbox.checked) return; // only trap focus when menu is open
+        gsap.to(header, {
+          y: hide ? -header.offsetHeight : 0,
+          duration: reducedMotion.matches ? 0 : 0.5,
+          ease: "power2.out",
+          overwrite: "auto",
+        });
 
-    const nav = document.getElementById("main-navigation");
-    const focusable = nav.querySelectorAll(
-      'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
-    );
-    if (focusable.length === 0) return;
+        header.classList.toggle("shadow-md", scroll() > 0);
+      },
+    });
 
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
-    const active = document.activeElement;
+    header.addEventListener("focusin", () => {
+      gsap.killTweensOf(header, "y");
+      gsap.set(header, { y: 0 });
+    });
 
-    if (e.shiftKey) {
-      // Shift + Tab
-      if (active === first) {
-        e.preventDefault();
-        last.focus();
+    document.addEventListener("keydown", (event) => {
+      if (!toggle.checked) return;
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setMenu(false);
       }
-    } else {
-      // Tab
-      if (active === last) {
-        e.preventDefault();
+      if (event.key !== "Tab") return;
+      const focusable = controls();
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
         first.focus();
       }
+    });
+
+    gsap.set(nav, { yPercent: 100 });
+    nav.inert = true;
+    openButton.disabled = false;
+    const fallbackWasOpen = fallbackMenu.open;
+    const fallbackHadFocus = fallbackMenu.contains(document.activeElement);
+    header.dataset.menuReady = "";
+    fallbackMenu.open = false;
+    if (fallbackWasOpen) {
+      setMenu(true);
+      entrance.pause().progress(1);
+    } else if (fallbackHadFocus) {
+      openButton.focus({ preventScroll: true });
     }
-  });
+  }
 </script>
+
+<style>
+  :global(html[data-clock-menu-open]) {
+    overflow: hidden;
+  }
+
+  [data-menu-open],
+  .menu-close,
+  .clock-face {
+    display: none;
+  }
+
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: grid;
+    align-items: center;
+    min-height: 60px;
+  }
+
+  [data-header-controls] {
+    min-height: 24px;
+  }
+
+  .site-header:not([data-menu-ready]) .site-menu,
+  [data-menu-ready] .fallback-menu {
+    display: none;
+  }
+
+  .fallback-menu summary {
+    display: flex;
+    min-height: 24px;
+    align-items: center;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .fallback-menu summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .fallback-menu nav {
+    position: absolute;
+    inset: 100% 0 auto;
+    padding: 1rem var(--page-margin);
+    background: white;
+  }
+
+  .fallback-menu ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.25rem;
+  }
+
+  [data-menu-ready] [data-menu-open],
+  [data-menu-ready] .menu-close {
+    display: block;
+  }
+
+  [data-menu-ready] .site-menu {
+    --clock-accent: color-mix(in srgb, var(--accent-color) 24%, var(--media-placeholder-light));
+
+    display: flex;
+    position: fixed;
+    flex-direction: column;
+    transform: translateY(100%);
+    visibility: hidden;
+    z-index: 1;
+    inset: 0;
+    background-color: var(--media-placeholder-dark);
+    padding: 3.25rem var(--page-margin) max(0.5rem, env(safe-area-inset-bottom));
+    height: 100vh;
+    height: 100dvh;
+    box-sizing: border-box;
+    overflow: auto;
+    overscroll-behavior: contain;
+    color: var(--media-placeholder-light);
+  }
+
+  .menu-close,
+  [data-menu-open],
+  .menu-time button {
+    min-height: 24px;
+  }
+
+  .menu-close {
+    position: absolute;
+    top: var(--page-margin);
+    right: var(--page-margin);
+    z-index: 1;
+    cursor: pointer;
+  }
+
+  [data-menu-ready] .menu-dial {
+    position: relative;
+    flex: 1 0 auto;
+    container-type: size;
+    min-height: min(58vh, 115vw);
+    width: 100%;
+  }
+
+  [data-menu-ready] .clock-face {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(var(--clock-scale, 1));
+    width: min(34%, 30.5vh);
+    width: min(34cqi, 41cqb);
+    aspect-ratio: 1;
+    pointer-events: none;
+  }
+
+  .clock-numerals {
+    display: none;
+  }
+
+  [data-menu-ready] .clock-numerals {
+    display: block;
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    scale: 0.96;
+    pointer-events: none;
+  }
+
+  [data-menu-ready] .menu-links :is(a, span),
+  .clock-numerals span {
+    font-size: clamp(1.5rem, 8vw, 7rem);
+    font-size: clamp(1.5rem, min(8.4cqi, 13cqb), 7rem);
+    line-height: 1;
+    letter-spacing: -0.065em;
+  }
+
+  .clock-numerals span {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    font-variant-numeric: tabular-nums;
+  }
+
+  [data-clock-preview="taipei"]:not(:has(.menu-links:focus-within)) [data-city-face="taipei"],
+  [data-clock-preview="new-york"]:not(:has(.menu-links:focus-within)) [data-city-face="new-york"] {
+    opacity: 1;
+    scale: 1;
+  }
+
+  [data-clock-preview] .menu-links:not(:focus-within) {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .clock-hand {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+  }
+
+  .clock-face:not([data-clock-ready]) .clock-hand,
+  .clock-face:not([data-clock-ready]) .clock-pin {
+    visibility: hidden;
+  }
+
+  .clock-hand::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: calc(-1 * var(--hand-tail));
+    width: var(--hand-width);
+    height: var(--hand-length);
+    transform: translateX(-50%);
+    background: currentColor;
+    clip-path: var(--hand-profile);
+  }
+
+  .clock-hour {
+    color: var(--clock-accent, currentColor);
+    --hand-length: clamp(2.25rem, 10cqi, 8rem);
+    --hand-tail: clamp(5px, 0.95cqi, 10px);
+    --hand-width: clamp(9px, 1.35cqi, 16px);
+    --hand-profile: polygon(50% 0, 66% 24%, 93% 42%, 84% 54%, 61% 63%, 65% 83%, 83% 91%, 69% 100%, 31% 100%, 17% 91%, 35% 83%, 39% 63%, 16% 54%, 7% 42%, 34% 24%);
+  }
+
+  .clock-minute {
+    --hand-length: clamp(3.25rem, 14cqi, 12rem);
+    --hand-tail: clamp(6px, 1.1cqi, 12px);
+    --hand-width: clamp(7px, 1.05cqi, 12px);
+    --hand-profile: polygon(50% 0, 66% 37%, 96% 53%, 71% 62%, 56% 70%, 62% 85%, 77% 94%, 59% 100%, 41% 100%, 23% 94%, 38% 85%, 44% 70%, 29% 62%, 4% 53%, 34% 37%);
+  }
+
+  .clock-second {
+    --hand-length: clamp(4rem, 17cqi, 15rem);
+    --hand-tail: clamp(9px, 1.5cqi, 17px);
+    --hand-width: 1px;
+    --hand-profile: none;
+    opacity: 0.68;
+  }
+
+  .clock-second::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: calc(-1 * var(--hand-tail));
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    transform: translateX(-50%);
+    background: currentColor;
+  }
+
+  @supports (clip-path: shape(from 0 0, line to 100% 100%, close)) {
+    .clock-hour {
+      --hand-profile: shape(from 50% 0,
+        curve to 66% 24% with 55% 13% / 56% 18%,
+        curve to 93% 42% with 78% 31% / 93% 34%,
+        curve to 61% 63% with 93% 52% / 67% 56%,
+        curve to 65% 83% with 52% 70% / 53% 78%,
+        curve to 50% 100% with 100% 91% / 93% 100%,
+        curve to 35% 83% with 7% 100% / 0 91%,
+        curve to 39% 63% with 47% 78% / 48% 70%,
+        curve to 7% 42% with 33% 56% / 7% 52%,
+        curve to 34% 24% with 7% 34% / 22% 31%,
+        curve to 50% 0 with 44% 18% / 45% 13%, close);
+    }
+
+    .clock-minute {
+      --hand-profile: shape(from 50% 0,
+        curve to 66% 37% with 53% 20% / 54% 32%,
+        curve to 96% 53% with 78% 43% / 100% 47%,
+        curve to 56% 70% with 91% 59% / 59% 60%,
+        curve to 62% 85% with 52% 75% / 53% 81%,
+        curve to 50% 100% with 88% 95% / 79% 100%,
+        curve to 38% 85% with 21% 100% / 12% 95%,
+        curve to 44% 70% with 47% 81% / 48% 75%,
+        curve to 4% 53% with 41% 60% / 9% 59%,
+        curve to 34% 37% with 0 47% / 22% 43%,
+        curve to 50% 0 with 46% 32% / 47% 20%, close);
+    }
+  }
+
+  .clock-pin {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: currentColor;
+    width: clamp(5px, 0.7cqi, 8px);
+    aspect-ratio: 1;
+    border: 1px solid var(--media-placeholder-dark);
+  }
+
+  [data-menu-ready] .menu-links li {
+    position: absolute;
+    top: var(--dial-y);
+    left: var(--dial-x);
+    transform: translate(-50%, -50%) rotate(var(--dial-rotation));
+  }
+
+  [data-menu-ready] .menu-links :is(a, span) {
+    display: block;
+    padding: 0.1em;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  [data-menu-ready]
+    .menu-links
+    [aria-current] {
+    color: color-mix(in srgb, currentColor 72%, transparent);
+  }
+
+  [data-menu-ready] .menu-links a:is(:hover, :focus-visible) {
+    color: var(--clock-accent, currentColor);
+  }
+
+  [data-menu-ready] .site-menu :focus-visible {
+    outline: 2px dashed currentColor;
+    outline-offset: 2px;
+  }
+
+  .menu-time:not([hidden]) {
+    display: flex;
+    position: relative;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    line-height: 1.05;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .menu-time button {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.4em;
+    opacity: 0.62;
+    cursor: pointer;
+    font-size: inherit;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  .menu-time button:last-child {
+    margin-inline-start: auto;
+    text-align: right;
+  }
+
+  .menu-time button:is(:hover, :focus-visible) {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .menu-links,
+    .menu-time button {
+      transition: opacity 220ms ease;
+    }
+
+    .clock-numerals {
+      transition: opacity 220ms ease, scale 340ms ease-out;
+    }
+
+    .menu-links a {
+      transition: color 180ms ease, scale 260ms ease-out;
+    }
+
+    .menu-links a:is(:hover, :focus-visible) {
+      scale: 1.035;
+    }
+
+    .clock-hand {
+      transition: transform 240ms linear;
+    }
+
+    .clock-hour {
+      transition: transform 680ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+  }
+
+  @media (max-height: 500px) and (orientation: landscape) {
+    [data-menu-ready] .site-menu {
+      padding-top: 1.5rem;
+    }
+
+    [data-menu-ready] .menu-dial {
+      min-height: 58vh;
+    }
+  }
+
+  @media (max-width: 480px), (max-height: 500px) {
+    .clock-second {
+      display: none;
+    }
+  }
+
+  @media (max-width: 340px) {
+    [data-menu-ready] .menu-links :is(a, span),
+    .clock-numerals span {
+      font-size: clamp(1rem, 7.8vw, 1.5rem);
+    }
+  }
+</style>

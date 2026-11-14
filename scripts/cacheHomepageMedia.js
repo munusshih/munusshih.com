@@ -13,6 +13,7 @@ import { promisify } from "node:util";
 import yaml from "js-yaml";
 import ffmpegPath from "ffmpeg-static";
 import { chromium } from "playwright";
+import { autoScroll, recordSiteScroll } from "./recordSiteScroll.js";
 import {
   homepageEntryKey,
   isHomepageEntryEnabled,
@@ -275,34 +276,6 @@ const closeBrowser = async () => {
   }
 };
 
-const autoScroll = async (page) => {
-  await page.evaluate(async () => {
-    window.scrollTo(0, 0);
-    await new Promise((resolve) => {
-      const distance = 380;
-      const delay = 180;
-      const maxIterations = 30;
-      let iterations = 0;
-
-      const timer = setInterval(() => {
-        const maxScroll =
-          Math.max(
-            document.body.scrollHeight,
-            document.documentElement.scrollHeight,
-          ) - window.innerHeight;
-
-        window.scrollBy(0, distance);
-        iterations += 1;
-
-        if (window.scrollY >= maxScroll || iterations >= maxIterations) {
-          clearInterval(timer);
-          resolve();
-        }
-      }, delay);
-    });
-  });
-};
-
 const captureScreenshot = async (url, destination, options = {}) => {
   const { dark = false } = options;
   if (!FORCE && existsSync(destination)) return destination;
@@ -347,7 +320,7 @@ const optimizeRecordedVideo = async (source, destination) => {
         "-i",
         source,
         "-vf",
-        "fps=12,scale=960:-2:flags=lanczos",
+        "scale=960:-2:flags=lanczos",
         "-c:v",
         "libvpx-vp9",
         "-b:v",
@@ -382,34 +355,14 @@ const recordVideo = async (url, destination, options = {}) => {
   const browser = await getBrowser();
   const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "homepage-video-"));
 
-  const context = await browser.newContext({
-    viewport: { width: 1280, height: 720 },
-    userAgent: USER_AGENT,
-    colorScheme: dark ? "dark" : "light",
-    recordVideo: {
-      dir: tempDir,
-      size: { width: 1280, height: 720 },
-    },
-  });
-
-  const page = await context.newPage();
   try {
-    await page.goto(url, { waitUntil: "networkidle", timeout: 90_000 });
-    await page.waitForTimeout(1500);
-    await autoScroll(page);
-    await page.waitForTimeout(1700);
-    const recordedVideo = page.video();
-    await page.close();
-
-    const videoPath = recordedVideo ? await recordedVideo.path() : null;
-    if (!videoPath) {
-      throw new Error(`No video file recorded for ${url}`);
-    }
-
+    const { path: videoPath } = await recordSiteScroll(browser, url, tempDir, {
+      userAgent: USER_AGENT,
+      colorScheme: dark ? "dark" : "light",
+    });
     await ensureDir(path.dirname(destination));
     await optimizeRecordedVideo(videoPath, destination);
   } finally {
-    await context.close();
     await fs.rm(tempDir, { recursive: true, force: true });
   }
 

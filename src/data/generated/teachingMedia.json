@@ -240,5 +240,19 @@
       "source": "recorded",
       "caption": null
     }
+  ],
+  "Building Benches for the Web|June–July 2026|https://class.playhtml.fun/": [
+    {
+      "kind": "video",
+      "src": "/teaching/building-benches-for-the-web/building-benches-for-the-web-01.webm",
+      "source": "recorded",
+      "caption": null
+    },
+    {
+      "kind": "video",
+      "src": "/teaching/building-benches-for-the-web/building-benches-for-the-web-02.webm",
+      "source": "recorded",
+      "caption": null
+    }
   ]
 }

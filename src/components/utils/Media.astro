@@ -2,15 +2,15 @@
 // Media.astro
 const {
   src,
-  alt,
+  alt = "",
   isVideo = false,
   fit = "cover",
   scaling = 1,
   cropped = false,
   className = "",
   widthAuto = false,
-  fadeIn = true,
   usePoster = true,
+  placeholder = true,
 } = Astro.props;
 import { normalizeMediaSrc, posterFromMediaSrc } from "@/scripts/mediaPath.js";
 import { localMediaPath, mediaDimensions } from "@/utils/mediaMetadata.js";
@@ -22,7 +22,16 @@ const dimensions = await mediaDimensions(resolvedSrc, Boolean(isVideo));
 const optimizedImage = !isVideo && dimensions.width && dimensions.height && /\.(jpe?g|png|webp|avif)$/i.test(resolvedSrc)
   ? await getImage({ src: resolvedSrc, width: dimensions.width, height: dimensions.height, widths: [640, 1080, 1920].filter((width) => width <= dimensions.width), quality: 80 })
   : undefined;
-const fadeClass = fadeIn ? "fade-in" : "";
+// Astro's dev image URLs omit the slash required by this site's routing.
+const imageSrc = optimizedImage?.src.replace("/_image?", "/_image/?");
+const imageSrcset = optimizedImage?.srcSet.attribute.replaceAll("/_image?", "/_image/?");
+const stillSrc = resolvedSrc.startsWith("/assets/") && /\.gif$/i.test(resolvedSrc)
+  ? resolvedSrc.replace("/assets/", "/assets/posters/").replace(/\.gif$/i, ".webp")
+  : undefined;
+const hasStill = Boolean(stillSrc && localMediaPath(stillSrc));
+const ImageContainer = hasStill ? "picture" : Fragment;
+const placeholderClass = placeholder ? "media-placeholder" : "";
+const fallbackRatio = dimensions.width ? undefined : "16 / 9";
 const fitClass = fit === "contain" ? "object-contain" : "object-cover";
 ---
 
@@ -39,24 +48,30 @@ const fitClass = fit === "contain" ? "object-contain" : "object-cover";
       muted
       playsinline
       webkit-playsinline
-      class={`${fadeClass} media media-placeholder *:h-auto ${widthAuto ? "w-auto" : "w-full"} ${fitClass} ${cropped ? "[clip-path:inset(-3px)]" : ""} ${className}`}
-      style={{ transform: `scale(${scaling})` }}
+      class={`media ${placeholderClass} *:h-auto ${widthAuto ? "w-auto" : "w-full"} ${fitClass} ${cropped ? "[clip-path:inset(-3px)]" : ""} ${className}`}
+      style={{ transform: `scale(${scaling})`, aspectRatio: fallbackRatio }}
       alt={alt}
     >
       Your browser does not support the video tag.
     </video>
   ) : (
-    <img
-      src={optimizedImage?.src || resolvedSrc}
-      srcset={optimizedImage?.srcSet.attribute || undefined}
+    <ImageContainer {...(hasStill ? { style: "display: contents" } : {})}>
+      {hasStill && (
+        <source media="(prefers-reduced-motion: reduce)" srcset={encodeURI(stillSrc!)} />
+      )}
+      <img
+      src={imageSrc || resolvedSrc}
+      srcset={imageSrcset || undefined}
       sizes={optimizedImage ? "(max-width: 767px) 100vw, 75vw" : undefined}
       width={dimensions.width}
       height={dimensions.height}
       alt={alt}
       loading="lazy"
       decoding="async"
-      class={`${fadeClass} media media-placeholder h-auto ${widthAuto ? "w-auto" : "w-full"} ${fitClass} ${cropped ? "[clip-path:inset(-3px)]" : ""} ${className}`}
-    />
+      style={{ aspectRatio: fallbackRatio }}
+      class={`media ${placeholderClass} h-auto ${widthAuto ? "w-auto" : "w-full"} ${fitClass} ${cropped ? "[clip-path:inset(-3px)]" : ""} ${className}`}
+      />
+    </ImageContainer>
   )
 }
 

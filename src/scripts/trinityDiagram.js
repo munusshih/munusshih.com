@@ -3,6 +3,11 @@ import p5 from "p5";
 const sketches = new WeakMap();
 
 function createTrinitySketch(container) {
+  const links = container.parentElement.querySelectorAll("[data-trinity-link]");
+  const destinations = new Map(
+    ["software", "commons", "community"].map((id, index) => [id, links[index]]),
+  );
+  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
   const sketch = (p) => {
     const DIAGRAM_ASPECT = 0.96;
     let resizeObserver = null;
@@ -262,6 +267,14 @@ function createTrinitySketch(container) {
       );
       const radius =
         (id === "munus" ? centerNodeRadius : outerNodeRadius) * node.scale;
+      const link = destinations.get(id);
+      if (link) {
+        link.style.left = `${(node.x / width) * 100}%`;
+        link.style.top = `${(node.y / height) * 100}%`;
+        link.style.width = `${(radius * 200) / width}%`;
+        link.style.height = `${(radius * 200) / height}%`;
+        link.style.fontSize = `${Math.max(12, textSize)}px`;
+      }
 
       p.push();
       p.translate(node.x, node.y);
@@ -275,7 +288,7 @@ function createTrinitySketch(container) {
       p.fill(255);
       p.textAlign(p.CENTER, p.CENTER);
       p.textSize(textSize);
-      p.text(nodeLabels[id], 0, depthShift);
+      if (!link) p.text(nodeLabels[id], 0, depthShift);
 
       p.pop();
     }
@@ -288,16 +301,18 @@ function createTrinitySketch(container) {
       const initialHeight = Math.round(initialWidth * DIAGRAM_ASPECT);
       const canvas = p.createCanvas(initialWidth, initialHeight);
       canvas.parent(container);
-      p.pixelDensity(2);
+      p.pixelDensity(Math.min(window.devicePixelRatio || 1, 2));
       p.frameRate(30);
       p.textFont("Be Vietnam Pro");
       p.textStyle(p.NORMAL);
       p.strokeCap(p.ROUND);
       recalc();
+      if (reducedMotion.matches) p.noLoop();
 
       if (typeof ResizeObserver !== "undefined") {
         resizeObserver = new ResizeObserver(() => {
           recalc();
+          if (reducedMotion.matches) p.redraw();
         });
         resizeObserver.observe(container);
       }
@@ -347,6 +362,7 @@ function createTrinitySketch(container) {
       for (const node of nodeOrder) {
         drawNode(node, node.id);
       }
+      if (!container.hasAttribute("data-drawn")) container.setAttribute("data-drawn", "");
     };
 
     p.remove = ((originalRemove) => () => {

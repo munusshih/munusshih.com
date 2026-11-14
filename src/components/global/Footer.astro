@@ -2,43 +2,17 @@
 ---
 
 <footer
-  client:load
   class="border-t bg-white px-[var(--page-margin)] pt-4 pb-4 md:border-0 md:pb-2 xl:pb-6"
 >
   <div
     class="body1 flex flex-col-reverse flex-wrap justify-between gap-4 md:flex-row 2xl:py-8"
-    "
   >
     <div class="heading2">
-      &copy; Munus Shih <span id="date"></span>
+      &copy; Munus Shih {new Date().getFullYear()}
     </div>
-    <div id="emailButton" class="heading2 cursor-pointer">
-      <a>munusshih@gmail.com</a>
+    <div class="heading2">
+      <a href="mailto:munusshih@gmail.com">munusshih@gmail.com</a>
     </div>
   </div>
 
-  <script>
-    const year = new Date().getFullYear();
-    document.getElementById("date").textContent = year;
-
-    document
-      .getElementById("emailButton")
-      .addEventListener("click", function () {
-        const email = this.querySelector("a");
-
-        navigator.clipboard
-          .writeText(email.textContent)
-          .then(() => {
-            const originalText = email.textContent;
-            email.textContent = "Copied!";
-
-            setTimeout(() => {
-              email.textContent = originalText;
-            }, 2000);
-          })
-          .catch((err) => {
-            console.error("Failed to copy text: ", err);
-          });
-      });
-  </script>
 </footer>

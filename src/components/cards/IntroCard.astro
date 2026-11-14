@@ -8,6 +8,7 @@ const {
   linkContent,
   linkLabel,
   linkHref,
+  links,
 } = Astro.props;
 import DraggableCard from "@/components/global/DraggableCard.astro";
 import HeroSketch from "@/components/global/HeroSketch.astro";
@@ -37,13 +38,17 @@ const introBodyHtml = introBody ? parseMarkdown(introBody) : "";
     class={`${size} home-card flex flex-col p-4 `}
     style={`background: ${cardBackground}; color: ${cardTextColor};`}
   >
-    <a
-      href={introLinkHref}
-      class="linkout body2"
-      {...externalLinkAttrs(introLinkHref)}
-    >
-      {introLinkLabel}
-    </a>
+    {
+      variant !== "trinity" && (
+        <a
+          href={introLinkHref}
+          class="linkout body2"
+          {...externalLinkAttrs(introLinkHref)}
+        >
+          {introLinkLabel}
+        </a>
+      )
+    }
     <div class="mt-4 flex min-h-0 flex-1 flex-col gap-3">
       {
         variant === "trinity" ? (
@@ -54,6 +59,15 @@ const introBodyHtml = introBody ? parseMarkdown(introBody) : "";
               role="img"
               aria-label="Munus practice map connecting code, commons, and community through p5 tools, publishing, teaching, and organizing"
             />
+            <ul class="trinity-links" aria-label="Explore my practice">
+              {links?.map(({ label, href }) => (
+                <li>
+                  <a href={href} data-trinity-link>
+                    {label}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
         ) : (
           <HeroSketch />
@@ -71,10 +85,62 @@ const introBodyHtml = introBody ? parseMarkdown(introBody) : "";
   </div>
   <style>
     .trinity-wrapper {
+      position: relative;
       margin-inline: 0;
       width: 100%;
       height: 100%;
       min-height: 0;
+      container-type: inline-size;
+    }
+
+    .trinity-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      position: absolute;
+      inset: 0;
+      align-items: center;
+      justify-content: center;
+      align-content: center;
+      pointer-events: none;
+    }
+
+    [data-trinity-link] {
+      pointer-events: auto;
+      display: grid;
+      position: absolute;
+      place-items: center;
+      transform: translate(-50%, -50%);
+      width: 25%;
+      height: 26%;
+      border-radius: 50%;
+      border: 1px solid currentColor;
+      color: white;
+      font-size: max(12px, 3.7cqi);
+    }
+
+    .trinity-links li:nth-child(1) [data-trinity-link] {
+      left: 19%;
+      top: 26%;
+    }
+
+    .trinity-links li:nth-child(2) [data-trinity-link] {
+      left: 81%;
+      top: 26%;
+    }
+
+    .trinity-links li:nth-child(3) [data-trinity-link] {
+      left: 50%;
+      top: 82%;
+    }
+
+    .trinity-canvas[data-drawn] + .trinity-links [data-trinity-link] {
+      border-color: transparent;
+    }
+
+    [data-trinity-link]:focus-visible {
+      outline: 2px dashed currentColor;
+      outline-offset: 2px;
     }
 
     .trinity-canvas {
@@ -83,7 +149,7 @@ const introBodyHtml = introBody ? parseMarkdown(introBody) : "";
       align-items: center;
       background: transparent;
       width: 100%;
-      height: 100%;
+      aspect-ratio: 100 / 96;
       overflow: hidden;
     }
 
@@ -94,6 +160,17 @@ const introBodyHtml = introBody ? parseMarkdown(introBody) : "";
       max-width: none;
       height: auto !important;
       max-height: none;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .trinity-canvas :global(canvas) {
+        animation: trinity-enter 280ms ease-out;
+      }
+
+      @keyframes trinity-enter {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
     }
   </style>
 </DraggableCard>

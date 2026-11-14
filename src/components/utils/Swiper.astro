@@ -1,15 +1,33 @@
 ---
 // Swiper.astro
-const { images, width = "75%" } = Astro.props;
+const {
+  images,
+  width = "75%",
+  label,
+  fadeIn = true,
+  fit = "cover",
+  previewCount,
+  uniform = false,
+  resumeAutoplay = false,
+  navigation = false,
+} = Astro.props;
 import "swiper/css";
 import Media from "@/components/utils/Media.astro";
+import Arrow from "@/components/utils/Arrow.astro";
 ---
 
-<div class="swiper" style={`--swiper-slide-width: ${width}`}>
+<div
+  class="swiper"
+  style={`--swiper-slide-width: ${width}`}
+  aria-label={label}
+  data-resume-autoplay={resumeAutoplay ? "" : undefined}
+>
   <div class="swiper-wrapper">
     {
-      images.map((src, idx) => {
-        const [mediaSrcRaw, scaling] = Array.isArray(src) ? src : [src];
+      images.map((image, idx) => {
+        const [mediaSrcRaw, scaling] = Array.isArray(image)
+          ? image
+          : [image?.src ?? image];
         const mediaSrc =
           typeof mediaSrcRaw === "string"
             ? mediaSrcRaw.replace(/\[(?:video|image|dark)\]/gi, "").trim()
@@ -21,24 +39,55 @@ import Media from "@/components/utils/Media.astro";
           (typeof mediaSrc === "string" &&
             /\.(mp4|webm|ogg|mov|m4v)(?:$|[?#])/i.test(mediaSrc));
         return (
-          <div key={idx} class="swiper-slide h-auto">
+          <div
+            key={idx}
+            class:list={["swiper-slide h-auto", { "uniform-slide": uniform }]}
+            data-extra-slide={
+              previewCount != null && idx >= previewCount ? "" : undefined
+            }
+          >
             <Media
               src={mediaSrc}
-              alt={images.src || ""}
+              alt={image?.alt ?? ""}
               isVideo={isVideo}
               scaling={scaling}
               usePoster={true}
+              fadeIn={fadeIn}
+              fit={fit}
+              className={uniform || fit === "contain" ? "!h-full" : undefined}
             />
           </div>
         );
       })
     }
   </div>
+  {
+    navigation && images.length > 1 && (
+      <div class="carousel-navigation">
+        <button
+          type="button"
+          class="carousel-arrow"
+          data-carousel-prev
+          aria-label="Previous slide"
+        >
+          <Arrow direction="left" />
+        </button>
+        <button
+          type="button"
+          class="carousel-arrow"
+          data-carousel-next
+          aria-label="Next slide"
+        >
+          <Arrow />
+        </button>
+      </div>
+    )
+  }
 </div>
 
 <script>
   import Swiper from "swiper";
-  import { Autoplay } from "swiper/modules";
+  import { Autoplay, Navigation } from "swiper/modules";
   import "swiper/css";
 
   function initSwiper() {
@@ -46,17 +95,49 @@ import Media from "@/components/utils/Media.astro";
     containers.forEach((container) => {
       if (!(container instanceof HTMLElement)) return;
       if (container.swiper && !container.swiper.destroyed) return;
+      const resumeAutoplay = container.hasAttribute("data-resume-autoplay");
+      const prevEl = container.querySelector<HTMLElement>(
+        "[data-carousel-prev]",
+      );
+      const nextEl = container.querySelector<HTMLElement>(
+        "[data-carousel-next]",
+      );
 
-      new Swiper(container, {
-        modules: [Autoplay],
+      const swiper = new Swiper(container, {
+        modules: [Autoplay, Navigation],
         slidesPerView: "auto",
         spaceBetween: 10,
         grabCursor: true,
-        autoplay: {
+        navigation: prevEl && nextEl ? { prevEl, nextEl } : false,
+        autoplay: !window.matchMedia("(prefers-reduced-motion: reduce)")
+          .matches && {
           delay: 10000,
-          disableOnInteraction: true,
+          disableOnInteraction: !resumeAutoplay,
+          waitForTransition: !resumeAutoplay,
         },
       });
+      if (
+        resumeAutoplay &&
+        typeof IntersectionObserver === "function" &&
+        !matchMedia("(prefers-reduced-motion: reduce)").matches
+      ) {
+        swiper.autoplay.stop();
+        const observer = new IntersectionObserver(
+          ([entry]) => {
+            if (entry.intersectionRatio >= 0.25 && !swiper.autoplay.running) {
+              swiper.autoplay.start();
+            } else if (
+              entry.intersectionRatio < 0.25 &&
+              swiper.autoplay.running
+            ) {
+              swiper.autoplay.stop();
+            }
+          },
+          { threshold: 0.25 },
+        );
+        observer.observe(container);
+        swiper.on("destroy", () => observer.disconnect());
+      }
     });
   }
 
@@ -68,10 +149,68 @@ import Media from "@/components/utils/Media.astro";
 </script>
 
 <style>
+  .swiper:not(.swiper-initialized) {
+    overflow-x: auto;
+  }
+
+  .swiper:not(.swiper-initialized) .carousel-navigation {
+    display: none;
+  }
+
   .swiper-slide {
     display: flex;
     aspect-ratio: 4/3;
     width: var(--swiper-slide-width);
     overflow: hidden;
+  }
+
+  .uniform-slide :global(.media) {
+    background: none;
+  }
+
+  .carousel-navigation {
+    display: flex;
+    justify-content: space-between;
+    padding-block: 0.5rem 1rem;
+  }
+
+  .carousel-arrow {
+    display: grid;
+    align-items: center;
+    cursor: pointer;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+  }
+
+  [data-carousel-prev] {
+    justify-items: left;
+  }
+
+  [data-carousel-next] {
+    justify-items: right;
+  }
+
+  /* Align the visible strokes with the edges, accounting for the icon's viewBox. */
+  [data-carousel-prev] :global(svg) {
+    transform: translateX(-4px);
+  }
+
+  [data-carousel-next] :global(svg) {
+    transform: translateX(4px);
+  }
+
+  .carousel-arrow:not(:disabled):hover {
+    color: var(--color-gray-400);
+  }
+
+  .carousel-arrow:focus-visible {
+    outline: 1px solid currentColor;
+    outline-offset: -2px;
+  }
+
+  .carousel-arrow:disabled {
+    opacity: 0.35;
+    cursor: default;
   }
 </style>

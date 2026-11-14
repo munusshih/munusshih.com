@@ -1,0 +1,24 @@
+title: protocol*
+startDate: "2026"
+tags: [Tools, Community]
+description: >-
+  A workspace for CoAssembly’s worker-owners. It brings project planning, proposals, time
+  tracking, notes, and shared resources into one place to support the cooperative’s day-to-day
+  work and collective decision-making. It is an internal project and development is ongoing.
+images:
+  - src: codifying-cooperation.webp
+    alt: Pink title slide for Protocol* Codifying Cooperation by Tzuyun Wei and Munus Shih
+  - src: cooperative-grafting.webp
+    alt: Illustrations contrasting top-down management with cooperative grafting
+  - src: task-interface.webp
+    alt: Protocol* task views showing timers, team tasks, and a weekly calendar
+  - src: member-and-tracker.webp
+    alt: Protocol* member views showing role allocations and time tracking
+  - src: cooperation-cycle.webp
+    alt: Circular diagram connecting protocol, capability and literacy, agency, and access and power
+  - src: /posters/research/protocol/members.jpg
+    alt: The protocol* member allocation interface
+  - src: members.mp4
+    alt: Protocol member allocation walkthrough showing how the chart highlights different roles
+  - src: settings.mp4
+    alt: Protocol settings walkthrough switching between appearance, writing, and focus

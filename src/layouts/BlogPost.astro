@@ -17,6 +17,7 @@ import Media from "@/components/utils/Media.astro";
 const {
   title,
   description,
+  excerpt,
   buttons = [],
   credit,
   recognition = [],
@@ -33,10 +34,12 @@ const parsedDescription = description
   ? parseMarkdown(description, { gfm: true })
   : null;
 
-const parsedCredit = credit ? parseMarkdown(credit, { gfm: true }) : null;
-const parsedExcerpt = parsedDescription
-  ? parsedDescription.match(/<p>(.*?)<\/p>/)?.[1].replace(/<[^>]+>/g, "") || ""
-  : "";
+const parsedCredit = credit
+  ? parseMarkdown(credit, { gfm: true }).replace(/<(\/?)h3\b/g, "<$1h2")
+  : null;
+const parsedExcerpt =
+  parsedDescription?.match(/<p>(.*?)<\/p>/s)?.[1].replace(/<[^>]+>/g, "") ||
+  excerpt?.trim();
 const parsedRecognition = recognition.map((item) => parseMarkdownInline(item));
 const heroSrc = normalizeMediaSrc(heroImage);
 const heroPoster = posterFromMediaSrc(heroImage);
@@ -60,29 +63,29 @@ const socialImage = heroImage
   title={`${title} — ${SITE_TITLE}`}
   description={parsedExcerpt}
   image={socialImage}
+  activeNavHref="/work/"
 >
-  <main>
+  <main id="main-content" tabindex="-1">
     <div
       class="fade-in grid flex-col gap-4 px-[var(--page-margin)] py-4 md:grid-cols-3 md:gap-8"
     >
       <h1 class="title heading1 col-span-2">{title}</h1>
-      <p class="code text-balance text-gray-400">
+      <p class="code text-balance text-gray-600">
         {tags.map((tag) => toTitleCase(tag)).join(", ")},{" "}
         {startDate && formatDateRange(startDate, endDate)}
       </p>
     </div>
     {
       buttons.length > 0 && (
-        <div class="mt-2 flex-row flex-wrap gap-x-4 px-[var(--page-margin)]">
+        <div class="button-group mt-2 px-[var(--page-margin)]">
           {buttons.map((item) => (
             <a
-              class="fade-in"
+              class="heading3 pill-button fade-in"
               href={item[1]}
+              title={item[0]}
               {...externalLinkAttrs(item[1])}
             >
-              <button class="heading3 cursor-pointer rounded-full border px-4 py-2">
-                {item[0]}
-              </button>
+              <span class="pill-button-label">{item[0]}</span>
             </a>
           ))}
         </div>
@@ -99,7 +102,7 @@ const socialImage = heroImage
       />
     </div>
     <div class="relative mt-2 mb-8 lg:mt-20 lg:mb-28">
-      <input type="checkbox" id="expand-article" class="peer hidden" />
+      <input type="checkbox" id="expand-article" class="peer sr-only md:hidden" aria-label="Show full project details" />
 
       <article
         class="fade-in mb-8 grid max-h-[20vh] gap-10 overflow-hidden transition-all duration-300 peer-checked:max-h-[200rem] md:max-h-none md:grid-cols-3"
@@ -120,7 +123,7 @@ const socialImage = heroImage
           {
             parsedCredit && (
               <div
-                class="credit body1 max-w-prose !leading-normal text-pretty prose-h3:mb-2 prose-h3:font-bold prose-h3:not-first:mt-4"
+                class="credit body1 max-w-prose !leading-normal text-pretty prose-h2:mb-2 prose-h2:font-bold prose-h2:not-first:mt-4"
                 set:html={parsedCredit}
               />
             )
@@ -128,7 +131,7 @@ const socialImage = heroImage
           {
             recognition.length > 0 && (
               <div>
-                <h3 class="body1 mb-4 font-bold">Recognitions</h3>
+                <h2 class="body1 mb-4 font-bold">Recognitions</h2>
                 <ul class="body1 flex flex-col gap-2">
                   {parsedRecognition.map((item) => (
                     <li set:html={item} class="leading-normal" />
@@ -149,13 +152,13 @@ const socialImage = heroImage
       <!-- Toggle buttons -->
       <label
         for="expand-article"
-        class="heading2 block cursor-pointer px-[var(--page-margin)] peer-checked:hidden md:hidden"
+        class="heading2 block cursor-pointer px-[var(--page-margin)] peer-focus-visible:outline-2 peer-focus-visible:-outline-offset-2 peer-checked:hidden md:hidden"
       >
         + View more
       </label>
       <label
         for="expand-article"
-        class="heading2 hidden cursor-pointer px-[var(--page-margin)] peer-checked:block md:hidden"
+        class="heading2 hidden cursor-pointer px-[var(--page-margin)] peer-focus-visible:outline-2 peer-focus-visible:-outline-offset-2 peer-checked:block md:hidden"
       >
         - View less
       </label>

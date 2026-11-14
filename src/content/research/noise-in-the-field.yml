@@ -1,0 +1,26 @@
+title: Noise in the Field
+startDate: March 2026
+backlog: true
+tags: [Exhibition, Tools]
+description: |-
+  An exhibition at National Taiwan University that asked visitors to notice the noise they normally filter out. One work brought historical documents and scientific imagery together in layers of printed cloth and paper.
+
+  In *Practicing Ecological Distance: Metal Stools*, live data feeds were translated into sound and subtle vibrations. Visitors could sit on the stools and feel activity at scales beyond their immediate surroundings.
+credit: I-Hao Liao (curator) and no side here.
+link: https://arts.ntu.edu.tw/Event.aspx?ID=1f6ee4b8-49d6-4b56-93ac-43e79391e624&PID=03a80c27-fc26-462f-9355-86cbb89c747e
+linkLabel: View more
+og: "[video] https://arts.ntu.edu.tw/Event.aspx?ID=1f6ee4b8-49d6-4b56-93ac-43e79391e624&PID=03a80c27-fc26-462f-9355-86cbb89c747e"
+links:
+  - label: View installations
+    url: https://arts.ntu.edu.tw/Event.aspx?ID=03a80c27-fc26-462f-9355-86cbb89c747e
+images:
+  - src: stools.webp
+    alt: Practicing Ecological Distance installation at National Taiwan University
+  - src: /homepage/noise.jpg
+    alt: Behind the scenes of Noise in the Field
+  - src: site-scroll.mp4
+    alt: Website walkthrough for Noise in the Field
+  - src: exhibition.webp
+    alt: Documentation of the Noise in the Field exhibition
+  - src: exhibition-banner.webp
+    alt: Official Noise in the Field exhibition banner from National Taiwan University

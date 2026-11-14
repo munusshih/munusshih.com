@@ -13,7 +13,7 @@ const allTags = [...new Set(labCards.flatMap((card) => card.tags || []))];
   description={SITE_DESCRIPTION}
   image={`/assets/og/pages/lab.jpg`}
 >
-  <main class="mb-20 w-full px-[var(--page-margin)]">
+  <main id="main-content" tabindex="-1" class="mb-20 w-full px-[var(--page-margin)]">
     <h1
       class="fade-in w-full self-center text-[30vw] leading-tight tracking-tighter"
     >

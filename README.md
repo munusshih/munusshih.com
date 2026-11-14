@@ -47,6 +47,17 @@ The `src/content/` directory contains "collections" of related Markdown and MDX 
 
 Static site media is stored in `src/assets/` and served at `/assets/...` via `public/assets` symlink.
 
+## Editing Research
+
+Each project has one YAML file in `src/content/research/` and a matching media folder in `src/assets/research/`. For example, `p5-book.yml` reads bare filenames from `src/assets/research/p5-book/`.
+
+- Add, remove, or reorder entries under `images` to curate the carousel. Each entry has a `src` filename and a short `alt` description. A path starting with `/` can reuse an asset elsewhere under `src/assets/`.
+- The first three items are available in the collapsed carousel. Opening a project reveals the full list. Backlog uses the first item as its single preview.
+- Edit `link` and `linkLabel` for the main button. Add optional `label` and `url` pairs under `links` for demos, documentation, or event archives.
+- To refresh a website recording, set `og: "[video] https://…"` and run `npm run cache:research-media -- p5-book --force` with the project's filename stem. Place `site-scroll.mp4` anywhere in `images` to show it.
+
+Start with a photo of the work, a clear capture of the tool in use, or official event artwork. Put close-ups and walkthroughs later in the list, and credit photographers or collaborators in `credit`.
+
 ## 🧞 Commands
 
 All commands are run from the root of the project, from a terminal:

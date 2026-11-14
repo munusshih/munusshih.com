@@ -1,0 +1,29 @@
+title: "New Neighbors: Processing Community Day Taiwan 2026"
+startDate: July 2026
+tags: [Education, Community]
+description: |-
+  The 2026 edition, *New Neighbors*, brought people together through workshops, talks, and roundtables on open-source culture, solidarity economies, and critical pedagogy.
+credit: Co-organized with SpOnAcT!
+link: https://pcd.sponact.org/
+linkLabel: View more
+og: "[video] https://pcd.sponact.org/"
+links:
+  - label: Watch on YouTube
+    url: https://www.youtube.com/playlist?list=PLdQy_shsmapo
+  - label: Listen on Apple Podcasts
+    url: https://podcasts.apple.com/tw/podcast/sponact-%E5%81%B6%E7%99%BC%E9%9B%86%E5%90%88/id6801572783
+images:
+  - src: site-scroll.mp4
+    alt: "Website walkthrough for New Neighbors: Processing Community Day Taiwan 2026"
+  - src: new-neighbors-panel.webp
+    alt: Three panelists speak beneath a projected slide about Formosa Magazine
+  - src: new-neighbors-lightning-talks.webp
+    alt: New Neighbors lightning-talk schedule alongside participants in the online session
+  - src: new-neighbors.webp
+    alt: Illustrated New Neighbors identity for the 2026 event
+  - src: new-neighbors-speakers.webp
+    alt: New Neighbors speaker lineup on a blue slide alongside the host’s video
+  - src: new-neighbors-bookstore.webp
+    alt: A seated audience at a New Neighbors discussion about zines in a bookstore
+  - src: new-neighbors-p5-book-workshop.webp
+    alt: Workshop participants work on laptops while the p5.book website is projected on the wall

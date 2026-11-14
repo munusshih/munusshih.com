@@ -1,0 +1,385 @@
+---
+import type { ResearchEntry } from "@/data/research";
+import Swiper from "@/components/utils/Swiper.astro";
+import Media from "@/components/utils/Media.astro";
+import { formatDateRange } from "@/scripts/cleanDate";
+import { parseMarkdown } from "@/utils/markdown.js";
+import { externalLinkAttrs } from "@/utils/externalLinks.js";
+
+interface Props {
+  project: ResearchEntry;
+}
+
+const { project } = Astro.props;
+const { title, tags, startDate, endDate, description, credit, link, linkLabel, links } =
+  project.data;
+const dateLabel = formatDateRange(startDate, endDate);
+const { backlog } = project.data;
+const projectLinks = link ? [{ url: link, label: linkLabel }, ...links] : links;
+const descriptionHtml = parseMarkdown(description);
+const images = project.data.images.map(({ src, alt }) => ({
+  src: /^(?:\/|https?:\/\/)/i.test(src)
+    ? src
+    : `/research/${project.id}/${src}`,
+  alt,
+}));
+const ProjectContent = backlog ? "div" : "details";
+const ProjectHeading = backlog ? "div" : "summary";
+const videoPattern = /\.(mp4|webm|ogg|mov|m4v)(?:$|[?#])/i;
+const backlogPreview = images[0];
+---
+
+<research-project>
+  <article
+    id={project.id}
+    class:list={["research-project", { "backlog-card": backlog }]}
+    aria-label={title}
+  >
+    <ProjectContent class="min-w-0">
+      <ProjectHeading
+        class:list={[
+          !backlog &&
+            "cursor-pointer list-none [&::-webkit-details-marker]:hidden",
+        ]}
+      >
+        <h2 class="heading2 text-balance">{title}</h2>
+        <p class="body1 code mt-2 text-balance text-gray-500">
+          {tags.join(", ")}, {dateLabel}
+        </p>
+        {
+          !backlog && (
+            <>
+              <div class="description-preview" aria-hidden="true" inert>
+                <div class="heading3 leading-snug" set:html={descriptionHtml} />
+              </div>
+              <span class="disclosure-icon" aria-hidden="true" />
+            </>
+          )
+        }
+      </ProjectHeading>
+      <div class="project-copy">
+        <div
+          class="heading3 space-y-3 leading-snug"
+          set:html={descriptionHtml}
+        />
+        {
+          credit && (
+            <div class="credit body1 mt-5 max-w-prose !leading-normal text-pretty">
+              <h3 class="mb-2 font-bold">Credits</h3>
+              <div set:html={parseMarkdown(credit)} />
+            </div>
+          )
+        }
+        {projectLinks.length > 0 && (
+          <ul class="button-group mt-5">
+            {projectLinks.map(({ url, label }) => (
+              <li class="max-w-full">
+                <a
+                  href={url}
+                  {...externalLinkAttrs(url)}
+                  class="heading3 pill-button"
+                  title={label}
+                >
+                  <span class="pill-button-label">{label}</span>
+                  <span aria-hidden="true">↗</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </ProjectContent>
+
+    {
+      images.length > 0 && (
+        <div class="project-gallery min-w-0">
+          {backlog && backlogPreview ? (
+            <div class="backlog-preview aspect-video overflow-hidden">
+              <Media
+                src={backlogPreview.src}
+                alt={backlogPreview.alt}
+                isVideo={videoPattern.test(backlogPreview.src)}
+                className="!h-full"
+                fadeIn={false}
+                fit="contain"
+                usePoster
+              />
+            </div>
+          ) : (
+            <div class="project-preview">
+              <Swiper
+                images={images}
+                previewCount={3}
+                label={`Media for ${title}`}
+                width={
+                  images.length === 1 ? "100%" : "var(--research-slide-width)"
+                }
+                fadeIn={false}
+                fit="contain"
+                uniform
+                resumeAutoplay
+                navigation
+              />
+            </div>
+          )}
+        </div>
+      )
+    }
+  </article>
+</research-project>
+
+<script>
+  class ResearchProject extends HTMLElement {
+    connectedCallback() {
+      const row = this.querySelector("article")!;
+      const summary = this.querySelector("summary");
+      if (!summary) return;
+
+      const listeners = new AbortController();
+      const { signal } = listeners;
+      const details = row.querySelector("details")!;
+      const carousel = row.querySelector<
+        HTMLElement & {
+          swiper?: import("swiper").Swiper;
+        }
+      >(".swiper");
+      details.addEventListener(
+        "toggle",
+        () => {
+          const swiper = carousel?.swiper;
+          if (!swiper) return;
+          const index = details.open
+            ? swiper.activeIndex
+            : Math.min(swiper.activeIndex, 2);
+          swiper.update();
+          swiper.slideTo(index, 0, false);
+        },
+        { signal },
+      );
+      row.addEventListener(
+        "click",
+        (event) => {
+          if (!(event.target instanceof Element)) return;
+          if (event.target.closest("summary, a, button, video, .swiper"))
+            return;
+          const selection = getSelection();
+          if (selection?.toString() && row.contains(selection.anchorNode))
+            return;
+          summary.click();
+        },
+        { signal },
+      );
+
+      this.cleanup = () => listeners.abort();
+    }
+
+    cleanup?: () => void;
+
+    disconnectedCallback() {
+      this.cleanup?.();
+    }
+  }
+
+  customElements.define("research-project", ResearchProject);
+</script>
+
+<style>
+  research-project {
+    display: block;
+  }
+
+  .research-project {
+    scroll-margin-top: 5rem;
+    display: grid;
+    align-items: start;
+    gap: 0.875rem;
+    cursor: pointer;
+    border-bottom: 1px solid;
+    padding: 1rem var(--page-margin) 2.5rem;
+  }
+
+  summary:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  summary:focus-visible {
+    outline: 1px solid currentColor;
+    outline-offset: 4px;
+  }
+
+  .project-copy {
+    cursor: auto;
+    padding-top: 1rem;
+    padding-bottom: 0.375rem;
+  }
+
+  .description-preview {
+    mask-image: linear-gradient(to bottom, black 25%, transparent 100%);
+    margin-top: 0.85rem;
+    block-size: 3.2rem;
+    overflow: clip;
+  }
+
+  details[open] .description-preview {
+    opacity: 0;
+    margin-top: 0;
+    block-size: 0;
+  }
+
+  .disclosure-icon {
+    display: block;
+    position: relative;
+    margin-top: 0.75rem;
+    width: 0.85rem;
+    height: 0.85rem;
+  }
+
+  .disclosure-icon::before,
+  .disclosure-icon::after {
+    position: absolute;
+    inset: 50% 0 auto;
+    border-top: 1px solid;
+    content: "";
+  }
+
+  .disclosure-icon::after {
+    transform: rotate(90deg);
+  }
+
+  details[open] .disclosure-icon::after {
+    transform: rotate(0deg);
+    opacity: 0;
+  }
+
+  details[open] .disclosure-icon {
+    transform: rotate(180deg);
+  }
+
+  .project-gallery {
+    --research-slide-width: 62%;
+  }
+
+  .project-gallery :global(.uniform-slide:nth-child(5n + 1)),
+  research-project:nth-child(5n + 1) .backlog-preview {
+    background-color: #e9eff6;
+  }
+
+  .project-gallery :global(.uniform-slide:nth-child(5n + 2)),
+  research-project:nth-child(5n + 2) .backlog-preview {
+    background-color: #f6ede1;
+  }
+
+  .project-gallery :global(.uniform-slide:nth-child(5n + 3)),
+  research-project:nth-child(5n + 3) .backlog-preview {
+    background-color: #e8f0e7;
+  }
+
+  .project-gallery :global(.uniform-slide:nth-child(5n + 4)),
+  research-project:nth-child(5n + 4) .backlog-preview {
+    background-color: #f5e9ed;
+  }
+
+  .project-gallery :global(.uniform-slide:nth-child(5n)),
+  research-project:nth-child(5n) .backlog-preview {
+    background-color: #eeebf5;
+  }
+
+  .backlog-preview :global(.media) {
+    background: none;
+  }
+
+  details:not([open]) + .project-gallery :global(.swiper-initialized [data-extra-slide]),
+  details:not([open]) + .project-gallery :global(.carousel-navigation) {
+    display: none;
+  }
+
+  details[open] + .project-gallery {
+    --research-slide-width: 88%;
+  }
+
+  @media (min-width: 768px) {
+    .research-project {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+      column-gap: clamp(1.5rem, 4vw, 4rem);
+      padding-block: 1rem 3rem;
+    }
+
+    .project-gallery {
+      --research-slide-width: 42%;
+    }
+
+    .research-project:has(details[open]) {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+    }
+  }
+
+  .research-project.backlog-card {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    cursor: auto;
+    border-top: 1px solid;
+    border-bottom: 0;
+  }
+
+  @media (min-width: 768px) {
+    .research-project.backlog-card {
+      border-top: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .research-project {
+      transition: grid-template-columns 400ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .project-preview :global(.swiper-slide) {
+      transition: width 400ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .description-preview {
+      transition:
+        block-size 400ms cubic-bezier(0.22, 1, 0.36, 1),
+        margin-top 400ms cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 200ms ease;
+    }
+
+    details[open] .project-copy {
+      animation: research-copy-reveal 440ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    @keyframes research-copy-reveal {
+      from { opacity: 0; translate: 0 8px; }
+      to { opacity: 1; translate: 0 0; }
+    }
+
+    .disclosure-icon,
+    .disclosure-icon::after {
+      transition:
+        transform 400ms cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 250ms ease;
+    }
+  }
+
+  @media (min-width: 768px) and (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .project-preview {
+      overflow: hidden;
+    }
+
+    .research-project:has(details:not([open]))
+      .project-preview
+      :global(.swiper) {
+      transition: width 300ms ease-out;
+      width: 100%;
+    }
+
+    .research-project:hover:has(details:not([open]))
+      .project-preview
+      :global(.swiper) {
+      width: 120%;
+    }
+
+    .research-project:hover:has(details:not([open])) {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2.5fr);
+    }
+  }
+</style>

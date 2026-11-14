@@ -8,7 +8,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
   description={SITE_DESCRIPTION}
   image={`/assets/og/pages/404.jpg`}
 >
-  <main class="flex h-screen w-full flex-col items-center justify-center">
+  <main id="main-content" tabindex="-1" class="flex h-screen w-full flex-col items-center justify-center">
     <div
       class="flex w-full flex-col items-center justify-center bg-black p-2 text-center text-white"
     >
@@ -22,7 +22,6 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
 
 <style>
   body {
-    animation: wavePattern 4s ease-in-out infinite;
     background:
       linear-gradient(45deg, #000 25%, transparent 25%) -50px 0,
       linear-gradient(-45deg, #000 25%, transparent 25%) -50px 0,
@@ -32,6 +31,12 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
     background-repeat: repeat;
     width: 100vw;
     height: 50vh;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    body {
+      animation: wavePattern 4s ease-in-out 1;
+    }
   }
 
   @keyframes wavePattern {

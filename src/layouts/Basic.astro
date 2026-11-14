@@ -6,29 +6,107 @@ import Card from "@/components/Card.astro";
 import Column from "@/components/Column.astro";
 import Hero from "@/components/Hero.astro";
 import Overscroll from "@/components/global/Overscroll.astro";
-const { title, description, image } = Astro.props;
+const { title, description, image, activeNavHref } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <BaseHead title={title} description={description} image={image} />
+    <script is:inline>
+      window.addEventListener("pagereveal", function (event) {
+        try {
+          var destination = sessionStorage.getItem("clock-menu-destination");
+          sessionStorage.removeItem("clock-menu-destination");
+          if (destination !== location.href || !event.viewTransition) return;
+
+          var root = document.documentElement;
+          root.setAttribute("data-clock-arrival", "");
+          function clearArrival() {
+            root.removeAttribute("data-clock-arrival");
+          }
+          event.viewTransition.finished.then(clearArrival, clearArrival);
+        } catch {
+          // Navigation works independently of the transition.
+        }
+      });
+    </script>
   </head>
-  <body class="relative mt-20 flex flex-col">
-    <Header />
+  <body class="relative flex flex-col">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <Header activeNavHref={activeNavHref} />
     <slot />
     <Footer />
-    <!-- <Overscroll /> -->
     <script src="../scripts/fadeIn.js"></script>
-    <script src="../scripts/smoothTransition.js"></script>
+    <!-- <Overscroll /> -->
   </body>
 </html>
-<noscript>
-  <style>
-    .fade-in {
-      opacity: 1; /* Fallback for JS-disabled users */
+
+<style>
+  .skip-link {
+    position: fixed;
+    z-index: 20;
+    top: var(--page-margin);
+    left: var(--page-margin);
+    background: #fff;
+    color: #000;
+    padding: 0.5rem;
+  }
+
+  .skip-link:not(:focus) {
+    clip-path: inset(50%);
+  }
+
+  :global(#main-content) {
+    scroll-margin-top: 60px;
+  }
+
+</style>
+<style is:global>
+  @view-transition {
+    navigation: auto;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation: none;
     }
 
+    html:not([data-clock-arrival])::view-transition {
+      visibility: hidden;
+    }
+
+    html[data-clock-arrival]::view-transition-old(root) {
+      z-index: 1;
+      mix-blend-mode: normal;
+      animation: clock-menu-exit 360ms cubic-bezier(0.4, 0, 0.2, 1) both;
+    }
+
+    html[data-clock-arrival]::view-transition-new(root) {
+      mix-blend-mode: normal;
+    }
+
+    @keyframes clock-menu-exit {
+      from { transform: translateY(0); }
+      to { transform: translateY(100%); }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    ::view-transition {
+      visibility: hidden;
+    }
+
+    ::view-transition-group(root),
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation: none;
+    }
+  }
+</style>
+<noscript>
+  <style>
     div.swiper {
       overflow: auto;
     }

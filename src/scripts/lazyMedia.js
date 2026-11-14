@@ -1,8 +1,11 @@
 // Keep autoplay's visual behavior, but load/play only media visible on screen.
 const visible = new Set();
+const reducedMotion = typeof matchMedia === "function"
+  ? matchMedia("(prefers-reduced-motion: reduce)")
+  : undefined;
 
 function play(video) {
-  if (document.hidden) return;
+  if (document.hidden || reducedMotion?.matches) return;
   if (!video.getAttribute("src")) {
     video.src = video.dataset.src;
     video.load();
@@ -32,12 +35,19 @@ function init() {
   });
 }
 
-document.addEventListener("visibilitychange", () => {
+function syncPlayback() {
   for (const video of visible) {
-    if (document.hidden) video.pause();
+    if (document.hidden || reducedMotion?.matches) video.pause();
     else play(video);
   }
-});
+}
+
+document.addEventListener("visibilitychange", syncPlayback);
+if (reducedMotion?.addEventListener) {
+  reducedMotion.addEventListener("change", syncPlayback);
+} else {
+  reducedMotion?.addListener?.(syncPlayback);
+}
 document.addEventListener("astro:before-swap", () => {
   observer?.disconnect();
   for (const video of visible) video.pause();

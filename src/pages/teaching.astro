@@ -11,8 +11,12 @@ import teachingMedia from "@/data/generated/teachingMedia.json" assert { type: "
 import { teachingEntryKey, entryHasTokens } from "@/data/teachingUtils.js";
 import { isExplicitFeatureEnabled } from "@/data/homepageUtils.js";
 import { externalLinkAttrs } from "@/utils/externalLinks.js";
+import { teachingPreviews } from "@/data/teachingPreviews";
 
 const cachedTeachingMedia = Object.fromEntries(Object.entries(teachingMedia).map(([key, records]) => [repairContentLinks(key), records]));
+const excludedMedia = new Set([
+  "/assets/teaching/combinatory-poetry-with-variable-fonts-ft-nikki-makagiansar/combinatory-poetry-with-variable-fonts-ft-nikki-makagiansar-02.jpg",
+]);
 
 const teachingEntriesRaw = await getTeachingEntries();
 const teachingEntries = prepareAndSortContent(teachingEntriesRaw);
@@ -161,19 +165,27 @@ const sections = [
   description={`${SITE_DESCRIPTION} - Teaching`}
   image={`/assets/og/pages/teaching.jpg`}
 >
-  <main class="w-full">
+  <main id="main-content" tabindex="-1" class="w-full">
+    <h1 class="sr-only">Teaching</h1>
     {
       sections
         .filter(({ items }) => items.length)
         .map(({ title, items }) => (
           <section class="flex flex-col" aria-label={title}>
-            <h1 class="fade-in w-full self-center text-[24vw] leading-tight tracking-[-0.1em]">
+            <h2 class="fade-in w-full self-center text-[24vw] leading-tight tracking-[-0.1em]">
               {title}
-            </h1>
+            </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 [&>*:first-child]:border-t md:[&>*:last-child]:border-r lg:[&>*:last-child]:border-r lg:[&>*:last-child:nth-child(3n-1)]:!w-full lg:[&>*:last-child:nth-child(3n-1)]:border-x lg:[&>*:last-child:nth-child(3n-2)]:w-[calc(100%+1px)] md:[&>*:last-child:nth-child(odd)]:w-[calc(100%+1px)] md:[&>*:nth-child(-n+2)]:border-t lg:[&>*:nth-child(-n+3)]:border-t md:[&>*:nth-child(2n)]:border-l lg:[&>*:nth-child(2n)]:border-l-0 lg:[&>*:nth-child(3n)]:border-r lg:[&>*:nth-child(3n-1):not(:last-child)]:border-x">
               {items.map((item) => {
                 const key = teachingEntryKey(item);
-                const manifestRecords = (cachedTeachingMedia[key] ?? []).filter((media) => localMediaPath(normalizeMediaSrc(media.src)));
+                const manifestRecords = [
+                  ...(cachedTeachingMedia[key] ?? []),
+                  ...(teachingPreviews[item.title] ?? []),
+                ].filter((media, index, records) =>
+                  records.findIndex((record) => normalizeMediaSrc(record.src) === normalizeMediaSrc(media.src)) === index &&
+                  !excludedMedia.has(normalizeMediaSrc(media.src)) &&
+                  localMediaPath(normalizeMediaSrc(media.src)),
+                );
                 const fallbackSource = item.image ?? item.ogImage;
                 const fallbackRecords =
                   fallbackSource && localMediaPath(normalizeMediaSrc(fallbackSource))
@@ -203,8 +215,7 @@ const sections = [
 
                 const imageSection = hasMedia && (
                   <div
-                    class="image-container pointer-events-none overflow-hidden lg:pointer-events-auto"
-                    style={{ width: "75%" }}
+                    class="image-container overflow-hidden"
                   >
                     <div class="medias" style={gridStyle}>
                       {mediaRecords.map((media, index) => {
@@ -236,12 +247,13 @@ const sections = [
                               }
                               isVideo={isVideo}
                               usePoster={true}
+                              placeholder={false}
                               className={mediaClasses}
                               cropped={index === 0}
                               widthAuto={false}
                             />
                             {media?.caption && (
-                              <p class="body2 code text-pretty text-gray-400">
+                              <p class="body2 code text-pretty text-gray-600">
                                 {media.caption}
                               </p>
                             )}
@@ -258,14 +270,14 @@ const sections = [
                     data-has-image={hasMedia ? "true" : "false"}
                   >
                     <div class={`mb-8 w-full lg:mb-4`}>
-                      <h2 class="heading2 items-center gap-2 text-balance">
+                      <h3 class="heading2 items-center gap-2 text-balance">
                         {item.title}
                         {item.link?.href && (
                           <span class="pointer-events-none opacity-0 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:opacity-100">
                             ↗
                           </span>
                         )}
-                      </h2>
+                      </h3>
                       {item.place && (
                         <p class="body1 mt-2 text-pretty text-gray-600">
                           {item.place}
@@ -313,73 +325,3 @@ const sections = [
     }
   </main>
 </BasicLayout>
-<script>
-  import gsap from "gsap";
-
-  const cards = document.querySelectorAll(".teaching-card");
-
-  cards.forEach((card) => {
-    const imageContainer = card.querySelector(".image-container");
-    if (!imageContainer || card.dataset.hasImage !== "true") return;
-
-    const medias = imageContainer.querySelector(".medias");
-    let animationFrameId = null;
-
-    const onMouseMove = (event) => {
-      if (animationFrameId) return;
-
-      animationFrameId = requestAnimationFrame(() => {
-        animationFrameId = null;
-
-        gsap.to(imageContainer, {
-          width: "100%",
-          duration: 0.3,
-          ease: "power2.out",
-          overwrite: "auto",
-        });
-
-        if (medias) {
-          const rect = medias.getBoundingClientRect();
-          const mouseX = event.clientX - rect.left;
-          const normalizedMouseX = (mouseX / rect.width) * 100;
-          const reversedMouseX = 100 - normalizedMouseX;
-
-          gsap.to(medias, {
-            x: reversedMouseX * 1.2 - 60,
-            width: "100%",
-            duration: 0.3,
-            ease: "power1.out",
-            overwrite: "auto",
-          });
-        }
-      });
-    };
-
-    const onMouseLeave = () => {
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-        animationFrameId = null;
-      }
-
-      gsap.to(imageContainer, {
-        width: "75%",
-        duration: 0.8,
-        ease: "power2.out",
-        overwrite: "auto",
-      });
-
-      if (medias) {
-        gsap.to(medias, {
-          x: 0,
-          width: "100%",
-          duration: 0.8,
-          ease: "power2.out",
-          overwrite: "auto",
-        });
-      }
-    };
-
-    card.addEventListener("mousemove", onMouseMove);
-    card.addEventListener("mouseleave", onMouseLeave);
-  });
-</script>

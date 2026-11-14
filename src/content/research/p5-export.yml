@@ -1,0 +1,20 @@
+title: p5.export
+startDate: May 2026
+tags: [Tools]
+description: >-
+  A p5.js add-on for exporting sketches as still images, animations, video, vector graphics,
+  PDFs, and 3D models. It works with p5.js 1.x and 2.x and offers both a JavaScript API and an
+  optional panel for choosing formats and export settings inside a running sketch.
+link: https://editor.p5js.org/munusshih/full/p0vgOdirD
+linkLabel: Try the demo
+og: "[video] https://github.com/munusshih/p5.export"
+links:
+  - label: Source code
+    url: https://github.com/munusshih/p5.export
+  - label: npm
+    url: https://www.npmjs.com/package/@munusshih/p5.export
+images:
+  - src: live-demo.webp
+    alt: A looping line sketch next to the export controls in the p5.js Web Editor
+  - src: site-scroll.mp4
+    alt: Website walkthrough for p5.export

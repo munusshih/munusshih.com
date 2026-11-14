@@ -3,6 +3,7 @@ import Media from "@/components/utils/Media.astro";
 import Iframe from "@/components/utils/Iframe.astro";
 import { externalLinkAttrs } from "@/utils/externalLinks.js";
 const { title, description, tags, href, image, imageAlt } = Astro.props;
+const mediaLabel = imageAlt || title || description;
 ---
 
 <div class="fade-in flex w-auto flex-col" data-tags={tags?.join(",")}>
@@ -13,21 +14,24 @@ const { title, description, tags, href, image, imageAlt } = Astro.props;
           <a href={href} class="group no-before-after" {...externalLinkAttrs(href)}>
             <Media
               src={image}
-              alt={description}
+              alt={mediaLabel}
               isVideo={image.match(/\.(mp4|webm|ogg)$/i)}
               cropped={true}
             />
+            {image.match(/\.(mp4|webm|ogg)$/i) && (
+              <span class="sr-only">{mediaLabel || "Open project"}</span>
+            )}
           </a>
         ) : (
           <Media
             src={image}
-            alt={description}
+            alt={mediaLabel}
             isVideo={image.match(/\.(mp4|webm|ogg)$/i)}
             cropped={true}
           />
         ))
     }
 
-    <p class="code mt-2 text-gray-400">{description}</p>
+    <p class="code mt-2 text-gray-600">{description}</p>
   </div>
 </div>

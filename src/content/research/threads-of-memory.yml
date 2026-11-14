@@ -1,0 +1,26 @@
+title: Threads of Memory
+startDate: March 18, 2026
+endDate: April 4, 2026
+backlog: true
+tags: [Exhibition]
+description: >-
+  A collaborative video installation that grew out of a conversation about colonization,
+  history, and education. It was shown in Tricky Collaboration at Accent Sisters in New York.
+credit: Anoushka Bhalla and Alexandria Deters. Curated by Anna Mikaela Ekstrand.
+link: https://cultbytes.com/tricks-as-gentle-pressures/
+linkLabel: Read the review
+og: "[video] https://www.accentaccent.com/exhibition/Tricky%20Collaboration"
+links:
+  - label: Watch excerpt
+    url: https://www.munusshih.com/assets/threads/smoke.mp4
+images:
+  - src: /threads/smoke.mp4
+    alt: An excerpt from the Threads of Memory video installation
+  - src: /posters/threads/smoke.jpg
+    alt: Opening still from the Threads of Memory video
+  - src: site-scroll.mp4
+    alt: Website walkthrough for Threads of Memory
+  - src: video-still.webp
+    alt: A later still from the Threads of Memory video
+  - src: exhibition.webp
+    alt: Tricky Collaboration exhibition artwork from Accent Sisters

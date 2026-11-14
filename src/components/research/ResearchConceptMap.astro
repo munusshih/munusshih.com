@@ -1,0 +1,43 @@
+---
+import ConceptMap from "./ConceptMap.astro";
+---
+
+<ConceptMap
+  caption="A loose map of the threads of my scholarly interest"
+  concepts={[
+    { id: "os", label: "Open Source" },
+    { id: "mutual", label: "Mutual Aid" },
+    { id: "coop", label: "Cooperative Practice" },
+    { id: "ped", label: "Critical Pedagogy" },
+    { id: "pub", label: "Experimental Publishing" },
+    { id: "data", label: "Archiving Data" },
+    { id: "tools", label: "Digital Toolmaking" },
+    { id: "code", label: "Poetic Computation" },
+  ]}
+  connections={[
+    // Open source as the ethic underneath
+    { from: "os", to: "tools", label: "licenses" },
+    { from: "os", to: "coop", label: "shares ethos with" },
+    { from: "os", to: "pub", label: "forks", dashed: true },
+    { from: "os", to: "mutual", label: "inspires", dashed: true },
+
+    // Mutual aid → cooperative practice → pedagogy
+    { from: "mutual", to: "coop", label: "formalizes into" },
+    { from: "coop", to: "ped", label: "taught through" },
+    { from: "coop", to: "tools", label: "maintains" },
+
+    // Pedagogy as connective tissue
+    { from: "ped", to: "pub", label: "circulates as" },
+    { from: "ped", to: "tools", label: "critiques", dashed: true },
+    { from: "ped", to: "code", label: "informs" },
+
+    // Tools ↔ code: productive tension
+    { from: "tools", to: "code", label: "in tension with" },
+    { from: "tools", to: "pub", label: "produces" },
+    { from: "tools", to: "pub", label: "makes it possible" },
+
+    { from: "data", to: "code", label: "translates into" },
+    { from: "data", to: "mutual", label: "supports" },
+    { from: "coop", to: "data", label: "collectively governs" },
+  ]}
+/>

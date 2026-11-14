@@ -22,5 +22,4 @@ const work = defineCollection({
   }),
 });
 
-
 export const collections = { work };

@@ -1,0 +1,58 @@
+---
+import BasicLayout from "@/layouts/Basic.astro";
+import ResearchProject from "@/components/research/ResearchProject.astro";
+import ResearchConceptMap from "@/components/research/ResearchConceptMap.astro";
+import { SITE_TITLE } from "@/consts";
+import { sortByDate } from "@/scripts/cleanDate";
+import { researchProjects } from "@/data/research";
+
+const research = sortByDate([...researchProjects]);
+const featured = research.filter(({ data }) => !data.backlog);
+const backlog = research.filter(({ data }) => data.backlog);
+---
+
+<BasicLayout
+  title={`Research — ${SITE_TITLE}`}
+  description="Selected research projects, exhibitions, and publications by Munus Shih."
+  image="/assets/og/pages/research.jpg"
+>
+  <main id="main-content" tabindex="-1" class="w-full pb-4">
+    <div class="research-intro">
+      <h1 class="w-full self-center text-[24vw] leading-tight tracking-[-0.1em]">
+        Research
+      </h1>
+      <div class="research-map">
+        <ResearchConceptMap />
+      </div>
+    </div>
+
+    <section aria-label="Selected research" class="border-t">
+      {featured.map((project) => <ResearchProject project={project} />)}
+    </section>
+
+    {
+      backlog.length > 0 && (
+        <section aria-labelledby="research-backlog">
+          <h2
+            id="research-backlog"
+            class="fade-in w-full text-[26vw] leading-tight tracking-[-0.1em]"
+          >
+            Backlog
+          </h2>
+          <div class="grid grid-cols-1 gap-y-10 md:grid-cols-2 md:gap-y-20 lg:grid-cols-3">
+            {backlog.map((project) => (
+              <ResearchProject project={project} />
+            ))}
+          </div>
+        </section>
+      )
+    }
+  </main>
+</BasicLayout>
+
+<style>
+  .research-map {
+    position: relative;
+    margin-top: clamp(-14rem, -17vw, -7rem);
+  }
+</style>

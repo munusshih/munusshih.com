@@ -26,6 +26,7 @@
     "build:force": "npm run prepare:build:force && astro build && npm run verify:assets && node scripts/finalizeVercelRoutes.mjs",
     "preview": "astro preview",
     "astro": "astro",
+    "cache:research-media": "node scripts/cacheResearchMedia.js",
     "test:media": "node --test scripts/cachedMedia.test.mjs",
     "verify:assets": "python3 scripts/verifyAssets.py"
   },

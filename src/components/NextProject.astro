@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import { sortByDate } from "@/scripts/cleanDate";
 import Media from "@/components/utils/Media.astro";
+import Arrow from "@/components/utils/Arrow.astro";
 const allProjects = await getCollection("work");
 // Only show projects that explicitly have archived: false
 const activeProjects = allProjects.filter(
@@ -45,19 +46,7 @@ const nextProjectIsVideo = Boolean(
           href={`/${nextProject.id}`}
         >
           <div class="relative ml-4 flex h-20 w-20 items-center justify-end overflow-hidden">
-            <svg
-              class="next-arrow absolute"
-              xmlns="http://www.w3.org/2000/svg"
-              width="100"
-              height="100"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <line x1="5" y1="12" x2="19" y2="12" />
-              <polyline points="12 5 19 12 12 19" />
-            </svg>
+            <Arrow class="next-arrow absolute" size={100} />
           </div>
 
           <div class="grid grid-cols-2">

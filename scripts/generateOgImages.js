@@ -27,18 +27,19 @@ const WORK_OG_ROOT = path.join(OG_ROOT, "work");
 
 const PAGE_WIDTH = 1200;
 const PAGE_HEIGHT = 630;
-const WORK_WIDTH = 960;
-const WORK_HEIGHT = 504;
+const WORK_WIDTH = PAGE_WIDTH;
+const WORK_HEIGHT = PAGE_HEIGHT;
 
 const VIDEO_EXT_RE = /\.(mp4|webm|ogg|mov|m4v)$/i;
 const WORK_FILE_RE = /\.(md|mdx)$/i;
 
 const PAGE_SOURCES = {
   index: "/assets/thumbnails/index.jpg",
-  about: "/assets/thumbnails/about.jpg",
+  about: "/assets/about/m-station.webp",
   lab: "/assets/thumbnails/lab.jpg",
-  work: "/assets/thumbnails/work.jpg",
-  teaching: "/assets/teaching/core-2.mp4",
+  work: "/assets/work/Todd/Unearthing Air from Nikki.mp4",
+  research: "/assets/research/p5-book/parametric-flipbook.webp",
+  teaching: "/assets/teaching/graduate-studio-technology-b/graduate-studio-technology-b-01.jpg",
   resume: "/assets/profile.jpg",
   calendar: "/assets/about/P7200611.JPG",
   pattern: "/assets/threads/smoke.mp4",
@@ -113,8 +114,8 @@ const mediaCandidates = (frontmatter) => {
     values.push(value);
   };
 
-  pushValue(frontmatter.heroImage);
   pushValue(frontmatter.images);
+  pushValue(frontmatter.heroImage);
   return values;
 };
 
@@ -168,7 +169,7 @@ const generateWorkOgImages = async () => {
   const workFiles = entries.filter((entry) => WORK_FILE_RE.test(entry)).sort();
 
   for (const fileName of workFiles) {
-    const slug = fileName.replace(WORK_FILE_RE, "");
+    const slug = fileName.replace(WORK_FILE_RE, "").toLowerCase();
     const outputName = `${slug}.jpg`;
     expectedNames.add(outputName);
     const outputPath = path.join(WORK_OG_ROOT, outputName);

@@ -1,0 +1,584 @@
+---
+interface Concept {
+  id: string;
+  label: string;
+  x?: number; // 0..1 horizontal position (optional override)
+  y?: number; // 0..1 vertical position (optional override)
+}
+interface Connection {
+  from: string;
+  to: string;
+  label?: string;
+  dashed?: boolean;
+}
+interface Props {
+  concepts: Concept[];
+  connections?: Connection[];
+  caption?: string;
+  border?: boolean;
+}
+const { concepts, connections = [], caption, border = false } = Astro.props;
+
+const uid = `concept-map-${Math.random().toString(36).slice(2, 9)}`;
+const payload = JSON.stringify({ concepts, connections });
+---
+
+<figure class="diagram-figure concept-map-figure">
+  <div
+    class={`diagram-canvas concept-map${border ? " bordered" : ""}`}
+    id={uid}
+    data-concepts={payload}
+    aria-hidden="true"
+  >
+  </div>
+  {caption && <figcaption class="body1 code">{caption}</figcaption>}
+  <ul class="diagram-transcript" tabindex="0" aria-label="Concept map connections">
+    {
+      connections.map(({ from, label, to }) => (
+        <li>
+          {concepts.find((concept) => concept.id === from)?.label}{" "}
+          {label ?? "connects to"}{" "}
+          {concepts.find((concept) => concept.id === to)?.label}
+        </li>
+      ))
+    }
+  </ul>
+</figure>
+
+<script>
+  import p5 from "p5";
+
+  type Concept = {
+    id: string;
+    label: string;
+    x?: number;
+    y?: number;
+  };
+  type Connection = {
+    from: string;
+    to: string;
+    label?: string;
+    dashed?: boolean;
+  };
+  type Node = {
+    id: string;
+    label: string;
+    x: number;
+    y: number;
+    ox: number;
+    oy: number;
+    phase: number;
+    speed: number;
+    w: number;
+    h: number;
+  };
+
+  function initMap(container: HTMLElement) {
+    if (container.dataset.cmReady === "1") return;
+    container.dataset.cmReady = "1";
+
+    const raw = container.dataset.concepts ?? "{}";
+    const { concepts, connections } = JSON.parse(raw) as {
+      concepts: Concept[];
+      connections: Connection[];
+    };
+
+    const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+    const fontFamily = getComputedStyle(container).fontFamily;
+    const connectionGroups = new Map<string, Connection[]>();
+    for (const connection of connections) {
+      const key = JSON.stringify([connection.from, connection.to].sort());
+      const group = connectionGroups.get(key) ?? [];
+      group.push(connection);
+      connectionGroups.set(key, group);
+    }
+    const lanes = new Map<Connection, number>();
+    for (const group of connectionGroups.values()) {
+      group.forEach((connection, index) => {
+        const offset = index - (group.length - 1) / 2;
+        lanes.set(
+          connection,
+          connection.from < connection.to ? offset : -offset,
+        );
+      });
+    }
+
+    const sketch = new p5((p: p5) => {
+      const nodes: Record<string, Node> = {};
+      const edgeOpacity = new Map<Connection, number>();
+      const labelOpacity = new Map<Connection, number>();
+      let W = 0;
+      let H = 0;
+      const theme = { paper: "#ffffff", ink: "#000000" };
+      let bodyPx = 16;
+      let connectionLabelPx = 13;
+
+      function easeOpacity(
+        values: Map<Connection, number>,
+        connection: Connection,
+        target: number,
+      ) {
+        const current = values.get(connection) ?? 1;
+        const progress = reducedMotion.matches
+          ? 1
+          : 1 - Math.exp(-p.deltaTime / 65);
+        const next = p.lerp(current, target, progress);
+        const opacity = Math.abs(next - target) < 0.01 ? target : next;
+        values.set(connection, opacity);
+        return opacity;
+      }
+
+      function refreshTypography() {
+        bodyPx = W < 520 ? 13 : Math.min(21, W * 0.018);
+        connectionLabelPx = W < 520 ? 11 : Math.min(16, W * 0.014);
+      }
+
+      function uiScale() {
+        return Math.max(1, Math.min(W, H) / 420);
+      }
+
+      function layout() {
+        W = container.clientWidth;
+        H = container.clientHeight;
+        const cx = W / 2;
+        const cy = H / 2;
+        const radiusX = Math.min(W * 0.32, H * 0.54);
+        const radiusY = Math.min(H * 0.39, W * 0.66);
+        const autoNodes = concepts.filter(
+          (c) => c.x === undefined || c.y === undefined,
+        );
+        const n = autoNodes.length;
+        let i = 0;
+        concepts.forEach((c) => {
+          let nx: number;
+          let ny: number;
+          if (c.x !== undefined && c.y !== undefined) {
+            nx = c.x * W;
+            ny = c.y * H;
+          } else {
+            const angle = (i / n) * p.TWO_PI - p.HALF_PI;
+            nx = cx + Math.cos(angle) * radiusX;
+            ny = cy + Math.sin(angle) * radiusY;
+            i++;
+          }
+          const existing = nodes[c.id];
+          if (existing) {
+            existing.ox = nx;
+            existing.oy = ny;
+            existing.label = c.label;
+          } else {
+            nodes[c.id] = {
+              id: c.id,
+              label: c.label,
+              x: nx,
+              y: ny,
+              ox: nx,
+              oy: ny,
+              phase: Math.random() * Math.PI * 2,
+              speed: 0.3 + Math.random() * 0.4,
+              w: 0,
+              h: 0,
+            };
+          }
+        });
+      }
+
+      let ctx: CanvasRenderingContext2D;
+      let pointer: { x: number; y: number } | undefined;
+
+      function setFont(size: number) {
+        ctx.font = `${size}px ${fontFamily}`;
+        ctx.textBaseline = "middle";
+        ctx.textAlign = "center";
+      }
+
+      p.setup = () => {
+        W = container.clientWidth;
+        H = container.clientHeight;
+        const canvas = p.createCanvas(W, H);
+        canvas.parent(container);
+        canvas.elt.addEventListener("pointermove", (event: PointerEvent) => {
+          if (event.pointerType === "touch") return;
+          const bounds = canvas.elt.getBoundingClientRect();
+          pointer = {
+            x: ((event.clientX - bounds.left) * W) / bounds.width,
+            y: ((event.clientY - bounds.top) * H) / bounds.height,
+          };
+          if (!p.isLooping()) p.redraw();
+        });
+        canvas.elt.addEventListener("pointerleave", () => {
+          pointer = undefined;
+          if (!p.isLooping()) p.redraw();
+        });
+        ctx = p.drawingContext as CanvasRenderingContext2D;
+        refreshTypography();
+        layout();
+        p.frameRate(60);
+        if (reducedMotion.matches) p.noLoop();
+        document.fonts?.ready.then(() => p.redraw());
+      };
+
+      p.windowResized = () => {
+        const nw = container.clientWidth;
+        const nh = container.clientHeight;
+        if (nw === W && nh === H) return;
+        p.resizeCanvas(nw, nh, true);
+        layout();
+        refreshTypography();
+        p.redraw();
+      };
+
+      function measure(label: string, size: number) {
+        setFont(size);
+        const tw = ctx.measureText(label).width;
+        return { w: tw + size * 1.5, h: size * 2.1 };
+      }
+
+      function nodeRectBounds(n: Node) {
+        return {
+          left: n.x - n.w / 2,
+          right: n.x + n.w / 2,
+          top: n.y - n.h / 2,
+          bottom: n.y + n.h / 2,
+        };
+      }
+
+      function contains(bounds: ReturnType<typeof nodeRectBounds>) {
+        return (
+          pointer &&
+          pointer.x >= bounds.left &&
+          pointer.x <= bounds.right &&
+          pointer.y >= bounds.top &&
+          pointer.y <= bounds.bottom
+        );
+      }
+
+      function distanceToEdge(
+        start: { x: number; y: number },
+        end: { x: number; y: number },
+      ) {
+        if (!pointer) return Infinity;
+        const dx = end.x - start.x;
+        const dy = end.y - start.y;
+        const lengthSquared = dx * dx + dy * dy;
+        if (!lengthSquared) return Infinity;
+        const t = p.constrain(
+          ((pointer.x - start.x) * dx + (pointer.y - start.y) * dy) /
+            lengthSquared,
+          0,
+          1,
+        );
+        return Math.hypot(
+          pointer.x - (start.x + dx * t),
+          pointer.y - (start.y + dy * t),
+        );
+      }
+
+      // Liang–Barsky-ish: clip a line from (x1,y1) toward (x2,y2) so it ends at the rect's edge.
+      function clipToRect(
+        x1: number,
+        y1: number,
+        x2: number,
+        y2: number,
+        n: Node,
+      ) {
+        const b = nodeRectBounds(n);
+        const dx = x1 - x2;
+        const dy = y1 - y2;
+        const candidates: number[] = [];
+        if (dx !== 0) {
+          const t1 = (b.left - x2) / dx;
+          const t2 = (b.right - x2) / dx;
+          [t1, t2].forEach((t) => {
+            if (t > 0 && t < 1) {
+              const py = y2 + t * dy;
+              if (py >= b.top - 0.5 && py <= b.bottom + 0.5) candidates.push(t);
+            }
+          });
+        }
+        if (dy !== 0) {
+          const t1 = (b.top - y2) / dy;
+          const t2 = (b.bottom - y2) / dy;
+          [t1, t2].forEach((t) => {
+            if (t > 0 && t < 1) {
+              const px = x2 + t * dx;
+              if (px >= b.left - 0.5 && px <= b.right + 0.5) candidates.push(t);
+            }
+          });
+        }
+        if (!candidates.length) return { x: x2, y: y2 };
+        const t = Math.min(...candidates);
+        return { x: x2 + t * dx, y: y2 + t * dy };
+      }
+
+      function drawDashedLine(
+        x1: number,
+        y1: number,
+        x2: number,
+        y2: number,
+        dash = 5 * uiScale(),
+        gap = 4 * uiScale(),
+      ) {
+        const dx = x2 - x1;
+        const dy = y2 - y1;
+        const len = Math.hypot(dx, dy);
+        const step = dash + gap;
+        const ux = dx / len;
+        const uy = dy / len;
+        for (let d = 0; d < len; d += step) {
+          const sx = x1 + ux * d;
+          const sy = y1 + uy * d;
+          const ex = x1 + ux * Math.min(d + dash, len);
+          const ey = y1 + uy * Math.min(d + dash, len);
+          p.line(sx, sy, ex, ey);
+        }
+      }
+
+      function drawArrow(
+        x1: number,
+        y1: number,
+        x2: number,
+        y2: number,
+        dashed = false,
+      ) {
+        const s = uiScale();
+        p.stroke(theme.ink);
+        p.strokeWeight(0.9 * s);
+        if (dashed) {
+          drawDashedLine(x1, y1, x2, y2);
+        } else {
+          p.line(x1, y1, x2, y2);
+        }
+        const ang = Math.atan2(y2 - y1, x2 - x1);
+        const ah = 8 * s;
+        p.push();
+        p.translate(x2, y2);
+        p.rotate(ang);
+        p.noStroke();
+        p.fill(theme.ink);
+        p.triangle(0, 0, -ah, -ah * 0.5, -ah, ah * 0.5);
+        p.pop();
+      }
+
+      p.draw = () => {
+        p.clear();
+        const t = reducedMotion.matches ? 0 : p.millis() / 1000;
+        const s = uiScale();
+        const labelSize = bodyPx;
+
+        Object.values(nodes).forEach((n) => {
+          const drift = reducedMotion.matches ? 0 : 7 * s;
+          n.x = n.ox + Math.sin(t * n.speed + n.phase) * drift;
+          n.y = n.oy + Math.cos(t * (n.speed * 0.85) + n.phase) * drift;
+        });
+
+        Object.values(nodes).forEach((n) => {
+          const m = measure(n.label, labelSize);
+          n.w = m.w;
+          n.h = m.h;
+        });
+
+        const edges = connections.flatMap((connection) => {
+          const { from, to } = connection;
+          const a = nodes[from];
+          const b = nodes[to];
+          if (!a || !b) return [];
+          const dx = b.x - a.x;
+          const dy = b.y - a.y;
+          const length = Math.hypot(dx, dy);
+          if (!length) return [];
+          // Separate parallel and reciprocal connections so each can be hovered.
+          const offset = (lanes.get(connection) ?? 0) * 11 * s;
+          const ox = (-dy * offset) / length;
+          const oy = (dx * offset) / length;
+          const start = clipToRect(b.x + ox, b.y + oy, a.x + ox, a.y + oy, a);
+          const end = clipToRect(a.x + ox, a.y + oy, b.x + ox, b.y + oy, b);
+          return [{ connection, start, end }];
+        });
+
+        const labelHeight = connectionLabelPx * 1.35;
+        setFont(connectionLabelPx);
+        function placeLabels(visibleEdges: typeof edges) {
+          const occupied = Object.values(nodes).map(nodeRectBounds);
+          return visibleEdges.flatMap(({ connection, start, end }) => {
+            const { label } = connection;
+            if (!label) return [];
+            const labelWidth = ctx.measureText(label).width + 7;
+            const candidates = [0.5, 0.35, 0.65, 0.22, 0.78, 0.1, 0.9].map(
+              (t) => {
+                const x = p.lerp(start.x, end.x, t);
+                const y = p.lerp(start.y, end.y, t);
+                return {
+                  x,
+                  y,
+                  left: x - labelWidth / 2,
+                  right: x + labelWidth / 2,
+                  top: y - labelHeight / 2,
+                  bottom: y + labelHeight / 2,
+                };
+              },
+            );
+            const fits = (box: (typeof candidates)[number]) =>
+              box.left >= 0 &&
+              box.right <= W &&
+              box.top >= 0 &&
+              box.bottom <= H &&
+              occupied.every(
+                (other) =>
+                  box.right < other.left ||
+                  box.left > other.right ||
+                  box.bottom < other.top ||
+                  box.top > other.bottom,
+              );
+            const box = candidates.find(fits);
+            if (!box) return [];
+            occupied.push(box);
+            return [{ connection, label, box, labelWidth }];
+          });
+        }
+
+        const labels = placeLabels(edges);
+        const hoveredNode = Object.values(nodes)
+          .reverse()
+          .find((n) => contains(nodeRectBounds(n)));
+        let hoveredConnection = hoveredNode
+          ? undefined
+          : labels.find(({ box }) => contains(box))?.connection;
+        if (pointer && !hoveredNode && !hoveredConnection) {
+          let nearest = 7 * s;
+          for (const { connection, start, end } of edges) {
+            const distance = distanceToEdge(start, end);
+            if (distance >= nearest) continue;
+            nearest = distance;
+            hoveredConnection = connection;
+          }
+        }
+
+        const highlighting = Boolean(hoveredNode || hoveredConnection);
+        ctx.canvas.style.cursor = highlighting ? "pointer" : "";
+        const isHighlighted = (connection: Connection) =>
+          hoveredNode
+            ? connection.from === hoveredNode.id ||
+              connection.to === hoveredNode.id
+            : connection === hoveredConnection;
+
+        for (const { connection, start, end } of edges) {
+          const target =
+            !highlighting || isHighlighted(connection)
+              ? 1
+              : hoveredNode
+                ? 0.12
+                : 0;
+          ctx.globalAlpha = easeOpacity(edgeOpacity, connection, target);
+          if (!ctx.globalAlpha) continue;
+          drawArrow(start.x, start.y, end.x, end.y, connection.dashed);
+        }
+
+        for (const { connection, label, box, labelWidth } of labels) {
+          const target = !highlighting || isHighlighted(connection) ? 1 : 0;
+          ctx.globalAlpha = easeOpacity(labelOpacity, connection, target);
+          if (!ctx.globalAlpha) continue;
+          ctx.fillStyle = theme.paper;
+          ctx.fillRect(box.left, box.top, labelWidth, labelHeight);
+          ctx.fillStyle = theme.ink;
+          ctx.fillText(label, box.x, box.y);
+        }
+        ctx.globalAlpha = 1;
+
+        Object.values(nodes).forEach((n) => {
+          p.push();
+          p.rectMode(p.CENTER);
+          p.stroke(theme.ink);
+          p.strokeWeight(0.95 * s);
+          p.fill(theme.paper);
+          p.rect(n.x, n.y, n.w, n.h);
+          p.pop();
+
+          setFont(labelSize);
+          ctx.fillStyle = theme.ink;
+          ctx.fillText(n.label, n.x, n.y);
+        });
+        container.dataset.cmDrawn = "";
+        container.parentElement?.querySelector(".diagram-transcript")?.removeAttribute("tabindex");
+      };
+    });
+
+    if (typeof IntersectionObserver !== "function") return;
+    const visibility = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !reducedMotion.matches) sketch.loop();
+      else sketch.noLoop();
+      if (entry.isIntersecting) sketch.redraw();
+    });
+    visibility.observe(container);
+  }
+
+  function initAll() {
+    document
+      .querySelectorAll<HTMLElement>(".concept-map")
+      .forEach((el) => initMap(el));
+  }
+
+  initAll();
+</script>
+
+<style>
+  .diagram-figure {
+    display: grid;
+    grid-template-rows: clamp(33rem, 64vw, 47rem) auto;
+    margin-inline: auto;
+    padding: 0 var(--page-margin) 3rem;
+    max-width: 86rem;
+  }
+
+  .diagram-canvas {
+    grid-area: 1 / 1;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .diagram-canvas:not([data-cm-drawn]) {
+    visibility: hidden;
+  }
+
+  .diagram-canvas :global(canvas) {
+    display: block;
+  }
+
+  .diagram-transcript {
+    grid-area: 1 / 1;
+    align-self: center;
+    justify-self: start;
+    max-height: calc(100% - 8rem);
+    margin-top: 8rem;
+    overflow: auto;
+    padding-left: 1.25rem;
+    list-style: disc;
+  }
+
+  .diagram-canvas[data-cm-drawn] ~ .diagram-transcript {
+    position: absolute;
+    clip-path: inset(50%);
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    margin-top: 0;
+    white-space: nowrap;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .diagram-canvas :global(canvas) {
+      animation: concept-map-enter 280ms ease-out;
+    }
+
+    @keyframes concept-map-enter {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  }
+
+  figcaption {
+    grid-row: 2;
+    text-align: center;
+  }
+</style>

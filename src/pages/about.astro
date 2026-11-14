@@ -68,7 +68,8 @@ const cloutHtml = parseMarkdown(cloutMarkdown);
   description={SITE_DESCRIPTION}
   image={`/assets/og/pages/about.jpg`}
 >
-  <main class="p-[var(--page-margin)]">
+  <main id="main-content" tabindex="-1" class="p-[var(--page-margin)]">
+    <h1 class="sr-only">About Munus Shih</h1>
     <Media
       src={"/assets/about/m-station.webp"}
       alt="Munus Shih wearing glasses and a tan cap in a sunlit transit station"
@@ -137,7 +138,7 @@ const cloutHtml = parseMarkdown(cloutMarkdown);
           slidesPerView: "auto",
           grabCursor: true,
           loop: true, // Enable loop for seamless swiping
-          autoplay: {
+          autoplay: !matchMedia("(prefers-reduced-motion: reduce)").matches && {
             delay: 10000,
             disableOnInteraction: true,
           },
@@ -156,6 +157,10 @@ const cloutHtml = parseMarkdown(cloutMarkdown);
 </script>
 
 <style>
+  .swiper:not(.swiper-initialized) {
+    overflow-x: auto;
+  }
+
   article :global(a) {
     background-image: linear-gradient(currentColor, currentColor);
     background-position: left bottom;

@@ -156,13 +156,14 @@ const finalPreview = resolvedPreview || runtimePreview;
     {
       finalPreview ? (
         <div class="w-full p-0 shadow">
-          <div class="link-preview w-full overflow-hidden">
+          <div class:list={["link-preview w-full overflow-hidden", { "recorded-preview": finalPreview.source === "recorded" }]}>
             <Media
               src={finalPreview.src}
               alt={title || resolvedLinkLabel || "Link preview"}
               isVideo={finalPreview.kind === "video"}
               usePoster={false}
               cropped={true}
+              className={finalPreview.source === "recorded" ? "!h-full" : undefined}
             />
           </div>
         </div>
@@ -196,6 +197,10 @@ const finalPreview = resolvedPreview || runtimePreview;
   </div>
 
   <style>
+    .recorded-preview {
+      aspect-ratio: 16 / 9;
+    }
+
     .take-me-there {
       display: inline-flex;
       justify-content: center;
