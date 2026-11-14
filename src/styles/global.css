@@ -277,7 +277,7 @@ summary::-webkit-details-marker {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  :where(main > :not(section, .sr-only), main > section > :not(.grid), main > section > .grid > *):not(:focus-within, [data-reveal]) {
+  :where(main > :not(section, .sr-only), main > section > :not(.grid), main > section > .grid > *) {
     --entrance-delay: 0ms;
     animation: page-entrance 660ms cubic-bezier(0.22, 1, 0.36, 1) var(--entrance-delay, 0ms) backwards;
   }

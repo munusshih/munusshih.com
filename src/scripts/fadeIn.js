@@ -47,7 +47,10 @@ if (motion.matches && "IntersectionObserver" in window) {
     for (const entry of entries) {
       if (!entry.isIntersecting) continue;
       observer.unobserve(entry.target);
-      if (entry.target.getBoundingClientRect().top >= window.innerHeight) {
+      if (
+        entry.target.getBoundingClientRect().top >= window.innerHeight &&
+        getComputedStyle(entry.target).opacity === "1"
+      ) {
         upcoming.add(entry.target);
       }
     }
