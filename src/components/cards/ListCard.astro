@@ -3,6 +3,7 @@ const { title, background: backgroundProp, textColor, body } = Astro.props;
 import DraggableCard from "@/components/global/DraggableCard.astro";
 import Media from "@/components/utils/Media.astro";
 import { parseMarkdownInline } from "@/utils/markdown.js";
+import ExternalLinkArrow from "@/components/utils/ExternalLinkArrow.astro";
 import { externalLinkAttrs } from "@/utils/externalLinks.js";
 import {
   prepareAndSortContent,
@@ -116,10 +117,11 @@ if (title === "Recent Press") {
                       {item.link?.href ? (
                         <a
                           href={item.link.href}
-                          class="linkout body1 break-words"
+                          class="body1 break-words"
                           {...externalLinkAttrs(item.link.href)}
                         >
                           {item.title}
+                          <ExternalLinkArrow />
                         </a>
                       ) : (
                         item.title

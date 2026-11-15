@@ -17,6 +17,7 @@ const {
 import DraggableCard from "@/components/global/DraggableCard.astro";
 import Media from "@/components/utils/Media.astro";
 import { parseMarkdown } from "@/utils/markdown.js";
+import ExternalLinkArrow from "@/components/utils/ExternalLinkArrow.astro";
 import { externalLinkAttrs } from "@/utils/externalLinks.js";
 
 const cardBackground = background ?? "transparent";
@@ -142,10 +143,10 @@ const finalPreview = resolvedPreview || runtimePreview;
         resolvedHref ? (
           <a
             href={resolvedHref}
-            class="linkout"
             {...externalLinkAttrs(resolvedHref)}
           >
             {resolvedLinkLabel}
+            <ExternalLinkArrow />
           </a>
         ) : (
           resolvedLinkLabel

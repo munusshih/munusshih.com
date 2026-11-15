@@ -18,7 +18,7 @@ const backlog = research.filter(({ data }) => data.backlog);
 >
   <main id="main-content" tabindex="-1" class="w-full pb-4">
     <div class="research-intro">
-      <h1 class="w-full self-center text-[24vw] leading-tight tracking-[-0.1em]">
+      <h1 class="section-title w-full self-center leading-tight tracking-[-0.1em] [--title-scale:0.24]">
         Research
       </h1>
       <div class="research-map">
@@ -35,7 +35,7 @@ const backlog = research.filter(({ data }) => data.backlog);
         <section aria-labelledby="research-backlog">
           <h2
             id="research-backlog"
-            class="fade-in w-full text-[26vw] leading-tight tracking-[-0.1em]"
+            class="section-title fade-in w-full leading-tight tracking-[-0.1em] [--title-scale:0.26]"
           >
             Backlog
           </h2>
@@ -53,6 +53,6 @@ const backlog = research.filter(({ data }) => data.backlog);
 <style>
   .research-map {
     position: relative;
-    margin-top: clamp(-14rem, -17vw, -7rem);
+    --concept-map-offset: clamp(-14rem, -17vw, -7rem);
   }
 </style>

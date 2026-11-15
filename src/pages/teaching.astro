@@ -10,6 +10,7 @@ import Media from "@/components/utils/Media.astro";
 import teachingMedia from "@/data/generated/teachingMedia.json" assert { type: "json" };
 import { teachingEntryKey, entryHasTokens } from "@/data/teachingUtils.js";
 import { isExplicitFeatureEnabled } from "@/data/homepageUtils.js";
+import ExternalLinkArrow from "@/components/utils/ExternalLinkArrow.astro";
 import { externalLinkAttrs } from "@/utils/externalLinks.js";
 import { teachingPreviews } from "@/data/teachingPreviews";
 
@@ -172,7 +173,7 @@ const sections = [
         .filter(({ items }) => items.length)
         .map(({ title, items }) => (
           <section class="flex flex-col" aria-label={title}>
-            <h2 class="fade-in w-full self-center text-[24vw] leading-tight tracking-[-0.1em]">
+            <h2 class="section-title fade-in w-full self-center leading-tight tracking-[-0.1em] [--title-scale:0.24]">
               {title}
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 [&>*:first-child]:border-t md:[&>*:last-child]:border-r lg:[&>*:last-child]:border-r lg:[&>*:last-child:nth-child(3n-1)]:!w-full lg:[&>*:last-child:nth-child(3n-1)]:border-x lg:[&>*:last-child:nth-child(3n-2)]:w-[calc(100%+1px)] md:[&>*:last-child:nth-child(odd)]:w-[calc(100%+1px)] md:[&>*:nth-child(-n+2)]:border-t lg:[&>*:nth-child(-n+3)]:border-t md:[&>*:nth-child(2n)]:border-l lg:[&>*:nth-child(2n)]:border-l-0 lg:[&>*:nth-child(3n)]:border-r lg:[&>*:nth-child(3n-1):not(:last-child)]:border-x">
@@ -266,16 +267,14 @@ const sections = [
 
                 const content = (
                   <article
-                    class="teaching-card group flex h-full flex-col justify-between gap-x-20 gap-y-10 overflow-hidden border-b px-[var(--page-margin)] py-6 lg:flex-col lg:gap-y-4 lg:py-6"
+                    class="teaching-card flex h-full flex-col justify-between gap-x-20 gap-y-10 overflow-hidden border-b px-[var(--page-margin)] py-6 lg:flex-col lg:gap-y-4 lg:py-6"
                     data-has-image={hasMedia ? "true" : "false"}
                   >
                     <div class={`mb-8 w-full lg:mb-4`}>
                       <h3 class="heading2 items-center gap-2 text-balance">
                         {item.title}
                         {item.link?.href && (
-                          <span class="pointer-events-none opacity-0 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:opacity-100">
-                            ↗
-                          </span>
+                          <ExternalLinkArrow revealOnHover />
                         )}
                       </h3>
                       {item.place && (

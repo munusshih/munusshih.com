@@ -5,6 +5,7 @@ const {
   alt = "",
   isVideo = false,
   fit = "cover",
+  minimumCoverAspectRatio,
   scaling = 1,
   cropped = false,
   className = "",
@@ -31,8 +32,11 @@ const stillSrc = resolvedSrc.startsWith("/assets/") && /\.gif$/i.test(resolvedSr
 const hasStill = Boolean(stillSrc && localMediaPath(stillSrc));
 const ImageContainer = hasStill ? "picture" : Fragment;
 const placeholderClass = placeholder ? "media-placeholder" : "";
-const fallbackRatio = dimensions.width ? undefined : "16 / 9";
-const fitClass = fit === "contain" ? "object-contain" : "object-cover";
+const fallbackRatio = dimensions.width ? undefined : "var(--media-fallback-ratio, 16 / 9)";
+const cropImage = !isVideo && minimumCoverAspectRatio != null &&
+  dimensions.width && dimensions.height &&
+  dimensions.width / dimensions.height >= minimumCoverAspectRatio;
+const fitClass = fit === "contain" && !cropImage ? "object-contain" : "object-cover";
 ---
 
 {

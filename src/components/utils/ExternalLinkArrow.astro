@@ -1,0 +1,47 @@
+---
+interface Props {
+  revealOnHover?: boolean;
+}
+
+const { revealOnHover = false } = Astro.props;
+---
+
+<span
+  class:list={["external-link-arrow", { "reveal-on-hover": revealOnHover }]}
+  aria-hidden="true"
+>↗︎</span>
+
+<style>
+  .external-link-arrow {
+    display: inline-block;
+    flex-shrink: 0;
+    margin-inline-start: 0.25em;
+    font-family: Menlo, "DejaVu Sans Mono", monospace;
+    font-size: 1.25em;
+    font-weight: 400;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  :global(.pill-button) > .external-link-arrow {
+    margin-inline-start: 0;
+  }
+
+  .reveal-on-hover {
+    opacity: 0;
+  }
+
+  :global(a:is(:hover, :focus-visible)) .reveal-on-hover {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal-on-hover {
+      transition: opacity 200ms, translate 200ms;
+    }
+
+    :global(a:is(:hover, :focus-visible)) .reveal-on-hover {
+      translate: 0.25rem -0.25rem;
+    }
+  }
+</style>

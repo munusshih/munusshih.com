@@ -8,17 +8,22 @@ const {
   fit = "cover",
   previewCount,
   uniform = false,
+  imageCropTolerance,
   resumeAutoplay = false,
   navigation = false,
 } = Astro.props;
 import "swiper/css";
 import Media from "@/components/utils/Media.astro";
 import Arrow from "@/components/utils/Arrow.astro";
+const slideAspectRatio = 4 / 3;
+const minimumCoverAspectRatio = imageCropTolerance == null
+  ? undefined
+  : slideAspectRatio * (1 - imageCropTolerance);
 ---
 
 <div
   class="swiper"
-  style={`--swiper-slide-width: ${width}`}
+  style={{ "--swiper-slide-width": width, "--swiper-slide-aspect-ratio": slideAspectRatio }}
   aria-label={label}
   data-resume-autoplay={resumeAutoplay ? "" : undefined}
 >
@@ -54,6 +59,7 @@ import Arrow from "@/components/utils/Arrow.astro";
               usePoster={true}
               fadeIn={fadeIn}
               fit={fit}
+              minimumCoverAspectRatio={minimumCoverAspectRatio}
               className={uniform || fit === "contain" ? "!h-full" : undefined}
             />
           </div>
@@ -159,7 +165,7 @@ import Arrow from "@/components/utils/Arrow.astro";
 
   .swiper-slide {
     display: flex;
-    aspect-ratio: 4/3;
+    aspect-ratio: var(--swiper-slide-aspect-ratio);
     width: var(--swiper-slide-width);
     overflow: hidden;
   }

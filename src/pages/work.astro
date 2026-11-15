@@ -5,6 +5,7 @@ import Swiper from "@/components/utils/Swiper.astro";
 import { sortByDate } from "@/scripts/cleanDate";
 import { formatDateRange } from "@/scripts/cleanDate";
 import { toTitleCase } from "@/scripts/typography";
+import ExternalLinkArrow from "@/components/utils/ExternalLinkArrow.astro";
 import { externalLinkAttrs } from "@/utils/externalLinks.js";
 import { researchProjects } from "@/data/research";
 
@@ -48,7 +49,7 @@ const sortedWorkItems = sortByDate(workItems, "desc");
       }
     </div> -->
     <h2
-      class="fade-in w-full self-center text-[30vw] leading-tight tracking-[-0.1em]"
+      class="section-title fade-in w-full self-center leading-tight tracking-[-0.1em] [--title-scale:0.3]"
     >
       Recent
     </h2>
@@ -60,7 +61,7 @@ const sortedWorkItems = sortByDate(workItems, "desc");
             <a
               href={item.data.elink ? item.data.elink : `/${item.id}`}
               {...externalLinkAttrs(item.data.elink ? item.data.elink : `/${item.id}`)}
-              class="group fade-in !no-underline"
+              class="fade-in !no-underline"
               key={item.data.title}
             >
               <article
@@ -71,9 +72,7 @@ const sortedWorkItems = sortByDate(workItems, "desc");
                   <h3 class="heading2 text-balance">
                     {item.data.title}
                     {item.data.elink && (
-                      <span class="pointer-events-none opacity-0 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:opacity-100">
-                        ↗
-                      </span>
+                      <ExternalLinkArrow revealOnHover />
                     )}
                   </h3>
                   <p class="body1 code mt-2 text-balance text-gray-600">
@@ -135,7 +134,7 @@ const sortedWorkItems = sortByDate(workItems, "desc");
     </section>
 
     <h2
-      class="fade-in w-full self-center text-[30vw] leading-tight tracking-[-0.1em]"
+      class="section-title fade-in w-full self-center leading-tight tracking-[-0.1em] [--title-scale:0.3]"
     >
       Archive
     </h2>

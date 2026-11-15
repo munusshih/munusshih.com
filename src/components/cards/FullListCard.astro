@@ -20,6 +20,7 @@ import {
   mergeEventsWithShortTeachingEntries,
 } from "@/data/teachingUtils.js";
 import { markdownToHtml } from "@/utils/markdown.js";
+import ExternalLinkArrow from "@/components/utils/ExternalLinkArrow.astro";
 import { externalLinkAttrs } from "@/utils/externalLinks.js";
 
 // Background & text color map
@@ -170,10 +171,10 @@ contentArray = contentArray.map((item) => ({
                   {item.link?.href ? (
                     <a
                       href={item.link.href}
-                      class="linkout"
                       {...externalLinkAttrs(item.link.href)}
                     >
                       {item.displayTitle}
+                      <ExternalLinkArrow />
                     </a>
                   ) : (
                     item.displayTitle

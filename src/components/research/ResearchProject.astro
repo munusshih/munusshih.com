@@ -2,6 +2,7 @@
 import type { ResearchEntry } from "@/data/research";
 import Swiper from "@/components/utils/Swiper.astro";
 import Media from "@/components/utils/Media.astro";
+import ExternalLinkArrow from "@/components/utils/ExternalLinkArrow.astro";
 import { formatDateRange } from "@/scripts/cleanDate";
 import { parseMarkdown } from "@/utils/markdown.js";
 import { externalLinkAttrs } from "@/utils/externalLinks.js";
@@ -27,6 +28,8 @@ const ProjectContent = backlog ? "div" : "details";
 const ProjectHeading = backlog ? "div" : "summary";
 const videoPattern = /\.(mp4|webm|ogg|mov|m4v)(?:$|[?#])/i;
 const backlogPreview = images[0];
+const backlogAspectRatio = 16 / 9;
+const imageCropTolerance = 1 / 6;
 ---
 
 <research-project>
@@ -81,7 +84,7 @@ const backlogPreview = images[0];
                   title={label}
                 >
                   <span class="pill-button-label">{label}</span>
-                  <span aria-hidden="true">↗</span>
+                  <ExternalLinkArrow />
                 </a>
               </li>
             ))}
@@ -94,7 +97,7 @@ const backlogPreview = images[0];
       images.length > 0 && (
         <div class="project-gallery min-w-0">
           {backlog && backlogPreview ? (
-            <div class="backlog-preview aspect-video overflow-hidden">
+            <div class="backlog-preview overflow-hidden" style={{ aspectRatio: backlogAspectRatio }}>
               <Media
                 src={backlogPreview.src}
                 alt={backlogPreview.alt}
@@ -102,6 +105,7 @@ const backlogPreview = images[0];
                 className="!h-full"
                 fadeIn={false}
                 fit="contain"
+                minimumCoverAspectRatio={backlogAspectRatio * (1 - imageCropTolerance)}
                 usePoster
               />
             </div>
@@ -117,6 +121,7 @@ const backlogPreview = images[0];
                 fadeIn={false}
                 fit="contain"
                 uniform
+                imageCropTolerance={imageCropTolerance}
                 resumeAutoplay
                 navigation
               />
@@ -286,6 +291,28 @@ const backlogPreview = images[0];
 
   .backlog-preview :global(.media) {
     background: none;
+  }
+
+  .project-gallery :global(.uniform-slide),
+  .backlog-preview {
+    position: relative;
+  }
+
+  .project-gallery :global(.uniform-slide .media),
+  .backlog-preview :global(.media) {
+    /* Keep the full height visible unless the image opts into cover. */
+    position: absolute;
+    inset-block-start: 0;
+    left: 50%;
+    translate: -50% 0;
+    width: auto;
+    max-width: none;
+    --media-fallback-ratio: auto 16 / 9;
+  }
+
+  .project-gallery :global(.uniform-slide img.object-cover),
+  .backlog-preview :global(img.object-cover) {
+    width: 100%;
   }
 
   details:not([open]) + .project-gallery :global(.swiper-initialized [data-extra-slide]),

@@ -494,7 +494,7 @@ const isCurrentPage = (href: string) => currentPath === href.replace(/\/$/, "");
     z-index: 1;
     inset: 0;
     background-color: var(--media-placeholder-dark);
-    padding: 3.25rem var(--page-margin) max(0.5rem, env(safe-area-inset-bottom));
+    padding: 3.25rem var(--page-margin) max(var(--page-margin), env(safe-area-inset-bottom));
     height: 100vh;
     height: 100dvh;
     box-sizing: border-box;
@@ -621,6 +621,20 @@ const isCurrentPage = (href: string) => currentPath === href.replace(/\/$/, "");
     --hand-width: 1px;
     --hand-profile: none;
     opacity: 0.68;
+  }
+
+  @media (width < 48rem) {
+    .clock-hour {
+      --hand-length: clamp(2.75rem, 13cqi, 8rem);
+    }
+
+    .clock-minute {
+      --hand-length: clamp(4rem, 18cqi, 12rem);
+    }
+
+    .clock-second {
+      --hand-length: clamp(5rem, 22cqi, 15rem);
+    }
   }
 
   .clock-second::after {

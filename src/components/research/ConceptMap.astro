@@ -32,7 +32,7 @@ const payload = JSON.stringify({ concepts, connections });
   >
   </div>
   {caption && <figcaption class="body1 code">{caption}</figcaption>}
-  <ul class="diagram-transcript" tabindex="0" aria-label="Concept map connections">
+  <ul class="diagram-transcript sr-only" aria-label="Concept map connections">
     {
       connections.map(({ from, label, to }) => (
         <li>
@@ -76,6 +76,7 @@ const payload = JSON.stringify({ concepts, connections });
   function initMap(container: HTMLElement) {
     if (container.dataset.cmReady === "1") return;
     container.dataset.cmReady = "1";
+    const figure = container.closest("figure")!;
 
     const raw = container.dataset.concepts ?? "{}";
     const { concepts, connections } = JSON.parse(raw) as {
@@ -498,8 +499,9 @@ const payload = JSON.stringify({ concepts, connections });
           ctx.fillStyle = theme.ink;
           ctx.fillText(n.label, n.x, n.y);
         });
-        container.dataset.cmDrawn = "";
-        container.parentElement?.querySelector(".diagram-transcript")?.removeAttribute("tabindex");
+        if (!figure.hasAttribute("data-cm-drawn")) {
+          figure.setAttribute("data-cm-drawn", "");
+        }
       };
     });
 
@@ -530,6 +532,17 @@ const payload = JSON.stringify({ concepts, connections });
     max-width: 86rem;
   }
 
+  .diagram-figure:not([data-cm-drawn]) {
+    /* Keep the canvas measurable while the sketch is out of flow. */
+    position: absolute;
+    inset-inline: 0;
+    visibility: hidden;
+  }
+
+  .diagram-figure[data-cm-drawn] {
+    margin-top: var(--concept-map-offset, 0);
+  }
+
   .diagram-canvas {
     grid-area: 1 / 1;
     width: 100%;
@@ -537,33 +550,8 @@ const payload = JSON.stringify({ concepts, connections });
     overflow: hidden;
   }
 
-  .diagram-canvas:not([data-cm-drawn]) {
-    visibility: hidden;
-  }
-
   .diagram-canvas :global(canvas) {
     display: block;
-  }
-
-  .diagram-transcript {
-    grid-area: 1 / 1;
-    align-self: center;
-    justify-self: start;
-    max-height: calc(100% - 8rem);
-    margin-top: 8rem;
-    overflow: auto;
-    padding-left: 1.25rem;
-    list-style: disc;
-  }
-
-  .diagram-canvas[data-cm-drawn] ~ .diagram-transcript {
-    position: absolute;
-    clip-path: inset(50%);
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    margin-top: 0;
-    white-space: nowrap;
   }
 
   @media (prefers-reduced-motion: no-preference) {

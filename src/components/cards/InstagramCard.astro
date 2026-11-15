@@ -19,6 +19,7 @@ import DraggableCard from "@/components/global/DraggableCard.astro";
 import Swiper from "@/components/utils/Swiper.astro";
 import { parseMarkdown } from "@/utils/markdown.js";
 import { parseMediaList } from "@/data/homepageUtils.js";
+import ExternalLinkArrow from "@/components/utils/ExternalLinkArrow.astro";
 import { externalLinkAttrs } from "@/utils/externalLinks.js";
 
 const cardBackground = background ?? "transparent";
@@ -121,8 +122,9 @@ if (!resolvedSlides.length) {
   >
     <h2 class="body2 w-max bg-black p-2 text-white">
       {profileHref ? (
-        <a href={profileHref} class="linkout" {...externalLinkAttrs(profileHref)}>
+        <a href={profileHref} {...externalLinkAttrs(profileHref)}>
           {profileLabel}
+          <ExternalLinkArrow />
         </a>
       ) : (
         profileLabel
